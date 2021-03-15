@@ -1,8 +1,57 @@
-<html>
-    <head>
-        <title>test</title>
-    </head>
-    <body>
-        <h1>test pages!></h1>
-    </body>
+<!DOCTYPE html>
+<html lang="cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <title>今天FF Logs Uploader更新了吗？</title>
+</head>
+
+<body>
+    <img src="https://i.loli.net/2021/03/15/rXWedHCUgm8OVAn.png" width="269" height="211" /></a>
+    <div>平台</div>
+    <select id="selectAssets">
+        <option value="4" selected="selected">Windows</option>
+        <option value="0">mac</option>
+        <option value="1">AppImage</option>
+        <option value="2">dmg</option>
+    </select>
+    <div>加速源</div>
+    <select id="selectProxy">
+        <option value="https://download.fastgit.org" selected="selected">日本01</option>
+        <option value="https://gh.xiu2.xyz/https://github.com">日本02</option>
+        <option value="https://ghproxy.com/https://github.com">韩国</option>
+        <option value="https://gh.con.sh/https://github.com">美国01</option>
+        <option value="https://gh.api.99988866.xyz/https://github.com">美国02</option>
+        <option value="https://pd.zwc365.com/seturl/https://github.com">香港</option>
+    </select>
+    <br><br>
+    <div id="Text">
+        <p id="p1">Loading...</p>
+        <p id="p2"></p>
+    </div>
+    <br>
+    <button onclick="download()">开始下载</button>
+</body>
+
+<script type="text/javascript">
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", "https://api.github.com/repos/RPGLogs/Uploaders-fflogs/releases/latest", false);
+    xmlhttp.send();
+    result = "[" + xmlhttp.responseText + "]";
+    var jsonObj = eval('(' + result + ')');
+
+    window.onload = function () {
+        document.getElementById("p1").innerText = "最新版本：" +jsonObj[0]["tag_name"];
+        document.getElementById("p2").innerText = "更新时间："+jsonObj[0]["published_at"];
+    }
+
+    function download() {
+        var assetsIndex = document.getElementById("selectAssets").value;
+        var proxyUrl = document.getElementById("selectProxy").value;
+        var originalUrl = jsonObj[0]["assets"][assetsIndex]["browser_download_url"];
+        var newUrl = originalUrl.replace(/^https:\/\/github\.com/gi, proxyUrl);
+        window.open(newUrl,"_blank");
+    }
+</script>
+
 </html>
