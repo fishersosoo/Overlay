@@ -30,7 +30,7 @@
         <p id="p2"></p>
     </div>
     <br>
-    <button onclick="download()">开始下载</button>
+    <button id="btn1">Loading...</button>
 </body>
 
 <script type="text/javascript">
@@ -41,8 +41,10 @@
     var jsonObj = eval('(' + result + ')');
 
     window.onload = function () {
-        document.getElementById("p1").innerText = "最新版本：" +jsonObj[0]["tag_name"];
-        document.getElementById("p2").innerText = "更新时间："+jsonObj[0]["published_at"];
+        document.getElementById("p1").innerText = "最新版本：" + jsonObj[0]["tag_name"];
+        document.getElementById("p2").innerText = "更新时间：" + jsonObj[0]["published_at"];
+        document.getElementById("btn1").innerText="开始下载";
+        document.getElementById("btn1").addEventListener("click",download,false);
     }
 
     function download() {
@@ -50,7 +52,7 @@
         var proxyUrl = document.getElementById("selectProxy").value;
         var originalUrl = jsonObj[0]["assets"][assetsIndex]["browser_download_url"];
         var newUrl = originalUrl.replace(/^https:\/\/github\.com/gi, proxyUrl);
-        window.open(newUrl,"_blank");
+        window.open(newUrl, "_blank");
     }
 </script>
 
