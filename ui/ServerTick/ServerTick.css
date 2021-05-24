@@ -1,0 +1,38 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+html {
+    overflow-y: hidden;
+    height: 100%;
+    background-color: rgba(0, 0, 75, 0.75)
+}
+
+body {
+    font-family: 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+    height: 100%;
+}
+
+#progress {
+    background-color: #ddd;
+    height: 100%;
+}
+
+#bar {
+    width: 0%;
+    height: 100%;
+    background-color: #4CAF50;
+}
+
+#setting {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 195px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
+    color: white;
+    font-size: 0.8em;
+}
