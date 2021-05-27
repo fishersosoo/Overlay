@@ -6,24 +6,51 @@
     <title>ServerTick</title>
     <script src="https://act.diemoe.net/overlays/common/common.min.js"></script>
     <script src="../../resources/jquery-3.6.0.min.js"></script>
-    <script type="module" src="../../resources/farbtastic.js"></script>
-
-    <link rel="stylesheet" href="../../resources/farbtastic.css" />
-
-    <script type="module" src="ServerTick.js"></script>
-    <link rel="stylesheet" href="ServerTick.css">
-
-
+    <script type="module" src="serverTick.js"></script>
+    <link rel="stylesheet" href="serverTick.css">
 </head>
 
 <body>
     <div id="progress">
         <div id="bar"></div>
     </div>
-    <div id="setting">
-        <p id="helpText">(🔒锁定悬浮窗以隐藏设置)</p>
+    <div id="setting" class="hidden">
+        <p>(🔒锁定悬浮窗以隐藏设置)<br />(⚠️当前动画仅供调试颜色)<br />(⏮️右键选项恢复默认数值)</p>
         <form><input type="text" hidden="true" id="color" value="#123456" /></form>
-        <div id="colorpicker"></div>
+        <table>
+            <tr>
+                <td class="title">动画
+                </td>
+                <td class="rgba">
+                    R<br />
+                    <input type="range" min="0" max="255" step="3" id="inputRangeBarR" class="rgba" value="76" /></td>
+                </td>
+                <td class="rgba">
+                    G<br />
+                    <input type="range" min="0" max="255" step="3" id="inputRangeBarG" class="rgba" value="175" /></td>
+                </td>
+                <td class="rgba">
+                    B<br />
+                    <input type="range" min="0" max="255" step="3" id="inputRangeBarB" class="rgba" value="80" /></td>
+                </td>
+                <td class="rgba">
+                    A<br />
+                    <input type="range" min="0" max="1" step="0.05" id="inputRangeBarA" class="rgba" value="1" /></td>
+                <td class="progress">
+                    高%<br />
+                    <input type="range" min="0" max="100" step="0.05" id="inputRangeProgressHeightPer" class="heightPer" value="100" /></td>
+                <td class="progress">
+                    宽%<br />
+                    <input type="range" min="0" max="100" step="0.05" id="inputRangeProgressWidthPer" class=" widthPer" value="100" /></td>
+            </tr>
+            <tr>
+                <td class="title">边框</td>
+                <td class="border" colspan="4">宽度<br />
+                    <input type="range" min="0" max="15" step="1" id="inputRangeBorderSize" value="2" /></td>
+                </td>
+            </tr>
+        </table>
+        <p></p>
     </div>
 </body>
 
