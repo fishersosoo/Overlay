@@ -19,38 +19,37 @@
         <form><input type="text" hidden="true" id="color" value="#123456" /></form>
         <table>
             <tr>
-                <td class="title">动画
+                <td class="title">动画</td>
+                <td class="rgba"> 红<br />
+                    <input type="range" min="0" max="255" step="3" id="inputRangeBarR" value="76" /></td>
                 </td>
-                <td class="rgba">
-                    R<br />
-                    <input type="range" min="0" max="255" step="3" id="inputRangeBarR" class="rgba" value="76" /></td>
+                <td class="rgba"> 绿<br />
+                    <input type="range" min="0" max="255" step="3" id="inputRangeBarG" value="175" /></td>
                 </td>
-                <td class="rgba">
-                    G<br />
-                    <input type="range" min="0" max="255" step="3" id="inputRangeBarG" class="rgba" value="175" /></td>
+                <td class="rgba"> 蓝<br />
+                    <input type="range" min="0" max="255" step="3" id="inputRangeBarB" value="80" /></td>
                 </td>
-                <td class="rgba">
-                    B<br />
-                    <input type="range" min="0" max="255" step="3" id="inputRangeBarB" class="rgba" value="80" /></td>
-                </td>
-                <td class="rgba">
-                    A<br />
-                    <input type="range" min="0" max="1" step="0.05" id="inputRangeBarA" class="rgba" value="1" /></td>
-                <td class="progress">
-                    高%<br />
-                    <input type="range" min="0" max="100" step="0.05" id="inputRangeProgressHeightPer" class="heightPer" value="100" /></td>
-                <td class="progress">
-                    宽%<br />
-                    <input type="range" min="0" max="100" step="0.05" id="inputRangeProgressWidthPer" class=" widthPer" value="100" /></td>
             </tr>
             <tr>
-                <td class="title">边框</td>
-                <td class="border" colspan="4">宽度<br />
+                <td></td>
+                <td>不透明度<br />
+                    <input type="range" min="0" max="1" step="0.05" id="inputRangeBarA" value="1" /></td>
+                <td></td>
+                <td class="border">边框<br />
                     <input type="range" min="0" max="15" step="1" id="inputRangeBorderSize" value="2" /></td>
-                </td>
+
             </tr>
+            <tr>
+                <td class="title">背景</td>
+                <td class="border">不透明度<br />
+                    <input type="range" min="0" max="1" step="0.05" id="inputRangeProgressBackgroundAlpha" value="0.75" /></td>
+                <td class="progress"> 高%<br />
+                    <input type="range" min="0" max="50" step="5" id="inputRangeProgressHeightPer" class="heightPer" value="20" /></td>
+                <td class="progress"> 宽%<br />
+                    <input type="range" min="0" max="100" step="5" id="inputRangeProgressWidthPer" class=" widthPer" value="100" /></td>
+            </tr>
+
         </table>
-        <p></p>
     </div>
 </body>
 

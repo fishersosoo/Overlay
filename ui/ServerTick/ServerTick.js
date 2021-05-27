@@ -50,17 +50,17 @@ $(document).bind("selectstart", () => { //禁用文字选择功能
 
 $("table").mousedown((e) => { //右键恢复默认
     if (e.which == 3) {
-        $(e.target).val($(e.target).attr("value"));
-        setStyle(e);
+        $(e.target).val($(e.target).attr("value")); //标签的值
+        setStyle(e.target); //实际的样式
     }
 });
 
 $("table").bind("input propertychange", (e) => { //用户改变设置
-    setStyle(e);
+    setStyle(e.target);
 });
 
 function setStyle(e) { //设置外观
-    switch (e.target.id) {
+    switch (e.id) {
         case "inputRangeBarR":
         case "inputRangeBarG":
         case "inputRangeBarB":
@@ -68,16 +68,20 @@ function setStyle(e) { //设置外观
             $("#bar").css("backgroundColor", `rgba(${$("#inputRangeBarR").val()}, 
                                                    ${$("#inputRangeBarG").val()}, 
                                                    ${$("#inputRangeBarB").val()}, 
-                                                   ${$("#inputRangeBarA").val()})`);
+                                                   ${$("#inputRangeBarA").val()})`); //颜色
+            $("#progress").css("border-color", invertColor($("#bar").css("backgroundColor"))); //设置边框
             break;
-        case "inputRangeProgressHeightPer":
-            $("#progress").css("height", `${$(e.target).val()}%`);
-            break;
-        case "inputRangeProgressWidthPer":
-            $("#progress").css("width", `${$(e.target).val()}%`);
+        case "inputRangeProgressBackgroundAlpha":
+            $("#progress").css("background-color", `rgba(0, 0, 0, ${$("#inputRangeProgressBackgroundAlpha").val()})`); //背景不透明度
             break;
         case "inputRangeBorderSize":
-            $("#progress").css("border-width", $(e.target).val());
+            $("#progress").css("border-width", $(e).val()); //边框
+            break;
+        case "inputRangeProgressHeightPer":
+            $("#progress").css("height", `${$(e).val()}%`); //高%
+            break;
+        case "inputRangeProgressWidthPer":
+            $("#progress").css("width", `${$(e).val()}%`); //宽%
             break;
     }
     saveSetting();
@@ -103,39 +107,40 @@ function jqLoopStop() { //计时器停止
     $("#bar").css("width", "0%");
 }
 
+function invertColor(rgba) { //根据颜色返回高可读性的黑或白 用于设置边框颜色
+    let c = rgba.match(/^rgba?\((?<r>[^,]+), ?(?<g>[^,]+), ?(?<b>[^,]+)(?:, )?(?<a>[^,]+)*?\)$/);
+    return (c[1] * 0.299 + c[2] * 0.587 + c[3] * 0.114) > 186 ? "rgba(0,0,0,1)" : "rgba(255,255,255,1)";
+}
+var settings = { //设置项
+    serverTickBarColorR: "#inputRangeBarR", //r
+    serverTickBarColorG: "#inputRangeBarG", //g
+    serverTickBarColorB: "#inputRangeBarB", //b
+    serverTickBarColorA: "#inputRangeBarA", //a
+    serverTickProgressBorderSize: "#inputRangeBorderSize", //边框
+    serverTickProgressBackgroundAlpha: "#inputRangeProgressBackgroundAlpha", //背景不透明度
+    serverTickProgressHeight: "#inputRangeProgressHeightPer", //高%
+    serverTickProgressWidth: "#inputRangeProgressWidthPer", //宽%
+}
+
 function saveSetting() { //保存设置
-    localStorage.clear();
-    localStorage.setItem("serverTickBarColor", $("#bar").css("backgroundColor"));
+    // localStorage.clear();
+    for (const key in settings) {
+        if (Object.hasOwnProperty.call(settings, key)) {
+            localStorage.setItem(key, $(settings[key]).val());
+        }
+    }
 }
 
-function loadSetting() { //读取设置
-    $("#bar").css("backgroundColor", localStorage.getItem("serverTickBarColor"));
+function loadSetting() { //读取设置并应用
+    for (const key in settings) {
+        if (Object.hasOwnProperty.call(settings, key)) {
+            localStorage.setItem(key, $(settings[key]).val());
+            $(settings[key]).val(localStorage.getItem(key)); //标签的值
+            setStyle($(settings[key])[0]); //实际样式
+        }
+    }
 }
 
-function invertColor(hex, bw) { //返回高对比度颜色 bw=是否纯黑白
-    if (hex.indexOf("#") === 0) {
-        hex = hex.slice(1);
-    }
-    if (hex.length === 3) {
-        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-    }
-    if (hex.length !== 6) {
-        throw new Error("Invalid HEX color.");
-    }
-    var r = parseInt(hex.slice(0, 2), 16),
-        g = parseInt(hex.slice(2, 4), 16),
-        b = parseInt(hex.slice(4, 6), 16);
-    if (bw) {
-        return (r * 0.299 + g * 0.587 + b * 0.114) > 186 ?
-            "#000000" :
-            "#FFFFFF";
-    }
-    r = (255 - r).toString(16);
-    g = (255 - g).toString(16);
-    b = (255 - b).toString(16);
-    return "#" + padZero(r) + padZero(g) + padZero(b);
-}
-
-// $("#progress").bind("contextmenu", () => { // 禁用右键菜单
-//     return false;
-// })
+$("#progress").bind("contextmenu", () => { // 禁用右键菜单 浏览器打开时用
+    return false;
+})
