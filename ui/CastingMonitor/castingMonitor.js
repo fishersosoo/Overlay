@@ -36,7 +36,7 @@ addOverlayListener("LogLine", (e) => {
         }
     } else if (start && checkLog(l, "15", {
             "CasterName": [Comparison.equal, watchingName],
-            "AbilityID": [Comparison.notMatchRegex, "^07|08$"],
+            "AbilityID": [Comparison.notMatchRegex, "^0[78]$"],
         })) {
         showSkillIcon(extractLog(l, "AbilityID"));
     } else if (start && checkLog(l, "16", {
