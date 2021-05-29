@@ -7,7 +7,7 @@ body {
 
 #container {
     box-shadow: rgba(0, 0, 0, 0.6) 0 0 0.5rem 1rem;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 #target-name {

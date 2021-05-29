@@ -1,139 +1,227 @@
 'use strict';
 let type00_LogLine = {
     "Type": 0,
-    "Time": 1
+    "Time": 1,
+    "MessageType": 2,
+    "MessageSources": 3, //Type为0038时这里为空
+    "MessageText": 4
 };
 let type01_ChangeZone = {
     "Type": 0,
-    "Time": 1
+    "Time": 1,
+    "ZoneID": 2,
+    "ZoneName": 3
 };
 let type02_ChangePrimaryPlayer = {
     "Type": 0,
-    "Time": 1
+    "Time": 1,
+    "PlayerID": 2,
+    "PlayerName": 3
 };
 let type03_AddCombatant = {
     "Type": 0,
-    "Time": 1
+    "Time": 1,
+    "ObjectID": 2,
+    "CombatnatName": 3,
+    "JobID": 4,
+    "Level": 5,
+    //"Unknown":6,
+    //"Unknown":7,
+    "WorldName": 8,
+    //"Unknown":9,
+    //"Unknown":10,
+    "CurrentHP": 11,
+    "MaxHP": 12,
+    "CurrentMP": 13,
+    "MaxMP": 14,
+    "CurrenTP": 15,
+    "MaxTP": 16,
+    "X": 17,
+    "Y": 18,
+    "Z": 19,
+    "Heading": 20
 };
 let type04_RemoveCombatant = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type05_AddBuff = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type06_RemoveBuff = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type07_FlyingText = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type08_OutgoingAbility = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type0A_IncomingAbility = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type0B_PartyList = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type0C_PlayerStats = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type0D_CombatantHP = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type14_NetworkStartsCasting = {
     "Type": 0,
     "Time": 1,
-    "CasterObjectId": 2,
+    "CasterObjectID": 2,
     "CasterName": 3,
-    "AbilityId": 4,
+    "AbilityID": 4,
     "AbilityName": 5,
-    "TargetObjectId": 6,
+    "TargetObjectID": 6,
     "TaregtName": 7,
     "Casting": 8,
     "TargetIndex": 9
 };
 let type15_NetworkAbility = {
     "Type": 0,
-    "Time": 1
+    "Time": 1,
+    "CasterObjectID": 2,
+    "CasterName": 3,
+    "AbilityID": 4,
+    "AbilityName": 5,
+    "TargetObjectID": 6,
+    "TargetName": 7,
+    "Flags": 8,
+    "Damage": 9,
+    //Unknown:10~23
+    "TargetCurrentHP": 24,
+    "TargetMaxHP": 25,
+    "TargetCurrentMP": 26,
+    "TargetMaxMP": 27,
+    "TargetCurrentTP": 28,
+    "TargetMaxTP": 29,
+    "TargetX": 30,
+    "TargetY": 31,
+    "TargetZ": 32,
+    "TargetHeading": 33,
+    "CasterCurrentHP": 34,
+    "CasterMaxHP": 35,
+    "CasterCurrentMP": 36,
+    "CasterMaxMP": 37,
+    "CasterCurrentTP": 38,
+    "CasterMaxTP": 39,
+    "CasterX": 40,
+    "CasterY": 41,
+    "CasterZ": 42,
+    "CasterHeading": 43,
+    "NetworkInformatioNumber": 44,
+    "TargetNumber": 45
 };
 let type16_NetworkAOEAbility = {
     "Type": 0,
-    "Time": 1
+    "Time": 1,
+    "CasterObjectID": 2,
+    "CasterName": 3,
+    "AbilityID": 4,
+    "AbilityName": 5,
+    "TargetObjectID": 6,
+    "TargetName": 7,
+    "Flags": 8,
+    "Damage": 9,
+    //Unknown:10~23
+    "TargetCurrentHP": 24,
+    "TargetMaxHP": 25,
+    "TargetCurrentMP": 26,
+    "TargetMaxMP": 27,
+    "TargetCurrentTP": 28,
+    "TargetMaxTP": 29,
+    "TargetX": 30,
+    "TargetY": 31,
+    "TargetZ": 32,
+    "TargetHeading": 33,
+    "CasterCurrentHP": 34,
+    "CasterMaxHP": 35,
+    "CasterCurrentMP": 36,
+    "CasterMaxMP": 37,
+    "CasterCurrentTP": 38,
+    "CasterMaxTP": 39,
+    "CasterX": 40,
+    "CasterY": 41,
+    "CasterZ": 42,
+    "CasterHeading": 43,
+    "NetworkInformatioNumber": 44,
+    "TargetNumber": 45
 };
 let type17_NetworkCancelAbility = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type18_NetworkDoT = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type19_NetworkDeath = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type1A_NetworkBuff = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type1B_NetworkTargetIcon = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type1C_NetworkRaidMarker = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type1D_NetworkTargetMarker = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type1E_NetworkBuffRemove = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type1F_NetworkGauge = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type20_NetworkWorld = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type21_Network6D = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type22_NetworkNameToggle = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type23_NetworkTether = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type24_LimitBreak = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type25_NetworkActionSync = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type26_NetworkStatusEffects = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let type27_NetworkUpdateHP = {
     "Type": 0,
@@ -154,38 +242,38 @@ let type27_NetworkUpdateHP = {
 };
 let typeFB_Debug = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let typeFC_PacketDump = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let typeFD_Version = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let typeFE_Error = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let typeFF_Timer = {
     "Type": 0,
-    "Time": 1
+    "Time": 1 //未完
 };
 let logData = {
-    "0": type00_LogLine,
-    "1": type01_ChangeZone,
-    "2": type02_ChangePrimaryPlayer,
-    "3": type03_AddCombatant,
-    "4": type04_RemoveCombatant,
-    "5": type05_AddBuff,
-    "6": type06_RemoveBuff,
-    "7": type07_FlyingText,
-    "8": type08_OutgoingAbility,
-    "A": type0A_IncomingAbility,
-    "B": type0B_PartyList,
-    "C": type0C_PlayerStats,
-    "D": type0D_CombatantHP,
+    "00": type00_LogLine,
+    "01": type01_ChangeZone,
+    "02": type02_ChangePrimaryPlayer,
+    "03": type03_AddCombatant,
+    "04": type04_RemoveCombatant,
+    "05": type05_AddBuff,
+    "06": type06_RemoveBuff,
+    "07": type07_FlyingText,
+    "08": type08_OutgoingAbility,
+    "0A": type0A_IncomingAbility,
+    "0B": type0B_PartyList,
+    "0C": type0C_PlayerStats,
+    "0D": type0D_CombatantHP,
     "14": type14_NetworkStartsCasting,
     "15": type15_NetworkAbility,
     "16": type16_NetworkAOEAbility,
@@ -219,13 +307,15 @@ const Comparison = {
     lessThan: 2, //小于
     lessOrEqualThan: 3, //小于等于
     equal: 4, //等于
-    notEqual: 5 //不等于
+    notEqual: 5, //不等于
+    matchRegex: 6, //正则匹配
+    notMatchRegex: 7 //正则不匹配
 };
 
 function checkLog(log, type, conditions) { //检查log是否为type日志行且满足conditions内部所有条件
 
     try {
-        if (parseInt(log[0]).toString(16) !== type) { //日志行类型正确
+        if (parseInt(log[0]).toString(16).padStart("2", "0") !== type) { //日志行类型正确
             return false; //不是type类型
         } else { //相符
             Object.keys(conditions).forEach(c => { //遍历条件
@@ -248,6 +338,12 @@ function checkLog(log, type, conditions) { //检查log是否为type日志行且�
                     case 5:
                         if (log[logData[type][c]] == conditions[c][1]) throw new error; //不等于
                         break;
+                    case 6:
+                        if (!new RegExp(conditions[c][1]).test(log[logData[type][c]])) throw new error; //正则匹配
+                        break;
+                    case 7:
+                        if (new RegExp(conditions[c][1]).test(log[logData[type][c]])) throw new error; //正则不匹配
+                        break;
                 }
             })
             return true; //全部符合
@@ -258,7 +354,7 @@ function checkLog(log, type, conditions) { //检查log是否为type日志行且�
 };
 
 function extractLog(log, name) { //返回log日志行中的name数据
-    return log[logData[log[0]][name]];
+    return log[logData[parseInt(log[0]).toString(16).padStart("2", "0")][name]];
 }
 
 export {

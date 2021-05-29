@@ -29,6 +29,7 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
 
 addOverlayListener("LogLine", (e) => {
     let l = e.line;
+    // console.time();
     if (checkLog(l, "27", {
             "TargetName": [Comparison.equal, charName],
             "CurrentMP": [Comparison.equal, "10000"],
@@ -36,6 +37,7 @@ addOverlayListener("LogLine", (e) => {
         })) {
         jqLoopStart(); //触发回蓝日志
     };
+    // console.timeEnd();
 });
 
 startOverlayEvents();
