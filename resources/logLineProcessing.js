@@ -357,8 +357,52 @@ function extractLog(log, name) { //返回log日志行中的name数据
     return log[logData[parseInt(log[0]).toString(16).padStart("2", "0")][name]];
 }
 
+function jobConvert(jobID) {
+    switch (jobID.toString()) {
+        case "19":
+            return ["骑", "骑士"];
+        case "20":
+            return ["僧", "武僧"];
+        case "21":
+            return ["战", "战士"];
+        case "22":
+            return ["龙", "龙骑士"];
+        case "23":
+            return ["诗", "吟游诗人"];
+        case "24":
+            return ["白", "白魔法师"];
+        case "25":
+            return ["黑", "黑魔法师"];
+            //没有26
+        case "27":
+            return ["召", "召唤师"];
+        case "28":
+            return ["学", "学者"];
+            //没有29
+        case "30":
+            return ["忍", "忍者"];
+        case "31":
+            return ["机", "机工士"];
+        case "32":
+            return ["暗", "暗黑骑士"];
+        case "33":
+            return ["占", "占星术士"];
+        case "34":
+            return ["侍", "武士"];
+        case "35":
+            return ["赤", "赤魔法师"];
+        case "36":
+            return ["青", "青魔法师"];
+        case "37":
+            return ["枪", "绝枪战士"];
+        case "38":
+            return ["舞", "舞者"];
+    }
+}
+
 export {
     Comparison,
     checkLog,
-    extractLog
+    extractLog,
+    jobConvert
 };

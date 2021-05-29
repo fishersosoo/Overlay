@@ -3,46 +3,47 @@
 import {
     checkLog,
     Comparison,
-    extractLog
+    extractLog,
+    jobConvert
 }
 from "../../resources/logLineProcessing.js";
-var lifeMs = 20000;
-var targeting = null;
-var watching = null;
+var lifeMs = 15000;
+var targetingJobID = "0";
+var watchingJobID = "0";
 var FFXIVAPI = "https://cafemaker.wakingsands.com";
 var last16Time = 0;
-var skillShowText = "等待目标…"
+var waitingText = "等待目标…"
 var start = false;
-$("#skillShow").text(skillShowText);
+$("#skillShow").text(waitingText);
 addOverlayListener("LogLine", (e) => {
     let l = e.line;
     if (checkLog(l, "00", {
             "MessageType": [Comparison.equal, "0038"],
             "MessageText": [Comparison.equal, "Casting monitor"]
         })) {
-        watching = targeting;
-        if (watching == 0) {
-            $("#skillShow").text(skillShowText);
+        watchingJobID = targetingJobID;
+        if (watchingJobID == 0) {
+            $("#skillShow").text(waitingText);
             start = false;
         } else {
-            $("#skillShow").text(watching);
+            $("#skillShow").text(jobConvert(watchingJobID)[0]);
             start = true;
         }
     } else if (start && checkLog(l, "15", {
-            "CasterName": [Comparison.equal, watching],
+            "CasterName": [Comparison.equal, watchingJobID],
             "AbilityID": [Comparison.notMatchRegex, "^07|08$"],
         })) {
         showSkillIcon(extractLog(l, "AbilityID"));
     } else if (start && checkLog(l, "16", {
             "Time": [Comparison.notEqual, last16Time],
-            "CasterName": [Comparison.equal, watching]
+            "CasterName": [Comparison.equal, watchingJobID]
         })) {
         last16Time = extractLog(l, "Time");
         showSkillIcon(extractLog(l, "AbilityID"));
     }
 });
 addOverlayListener('EnmityTargetData', (e) => {
-    e.Target !== null ? targeting = e.Target.Name : targeting = "0";
+    e.Target !== null ? targetingJobID = e.Target.Job.toString() : targetingJobID = "0";
 });
 startOverlayEvents();
 
