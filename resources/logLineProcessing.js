@@ -357,46 +357,136 @@ function extractLog(log, name) { //返回log日志行中的name数据
     return log[logData[parseInt(log[0]).toString(16).padStart("2", "0")][name]];
 }
 
-function jobConvert(jobID) {
+function jobIDConvert(jobID) {
     switch (jobID.toString()) {
         case "19":
-            return ["骑", "骑士"];
+            return {
+                job: "Pld",
+                short: "骑",
+                middle: "骑士",
+                full: "骑士"
+            };
         case "20":
-            return ["僧", "武僧"];
+            return {
+                job: "Mnk",
+                short: "僧",
+                middle: "武僧",
+                full: "武僧"
+            };
         case "21":
-            return ["战", "战士"];
+            return {
+                job: "War",
+                short: "战",
+                middle: "战士",
+                full: "战士"
+            };
         case "22":
-            return ["龙", "龙骑士"];
+            return {
+                job: "Drg",
+                short: "龙",
+                middle: "龙骑",
+                full: "龙骑士"
+            };
         case "23":
-            return ["诗", "吟游诗人"];
+            return {
+                job: "Brd",
+                short: "诗",
+                middle: "诗人",
+                full: "吟游诗人"
+            };
         case "24":
-            return ["白", "白魔法师"];
+            return {
+                job: "Whm",
+                short: "白",
+                middle: "白魔",
+                full: "白魔法师"
+            };
         case "25":
-            return ["黑", "黑魔法师"];
+            return {
+                job: "Blm",
+                short: "黑",
+                middle: "黑魔",
+                full: "黑魔法师"
+            };
             //没有26
         case "27":
-            return ["召", "召唤师"];
+            return {
+                job: "Smn",
+                short: "召",
+                middle: "召唤",
+                full: "召唤师"
+            };
         case "28":
-            return ["学", "学者"];
+            return {
+                job: "Sch",
+                short: "学",
+                middle: "学者",
+                full: "学者"
+            };
             //没有29
         case "30":
-            return ["忍", "忍者"];
+            return {
+                job: "Nin",
+                short: "忍",
+                middle: "忍者",
+                full: "忍者"
+            };
         case "31":
-            return ["机", "机工士"];
+            return {
+                job: "Mch",
+                short: "机",
+                middle: "机工",
+                full: "机工士"
+            };
         case "32":
-            return ["暗", "暗黑骑士"];
+            return {
+                job: "Drk",
+                short: "暗",
+                middle: "暗骑",
+                full: "暗黑骑士"
+            };
         case "33":
-            return ["占", "占星术士"];
+            return {
+                job: "Ast",
+                short: "占",
+                middle: "占星",
+                full: "占星术士"
+            };
         case "34":
-            return ["侍", "武士"];
+            return {
+                job: "Sam",
+                short: "侍",
+                middle: "武士",
+                full: "武士"
+            };
         case "35":
-            return ["赤", "赤魔法师"];
+            return {
+                job: "Rdm",
+                short: "赤",
+                middle: "赤魔",
+                full: "赤魔法师"
+            };
         case "36":
-            return ["青", "青魔法师"];
+            return {
+                job: "Blu",
+                short: "青",
+                middle: "青魔",
+                full: "青魔法师"
+            };
         case "37":
-            return ["枪", "绝枪战士"];
+            return {
+                job: "Gnb",
+                short: "枪",
+                middle: "绝枪",
+                full: "绝枪战士"
+            };
         case "38":
-            return ["舞", "舞者"];
+            return {
+                job: "Dnc",
+                short: "舞",
+                middle: "舞者",
+                full: "舞者"
+            };
     }
 }
 
@@ -404,5 +494,5 @@ export {
     Comparison,
     checkLog,
     extractLog,
-    jobConvert
+    jobIDConvert
 };

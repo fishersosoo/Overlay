@@ -4,7 +4,7 @@ import {
     checkLog,
     Comparison,
     extractLog,
-    jobConvert
+    jobIDConvert
 }
 from "../../resources/logLineProcessing.js";
 var lifeMs = 15000;
@@ -28,9 +28,11 @@ addOverlayListener("LogLine", (e) => {
         if (watchingJobID == 0) {
             $("#skillShow").text(waitingText);
             start = false;
+            document.getElementById("skillShow").classList.remove("unhidden");
         } else {
-            $("#skillShow").text(jobConvert(watchingJobID)[0]);
+            $("#skillShow").text(jobIDConvert(watchingJobID).middle);
             start = true;
+            document.getElementById("skillShow").classList.add("unhidden");
         }
     } else if (start && checkLog(l, "15", {
             "CasterName": [Comparison.equal, watchingName],
@@ -54,6 +56,13 @@ addOverlayListener('EnmityTargetData', (e) => {
         targetingName = null;
     };
 });
+addOverlayListener('ChangeZone', () => {
+    targetingJobID = 0;
+    targetingName = null;
+    $("#skillShow").text(waitingText);
+    start = false;
+    document.getElementById("skillShow").classList.remove("unhidden");
+})
 startOverlayEvents();
 
 function showSkillIcon(ID) {
@@ -76,9 +85,9 @@ function showSkillIcon(ID) {
 document.addEventListener("onOverlayStateUpdate", (e) => { //锁定悬浮窗
     if (e.detail.isLocked) {
         document.getElementById("readme").classList.add("hidden");
-        document.getElementById("skillShow").classList.add("unhidden");
+
     } else {
         document.getElementById("readme").classList.remove("hidden");
-        document.getElementById("skillShow").classList.remove("unhidden");
+
     }
 });
