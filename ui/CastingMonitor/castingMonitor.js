@@ -8,8 +8,10 @@ import {
 }
 from "../../resources/logLineProcessing.js";
 var lifeMs = 15000;
-var targetingJobID = "0";
-var watchingJobID = "0";
+var targetingJobID = 0;
+var targetingName;
+var watchingJobID = 0;
+var watchingName;
 var FFXIVAPI = "https://cafemaker.wakingsands.com";
 var last16Time = 0;
 var waitingText = "等待目标…"
@@ -22,6 +24,7 @@ addOverlayListener("LogLine", (e) => {
             "MessageText": [Comparison.equal, "Casting monitor"]
         })) {
         watchingJobID = targetingJobID;
+        watchingName = targetingName;
         if (watchingJobID == 0) {
             $("#skillShow").text(waitingText);
             start = false;
@@ -30,20 +33,26 @@ addOverlayListener("LogLine", (e) => {
             start = true;
         }
     } else if (start && checkLog(l, "15", {
-            "CasterName": [Comparison.equal, watchingJobID],
+            "CasterName": [Comparison.equal, watchingName],
             "AbilityID": [Comparison.notMatchRegex, "^07|08$"],
         })) {
         showSkillIcon(extractLog(l, "AbilityID"));
     } else if (start && checkLog(l, "16", {
             "Time": [Comparison.notEqual, last16Time],
-            "CasterName": [Comparison.equal, watchingJobID]
+            "CasterName": [Comparison.equal, watchingName]
         })) {
         last16Time = extractLog(l, "Time");
         showSkillIcon(extractLog(l, "AbilityID"));
     }
 });
 addOverlayListener('EnmityTargetData', (e) => {
-    e.Target !== null ? targetingJobID = e.Target.Job.toString() : targetingJobID = "0";
+    if (e.Target !== null) {
+        targetingJobID = e.Target.Job;
+        targetingName = e.Target.Name;
+    } else {
+        targetingJobID = 0;
+        targetingName = null;
+    };
 });
 startOverlayEvents();
 
