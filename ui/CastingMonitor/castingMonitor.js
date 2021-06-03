@@ -66,20 +66,23 @@ addOverlayListener('ChangeZone', () => {
 startOverlayEvents();
 
 function showSkillIcon(ID) {
-    let urlAPI = FFXIVAPI + "/Action/" + parseInt(ID, 16) + "?columns=Icon,ActionCategoryTargetID";
-    let d = new Date();
-    let imgClass;
-    let imgDOM;
+    if (parseInt(ID, 16) > 100000) return;
+    try {
+        let urlAPI = FFXIVAPI + "/Action/" + parseInt(ID, 16) + "?columns=Icon,ActionCategoryTargetID";
+        let d = new Date();
+        let imgClass;
+        let imgDOM;
 
-    $.getJSON(urlAPI, function(data) {
-        data["ActionCategoryTargetID"] == 4 ? imgClass = "oGCD" : imgClass = "GCD";
-        imgDOM = $("<img class='" + imgClass + "' id='" + d.getTime() + "' src='" + FFXIVAPI + data["Icon"] + "'>");
-        $("#skillShow").append(imgDOM);
-        $(imgDOM).animate({
-            right: "100%"
-        }, lifeMs, "linear");
-        setTimeout("$('#" + d.getTime() + "').remove()", lifeMs);
-    });
+        $.getJSON(urlAPI, function(data) {
+            data["ActionCategoryTargetID"] == 4 ? imgClass = "oGCD" : imgClass = "GCD";
+            imgDOM = $("<img class='" + imgClass + "' id='" + d.getTime() + "' src='" + FFXIVAPI + data["Icon"] + "'>");
+            $("#skillShow").append(imgDOM);
+            $(imgDOM).animate({
+                right: "100%"
+            }, lifeMs, "linear");
+            setTimeout("$('#" + d.getTime() + "').remove()", lifeMs);
+        });
+    } catch {}
 };
 
 document.addEventListener("onOverlayStateUpdate", (e) => { //锁定悬浮窗
