@@ -14,7 +14,7 @@ var watchingJobID = 0;
 var watchingName;
 var FFXIVAPI = "https://cafemaker.wakingsands.com";
 var last16Time = 0;
-var waitingText = "等待目标…"
+var waitingText = ""
 var start = false;
 $("#skillShow").text(waitingText);
 addOverlayListener("LogLine", (e) => {
