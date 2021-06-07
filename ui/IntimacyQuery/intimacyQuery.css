@@ -1,0 +1,197 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+    font-size: 13px;
+    border-spacing: 0px;
+    font-family: Avenir, Arial, sans-serif!important;
+}
+
+body {
+    width: 160px;
+    height: 146px;
+    font-weight: bold;
+    color: #b4bdff;
+    text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
+    --size: 22px;
+}
+
+#readme {
+    height: 100%;
+    width: 100%;
+    color: white;
+    background-color: rgba(0, 0, 150, 0.2);
+    line-height: 1.4rem;
+}
+
+#readme p {
+    padding-left: 2px;
+}
+
+table {
+    border: solid #333;
+    border-width: 1px 0px 0px 1px;
+    line-height: 2rem;
+}
+
+td {
+    border: solid #333;
+    border-width: 0px 1px 1px 0px;
+}
+
+.boss-icon {
+    height: 26px;
+    width: 26px;
+    float: left;
+}
+
+.boss-left {
+    width: 100px;
+    text-align: center;
+}
+
+.boss-right {
+    width: 55px;
+    text-align: right;
+}
+
+.odd {
+    background-color: #000;
+}
+
+.even {
+    background-color: #161616;
+}
+
+.actors {
+    float: right;
+    margin-right: 5px;
+    width: var(--size);
+    height: var(--size);
+    background: url(../../resources/img/actors.png);
+    background-size: cover;
+}
+
+.Machinist {
+    background-position-x: calc( var(--size));
+}
+
+.Arcanist {
+    background-position-x: calc( -1*var(--size));
+}
+
+.Astrologian {
+    background-position-x: calc( -2*var(--size));
+}
+
+.Bard {
+    background-position-x: calc( -3*var(--size));
+}
+
+.BlackMage {
+    background-position-x: calc( -4*var(--size));
+}
+
+.BlueMage {
+    background-position-x: calc( -5*var(--size));
+}
+
+.Boss {
+    background-position-x: calc( -6*var(--size));
+}
+
+.Conjurer {
+    background-position-x: calc( -7*var(--size));
+}
+
+.Dancer {
+    background-position-x: calc( -8*var(--size));
+}
+
+.DarkKnight {
+    background-position-x: calc( -9*var(--size));
+}
+
+.Dragoon {
+    background-position-x: calc( -10*var(--size));
+}
+
+.Gladiator {
+    background-position-x: calc( -11*var(--size));
+}
+
+.Gunbreaker {
+    background-position-x: calc( -12*var(--size));
+}
+
+.Lancer {
+    background-position-x: calc( -13*var(--size));
+}
+
+.LimitBreak {
+    background-position-x: calc( -14*var(--size));
+}
+
+.Archer {
+    background-position-x: calc( -15*var(--size));
+}
+
+.Marauder {
+    background-position-x: calc( -16*var(--size));
+}
+
+.Monk {
+    background-position-x: calc( -17*var(--size));
+}
+
+.Ninja {
+    background-position-x: calc( -18*var(--size));
+}
+
+.NPC {
+    background-position-x: calc( -19*var(--size));
+}
+
+.Paladin {
+    background-position-x: calc( -20*var(--size));
+}
+
+.Pet {
+    background-position-x: calc( -21*var(--size));
+}
+
+.Pugilist {
+    background-position-x: calc( -22*var(--size));
+}
+
+.RedMage {
+    background-position-x: calc( -23*var(--size));
+}
+
+.Rogue {
+    background-position-x: calc( -24*var(--size));
+}
+
+.Samurai {
+    background-position-x: calc( -25*var(--size));
+}
+
+.Scholar {
+    background-position-x: calc( -26*var(--size));
+}
+
+.Summoner {
+    background-position-x: calc( -27*var(--size));
+}
+
+.Thaumaturge {
+    background-position-x: calc( -28*var(--size));
+}
+
+.Warrior {
+    background-position-x: calc( -29*var(--size));
+}
+
+.WhiteMage {
+    background-position-x: calc( -30*var(--size));
+}
