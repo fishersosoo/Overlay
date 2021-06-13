@@ -52,6 +52,11 @@ function query(url) {
         dataType: "json",
         url: url,
         success: function(data) {
+            $("#boss73").text("");
+            $("#boss74").text("");
+            $("#boss75").text("");
+            $("#boss76").text("");
+            $("#boss77").text("");
             for (let i = 0; i < data.length; i++) {
                 const element = data[i];
                 switch (element["encounterID"]) {
