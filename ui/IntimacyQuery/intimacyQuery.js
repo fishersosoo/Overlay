@@ -25,6 +25,7 @@ addOverlayListener("LogLine", (e) => {
         characterName = t.groups["name"];
         serverName = !t.groups["server"] ? defaultServerName : t.groups["server"];
         query(`https://www.fflogs.com/v1/rankings/character/${encodeURIComponent(characterName)}/${encodeURIComponent(serverName)}/${encodeURIComponent(serverRegion)}?zone=38&metric=${encodeURIComponent(metric)}&timeframe=${encodeURIComponent(timeframe)}&api_key=${encodeURIComponent(apiKey)}`);
+        // console.log(`https://www.fflogs.com/v1/rankings/character/${encodeURIComponent(characterName)}/${encodeURIComponent(serverName)}/${encodeURIComponent(serverRegion)}?zone=38&metric=${encodeURIComponent(metric)}&timeframe=${encodeURIComponent(timeframe)}&api_key=${encodeURIComponent(apiKey)}`);
     };
 });
 startOverlayEvents();
@@ -95,6 +96,8 @@ function query(url) {
                 }
             }
             clearTimeout(t);
+            $("#boss-table").stop();
+            $("#boss-table").fadeOut(0);
             $("#boss-table").fadeIn(200);
             t = setTimeout(function() {
                 $("#boss-table").fadeOut(2500);
@@ -125,13 +128,18 @@ function query(url) {
         },
         timeout: 5000,
         error: function(e) {
-            console.log("错误" + e["responseJSON"]["status"] + ":" + e["responseJSON"]["error"]);
-            $("#boss-table").fadeOut(200);
-            $("#noData").fadeIn(200);
-            $("#noData").fadeOut(4000);
+            if (e["responseJSON"]["status"] != 400) console.log("Error " + e["responseJSON"]["status"] + "：" + e["responseJSON"]["error"]);
             clearTimeout(t);
+            $("#boss-table").stop();
+            $("#boss-table").fadeOut(0);
+            $("#boss73").text("");
+            $("#boss74").text("");
+            $("#boss75").text("");
+            $("#boss76").text("");
+            $("#boss77").text("");
+            $("#boss-table").fadeIn(200);
             t = setTimeout(function() {
-                $("#noData").fadeOut(4000);
+                $("#boss-table").fadeOut(2500);
             }, 5000);
         }
     });
