@@ -1,0 +1,43 @@
+* {
+    overflow: hidden;
+}
+
+p {
+    margin: 5px 10px;
+}
+
+.partCut {
+    background-color: rgba(222, 222, 222, 1);
+    min-width: 175px;
+    width: min-content;
+    text-align: center;
+}
+
+.partCut header {
+    font-weight: bold;
+    background-color: rgba(100, 100, 100, 1);
+    color: snow;
+}
+
+.aoe,
+.tankBuster,
+.special {
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #555;
+}
+
+.aoe {
+    color: blueviolet;
+}
+
+.tankBuster {
+    color: red;
+}
+
+.special {
+    color: sandybrown;
+}
+
+.text {
+    font-size: 0.5rem;
+}
