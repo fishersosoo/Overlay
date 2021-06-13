@@ -16,7 +16,11 @@ var FFXIVAPI = "https://cafemaker.wakingsands.com";
 var last16Time = 0;
 var waitingText = ""
 var start = false;
+var playerName;
 $("#skillShow").text(waitingText);
+addOverlayListener("ChangePrimaryPlayer", (e) => {
+    playerName = e["charName"];
+})
 addOverlayListener("LogLine", (e) => {
     let l = e.line;
     if (checkLog(l, "00", {
@@ -57,11 +61,13 @@ addOverlayListener('EnmityTargetData', (e) => {
     };
 });
 addOverlayListener('ChangeZone', () => {
-    targetingJobID = 0;
-    targetingName = null;
-    $("#skillShow").text(waitingText);
-    start = false;
-    document.getElementById("skillShow").classList.remove("unhidden");
+    if (watchingName != playerName) {
+        watchingJobID = 0;
+        watchingName = null;
+        $("#skillShow").text(waitingText);
+        start = false;
+        document.getElementById("skillShow").classList.remove("unhidden");
+    }
 })
 startOverlayEvents();
 
