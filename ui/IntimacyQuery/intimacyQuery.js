@@ -21,12 +21,27 @@ addOverlayListener("LogLine", (e) => {
             "MessageType": [Comparison.equal, "0038"],
             "MessageText": [Comparison.matchRegex, "^好感度查询 .+$"]
         })) {
-        let t = extractLog(l, "MessageText").match(/^好感度查询 (?<name>[^\ ]+?)(?<server>晨曦王座|沃仙曦染|宇宙和音|红玉海|萌芽池|神意之地|幻影群岛|拉诺西亚|拂晓之间|龙巢神殿|旅人栈桥|白金幻象|白银乡|神拳痕|潮风亭|琥珀原|柔风海湾|海猫茶屋|延夏|静语庄园|摩杜纳|紫水栈桥|梦羽宝境)?$/);
+        t = extractLog(l, "MessageText").match(/^好感度查询 (?<name>[^\ ]+?)(?<server>晨曦王座|沃仙曦染|宇宙和音|红玉海|萌芽池|神意之地|幻影群岛|拉诺西亚|拂晓之间|龙巢神殿|旅人栈桥|白金幻象|白银乡|神拳痕|潮风亭|琥珀原|柔风海湾|海猫茶屋|延夏|静语庄园|摩杜纳|紫水栈桥|梦羽宝境)?$/);
+        match();
+    } else if (checkLog(l, "00", {
+            "MessageType": [Comparison.matchRegex, "^2239|1039$"],
+            "MessageText": [Comparison.matchRegex, "^.+加入了小队。$"]
+        })) {
+        t = extractLog(l, "MessageText").match(/^(?<name>.+?)(?<server>晨曦王座|沃仙曦染|宇宙和音|红玉海|萌芽池|神意之地|幻影群岛|拉诺西亚|拂晓之间|龙巢神殿|旅人栈桥|白金幻象|白银乡|神拳痕|潮风亭|琥珀原|柔风海湾|海猫茶屋|延夏|静语庄园|摩杜纳|紫水栈桥|梦羽宝境)?加入了小队。$/);
+        match();
+    } else if (checkLog(l, "00", {
+            "MessageType": [Comparison.equal, "0039"],
+            "MessageText": [Comparison.matchRegex, "^加入了(?<name>[^\ ]+?)(?<server>晨曦王座|沃仙曦染|宇宙和音|红玉海|萌芽池|神意之地|幻影群岛|拉诺西亚|拂晓之间|龙巢神殿|旅人栈桥|白金幻象|白银乡|神拳痕|潮风亭|琥珀原|柔风海湾|海猫茶屋|延夏|静语庄园|摩杜纳|紫水栈桥|梦羽宝境)?组建的"]
+        })) {
+        t = extractLog(l, "MessageText").match(/^加入了(?<name>[^\ ]+?)(?<server>晨曦王座|沃仙曦染|宇宙和音|红玉海|萌芽池|神意之地|幻影群岛|拉诺西亚|拂晓之间|龙巢神殿|旅人栈桥|白金幻象|白银乡|神拳痕|潮风亭|琥珀原|柔风海湾|海猫茶屋|延夏|静语庄园|摩杜纳|紫水栈桥|梦羽宝境)?组建的/);
+        match();
+    };
+
+    function match() {
         characterName = t.groups["name"];
         serverName = !t.groups["server"] ? defaultServerName : t.groups["server"];
         query(`https://www.fflogs.com/v1/rankings/character/${encodeURIComponent(characterName)}/${encodeURIComponent(serverName)}/${encodeURIComponent(serverRegion)}?zone=38&metric=${encodeURIComponent(metric)}&timeframe=${encodeURIComponent(timeframe)}&api_key=${encodeURIComponent(apiKey)}`);
-        // console.log(`https://www.fflogs.com/v1/rankings/character/${encodeURIComponent(characterName)}/${encodeURIComponent(serverName)}/${encodeURIComponent(serverRegion)}?zone=38&metric=${encodeURIComponent(metric)}&timeframe=${encodeURIComponent(timeframe)}&api_key=${encodeURIComponent(apiKey)}`);
-    };
+    }
 });
 startOverlayEvents();
 
@@ -151,7 +166,7 @@ $(function() {
     apiKey = localStorage.getItem("apiKey");
     defaultServerName = localStorage.getItem("defaultServerName");
     if (apiKey == "" || apiKey == null || getQueryString("settings") == "1") {
-        let inputApiKey = prompt("输入api key", apiKey == null ? "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" : apiKey);
+        let inputApiKey = prompt("输入FF Logs V1 Client Key", apiKey == null ? "https://www.fflogs.com/profile" : apiKey);
         if (inputApiKey) {
             apiKey = inputApiKey;
             localStorage.setItem("apiKey", apiKey);
