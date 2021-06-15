@@ -93,10 +93,11 @@ function showSkillIcon(ID) {
 
 document.addEventListener("onOverlayStateUpdate", (e) => { //锁定悬浮窗
     if (e.detail.isLocked) {
-        document.getElementById("readme").classList.add("hidden");
+        $("#readme").slideUp("slow");
+        $("#skillShow").fadeIn(0);
 
     } else {
-        document.getElementById("readme").classList.remove("hidden");
-
+        $("#readme").slideDown("slow");
+        $("#skillShow").fadeOut(0);
     }
 });
