@@ -14,10 +14,8 @@ var watchingJobID = 0;
 var watchingName;
 var FFXIVAPI = "https://cafemaker.wakingsands.com";
 var last16Time = 0;
-var waitingText = ""
 var start = false;
 var playerName;
-$("#skillShow").text(waitingText);
 addOverlayListener("ChangePrimaryPlayer", (e) => {
     playerName = e["charName"];
 })
@@ -30,13 +28,13 @@ addOverlayListener("LogLine", (e) => {
         watchingJobID = targetingJobID;
         watchingName = targetingName;
         if (watchingJobID == 0) {
-            $("#skillShow").text(waitingText);
             start = false;
-            document.getElementById("skillShow").classList.remove("unhidden");
+            $("#skillShow").text("");
+            $("#skillShow").css("backgroundColor", "rgba(0,0,0,0)");
         } else {
-            $("#skillShow").text(jobIDConvert(watchingJobID).middle);
             start = true;
-            document.getElementById("skillShow").classList.add("unhidden");
+            $("#skillShow").text(jobIDConvert(watchingJobID).middle);
+            $("#skillShow").css("backgroundColor", "rgba(0,0,0,0.4)");
         }
     } else if (start && checkLog(l, "15", {
             "CasterName": [Comparison.equal, watchingName],
@@ -64,9 +62,8 @@ addOverlayListener('ChangeZone', () => {
     if (watchingName != playerName) {
         watchingJobID = 0;
         watchingName = null;
-        $("#skillShow").text(waitingText);
         start = false;
-        document.getElementById("skillShow").classList.remove("unhidden");
+        $("#skillShow").css("backgroundColor", "rgba(0,0,0,0)");
     }
 })
 startOverlayEvents();
