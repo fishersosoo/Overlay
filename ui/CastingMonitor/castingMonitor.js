@@ -14,7 +14,7 @@ var watchingJobID = 0;
 var watchingName;
 var FFXIVAPI = "https://cafemaker.wakingsands.com";
 var last16Time = 0;
-var start = false;
+var start = true;
 var playerName;
 addOverlayListener("ChangePrimaryPlayer", (e) => {
     playerName = e["charName"];
@@ -92,9 +92,10 @@ document.addEventListener("onOverlayStateUpdate", (e) => { //锁定悬浮窗
     if (e.detail.isLocked) {
         $("#readme").slideUp("slow");
         $("#skillShow").fadeIn(0);
-
+        start = true;
     } else {
         $("#readme").slideDown("slow");
         $("#skillShow").fadeOut(0);
+        start = false;
     }
 });
