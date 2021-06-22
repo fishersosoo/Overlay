@@ -63,6 +63,7 @@ addOverlayListener('ChangeZone', () => {
         watchingJobID = 0;
         watchingName = null;
         start = false;
+        $("#skillShow").text("");
         $("#skillShow").css("backgroundColor", "rgba(0,0,0,0)");
     }
 })
