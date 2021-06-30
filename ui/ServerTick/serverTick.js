@@ -2,10 +2,9 @@
 
 import {
     checkLog,
-    Comparison,
-    extractLog
+    Comparison
 }
-from "../../resources/logLineProcessing.js";
+from "../../resources/logLineProcessing.min.js";
 
 var settings = { //设置项
     serverTickBarColorR: "#inputRangeBarR", //r

@@ -5,7 +5,7 @@ import {
     Comparison,
     extractLog,
 }
-from "../../resources/logLineProcessing.js";
+from "../../resources/logLineProcessing.min.js";
 
 var characterName;
 var defaultServerName;

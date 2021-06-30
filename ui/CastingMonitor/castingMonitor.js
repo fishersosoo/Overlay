@@ -6,7 +6,7 @@ import {
     extractLog,
     jobIDConvert
 }
-from "../../resources/logLineProcessing.js";
+from "../../resources/logLineProcessing.min.js";
 var lifeMs = 15000;
 var targetingJobID = 0;
 var targetingName;
