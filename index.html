@@ -10,14 +10,23 @@
       <li><a href="ui/FFlogsUploader/index.html">FFLogs上传器下载加速</a></li>
       <li><a href="ui/CastingMonitor/index.html">施法监控</a></li>
       <li><a href="ui/ServerTick/index.html">回蓝</a></li>
+      <li><a href="ui/TeamWacth/index.html">小队监控</a></li>
       <li class="hidden" style="display: none"><a href="ui/IntimacyQuery/index.html">FFLogs查询</a></li>
-      <li class="hidden" style="display: none"><a href="ui/TeamWacth/index.html">小队监控</a></li>
     </ul>
+    <p style="opacity: 0.1" id="really">按T键没有作用</p>
   </body>
   <script>
     function keydown() {
-      for (const i of document.getElementsByClassName("hidden")) {
-        i.style.display = event.key === "t" ? "" : "none";
+      if (event.key === "t") {
+        for (const i of document.getElementsByClassName("hidden")) {
+          i.style.display = "";
+          document.getElementById("really").style.display = "none";
+        }
+      } else {
+        for (const i of document.getElementsByClassName("hidden")) {
+          i.style.display = "none";
+          document.getElementById("really").style.display = "";
+        }
       }
     }
   </script>

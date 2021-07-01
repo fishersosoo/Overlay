@@ -4,83 +4,61 @@ import { checkLog, Comparison, extractLog } from "../../resources/logLineProcess
 import { partySort } from "../../resources/partyList.min.js";
 import { action } from "../../resources/action.min.js";
 import { quest } from "../../resources/quest.min.js";
-import { msgShow } from "../../resources/messageShow.js";
 
 let rangeSize = 30;
-let spacingHorizontal = 0;
-let spacingVertical = 0;
+let spacingHorizontal = 3;
+let spacingVertical = 5;
 let charName;
 let party;
-let testParty = [
-  {
-    id: "103E49B5",
-    name: "测试召唤",
-    worldId: 1177,
-    job: 27,
-    level: 0,
-    inParty: true,
-  },
-  {
-    id: "10420438",
-    name: "测试白魔本人",
-    worldId: 1178,
-    job: 24,
-    level: 0,
-    inParty: true,
-  },
-  {
-    id: "103A9B6F",
-    name: "测试暗骑",
-    worldId: 1179,
-    job: 32,
-    level: 0,
-    inParty: true,
-  },
-  {
-    id: "1041D345",
-    name: "测试黑魔",
-    worldId: 1179,
-    job: 25,
-    level: 0,
-    inParty: true,
-  },
-  {
-    id: "1001BE06",
-    name: "测试枪刃",
-    worldId: 1043,
-    job: 37,
-    level: 0,
-    inParty: true,
-  },
-  {
-    id: "1039AB5F",
-    name: "测试赤魔",
-    worldId: 1178,
-    job: 35,
-    level: 0,
-    inParty: true,
-  },
-  {
-    id: "1039CE69",
-    name: "测试占星",
-    worldId: 1177,
-    job: 33,
-    level: 0,
-    inParty: true,
-  },
-  {
-    id: "1002515D",
-    name: "测试武僧",
-    worldId: 1043,
-    job: 20,
-    level: 0,
-    inParty: true,
-  },
-];
+let watchingName = Array(8);
+let watchingRecast = Array(8);
+for (let i = 0; i < 8; i++) {
+  watchingName[i] = ["", "", "", "", "", "", "", "", "", ""];
+  watchingRecast[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+}
 let sortRuleAll;
 let minSync = 1;
 let maxSync = 99;
-let flag = true;
+let flagFinish = false;
+let watch = {
+  1: ["", "", "", "", "", "", "7535", "7548", "7533", ""],
+  2: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
+  3: ["", "", "", "", "", "", "7535", "7548", "7533", ""],
+  4: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
+  5: ["", "", "", "", "", "", "", "", "", ""],
+  6: ["", "", "", "", "", "", "", "", "", ""],
+  7: ["", "", "", "", "", "", "7560", "", "157", ""],
+  19: ["20", "7383", "7531", "17", "3540", "7385", "7535", "7548", "7533", "30"],
+  20: ["7395", "", "", "", "", "65", "7549", "7542", "7541", "7396"],
+  21: ["7389", "16464", "7531", "44", "3552", "7388", "7535", "7548", "7533", "43"],
+  22: ["85", "", "", "", "", "", "7549", "7542", "7541", "3557"],
+  23: ["101", "", "", "", "", "", "7405", "", "7541", "118"],
+  24: ["7432", "3570", "3571", "7433", "3569", "", "16536", "7562", "7561", "140"],
+  25: ["3573", "", "", "", "", "", "7560", "", "157", ""],
+  26: ["", "", "", "", "", "", "7560", "", "157", ""],
+  27: ["3581", "7427", "", "", "", "", "7560", "", "7561", "7423"],
+  28: ["166", "188", "3583", "16542", "16537", "7434", "16545", "7562", "7561", "7436"],
+  29: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
+  30: ["2257", "", "", "", "", "", "7549", "7542", "7541", "2258"],
+  31: ["2878", "", "", "", "", "", "16889", "", "7541", ""],
+  32: ["7390", "7393", "7531", "3636", "3634", "16471", "7535", "7548", "7533", "3638"],
+  33: ["16556", "7439", "16557", "16553", "3613", "", "16559", "7562", "7561", "16552"],
+  34: ["16486", "7499", "", "", "", "", "7549", "7542", "7541", ""],
+  35: ["7521", "", "", "", "", "", "7560", "", "7561", "7520"],
+  36: ["11415", "11411", "11421", "23280", "23273", "18320", "7560", "18305", "7561", "18317"],
+  37: ["16138", "16161", "7531", "16148", "16151", "16160", "7535", "7548", "7533", "16152"],
+  38: ["16013", "15998", "", "", "", "16015", "16012", "", "7541", ""],
+};
+let compareSameGroup = [
+  [16484, 16486], //回返彼岸花→回返纷乱雪月花
+  [16485, 16486], //回返天下五剑→回返纷乱雪月花
+  [16191, 16192], //单色标准舞步→双色标准舞步
+  [15998, 0], //技巧舞步→0(替换图标)
+  [16193, 15998], //单色技巧舞步结束→技巧舞步(替换图标)
+  [16194, 15998], //双色技巧舞步结束→技巧舞步(替换图标)
+  [16195, 15998], //三色技巧舞步结束→技巧舞步(替换图标)
+  [16196, 15998], //四色技巧舞步结束→技巧舞步(替换图标)
+];
 document.addEventListener("onOverlayStateUpdate", (e) => {
   if (e.detail.isLocked) {
     $("#readMe").hide();
@@ -96,30 +74,72 @@ $("td").css("height", `${rangeSize}px`);
 addOverlayListener("LogLine", (e) => {
   if (
     checkLog(e.line, "00", {
+      MessageType: [Comparison.equal, "0839"],
+      MessageText: [Comparison.matchRegex, "^.+(任务结束了。| has ended.|」の攻略を終了した。)$"],
+    }) ||
+    checkLog(e.line, "00", {
       MessageType: [Comparison.equal, "0039"],
       MessageText: [Comparison.matchRegex, "^进入了休息区。|You have entered a sanctuary.|レストエリアに入った！$"],
     })
   ) {
-    $("tr").css("background-color", "");
-    $("td").css("background-image", "");
-  }
-  if (
-    checkLog(e.line, "00", {
-      MessageType: [Comparison.equal, "0038"],
-      MessageText: [Comparison.equal, "test"],
+    clearIcon();
+    flagFinish = true;
+    setTimeout(() => {
+      flagFinish = false;
+    }, 1000);
+  } else if (
+    checkLog(e.line, "21", {
+      Command: [Comparison.equal, "40000001"],
+    }) ||
+    checkLog(e.line, "21", {
+      Command: [Comparison.equal, "40000006"],
     })
   ) {
-    party = partySort(testParty, "测试白魔本人", sortRuleAll); //测试用
-    addIcon(); //测试用
-    msgShow("测试");
+    addIcon();
+  } else if (checkLog(e.line, "15", {}) || checkLog(e.line, "16", {})) {
+    matchWatch(e);
   }
 });
+function matchWatch(e) {
+  for1: for (let i = 0; i < party.length; i++) {
+    const p = party[i];
+    if (p.name === extractLog(e.line, "CasterName")) {
+      for (let j = 0; j < watchingName[i].length; j++) {
+        let compareId = parseInt(extractLog(e.line, "AbilityID"), 16);
+        for (const i in compareSameGroup) {
+          if (Object.hasOwnProperty.call(compareSameGroup, i)) {
+            const element = compareSameGroup[i];
+            compareId === element[0] ? (compareId = element[1]) : "";
+          }
+        }
+        if (parseInt(watchingName[i][j]) === compareId) {
+          let td = $(`tr:eq(${i})`).children()[j];
+          if ($(td).text() !== "" && $($(td).children()[0]).text() !== "?") break;
+          let cd = watchingRecast[i][j] / 10;
+          $(td).css("opacity", "1");
+          $(td).css("border", "");
+          $(td).empty();
+          $(td).append($("<article></article>").text(cd--));
+          $($(td).children()[0]).css("background-color", "rgba(27,27,27,0.5)");
+          let timer = setInterval(() => {
+            $($(td).children()[0]).text(cd--);
+            if (cd === -1 || flagFinish) {
+              clearInterval(timer);
+              $($(td).children()[0]).css("background-color", "");
+              $(td).text("");
+            }
+          }, 1000);
+          break for1;
+        }
+      }
+    }
+  }
+}
 addOverlayListener("ChangePrimaryPlayer", (e) => {
   charName = e.charName; //玩家名称
 });
 addOverlayListener("ChangeZone", (e) => {
   try {
-    quest[e.zoneName][0];
     if (quest[e.zoneName] == null) {
       minSync = 1;
       maxSync = 99;
@@ -131,18 +151,38 @@ addOverlayListener("ChangeZone", (e) => {
     minSync = 1;
     maxSync = 99;
   }
-  // party && flag ? addIcon() : "";
 });
 addOverlayListener("PartyChanged", (e) => {
-  if (flag && e.party != "") {
+  try {
+    // let testParty = [
+    //   {
+    //     id: "10450AD1",
+    //     name: "fewf",
+    //     worldId: 1178,
+    //     job: 21,
+    //   },
+    //   {
+    //     id: "103EA50E",
+    //     name: "adasd",
+    //     worldId: 1179,
+    //     job: 22,
+    //   },
+    //   {
+    //     id: "1039CE69",
+    //     name: "Souma",
+    //     worldId: 1177,
+    //     job: 38,
+    //   },
+    //   {
+    //     id: "1001A33E",
+    //     name: "abc",
+    //     worldId: 1043,
+    //     job: 25,
+    //   },
+    // ];
+    // party = partySort(testParty, charName, sortRuleAll);
     party = partySort(e.party, charName, sortRuleAll);
-    addIcon();
-  } else {
-    party = "";
-    $("tr").css("background-color", "");
-    $("td").css("background-image", "");
-    $("aside").remove();
-  }
+  } catch {}
 });
 startOverlayEvents();
 if (window.localStorage.getItem("setSortRule") == null) {
@@ -150,58 +190,43 @@ if (window.localStorage.getItem("setSortRule") == null) {
 } else {
   sortRuleAll = JSON.parse(window.localStorage.getItem("setSortRule"));
 }
-
-let watch = {
-  19: ["20", "7383", "7531", "17", "3540", "7385", "7535", "7548", "7533", "30"],
-  20: ["7395", "", "", "", "", "65", "7549", "7542", "7541", "7396"],
-  21: ["7389", "16464", "7531", "44", "3552", "7388", "7535", "7548", "7533", "43"],
-  22: ["85", "", "", "", "", "", "7549", "7542", "7541", "3557"],
-  23: ["101", "", "", "", "", "", "7405", "", "7541", "118"],
-  24: ["7432", "3570", "3571", "7433", "3569", "", "16536", "7562", "7561", "140"],
-  25: ["3573", "", "", "", "", "", "7560", "", "157", ""],
-
-  27: ["3581", "7427", "", "", "", "", "7560", "", "7561", "7423"],
-  28: ["166", "188", "3583", "16542", "16537", "7434", "16545", "7562", "7561", "7436"],
-
-  30: ["2257", "", "", "", "", "", "7549", "7542", "7541", "2258"],
-  31: ["2878", "", "", "", "", "", "16889", "", "7541", ""],
-  32: ["7390", "7393", "7531", "3636", "3634", "16471", "7535", "7548", "7533", "3638"],
-  33: ["16556", "7439", "16557", "16553", "3613", "", "16559", "7562", "7561", "16552"],
-  34: ["16486", "7499", "", "", "", "", "7549", "7542", "7541", ""],
-  35: ["7521", "", "", "", "", "", "7560", "", "7561", "7520"],
-  36: ["11415", "11411", "11421", "23280", "23273", "18320", "7560", "18305", "7561", "18317"],
-  37: ["16138", "16161", "7531", "16148", "16151", "16160", "7535", "7548", "7533", "16152"],
-  38: ["16013", "15998", "", "", "", "16015", "16012", "", "7541", ""],
-};
-
 function addIcon() {
-  flag = false;
-  $("tr").css("background-color", "");
-  $("td").css("background-image", "");
-  $("aside").remove();
+  clearIcon();
   for (let i = 0; i < 8; i++) {
     if (i < party.length) {
       $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
       for (let j = 0; j < 10; j++) {
         try {
+          watchingName[i][j] = watch[party[i].job][9 - j];
+          watchingRecast[i][j] = action[party[i].job][watch[party[i].job][9 - j]][5];
           $($($("tbody").children()[i]).children()[j]).css(
             "background-image",
             `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
           );
           let skillLevel = action[party[i].job][watch[party[i].job][9 - j]][3];
           let td = $($("tbody").children()[i]).children()[j];
-          if (skillLevel > maxSync) {
-            $(td).css("opacity", "0.4");
-          } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
-            $(td).css("opacity", "1");
-            let txt = $("<aside></aside>");
-            $(td).append(txt);
+          if (maxSync !== 99) {
+            if (skillLevel <= minSync) {
+              $(td).css("opacity", "1");
+            } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
+              $(td).append($("<article></article>").text("?"));
+              $(td).css("opacity", "0.8");
+            }
           }
+          clearInterval(timerSync);
         } catch {}
       }
     }
   }
-  setTimeout(() => {
-    flag = true;
-  }, 1000);
 }
+function clearIcon() {
+  $("tr").css("background-color", "");
+  $("td").css("background-image", "");
+  $("td").css("opacity", "0.2");
+  $("td").text("");
+}
+setTimeout(() => {
+  try {
+    addIcon();
+  } catch {}
+}, 1000);

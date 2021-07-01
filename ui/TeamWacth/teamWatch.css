@@ -9,11 +9,13 @@ html {
 }
 tr {
   display: block;
-  padding: 5px 0px;
   user-select: none;
 }
 td {
-  padding: 0px;
+  /* color: white;
+  font-weight: bold;
+  text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
+  text-align: center; */
   background-size: cover;
 }
 #readMe {
@@ -24,16 +26,18 @@ td {
   color: white;
   font-size: 14px;
 }
-a{
-  color:greenyellow;
+a {
+  color: greenyellow;
 }
 main {
   float: right;
 }
-aside {
+article {
   height: 100%;
   width: 100%;
+  color: white;
+  font-weight: bold;
+  text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
   text-align: center;
-  border: 1px dashed yellow;
-  border-style:dashed;
+  line-height: 30px;
 }

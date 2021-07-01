@@ -201,7 +201,13 @@ let type20_NetworkWorld = {
 };
 let type21_Network6D = {
   Type: 0,
-  Time: 1, //未完
+  Time: 1,
+  ZoneId: 2,
+  Command: 3,
+  Data1: 4, //??
+  Data2: 5, //??
+  Data3: 6, //??
+  Data4: 7, //??
 };
 let type22_NetworkNameToggle = {
   Type: 0,
@@ -368,6 +374,55 @@ function extractLog(log, name) {
 
 function jobIDConvert(jobID) {
   switch (jobID.toString()) {
+    case "1":
+      return {
+        job: "Gla",
+        short: "剑",
+        middle: "剑术",
+        full: "剑术师",
+      };
+    case "2":
+      return {
+        job: "Pgl",
+        short: "格",
+        middle: "格斗",
+        full: "格斗家",
+      };
+    case "3":
+      return {
+        job: "Mrd",
+        short: "斧",
+        middle: "斧术",
+        full: "斧术师",
+      };
+    case "4":
+      return {
+        job: "Lnc",
+        short: "枪",
+        middle: "枪术",
+        full: "枪术士",
+      };
+    case "5":
+      return {
+        job: "Arc",
+        short: "弓",
+        middle: "弓箭",
+        full: "弓箭手",
+      };
+    case "6":
+      return {
+        job: "Cnj",
+        short: "弓",
+        middle: "弓箭",
+        full: "弓箭手",
+      };
+    case "7":
+      return {
+        job: "",
+        short: "",
+        middle: "",
+        full: "",
+      };
     case "19":
       return {
         job: "Pld",
@@ -417,7 +472,13 @@ function jobIDConvert(jobID) {
         middle: "黑魔",
         full: "黑魔法师",
       };
-    //没有26
+    case "26":
+      return {
+        job: "Acn",
+        short: "秘",
+        middle: "秘术",
+        full: "秘术师",
+      };
     case "27":
       return {
         job: "Smn",
@@ -432,7 +493,13 @@ function jobIDConvert(jobID) {
         middle: "学者",
         full: "学者",
       };
-    //没有29
+      case "29":
+        return {
+          job: "Rog",
+          short: "双",
+          middle: "双剑",
+          full: "双剑师",
+        };
     case "30":
       return {
         job: "Nin",
@@ -485,7 +552,7 @@ function jobIDConvert(jobID) {
     case "37":
       return {
         job: "Gnb",
-        short: "枪",
+        short: "绝",
         middle: "绝枪",
         full: "绝枪战士",
       };
