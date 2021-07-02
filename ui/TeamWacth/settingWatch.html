@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>settingWatch</title>
+    <script src="../../resources/jquery-3.6.0.min.js"></script>
+    <script type="module" src="settingWatch.min.js"></script>
+    <link rel="stylesheet" href="settingWatch.min.css" />
+  </head>
+  <body>
+    <main>
+      <select id="job"></select
+      ><br />
+      <from>
+        <label for="gcd" style="font-size:small;">复唱&#60;5S的技能</label>
+        <input type="checkbox" onclick="checkboxOnclick(this)" id="gcd" />
+      </from>
+      <ul id="ul">
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+        <li><select class="skill"></select></li>
+      </ul>
+      <button onclick="save()" style="width: 50px; margin-top: 5px">保存</button>
+    </main>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 "use strict";
 let sortRuleAll;
-var jobList = [
+let jobList = [
   "骑士",
   "武僧",
   "战士",

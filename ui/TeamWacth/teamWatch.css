@@ -1,6 +1,7 @@
 html {
   overflow: hidden;
   font-weight: bold;
+  user-select: none;
 }
 * {
   padding: 0px;
@@ -9,7 +10,6 @@ html {
 }
 tr {
   display: block;
-  user-select: none;
 }
 td {
   /* color: white;
