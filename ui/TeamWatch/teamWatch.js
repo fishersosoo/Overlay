@@ -98,14 +98,17 @@ addOverlayListener("LogLine", (e) => {
     }) ||
     checkLog(e.line, "21", {
       Command: [Comparison.equal, "40000006"],
+    }) ||
+    checkLog(e.line, "21", {
+      Command: [Comparison.equal, "40000010"],
     })
   ) {
     addIcon();
   } else if (checkLog(e.line, "15", {}) || checkLog(e.line, "16", {})) {
-    matchWatch(e);
+    checkWatch(e);
   }
 });
-function matchWatch(e) {
+function checkWatch(e) {
   try {
     for1: for (let i = 0; i < party.length; i++) {
       const p = party[i];
@@ -120,7 +123,10 @@ function matchWatch(e) {
           }
           if (parseInt(watchingName[i][j]) === compareId) {
             let td = $(`tr:eq(${i})`).children()[j];
-            if ($(td).text() !== "" && $($(td).children()[0]).text() !== "?") break;
+            if ($(td).text() > 0) {
+              // console.log(`跳过一次了重复的触发:${watchingName[i][j]},i=${i},j=${j},td=${$(td).text()}`);
+              break for1;
+            }
             let cd = watchingRecast[i][j] / 10;
             $(td).css("opacity", "1");
             $(td).css("border", "");
@@ -161,7 +167,10 @@ addOverlayListener("ChangeZone", (e) => {
 });
 addOverlayListener("PartyChanged", (e) => {
   try {
+    // var b = e.party.slice(0);
+    // console.log(b);
     party = partySort(e.party, charName, sortRuleAll);
+    // console.log(party);
   } catch {}
 });
 startOverlayEvents();
@@ -223,7 +232,7 @@ window.showFakeParty = function () {
       id: "1039CE69",
       name: "Souma",
       worldId: 1177,
-      job: 33,
+      job: 24,
     },
     {
       id: "10279428",

@@ -1,10 +1,10 @@
 "use strict";
 
 function partySort(p, charName = "测试占星本人", rule) {
-  for (const i of p) {
-    delete i.inParty; //Always true
-    delete i.level; //Always 0
-  }
+  // for (const i of p) {
+    // delete i.inParty; //Always true
+    // delete i.level; //Always 0
+  // }
   p.sort(function (a, b) {
     return parseInt(b.id, 16) - parseInt(a.id, 16);
   });
