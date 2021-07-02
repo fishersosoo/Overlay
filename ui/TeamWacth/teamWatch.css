@@ -12,10 +12,6 @@ tr {
   display: block;
 }
 td {
-  /* color: white;
-  font-weight: bold;
-  text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
-  text-align: center; */
   background-size: cover;
 }
 #readMe {
@@ -25,9 +21,23 @@ td {
   text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
   color: white;
   font-size: 14px;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
 }
-a {
+a,
+p {
   color: greenyellow;
+  margin: 5px 0px;
+  border: 1px solid gray;
+  background-color: rgba(0, 0, 0, 0.2);
+  text-align: center;
+  height: 24px;
+}
+p:first-child {
+  color: white;
+  border: none;
+  background: none;
 }
 main {
   float: right;

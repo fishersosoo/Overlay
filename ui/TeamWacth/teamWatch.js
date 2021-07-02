@@ -106,39 +106,41 @@ addOverlayListener("LogLine", (e) => {
   }
 });
 function matchWatch(e) {
-  for1: for (let i = 0; i < party.length; i++) {
-    const p = party[i];
-    if (p.name === extractLog(e.line, "CasterName")) {
-      for (let j = 0; j < watchingName[i].length; j++) {
-        let compareId = parseInt(extractLog(e.line, "AbilityID"), 16);
-        for (const i in compareSameGroup) {
-          if (Object.hasOwnProperty.call(compareSameGroup, i)) {
-            const element = compareSameGroup[i];
-            compareId === element[0] ? (compareId = element[1]) : "";
-          }
-        }
-        if (parseInt(watchingName[i][j]) === compareId) {
-          let td = $(`tr:eq(${i})`).children()[j];
-          if ($(td).text() !== "" && $($(td).children()[0]).text() !== "?") break;
-          let cd = watchingRecast[i][j] / 10;
-          $(td).css("opacity", "1");
-          $(td).css("border", "");
-          $(td).empty();
-          $(td).append($("<article></article>").text(cd--));
-          $($(td).children()[0]).css("background-color", "rgba(27,27,27,0.5)");
-          let timer = setInterval(() => {
-            $($(td).children()[0]).text(cd--);
-            if (cd === -1 || flagFinish) {
-              clearInterval(timer);
-              $($(td).children()[0]).css("background-color", "");
-              $(td).text("");
+  try {
+    for1: for (let i = 0; i < party.length; i++) {
+      const p = party[i];
+      if (p.name === extractLog(e.line, "CasterName")) {
+        for (let j = 0; j < watchingName[i].length; j++) {
+          let compareId = parseInt(extractLog(e.line, "AbilityID"), 16);
+          for (const i in compareSameGroup) {
+            if (Object.hasOwnProperty.call(compareSameGroup, i)) {
+              const element = compareSameGroup[i];
+              compareId === element[0] ? (compareId = element[1]) : "";
             }
-          }, 1000);
-          break for1;
+          }
+          if (parseInt(watchingName[i][j]) === compareId) {
+            let td = $(`tr:eq(${i})`).children()[j];
+            if ($(td).text() !== "" && $($(td).children()[0]).text() !== "?") break;
+            let cd = watchingRecast[i][j] / 10;
+            $(td).css("opacity", "1");
+            $(td).css("border", "");
+            $(td).empty();
+            $(td).append($("<article></article>").text(cd--));
+            $($(td).children()[0]).css("background-color", "rgba(27,27,27,0.5)");
+            let timer = setInterval(() => {
+              $($(td).children()[0]).text(cd--);
+              if (cd === -1 || flagFinish) {
+                clearInterval(timer);
+                $($(td).children()[0]).css("background-color", "");
+                $(td).text("");
+              }
+            }, 1000);
+            break for1;
+          }
         }
       }
     }
-  }
+  } catch {}
 }
 addOverlayListener("ChangePrimaryPlayer", (e) => {
   charName = e.charName; //玩家名称
@@ -160,9 +162,7 @@ addOverlayListener("ChangeZone", (e) => {
 addOverlayListener("PartyChanged", (e) => {
   try {
     party = partySort(e.party, charName, sortRuleAll);
-  } catch {
-    party = [];
-  }
+  } catch {}
 });
 startOverlayEvents();
 if (localStorage.getItem("setSortRule") == null) {
@@ -171,33 +171,35 @@ if (localStorage.getItem("setSortRule") == null) {
   sortRuleAll = JSON.parse(localStorage.getItem("setSortRule"));
 }
 function addIcon() {
-  clearIcon();
-  for (let i = 0; i < 8; i++) {
-    if (i < party.length) {
-      $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
-      for (let j = 0; j < 10; j++) {
-        try {
-          watchingName[i][j] = watch[party[i].job][9 - j];
-          watchingRecast[i][j] = action[party[i].job][watch[party[i].job][9 - j]][5];
-          $($($("tbody").children()[i]).children()[j]).css(
-            "background-image",
-            `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
-          );
-          let skillLevel = action[party[i].job][watch[party[i].job][9 - j]][3];
-          let td = $($("tbody").children()[i]).children()[j];
-          if (maxSync !== 99) {
-            if (skillLevel <= minSync) {
-              $(td).css("opacity", "1");
-            } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
-              $(td).append($("<article></article>").text("?"));
-              $(td).css("opacity", "0.8");
+  try {
+    clearIcon();
+    for (let i = 0; i < 8; i++) {
+      if (i < party.length) {
+        $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
+        for (let j = 0; j < 10; j++) {
+          try {
+            watchingName[i][j] = watch[party[i].job][9 - j];
+            watchingRecast[i][j] = action[party[i].job][watch[party[i].job][9 - j]][5];
+            $($($("tbody").children()[i]).children()[j]).css(
+              "background-image",
+              `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
+            );
+            let skillLevel = action[party[i].job][watch[party[i].job][9 - j]][3];
+            let td = $($("tbody").children()[i]).children()[j];
+            if (maxSync !== 99) {
+              if (skillLevel <= minSync) {
+                $(td).css("opacity", "1");
+              } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
+                $(td).append($("<article></article>").text("?"));
+                $(td).css("opacity", "0.8");
+              }
             }
-          }
-          clearInterval(timerSync);
-        } catch {}
+            clearInterval(timerSync);
+          } catch {}
+        }
       }
     }
-  }
+  } catch {}
 }
 function clearIcon() {
   $("tr").css("background-color", "");
@@ -206,11 +208,71 @@ function clearIcon() {
   $("td").text("");
 }
 setTimeout(() => {
-  try {
-    addIcon();
-  } catch {}
+  addIcon();
 }, 1000);
-
-window.settingsWatch = function () {
+window.settingSort = function () {
+  window.open("./settingSort.html", "_self");
+};
+window.settingWatch = function () {
   window.open("./settingWatch.html", "_blank", "width=200,height=300");
+};
+
+window.showFakeParty = function () {
+  party = [
+    {
+      id: "1039CE69",
+      name: "Souma",
+      worldId: 1177,
+      job: 33,
+    },
+    {
+      id: "10279428",
+      name: "酱",
+      worldId: 1169,
+      job: 37,
+    },
+    {
+      id: "1043177B",
+      name: "良",
+      worldId: 1169,
+      job: 19,
+    },
+    {
+      id: "10447ED8",
+      name: "游",
+      worldId: 1179,
+      job: 33,
+    },
+    {
+      id: "1027A58C",
+      name: "L",
+      worldId: 1043,
+      job: 22,
+    },
+    {
+      id: "1022442C",
+      name: "天",
+      worldId: 1045,
+      job: 34,
+    },
+    {
+      id: "1045D028",
+      name: "Ta",
+      worldId: 1179,
+      job: 27,
+    },
+    {
+      id: "1042FA6D",
+      name: "So",
+      worldId: 1177,
+      job: 35,
+    },
+  ];
+  minSync = 999;
+  maxSync = 999;
+  addIcon();
+};
+window.clearShow = function () {
+  party = [];
+  clearIcon();
 };
