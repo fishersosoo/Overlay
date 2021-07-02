@@ -160,7 +160,9 @@ addOverlayListener("ChangeZone", (e) => {
 addOverlayListener("PartyChanged", (e) => {
   try {
     party = partySort(e.party, charName, sortRuleAll);
-  } catch {}
+  } catch {
+    party = [];
+  }
 });
 startOverlayEvents();
 if (localStorage.getItem("setSortRule") == null) {

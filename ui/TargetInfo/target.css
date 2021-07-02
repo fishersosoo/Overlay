@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: 'SimHei', '黑体', Arial, sans-serif;
     color: white;
     background: rgba(0, 0, 0, 0);
@@ -25,4 +25,10 @@ hr {
 
 #btn-test {
     color: black;
+} */
+
+#container{
+    height:100%;
+    width:100%;
+    box-shadow: 10px 10px 5px #888888;
 }
