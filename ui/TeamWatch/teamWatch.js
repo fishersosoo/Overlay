@@ -167,10 +167,7 @@ addOverlayListener("ChangeZone", (e) => {
 });
 addOverlayListener("PartyChanged", (e) => {
   try {
-    // var b = e.party.slice(0);
-    // console.log(b);
     party = partySort(e.party, charName, sortRuleAll);
-    // console.log(party);
   } catch {}
 });
 startOverlayEvents();
@@ -233,50 +230,61 @@ window.showFakeParty = function () {
       name: "Souma",
       worldId: 1177,
       job: 24,
+      inParty: true,
     },
     {
       id: "10279428",
       name: "酱",
       worldId: 1169,
-      job: 37,
+      job: 19,
+      inParty: true,
     },
     {
       id: "1043177B",
       name: "良",
       worldId: 1169,
-      job: 19,
+      job: 30,
+      inParty: true,
     },
     {
       id: "10447ED8",
       name: "游",
       worldId: 1179,
-      job: 33,
+      job: 21,
+      inParty: true,
     },
     {
       id: "1027A58C",
       name: "L",
       worldId: 1043,
       job: 22,
+      inParty: true,
     },
     {
       id: "1022442C",
       name: "天",
       worldId: 1045,
-      job: 34,
+      job: 20,
+      inParty: false,
     },
     {
       id: "1045D028",
       name: "Ta",
       worldId: 1179,
-      job: 27,
+      job: 33,
+      inParty: true,
     },
     {
       id: "1042FA6D",
       name: "So",
       worldId: 1177,
-      job: 35,
+      job: 25,
+      inParty: true,
     },
   ];
+  // console.log(party.slice(party));
+  party = partySort(party, charName, sortRuleAll);
+  // console.log(party);
   minSync = 999;
   maxSync = 999;
   addIcon();

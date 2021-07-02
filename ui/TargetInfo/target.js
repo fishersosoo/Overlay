@@ -133,16 +133,16 @@ let Name2Dictionaries = {
 
 window.onload = function () {
   document.body.hidden = true;
-  // document.getElementById("btn-test").onclick = btnFunc;
-};  
+};
 
 function target(e) {
-  if (e.Target == null) {
+  if (e.Target == null || Name2Dictionaries[e.Target.Name] === undefined) {
     document.body.hidden = true;
   } else {
     document.body.hidden = false;
-    document.getElementById("target-name").innerText = `${e.Target.Name} (${e.Target.ID.toString(16).toUpperCase()})`;
+    // document.getElementById("target-name").innerText = `${e.Target.Name} (${e.Target.ID.toString(16).toUpperCase()})`;
+    document.getElementById("target-name").innerText = `${e.Target.Name}`;
     document.getElementById("target-properties").innerText =
-      Name2Dictionaries[e.Target.Name] == undefined ? "" : Name2Dictionaries[e.Target.Name];
+      Name2Dictionaries[e.Target.Name] === undefined ? "" : Name2Dictionaries[e.Target.Name];
   }
 }

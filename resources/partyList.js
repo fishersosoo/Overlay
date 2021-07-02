@@ -2,8 +2,7 @@
 
 function partySort(p, charName = "测试占星本人", rule) {
   // for (const i of p) {
-    // delete i.inParty; //Always true
-    // delete i.level; //Always 0
+  //    delete i.level; //Always 0
   // }
   p.sort(function (a, b) {
     return parseInt(b.id, 16) - parseInt(a.id, 16);
@@ -24,19 +23,21 @@ function partySort(p, charName = "测试占星本人", rule) {
   for (let i = 0; i < rule.length; i++) {
     const sortJobid = rule[i];
     for (let j = 0; j < p.length; j++) {
-      let orginJobid = p[j].job;
-      for (let k = 0; k < replaceClassId.length; k++) {
-        const r = replaceClassId[k];
-        orginJobid === r[0] ? (orginJobid = r[1]) : "";
-      }
-      if (orginJobid === sortJobid) {
-        p[j].name === charName ? sortParty.reverse() : ""; //置顶charName
-        sortParty.push(p[j]);
-        p[j].name === charName ? sortParty.reverse() : ""; //置顶charName
+      if (p[j].inParty) {
+        let orginJobid = p[j].job;
+        for (let k = 0; k < replaceClassId.length; k++) {
+          const r = replaceClassId[k];
+          orginJobid === r[0] ? (orginJobid = r[1]) : "";
+        }
+        if (orginJobid === sortJobid) {
+          p[j].name === charName ? sortParty.reverse() : ""; 
+          sortParty.push(p[j]);
+          p[j].name === charName ? sortParty.reverse() : ""; 
+        } else {
+        }
       }
     }
   }
-  // console.log(sortParty);
   return sortParty;
 }
 
