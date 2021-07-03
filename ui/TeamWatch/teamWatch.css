@@ -14,17 +14,18 @@ tr {
 td {
   background-size: cover;
 }
-#readMe {
+#readMe,
+#userRefresh {
   padding: 0px 25px;
   font-weight: bold;
   text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
   font-size: 14px;
   position: fixed;
-  z-index: 2;
+  z-index: 10;
   width: 100%;
 }
 p {
-  color: greenyellow;
+  color: white;
   margin: 5px 0px;
   border: 1px solid gray;
   background-color: rgba(0, 0, 0, 0.2);
@@ -35,6 +36,9 @@ p:first-child {
   color: white;
   border: none;
   background: none;
+}
+p:hover {
+  color: #adff2f;
 }
 main {
   float: right;
@@ -49,30 +53,11 @@ article {
   line-height: 30px;
 }
 #userRefresh {
-  opacity: 0;
-  margin: 0px;
-  border: none;
-  color: white;
-  font-weight: bold;
-  text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
-  font-size: 14px;
-  position: absolute;
+  height: 100%;
   z-index: 1;
-  width: 100%;
-  top: 60%;
-  height: 40%;
-}
-#userRefresh:hover {
-  opacity: 1;
-  background-color: rgba(0, 0, 0, 0.01);
 }
 #userRefresh p {
-  position: fixed;
-  width: 342.5px;
-  top: 285px;
-  right: 3px;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-#userRefresh p:hover {
-  color: yellow;
+  margin: 5px 0px;
+  border: 1px solid gray;
+  background-color: rgba(0, 0, 0, 0.2);
 }

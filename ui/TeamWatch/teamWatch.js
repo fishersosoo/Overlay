@@ -1,6 +1,6 @@
 "use strict";
 
-import { checkLog, Comparison, extractLog } from "../../resources/logLineProcessing.min.js";
+import { checkLog, extractLog } from "../../resources/logLineProcessing.min.js";
 import { partySort } from "../../resources/partyList.min.js";
 import { action } from "../../resources/action.min.js";
 import { quest } from "../../resources/quest.min.js";
@@ -16,11 +16,13 @@ for (let i = 0; i < 8; i++) {
   watchingID[i] = ["", "", "", "", "", "", "", "", "", ""];
   watchingRecast[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 }
-let sortRuleAll;
+let sortRuleAll = localStorage.getItem("setSortRule")
+  ? JSON.parse(localStorage.getItem("setSortRule"))
+  : [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
 let minSync = 1;
 let maxSync = 99;
-let flagFinish = false;
 let watch;
+let timerList = [];
 if (localStorage.getItem("setWatch") == null) {
   watch = {
     1: ["", "", "", "", "", "", "7535", "7548", "7533", ""],
@@ -65,52 +67,91 @@ let compareSameGroup = [
   [16196, 15998], //四色技巧舞步结束→技巧舞步
   [3551, 16464], //直觉→勇猛
 ];
+$("table").css("border-spacing", `${spacingHorizontal}px ${spacingVertical}px`);
+$("td").css("width", `${rangeSize}px`);
+$("td").css("height", `${rangeSize}px`);
 document.addEventListener("onOverlayStateUpdate", (e) => {
   if (e.detail.isLocked) {
     $("#readMe").hide();
     $("body").css("background-color", "rgba(0,0,150,0.0)");
+    $("#userRefresh").show();
   } else {
     $("#readMe").show();
     $("body").css("background-color", "rgba(0,0,150,0.2)");
+    $("#userRefresh").hide();
   }
 });
-$("table").css("border-spacing", `${spacingHorizontal}px ${spacingVertical}px`);
-$("td").css("width", `${rangeSize}px`);
-$("td").css("height", `${rangeSize}px`);
 addOverlayListener("LogLine", (e) => {
-  if (
-    checkLog(e.line, "00", {
-      MessageType: [Comparison.equal, "0839"],
-      MessageText: [Comparison.matchRegex, "^.+(任务结束了。| has ended.|」の攻略を終了した。)$"],
-    }) ||
-    checkLog(e.line, "00", {
-      MessageType: [Comparison.equal, "0039"],
-      MessageText: [Comparison.matchRegex, "^进入了休息区。|You have entered a sanctuary.|レストエリアに入った！$"],
-    })
-  ) {
-    clearIcon();
-    flagFinish = true;
-    setTimeout(() => {
-      flagFinish = false;
-    }, 1000);
-  } else if (
-    checkLog(e.line, "21", {
-      Command: [Comparison.equal, "40000001"],
-    }) ||
-    checkLog(e.line, "21", {
-      Command: [Comparison.equal, "40000006"],
-    }) ||
-    checkLog(e.line, "21", {
-      Command: [Comparison.equal, "40000010"],
-    })
-  ) {
-    addIcon();
-  } else if (checkLog(e.line, "15", {}) || checkLog(e.line, "16", {})) {
-    checkWatch(e);
+  checkLog(e.line, "15", {}) || checkLog(e.line, "16", {}) ? checkWatch(e) : "";
+});
+$("#userRefresh").on("mouseover", function () {
+  $("#userRefresh p").css("opacity", "1");
+});
+$("#userRefresh").on("mouseleave", function () {
+  if (party && party.length !== 0) $("#userRefresh p").css("opacity", "0");
+});
+addOverlayListener("onPartyWipe", () => clearIcon());
+addOverlayListener("ChangePrimaryPlayer", (e) => {
+  charID = e.charID;
+});
+function addIcon() {
+  clearIcon();
+  $("#userRefresh p").css("opacity", `${party.length === 0 ? 1 : 0}`);
+  for (let i = 0; i < 8; i++) {
+    if (i < party.length) {
+      $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
+      for (let j = 0; j < 10; j++) {
+        try {
+          watchingID[i][j] = watch[party[i].job][9 - j];
+          watchingRecast[i][j] = action[party[i].job][watchingID[i][j]][5];
+          let td = $(`tr:eq(${i})`).children()[j];
+          $(td).css(
+            "background-image",
+            `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
+          );
+          if (maxSync !== 99) {
+            let skillLevel = action[party[i].job][watch[party[i].job][9 - j]][3];
+            if (skillLevel <= minSync) {
+              $(td).css("opacity", "1");
+            } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
+              $(td).append($("<article></article>").text("?"));
+              $(td).css("opacity", "0.8");
+            }
+          }
+        } catch {}
+      }
+    }
+  }
+}
+addOverlayListener("ChangeZone", (e) => {
+  if (quest[e.zoneName]) {
+    minSync = quest[e.zoneName][0];
+    maxSync = quest[e.zoneName][1];
+  } else {
+    minSync = 1;
+    maxSync = 99;
   }
 });
+addOverlayListener("PartyChanged", (e) => {
+  e.party ? (party = partySort(e.party, charID, sortRuleAll)) : "";
+  setTimeout(() => {
+    addIcon();
+  }, 1000);
+});
+startOverlayEvents();
+function clearIcon() {
+  $("tr").css("background-color", "");
+  $("td").css("background-image", "");
+  $("td").css("opacity", "0.2");
+  $("td").text("");
+  if (timerList) {
+    for (const i of timerList) {
+      clearInterval(i);
+    }
+  }
+}
 function checkWatch(e) {
-  try {
+  if (party) {
     for1: for (let i = 0; i < party.length; i++) {
       const p = party[i];
       if (p.id === extractLog(e.line, "CasterObjectID")) {
@@ -129,7 +170,6 @@ function checkWatch(e) {
             }
             let cd = watchingRecast[i][j] / 10;
             $(td).css("opacity", "1");
-            $(td).css("border", "");
             $(td).empty();
             $(td).append($("<article></article>").text(cd--));
             $($(td).children()[0]).css("background-color", "rgba(27,27,27,0.5)");
@@ -141,7 +181,7 @@ function checkWatch(e) {
             );
             let timer = setInterval(() => {
               $($(td).children()[0]).text(cd--);
-              if (cd === -1 || flagFinish) {
+              if (cd === -1) {
                 clearInterval(timer);
                 $($(td).children()[0]).css("background-color", "");
                 $(td).text("");
@@ -151,86 +191,21 @@ function checkWatch(e) {
                 );
               }
             }, 1000);
+            timerList.push(timer);
             break for1;
           }
         }
       }
     }
-  } catch {}
-}
-addOverlayListener("ChangePrimaryPlayer", (e) => {
-  charID = e.charID; //玩家名称
-});
-addOverlayListener("ChangeZone", (e) => {
-  try {
-    if (quest[e.zoneName] == null) {
-      minSync = 1;
-      maxSync = 99;
-    } else {
-      minSync = quest[e.zoneName][0];
-      maxSync = quest[e.zoneName][1];
-    }
-  } catch {
-    minSync = 1;
-    maxSync = 99;
   }
-});
-addOverlayListener("PartyChanged", (e) => {
-  try {
-    party = partySort(e.party, charID, sortRuleAll);
-  } catch {}
-});
-startOverlayEvents();
-if (localStorage.getItem("setSortRule") == null) {
-  sortRuleAll = [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
-} else {
-  sortRuleAll = JSON.parse(localStorage.getItem("setSortRule"));
 }
-function addIcon() {
-  try {
-    clearIcon();
-    for (let i = 0; i < 8; i++) {
-      if (i < party.length) {
-        $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
-        for (let j = 0; j < 10; j++) {
-          try {
-            watchingID[i][j] = watch[party[i].job][9 - j];
-            watchingRecast[i][j] = action[party[i].job][watch[party[i].job][9 - j]][5];
-            $($($("tbody").children()[i]).children()[j]).css(
-              "background-image",
-              `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
-            );
-            let skillLevel = action[party[i].job][watch[party[i].job][9 - j]][3];
-            let td = $($("tbody").children()[i]).children()[j];
-            if (maxSync !== 99) {
-              if (skillLevel <= minSync) {
-                $(td).css("opacity", "1");
-              } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
-                $(td).append($("<article></article>").text("?"));
-                $(td).css("opacity", "0.8");
-              }
-            }
-          } catch {}
-        }
-      }
-    }
-  } catch {}
-}
-function clearIcon() {
-  $("tr").css("background-color", "");
-  $("td").css("background-image", "");
-  $("td").css("opacity", "0.2");
-  $("td").text("");
-}
-setTimeout(() => {
-  addIcon();
-}, 1000);
 window.settingSort = function () {
   window.open("./settingSort.html", "_self");
 };
 window.settingWatch = function () {
   window.open("./settingWatch.html", "_blank", "width=200,height=300");
 };
+
 //#region JobId
 // GLA 1  剑术师
 // PGL 2  格斗家?WIKI和ACT是PGL 触发器获取的是PUG
@@ -260,7 +235,8 @@ window.settingWatch = function () {
 // GNB 37 绝枪战士
 // DNC 38 舞者
 //#endregion
-window.showFakeParty = function () {
+
+window.makeFakeParty = function () {
   party = [
     {
       id: "1039CE69",
@@ -321,7 +297,6 @@ window.showFakeParty = function () {
   ];
   // console.log(party.slice(party));
   party = partySort(party, charID, sortRuleAll);
-  // console.log(party);
   minSync = 999;
   maxSync = 999;
   addIcon();
