@@ -8,12 +8,12 @@ import { quest } from "../../resources/quest.min.js";
 let rangeSize = 30;
 let spacingHorizontal = 3;
 let spacingVertical = 5;
-let charName;
+let charID;
 let party;
-let watchingName = Array(8);
+let watchingID = Array(8);
 let watchingRecast = Array(8);
 for (let i = 0; i < 8; i++) {
-  watchingName[i] = ["", "", "", "", "", "", "", "", "", ""];
+  watchingID[i] = ["", "", "", "", "", "", "", "", "", ""];
   watchingRecast[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 }
 let sortRuleAll;
@@ -58,11 +58,12 @@ let compareSameGroup = [
   [16484, 16486], //回返彼岸花→回返纷乱雪月花
   [16485, 16486], //回返天下五剑→回返纷乱雪月花
   [16191, 16192], //单色标准舞步→双色标准舞步
-  [15998, 0], //技巧舞步→0(替换图标)
-  [16193, 15998], //单色技巧舞步结束→技巧舞步(替换图标)
-  [16194, 15998], //双色技巧舞步结束→技巧舞步(替换图标)
-  [16195, 15998], //三色技巧舞步结束→技巧舞步(替换图标)
-  [16196, 15998], //四色技巧舞步结束→技巧舞步(替换图标)
+  [15998, 0], //技巧舞步→0
+  [16193, 15998], //单色技巧舞步结束→技巧舞步
+  [16194, 15998], //双色技巧舞步结束→技巧舞步
+  [16195, 15998], //三色技巧舞步结束→技巧舞步
+  [16196, 15998], //四色技巧舞步结束→技巧舞步
+  [3551, 16464], //直觉→勇猛
 ];
 document.addEventListener("onOverlayStateUpdate", (e) => {
   if (e.detail.isLocked) {
@@ -112,8 +113,8 @@ function checkWatch(e) {
   try {
     for1: for (let i = 0; i < party.length; i++) {
       const p = party[i];
-      if (p.name === extractLog(e.line, "CasterName")) {
-        for (let j = 0; j < watchingName[i].length; j++) {
+      if (p.id === extractLog(e.line, "CasterObjectID")) {
+        for (let j = 0; j < watchingID[i].length; j++) {
           let compareId = parseInt(extractLog(e.line, "AbilityID"), 16);
           for (const i in compareSameGroup) {
             if (Object.hasOwnProperty.call(compareSameGroup, i)) {
@@ -121,10 +122,9 @@ function checkWatch(e) {
               compareId === element[0] ? (compareId = element[1]) : "";
             }
           }
-          if (parseInt(watchingName[i][j]) === compareId) {
+          if (parseInt(watchingID[i][j]) === compareId) {
             let td = $(`tr:eq(${i})`).children()[j];
             if ($(td).text() > 0) {
-              // console.log(`跳过一次了重复的触发:${watchingName[i][j]},i=${i},j=${j},td=${$(td).text()}`);
               break for1;
             }
             let cd = watchingRecast[i][j] / 10;
@@ -133,12 +133,22 @@ function checkWatch(e) {
             $(td).empty();
             $(td).append($("<article></article>").text(cd--));
             $($(td).children()[0]).css("background-color", "rgba(27,27,27,0.5)");
+            $(td).css(
+              "background-image",
+              `url(https://cafemaker.wakingsands.com/i/${
+                action[party[i].job][parseInt(extractLog(e.line, "AbilityID"), 16)][1]
+              })`
+            );
             let timer = setInterval(() => {
               $($(td).children()[0]).text(cd--);
               if (cd === -1 || flagFinish) {
                 clearInterval(timer);
                 $($(td).children()[0]).css("background-color", "");
                 $(td).text("");
+                $(td).css(
+                  "background-image",
+                  `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
+                );
               }
             }, 1000);
             break for1;
@@ -149,7 +159,7 @@ function checkWatch(e) {
   } catch {}
 }
 addOverlayListener("ChangePrimaryPlayer", (e) => {
-  charName = e.charName; //玩家名称
+  charID = e.charID; //玩家名称
 });
 addOverlayListener("ChangeZone", (e) => {
   try {
@@ -167,7 +177,7 @@ addOverlayListener("ChangeZone", (e) => {
 });
 addOverlayListener("PartyChanged", (e) => {
   try {
-    party = partySort(e.party, charName, sortRuleAll);
+    party = partySort(e.party, charID, sortRuleAll);
   } catch {}
 });
 startOverlayEvents();
@@ -184,7 +194,7 @@ function addIcon() {
         $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
         for (let j = 0; j < 10; j++) {
           try {
-            watchingName[i][j] = watch[party[i].job][9 - j];
+            watchingID[i][j] = watch[party[i].job][9 - j];
             watchingRecast[i][j] = action[party[i].job][watch[party[i].job][9 - j]][5];
             $($($("tbody").children()[i]).children()[j]).css(
               "background-image",
@@ -222,60 +232,88 @@ window.settingSort = function () {
 window.settingWatch = function () {
   window.open("./settingWatch.html", "_blank", "width=200,height=300");
 };
-
+//#region JobId
+// GLA 1  剑术师
+// PGL 2  格斗家?WIKI和ACT是PGL 触发器获取的是PUG
+// MRD 3  斧术师
+// LNC 4  枪术士?WIKI和ACT是LNC 触发器获取的是LUC
+// ARC 5  弓箭手
+// CNJ 6  幻术师
+// THM 7  咒术师
+// PLD 19 骑士
+// MNK 20 武僧
+// WAR 21 战士
+// DRG 22 龙骑士
+// BRD 23 吟游诗人
+// WHM 24 白魔法师
+// BLM 25 黑魔法师
+// ACN 26 秘术师
+// SMN 27 召唤师
+// SCH 28 学者
+// ROG 29 双剑师
+// NIN 30 忍者
+// MCH 31 机工士
+// DRK 32 暗黑骑士
+// AST 33 占星术士
+// SAM 34 武士
+// RDM 35 赤魔法师
+// BLU 36 青魔法师
+// GNB 37 绝枪战士
+// DNC 38 舞者
+//#endregion
 window.showFakeParty = function () {
   party = [
     {
       id: "1039CE69",
       name: "Souma",
       worldId: 1177,
-      job: 24,
+      job: 34,
       inParty: true,
     },
     {
-      id: "10279428",
+      id: "10000002",
       name: "酱",
       worldId: 1169,
       job: 19,
       inParty: true,
     },
     {
-      id: "1043177B",
+      id: "10000003",
       name: "良",
       worldId: 1169,
       job: 30,
       inParty: true,
     },
     {
-      id: "10447ED8",
+      id: "10000004",
       name: "游",
       worldId: 1179,
-      job: 21,
+      job: 28,
       inParty: true,
     },
     {
-      id: "1027A58C",
+      id: "10000005",
       name: "L",
       worldId: 1043,
       job: 22,
       inParty: true,
     },
     {
-      id: "1022442C",
+      id: "10000006",
       name: "天",
       worldId: 1045,
       job: 20,
       inParty: false,
     },
     {
-      id: "1045D028",
+      id: "100000007",
       name: "Ta",
       worldId: 1179,
       job: 33,
       inParty: true,
     },
     {
-      id: "1042FA6D",
+      id: "10000008",
       name: "So",
       worldId: 1177,
       job: 25,
@@ -283,7 +321,7 @@ window.showFakeParty = function () {
     },
   ];
   // console.log(party.slice(party));
-  party = partySort(party, charName, sortRuleAll);
+  party = partySort(party, charID, sortRuleAll);
   // console.log(party);
   minSync = 999;
   maxSync = 999;
