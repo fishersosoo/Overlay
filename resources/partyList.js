@@ -1,6 +1,6 @@
 "use strict";
 
-function partySort(p, charName = "测试占星本人", rule) {
+function partySort(p, charID, rule) {
   // for (const i of p) {
   //    delete i.level; //Always 0
   // }
@@ -30,9 +30,9 @@ function partySort(p, charName = "测试占星本人", rule) {
           orginJobid === r[0] ? (orginJobid = r[1]) : "";
         }
         if (orginJobid === sortJobid) {
-          p[j].name === charName ? sortParty.reverse() : ""; 
+          parseInt(p[j].id, 16) === charID ? sortParty.reverse() : "";
           sortParty.push(p[j]);
-          p[j].name === charName ? sortParty.reverse() : ""; 
+          parseInt(p[j].id, 16) === charID ? sortParty.reverse() : "";
         } else {
         }
       }
