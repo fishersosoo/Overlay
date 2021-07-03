@@ -210,7 +210,6 @@ function addIcon() {
                 $(td).css("opacity", "0.8");
               }
             }
-            clearInterval(timerSync);
           } catch {}
         }
       }
@@ -330,4 +329,10 @@ window.showFakeParty = function () {
 window.clearShow = function () {
   party = [];
   clearIcon();
+};
+window.userRefresh = function () {
+  if (party) {
+    party = partySort(party, charID, sortRuleAll);
+    addIcon();
+  }
 };
