@@ -308,6 +308,5 @@ window.clearShow = function () {
   clearIcon();
 };
 window.userRefresh = function () {
-  party = partySort(party, charID, sortRuleAll);
-  addIcon();
+  location.reload();
 };
