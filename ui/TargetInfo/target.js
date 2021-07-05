@@ -4,7 +4,17 @@
 //}
 //});
 
-addOverlayListener("EnmityTargetData", (e) => target(e));
+addOverlayListener("EnmityTargetData", function (e) {
+  e.Target ? console.log(e.Target) : "";
+  if (e.Target == null || Name2Dictionaries[e.Target.Name] === undefined) {
+    document.body.hidden = true;
+  } else {
+    document.body.hidden = false; // document.getElementById("target-name").innerText = `${e.Target.Name} (${e.Target.ID.toString(16).toUpperCase()})`;document.getElementById("target-name").innerText = `${e.Target.Name}`;document.getElementById("target-properties").innerText =  Name2Dictionaries[e.Target.Name] === undefined ? "" : Name2Dictionaries[e.Target.Name];
+  }
+});
+addOverlayListener("onLogEvent", (e) => {
+  console.log(e);
+});
 startOverlayEvents();
 let Name2Dictionaries = {
   地宫死亡鼠: "视觉感知",
@@ -134,15 +144,3 @@ let Name2Dictionaries = {
 window.onload = function () {
   document.body.hidden = true;
 };
-
-function target(e) {
-  if (e.Target == null || Name2Dictionaries[e.Target.Name] === undefined) {
-    document.body.hidden = true;
-  } else {
-    document.body.hidden = false;
-    // document.getElementById("target-name").innerText = `${e.Target.Name} (${e.Target.ID.toString(16).toUpperCase()})`;
-    document.getElementById("target-name").innerText = `${e.Target.Name}`;
-    document.getElementById("target-properties").innerText =
-      Name2Dictionaries[e.Target.Name] === undefined ? "" : Name2Dictionaries[e.Target.Name];
-  }
-}

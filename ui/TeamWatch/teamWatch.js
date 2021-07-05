@@ -88,7 +88,7 @@ $("#userRefresh").on("mouseover", function () {
   $("#userRefresh p").css("opacity", "1");
 });
 $("#userRefresh").on("mouseleave", function () {
-  if (party && party.length !== 0) $("#userRefresh p").css("opacity", "0");
+  if (party) $("#userRefresh p").css("opacity", `${party.length === 0 ? 0.5 : 0}`);
 });
 addOverlayListener("onPartyWipe", () => clearIcon());
 addOverlayListener("ChangePrimaryPlayer", (e) => {
@@ -96,7 +96,7 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
 });
 function addIcon() {
   clearIcon();
-  $("#userRefresh p").css("opacity", `${party.length === 0 ? 1 : 0}`);
+  $("#userRefresh p").css("opacity", `${party.length === 0 ? 0.5 : 0}`);
   for (let i = 0; i < 8; i++) {
     if (i < party.length) {
       $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
@@ -306,8 +306,6 @@ window.clearShow = function () {
   clearIcon();
 };
 window.userRefresh = function () {
-  if (party) {
-    party = partySort(party, charID, sortRuleAll);
-    addIcon();
-  }
+  party = partySort(party, charID, sortRuleAll);
+  addIcon();
 };

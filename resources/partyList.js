@@ -1,6 +1,6 @@
 "use strict";
 
-function partySort(p, charID, rule) {
+function partySort(p=[], charID="", rule) {
   // for (const i of p) {
   //    delete i.level; //Always 0
   // }
