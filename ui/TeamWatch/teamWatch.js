@@ -151,53 +151,55 @@ function clearIcon() {
   }
 }
 function checkWatch(e) {
-  if (party) {
-    for1: for (let i = 0; i < party.length; i++) {
-      const p = party[i];
-      if (p.id === extractLog(e.line, "CasterObjectID")) {
-        for (let j = 0; j < watchingID[i].length; j++) {
-          let compareId = parseInt(extractLog(e.line, "AbilityID"), 16);
-          for (const i in compareSameGroup) {
-            if (Object.hasOwnProperty.call(compareSameGroup, i)) {
-              const element = compareSameGroup[i];
-              compareId === element[0] ? (compareId = element[1]) : "";
+  try {
+    if (party) {
+      for1: for (let i = 0; i < party.length; i++) {
+        const p = party[i];
+        if (p.id === extractLog(e.line, "CasterObjectID")) {
+          for (let j = 0; j < watchingID[i].length; j++) {
+            let compareId = parseInt(extractLog(e.line, "AbilityID"), 16);
+            for (const i in compareSameGroup) {
+              if (Object.hasOwnProperty.call(compareSameGroup, i)) {
+                const element = compareSameGroup[i];
+                compareId === element[0] ? (compareId = element[1]) : "";
+              }
             }
-          }
-          if (parseInt(watchingID[i][j]) === compareId) {
-            let td = $(`tr:eq(${i})`).children()[j];
-            if ($(td).text() > 0) {
+            if (parseInt(watchingID[i][j]) === compareId) {
+              let td = $(`tr:eq(${i})`).children()[j];
+              if ($(td).text() > 0) {
+                break for1;
+              }
+              let cd = watchingRecast[i][j] / 10;
+              $(td).css("opacity", "1");
+              $(td).empty();
+              $(td).append($("<article></article>").text(cd--));
+              $($(td).children()[0]).css("background-color", "rgba(27,27,27,0.5)");
+              $(td).css(
+                "background-image",
+                `url(https://cafemaker.wakingsands.com/i/${
+                  action[party[i].job][parseInt(extractLog(e.line, "AbilityID"), 16)][1]
+                })`
+              );
+              let timer = setInterval(() => {
+                $($(td).children()[0]).text(cd--);
+                if (cd === -1) {
+                  clearInterval(timer);
+                  $($(td).children()[0]).css("background-color", "");
+                  $(td).text("");
+                  $(td).css(
+                    "background-image",
+                    `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
+                  );
+                }
+              }, 1000);
+              timerList.push(timer);
               break for1;
             }
-            let cd = watchingRecast[i][j] / 10;
-            $(td).css("opacity", "1");
-            $(td).empty();
-            $(td).append($("<article></article>").text(cd--));
-            $($(td).children()[0]).css("background-color", "rgba(27,27,27,0.5)");
-            $(td).css(
-              "background-image",
-              `url(https://cafemaker.wakingsands.com/i/${
-                action[party[i].job][parseInt(extractLog(e.line, "AbilityID"), 16)][1]
-              })`
-            );
-            let timer = setInterval(() => {
-              $($(td).children()[0]).text(cd--);
-              if (cd === -1) {
-                clearInterval(timer);
-                $($(td).children()[0]).css("background-color", "");
-                $(td).text("");
-                $(td).css(
-                  "background-image",
-                  `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
-                );
-              }
-            }, 1000);
-            timerList.push(timer);
-            break for1;
           }
         }
       }
     }
-  }
+  } catch {}
 }
 window.settingSort = function () {
   window.open("./settingSort.html", "_self");
