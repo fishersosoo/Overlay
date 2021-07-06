@@ -310,6 +310,7 @@ window.makeFakeParty = function () {
 };
 window.clearShow = function () {
   party = [];
+  $("#userRefresh p").css("opacity", "0.25");
   clearIcon();
 };
 window.userRefresh = function () {
