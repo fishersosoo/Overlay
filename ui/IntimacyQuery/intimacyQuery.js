@@ -187,6 +187,11 @@ function query(url) {
             $("#boss75").text("");
             $("#boss76").text("");
             $("#boss77").text("");
+            $("#count73").text("");
+            $("#count74").text("");
+            $("#count75").text("");
+            $("#count76").text("");
+            $("#count77").text("");
             $("#boss-table").fadeIn(200);
             t = setTimeout(function() {
                 $("#boss-table").fadeOut(2500);
