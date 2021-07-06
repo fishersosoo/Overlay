@@ -57,6 +57,11 @@ function getQueryString(name) {
 //     }, 1000 * 60 * 60)
 
 function query(url) {
+    let avg73=0,
+    avg74=0,
+    avg75=0,
+    avg76=0,
+    avg77=0;
     let count73= 0,
         count74 = 0,
         count75 = 0,
@@ -83,6 +88,12 @@ function query(url) {
             $("#count75").text("");
             $("#count76").text("");
             $("#count77").text("");
+            $("#avg73").text("");
+            $("#avg74").text("");
+            $("#avg75").text("");
+            $("#avg76").text("");
+            $("#avg77").text("");
+            
             for (let i = 0; i < data.length; i++) {
                 const element = data[i];
                 switch (element["encounterID"]) {
@@ -93,6 +104,7 @@ function query(url) {
                                 last73 = element["percentile"];
                             }
                             count73+=1;
+                            avg73+=element["percentile"];
                         }
 
                         break;
@@ -103,6 +115,7 @@ function query(url) {
                                 last74 = element["percentile"];
                             }
                             count74+=1;
+                            avg74+=element["percentile"];
                     }
                         break;
                     case 75:
@@ -110,6 +123,7 @@ function query(url) {
                         if (element["percentile"] > last75 ) {
                             scoring($("#boss75"), i);
                             last75 = element["percentile"];
+                            avg75+=element["percentile"];
                         }
                         count75+=1;
                     }
@@ -120,6 +134,7 @@ function query(url) {
                         if (element["percentile"] > last76) {
                             scoring($("#boss76"), i);
                             last76 = element["percentile"];
+                            avg76+=element["percentile"];
                         }
                         count76+=1;
                     }
@@ -130,6 +145,7 @@ function query(url) {
                         if (element["percentile"] > last77 ) {
                             scoring($("#boss77"), i);
                             last77 = element["percentile"];
+                            avg77+=element["percentile"];
                         }
                         count77+=1;
 
@@ -139,11 +155,21 @@ function query(url) {
                         break;
                 }
             }
+            avg73=avg73/count73;
+            avg74=avg74/count74;
+            avg75=avg75/count75;
+            avg76=avg76/count76;
+            avg77=avg77/count77;
             $("#count73").text(count73+"次");
             $("#count74").text(count74+"次");
             $("#count75").text(count75+"次");
             $("#count76").text(count76+"次");
             $("#count77").text(count77+"次");
+            scoring($("avg73"),avg73);
+            scoring($("avg74"),avg74);
+            scoring($("avg75"),avg75);
+            scoring($("avg76"),avg76);
+            scoring($("avg77"),avg77);
 
             clearTimeout(t);
             $("#boss-table").stop();
@@ -192,6 +218,11 @@ function query(url) {
             $("#count75").text("");
             $("#count76").text("");
             $("#count77").text("");
+            $("#avg73").text("");
+            $("#avg74").text("");
+            $("#avg75").text("");
+            $("#avg76").text("");
+            $("#avg77").text("");
             $("#boss-table").fadeIn(200);
             t = setTimeout(function() {
                 $("#boss-table").fadeOut(2500);
