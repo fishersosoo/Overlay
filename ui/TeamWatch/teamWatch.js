@@ -53,7 +53,7 @@ $("#userRefresh").on("mouseover", function () {
   $("#userRefresh p").css("opacity", "1");
 });
 $("#userRefresh").on("mouseleave", function () {
-  if (party) $("#userRefresh p").css("opacity", `${party.length === 0 ? 0.5 : 0}`);
+  $("#userRefresh p").css("opacity", `${party ? (party.length === 0 ? 0.25 : 0) : 0.25}`);
 });
 addOverlayListener("onPartyWipe", () => clearIcon());
 addOverlayListener("ChangePrimaryPlayer", (e) => {
@@ -132,8 +132,8 @@ addOverlayListener("ChangeZone", (e) => {
 });
 addOverlayListener("PartyChanged", (e) => {
   sortRuleAll = localStorage.getItem("setSortRule")
-  ? JSON.parse(localStorage.getItem("setSortRule"))
-  : [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
+    ? JSON.parse(localStorage.getItem("setSortRule"))
+    : [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
   e.party ? (party = partySort(e.party, charID, sortRuleAll)) : "";
   setTimeout(() => {
     addIcon();
@@ -203,7 +203,7 @@ function checkWatch(e) {
   } catch {}
 }
 window.settingSort = function () {
-  window.open("./settingSort.html","_blank", "width=200,height=600");
+  window.open("./settingSort.html", "_blank", "width=200,height=600");
 };
 window.settingWatch = function () {
   window.open("./settingWatch.html", "_blank", "width=200,height=300");
@@ -301,8 +301,8 @@ window.makeFakeParty = function () {
   // console.log(arr.slice(0));
   // JSON.parse(JSON.stringify(obj);
   sortRuleAll = localStorage.getItem("setSortRule")
-  ? JSON.parse(localStorage.getItem("setSortRule"))
-  : [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
+    ? JSON.parse(localStorage.getItem("setSortRule"))
+    : [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
   party = partySort(party, charID, sortRuleAll);
   minSync = 999;
   maxSync = 999;
