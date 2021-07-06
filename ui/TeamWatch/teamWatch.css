@@ -55,10 +55,11 @@ article {
 #userRefresh {
   height: 100%;
   z-index: 1;
+  background-color: rgba(0, 0, 0, 0.01);
 }
 #userRefresh p {
-  opacity: 0.25;
   margin: 5px 0px;
   border: 1px solid gray;
   background-color: rgba(0, 0, 0, 0.2);
+  display: none;
 }

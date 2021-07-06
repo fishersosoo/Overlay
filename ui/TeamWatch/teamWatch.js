@@ -74,10 +74,10 @@ addOverlayListener("LogLine", (e) => {
   checkLog(e.line, "15", {}) || checkLog(e.line, "16", {}) ? checkWatch(e) : "";
 });
 $("#userRefresh").on("mouseover", function () {
-  $("#userRefresh p").css("opacity", "1");
+  $("#userRefresh p").show();
 });
 $("#userRefresh").on("mouseleave", function () {
-  $("#userRefresh p").css("opacity", `${party.length === 0 ? 0.25 : 0}`);
+  $("#userRefresh p").hide();
 });
 addOverlayListener("onPartyWipe", () => clearIcon());
 addOverlayListener("ChangePrimaryPlayer", (e) => {
@@ -85,7 +85,6 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
 });
 function addIcon() {
   clearIcon();
-  $("#userRefresh p").css("opacity", `${party.length === 0 ? 0.5 : 0}`);
   localStorage.getItem("setWatch") !== null ? (watch = JSON.parse(localStorage.getItem("setWatch"))) : "";
   for (let i = 0; i < party.length; i++) {
     $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
@@ -292,7 +291,6 @@ window.makeFakeParty = function () {
 };
 window.clearShow = function () {
   party = [];
-  $("#userRefresh p").css("opacity", "0.25");
   clearIcon();
 };
 window.userRefresh = function () {
