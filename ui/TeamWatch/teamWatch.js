@@ -297,7 +297,8 @@ window.makeFakeParty = function () {
       inParty: true,
     },
   ];
-  // console.log(party.slice(party));
+  // console.log(arr.slice(0));
+  // JSON.parse(JSON.stringify(obj);
   party = partySort(party, charID, sortRuleAll);
   minSync = 999;
   maxSync = 999;
