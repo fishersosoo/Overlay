@@ -168,7 +168,7 @@ function checkWatch(e) {
           );
           let timer = setInterval(() => {
             $($(td).children()[0]).text(cd--);
-            if (!cd >= 0) {
+            if (!(cd >= 0)) {
               clearInterval(timer);
               $($(td).children()[0]).css("background-color", "");
               $(td).text("");
