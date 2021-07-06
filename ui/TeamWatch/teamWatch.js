@@ -2,7 +2,7 @@
 import { checkLog, extractLog } from "../../resources/logLineProcessing.min.js";
 import { partySort } from "../../resources/partyList.min.js";
 import { action } from "../../resources/action.min.js";
-import { ZoneInfoType } from "../../resources/zoneInfo.js";
+import { ZoneInfoType } from "../../resources/zoneInfo.min.js";
 import { quest } from "../../resources/quest.min.js";
 let charID = "";
 let party = [];
