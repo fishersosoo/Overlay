@@ -1,7 +1,7 @@
-:root {
+/* :root {
   --color: white;
-  --background-color: teal;
-}
+  --background-color: white;
+} */
 
 html {
   padding: 0px;
@@ -14,6 +14,7 @@ html {
   margin: 0px;
   overflow: hidden;
   font-weight: bold;
+  user-select: none;
 }
 a {
   float: right;
@@ -31,32 +32,12 @@ a {
 }
 #sort span {
   border: 1px solid white;
-  font-size: 0.97rem;
   cursor: pointer;
 }
-#sort span:hover {
-  color: var(--color);
-  background-color: var(--background-color);
-}
-
 #sort li {
   height: 21px;
-  user-select: none;
-  height: 21px;
-  font-size: 10px;
 }
 #sort article {
-  width: 4rem;
+  width: 5rem;
   text-align: center;
-}
-#sort article:hover {
-  color: var(--color) !important;
-  background-color: var(--background-color);
-}
-#readme {
-  position: absolute;
-  top: 50%;
-  right: 0px;
-  height: 100%;
-  width: 50%;
 }
