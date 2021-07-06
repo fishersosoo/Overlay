@@ -19,9 +19,9 @@ addOverlayListener("LogLine", (e) => {
     let l = e.line;
     if (checkLog(l, "00", {
             "MessageType": [Comparison.equal, "0038"],
-            "MessageText": [Comparison.matchRegex, "^出警 .+$"]
+            "MessageText": [Comparison.matchRegex, "^好感度查询 .+$"]
         })) {
-        t = extractLog(l, "MessageText").match(/^出警 (?<name>[^\ ]+?)(?<server>晨曦王座|沃仙曦染|宇宙和音|红玉海|萌芽池|神意之地|幻影群岛|拉诺西亚|拂晓之间|龙巢神殿|旅人栈桥|白金幻象|白银乡|神拳痕|潮风亭|琥珀原|柔风海湾|海猫茶屋|延夏|静语庄园|摩杜纳|紫水栈桥|梦羽宝境)?$/);
+        t = extractLog(l, "MessageText").match(/^好感度查询 (?<name>[^\ ]+?)(?<server>晨曦王座|沃仙曦染|宇宙和音|红玉海|萌芽池|神意之地|幻影群岛|拉诺西亚|拂晓之间|龙巢神殿|旅人栈桥|白金幻象|白银乡|神拳痕|潮风亭|琥珀原|柔风海湾|海猫茶屋|延夏|静语庄园|摩杜纳|紫水栈桥|梦羽宝境)?$/);
         match();
     } else if (checkLog(l, "00", {
             "MessageType": [Comparison.matchRegex, "^2239|1039$"],
