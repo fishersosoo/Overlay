@@ -19,7 +19,7 @@ addOverlayListener("LogLine", (e) => {
     let l = e.line;
     if (checkLog(l, "00", {
             "MessageType": [Comparison.equal, "0038"],
-            "MessageText": [Comparison.matchRegex, "^好感度查询 .+$"]
+            "MessageText": [Comparison.matchRegex, "^出警 .+$"]
         })) {
         t = extractLog(l, "MessageText").match(/^好感度查询 (?<name>[^\ ]+?)(?<server>晨曦王座|沃仙曦染|宇宙和音|红玉海|萌芽池|神意之地|幻影群岛|拉诺西亚|拂晓之间|龙巢神殿|旅人栈桥|白金幻象|白银乡|神拳痕|潮风亭|琥珀原|柔风海湾|海猫茶屋|延夏|静语庄园|摩杜纳|紫水栈桥|梦羽宝境)?$/);
         match();
@@ -40,7 +40,7 @@ addOverlayListener("LogLine", (e) => {
     function match() {
         characterName = t.groups["name"];
         serverName = !t.groups["server"] ? defaultServerName : t.groups["server"];
-        query(`https://www.fflogs.com/v1/rankings/character/${encodeURIComponent(characterName)}/${encodeURIComponent(serverName)}/${encodeURIComponent(serverRegion)}?zone=38&metric=${encodeURIComponent(metric)}&timeframe=${encodeURIComponent(timeframe)}&api_key=${encodeURIComponent(apiKey)}`);
+        query(`https://www.fflogs.com/v1/parses/character/${encodeURIComponent(characterName)}/${encodeURIComponent(serverName)}/${encodeURIComponent(serverRegion)}?zone=38&metric=${encodeURIComponent(metric)}&timeframe=${encodeURIComponent(timeframe)}&api_key=${encodeURIComponent(apiKey)}`);
     }
 });
 startOverlayEvents();
@@ -57,6 +57,11 @@ function getQueryString(name) {
 //     }, 1000 * 60 * 60)
 
 function query(url) {
+    let count73= 0,
+        count74 = 0,
+        count75 = 0,
+        count76 = 0,
+        count77 = 0;
     let last73 = 0,
         last74 = 0,
         last75 = 0,
@@ -73,43 +78,73 @@ function query(url) {
             $("#boss75").text("");
             $("#boss76").text("");
             $("#boss77").text("");
+            $("#count73").text("");
+            $("#count74").text("");
+            $("#count75").text("");
+            $("#count76").text("");
+            $("#count77").text("");
             for (let i = 0; i < data.length; i++) {
                 const element = data[i];
                 switch (element["encounterID"]) {
                     case 73:
-                        if (element["percentile"] > last73 && element["difficulty"] == 101) {
-                            scoring($("#boss73"), i);
-                            last73 = element["percentile"];
+                        if ( element["difficulty"] == 101){
+                            if (element["percentile"] > last73 ) {
+                                scoring($("#boss73"), i);
+                                last73 = element["percentile"];
+                            }
+                            count73+=1;
                         }
+
                         break;
                     case 74:
-                        if (element["percentile"] > last74 && element["difficulty"] == 101) {
-                            scoring($("#boss74"), i);
-                            last74 = element["percentile"];
-                        }
+                        if( element["difficulty"] == 101){
+                            if (element["percentile"] > last74) {
+                                scoring($("#boss74"), i);
+                                last74 = element["percentile"];
+                            }
+                            count74+=1;
+                    }
                         break;
                     case 75:
-                        if (element["percentile"] > last75 && element["difficulty"] == 101) {
+                        if( element["difficulty"] == 101){
+                        if (element["percentile"] > last75 ) {
                             scoring($("#boss75"), i);
                             last75 = element["percentile"];
                         }
+                        count75+=1;
+                    }
                         break;
                     case 76:
-                        if (element["percentile"] > last76 && element["difficulty"] == 101) {
+                        if( element["difficulty"] == 101){
+
+                        if (element["percentile"] > last76) {
                             scoring($("#boss76"), i);
                             last76 = element["percentile"];
                         }
+                        count76+=1;
+                    }
                         break;
                     case 77:
-                        if (element["percentile"] > last77 && element["difficulty"] == 101) {
+                        if( element["difficulty"] == 101){
+
+                        if (element["percentile"] > last77 ) {
                             scoring($("#boss77"), i);
                             last77 = element["percentile"];
                         }
+                        count77+=1;
+
+                    }
                         break;
                     default:
                         break;
                 }
             }
+            $("#count73").text(count73+"次");
+            $("#count74").text(count74+"次");
+            $("#count75").text(count75+"次");
+            $("#count76").text(count76+"次");
+            $("#count77").text(count77+"次");
+
             clearTimeout(t);
             $("#boss-table").stop();
             $("#boss-table").fadeOut(0);
