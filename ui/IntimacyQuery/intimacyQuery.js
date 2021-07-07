@@ -165,17 +165,17 @@ function query(url) {
             $("#count75").text(count75+"次");
             $("#count76").text(count76+"次");
             $("#count77").text(count77+"次");
-            // coloring($("avg73"),avg73);
-            // coloring($("avg74"),avg74);
-            // coloring($("avg75"),avg75);
-            // coloring($("avg76"),avg76);
-            // coloring($("avg77"),avg77);
+            coloring($("avg73"),avg73);
+            coloring($("avg74"),avg74);
+            coloring($("avg75"),avg75);
+            coloring($("avg76"),avg76);
+            coloring($("avg77"),avg77);
 
-            $("#avg73").text(count73+"次");
-            $("#avg74").text("avg74");
-            $("#avg75").text("avg75");
-            $("#avg76").text("avg76");
-            $("#avg77").text("avg77");
+            // $("#avg73").text("avg73");
+            // $("#avg74").text("avg74");
+            // $("#avg75").text("avg75");
+            // $("#avg76").text("avg76");
+            // $("#avg77").text("avg77");
 
             clearTimeout(t);
             $("#boss-table").stop();
