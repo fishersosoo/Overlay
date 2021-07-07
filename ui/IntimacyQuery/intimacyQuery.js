@@ -171,7 +171,7 @@ function query(url) {
             // coloring($("avg76"),avg76);
             // coloring($("avg77"),avg77);
 
-            $("#avg73").text("avg73");
+            $("#avg73").text(count73+"次");
             $("#avg74").text("avg74");
             $("#avg75").text("avg75");
             $("#avg76").text("avg76");
