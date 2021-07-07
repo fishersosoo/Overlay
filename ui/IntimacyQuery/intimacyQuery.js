@@ -165,11 +165,11 @@ function query(url) {
             $("#count75").text(count75+"次");
             $("#count76").text(count76+"次");
             $("#count77").text(count77+"次");
-            scoring($("avg73"),avg73);
-            scoring($("avg74"),avg74);
-            scoring($("avg75"),avg75);
-            scoring($("avg76"),avg76);
-            scoring($("avg77"),avg77);
+            coloring($("avg73"),avg73);
+            coloring($("avg74"),avg74);
+            coloring($("avg75"),avg75);
+            coloring($("avg76"),avg76);
+            coloring($("avg77"),avg77);
 
             clearTimeout(t);
             $("#boss-table").stop();
@@ -178,6 +178,27 @@ function query(url) {
             t = setTimeout(function() {
                 $("#boss-table").fadeOut(2500);
             }, 5000);
+            function coloring(e,rank){
+                try {
+                    e.html(Math.round(rank));
+                    let m = e.text();
+                    if (m == 100) {
+                        e.css("color", "#e5cc80");
+                    } else if (m == 99) {
+                        e.css("color", "#e268a8");
+                    } else if (m >= 95) {
+                        e.css("color", "#ff8000");
+                    } else if (m >= 75) {
+                        e.css("color", "#a335ee");
+                    } else if (m >= 50) {
+                        e.css("color", "#0070ff");
+                    } else if (m >= 25) {
+                        e.css("color", "#1eff00");
+                    } else if (m >= 0) {
+                        e.css("color", "#666666");
+                    }
+                } catch {}
+            }
 
             function scoring(e, n) {
                 try {
