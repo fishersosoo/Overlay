@@ -155,11 +155,11 @@ function query(url) {
                         break;
                 }
             }
-            avg73=avg73/count73;
-            avg74=avg74/count74;
-            avg75=avg75/count75;
-            avg76=avg76/count76;
-            avg77=avg77/count77;
+            // avg73=avg73/count73;
+            // avg74=avg74/count74;
+            // avg75=avg75/count75;
+            // avg76=avg76/count76;
+            // avg77=avg77/count77;
             $("#count73").text(count73+"次");
             $("#count74").text(count74+"次");
             $("#count75").text(count75+"次");
@@ -186,7 +186,7 @@ function query(url) {
             }, 5000);
             function coloring(e,rank){
                 try {
-                    e.html(Math.round(rank));
+                    e.text(Math.round(rank));
                     let m = e.text();
                     if (m == 100) {
                         e.css("color", "#e5cc80");
