@@ -104,7 +104,7 @@ function query(url) {
                                 last73 = element["percentile"];
                             }
                             count73+=1;
-                            avg73+=parseFloat(element["percentile"]);
+                            avg73+=(element["percentile"]);
                         }
 
                         break;
@@ -115,7 +115,7 @@ function query(url) {
                                 last74 = element["percentile"];
                             }
                             count74+=1;
-                            avg74+=parseFloat(element["percentile"]);
+                            avg74+=(element["percentile"]);
                     }
                         break;
                     case 75:
@@ -123,7 +123,7 @@ function query(url) {
                         if (element["percentile"] > last75 ) {
                             scoring($("#boss75"), i);
                             last75 = element["percentile"];
-                            avg75+=parseFloat(element["percentile"]);
+                            avg75+=(element["percentile"]);
                         }
                         count75+=1;
                     }
@@ -134,7 +134,7 @@ function query(url) {
                         if (element["percentile"] > last76) {
                             scoring($("#boss76"), i);
                             last76 = element["percentile"];
-                            avg76+=parseFloat(element["percentile"]);
+                            avg76+=(element["percentile"]);
                         }
                         count76+=1;
                     }
@@ -145,7 +145,7 @@ function query(url) {
                         if (element["percentile"] > last77 ) {
                             scoring($("#boss77"), i);
                             last77 = element["percentile"];
-                            avg77+=parseFloat(element["percentile"]);
+                            avg77+=(element["percentile"]);
                         }
                         count77+=1;
 
@@ -165,11 +165,17 @@ function query(url) {
             $("#count75").text(count75+"次");
             $("#count76").text(count76+"次");
             $("#count77").text(count77+"次");
-            coloring($("avg73"),avg73);
-            coloring($("avg74"),avg74);
-            coloring($("avg75"),avg75);
-            coloring($("avg76"),avg76);
-            coloring($("avg77"),avg77);
+            // coloring($("avg73"),avg73);
+            // coloring($("avg74"),avg74);
+            // coloring($("avg75"),avg75);
+            // coloring($("avg76"),avg76);
+            // coloring($("avg77"),avg77);
+
+            $("#avg73").text(avg73);
+            $("#avg74").text(avg74);
+            $("#avg75").text(avg75);
+            $("#avg76").text(avg76);
+            $("#avg77").text(avg77);
 
             clearTimeout(t);
             $("#boss-table").stop();
