@@ -123,8 +123,8 @@ function query(url) {
                         if (element["percentile"] > last75 ) {
                             scoring($("#boss75"), i);
                             last75 = element["percentile"];
-                            avg75+=(element["percentile"]);
                         }
+                        avg75+=(element["percentile"]);
                         count75+=1;
                     }
                         break;
@@ -134,8 +134,8 @@ function query(url) {
                         if (element["percentile"] > last76) {
                             scoring($("#boss76"), i);
                             last76 = element["percentile"];
-                            avg76+=(element["percentile"]);
                         }
+                        avg76+=(element["percentile"]);
                         count76+=1;
                     }
                         break;
@@ -145,8 +145,8 @@ function query(url) {
                         if (element["percentile"] > last77 ) {
                             scoring($("#boss77"), i);
                             last77 = element["percentile"];
-                            avg77+=(element["percentile"]);
                         }
+                        avg77+=(element["percentile"]);
                         count77+=1;
 
                     }
@@ -155,11 +155,11 @@ function query(url) {
                         break;
                 }
             }
-            // avg73=avg73/count73;
-            // avg74=avg74/count74;
-            // avg75=avg75/count75;
-            // avg76=avg76/count76;
-            // avg77=avg77/count77;
+            avg73=avg73/count73;
+            avg74=avg74/count74;
+            avg75=avg75/count75;
+            avg76=avg76/count76;
+            avg77=avg77/count77;
             $("#count73").text(count73+"次");
             $("#count74").text(count74+"次");
             $("#count75").text(count75+"次");
