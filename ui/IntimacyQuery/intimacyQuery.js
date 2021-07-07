@@ -171,11 +171,11 @@ function query(url) {
             // coloring($("avg76"),avg76);
             // coloring($("avg77"),avg77);
 
-            $("#avg73").text(avg73);
-            $("#avg74").text(avg74);
-            $("#avg75").text(avg75);
-            $("#avg76").text(avg76);
-            $("#avg77").text(avg77);
+            $("#avg73").text("avg73");
+            $("#avg74").text("avg74");
+            $("#avg75").text("avg75");
+            $("#avg76").text("avg76");
+            $("#avg77").text("avg77");
 
             clearTimeout(t);
             $("#boss-table").stop();
