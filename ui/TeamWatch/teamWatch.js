@@ -79,7 +79,7 @@ $("#userRefresh").on("mouseover", function () {
 $("#userRefresh").on("mouseleave", function () {
   $("#userRefresh p").hide();
 });
-addOverlayListener("onPartyWipe", () => clearIcon());
+addOverlayListener("onPartyWipe", () => addIcon());
 addOverlayListener("ChangePrimaryPlayer", (e) => {
   charID = e.charID;
 });
@@ -294,5 +294,6 @@ window.clearShow = function () {
   clearIcon();
 };
 window.userRefresh = function () {
-  location.reload();
+  addIcon();
+  // location.reload();
 };
