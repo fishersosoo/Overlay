@@ -173,7 +173,18 @@ let type19_NetworkDeath = {
 };
 let type1A_NetworkBuff = {
   Type: 0,
-  Time: 1, //未完
+  Time: 1,
+  AbilityID: 2,
+  AbilityName: 3,
+  TimeRemaining: 4,
+  CasterObjectID: 5,
+  CasterName: 6,
+  TargetObjectID: 7,
+  TargetName: 8,
+  unknown9: 9,//00、03、1E、28FE等
+  unknown10: 10,//一串数字 未知 但同一个人是相同的
+  unknown11: 11,//同上
+  unknown12: 12,//似乎一直为空
 };
 let type1B_NetworkTargetIcon = {
   Type: 0,
@@ -202,7 +213,7 @@ let type20_NetworkWorld = {
 let type21_Network6D = {
   Type: 0,
   Time: 1,
-  ZoneId: 2,
+  ZoneID: 2,
   Command: 3,
   Data1: 4, //??
   Data2: 5, //??
@@ -322,7 +333,7 @@ function checkLog(log, type, conditions) {
   //检查log是否为type日志行且满足conditions内部所有条件
 
   try {
-    if (parseInt(log[0]).toString(16).padStart("2", "0") !== type) {
+    if (parseInt(log[0]).toString(16).padStart("2", "0").toUpperCase() !== type.toUpperCase()) {
       //日志行类型正确
       return false; //不是type类型
     } else if (Object.keys(conditions).length === 0) {
@@ -369,7 +380,7 @@ function checkLog(log, type, conditions) {
 
 function extractLog(log, name) {
   //返回log日志行中的name数据
-  return log[logData[parseInt(log[0]).toString(16).padStart("2", "0")][name]];
+  return log[logData[parseInt(log[0]).toString(16).padStart("2", "0").toUpperCase()][name]];
 }
 
 function jobIDConvert(jobID) {
@@ -493,13 +504,13 @@ function jobIDConvert(jobID) {
         middle: "学者",
         full: "学者",
       };
-      case "29":
-        return {
-          job: "Rog",
-          short: "双",
-          middle: "双剑",
-          full: "双剑师",
-        };
+    case "29":
+      return {
+        job: "Rog",
+        short: "双",
+        middle: "双剑",
+        full: "双剑师",
+      };
     case "30":
       return {
         job: "Nin",
