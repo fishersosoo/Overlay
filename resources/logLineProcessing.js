@@ -181,10 +181,10 @@ let type1A_NetworkBuff = {
   CasterName: 6,
   TargetObjectID: 7,
   TargetName: 8,
-  unknown9: 9,//00、03、1E、28FE等
-  unknown10: 10,//一串数字 未知 但同一个人是相同的
-  unknown11: 11,//同上
-  unknown12: 12,//似乎一直为空
+  unknown9: 9, //00、03、1E、28FE等
+  unknown10: 10, //一串数字 未知 但同一个人是相同的
+  unknown11: 11, //同上
+  unknown12: 12, //似乎一直为空
 };
 let type1B_NetworkTargetIcon = {
   Type: 0,
