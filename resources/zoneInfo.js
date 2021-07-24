@@ -1,5 +1,5 @@
 "use strict";
-const ZoneInfoType = {
+const zoneInfoType = {
   128: {
     exVersion: 0,
     name: {
@@ -7405,4 +7405,4 @@ const ZoneInfoType = {
   },
 };
 
-export { ZoneInfoType };
+export { zoneInfoType };
