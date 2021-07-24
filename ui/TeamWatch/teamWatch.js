@@ -17,8 +17,9 @@ for (let i = 0; i < 8; i++) {
 let sortRuleAll = [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
 let minSync = 1;
 let maxSync = 99;
-let watch = defaultWatch;
+let watch = {};
 let timerList = [];
+let bgOpacity = 0;
 $("table").css("border-spacing", "3px 5px");
 $("td").css("width", "30px");
 $("td").css("height", "30px");
@@ -48,9 +49,10 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
 });
 function addIcon() {
   clearIcon();
-  localStorage.getItem("setWatch") !== null ? (watch = JSON.parse(localStorage.getItem("setWatch"))) : "";
+  watch = JSON.parse(localStorage.getItem("setWatch")) || defaultWatch;
+  bgOpacity = localStorage.getItem("setBgOpacity") || 0.5;
   for (let i = 0; i < party.length; i++) {
-    $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
+    $(`tr:eq(${i})`).css("background-color", `rgba(0,0,0,${bgOpacity}`);
     for (let j = 0; j < 10; j++) {
       try {
         watchingID[i][j] = watch[party[i].job][9 - j];
@@ -262,3 +264,7 @@ window.clearShow = function () {
 //   addIcon();
 //  // location.reload();
 // };
+
+window.settingStyle = function () {
+  window.open("./settingStyle.html", "_blank","width=280,height=300");
+};
