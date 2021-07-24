@@ -1,43 +1,23 @@
 "use strict";
 
 import { action } from "../../resources/action.min.js";
+import { defaultWatch } from "./defaultWatch.min.js";
+import { compareSameGroup } from "./compareSameGroup.min.js";
 let watch;
-let insertGCD = false;
-let defaultWatch = {
-  1: ["", "", "", "", "", "", "7535", "7548", "7533", ""],
-  2: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
-  3: ["", "", "", "", "", "", "7535", "7548", "7533", ""],
-  4: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
-  5: ["", "", "", "", "", "", "", "", "", ""],
-  6: ["", "", "", "", "", "", "", "", "", ""],
-  7: ["", "", "", "", "", "", "7560", "", "157", ""],
-  19: ["20", "7383", "7531", "17", "3540", "7385", "7535", "7548", "7533", "30"],
-  20: ["7395", "", "", "", "", "65", "7549", "7542", "7541", "7396"],
-  21: ["7389", "16464", "7531", "44", "3552", "7388", "7535", "7548", "7533", "43"],
-  22: ["85", "", "", "", "", "", "7549", "7542", "7541", "3557"],
-  23: ["101", "", "", "", "", "", "7405", "", "7541", "118"],
-  24: ["7432", "3570", "3571", "7433", "3569", "", "16536", "7562", "7561", "140"],
-  25: ["3573", "", "", "", "", "", "7560", "", "157", ""],
-  26: ["", "", "", "", "", "", "7560", "", "157", ""],
-  27: ["3581", "7427", "", "", "", "", "7560", "", "7561", "7423"],
-  28: ["166", "188", "3583", "16542", "16537", "7434", "16545", "7562", "7561", "7436"],
-  29: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
-  30: ["2257", "", "", "", "", "", "7549", "7542", "7541", "2258"],
-  31: ["2878", "", "", "", "", "", "16889", "", "7541", ""],
-  32: ["7390", "7393", "7531", "3636", "3634", "16471", "7535", "7548", "7533", "3638"],
-  33: ["16556", "7439", "16557", "16553", "3613", "", "16559", "7562", "7561", "16552"],
-  34: ["16486", "7499", "", "", "", "", "7549", "7542", "7541", ""],
-  35: ["7521", "", "", "", "", "", "7560", "", "7561", "7520"],
-  36: ["11415", "11411", "11421", "23280", "23273", "18320", "7560", "18305", "7561", "18317"],
-  37: ["16138", "16161", "7531", "16148", "16151", "16160", "7535", "7548", "7533", "16152"],
-  38: ["16013", "15998", "", "", "", "16015", "16012", "", "7541", ""],
-};
+let shortGCD = false;
 if (localStorage.getItem("setWatch") == null) {
-  watch=JSON.parse(JSON.stringify(defaultWatch));
+  watch = JSON.parse(JSON.stringify(defaultWatch));
 } else {
   watch = JSON.parse(localStorage.getItem("setWatch"));
 }
 let jobList = {
+  // 1: "剑术师",
+  // 2: "格斗家",
+  // 3: "斧术师",
+  // 4: "枪术士",
+  // 5: "弓箭手",
+  // 6: "幻术师",
+  // 7: "咒术师",
   19: "骑士",
   20: "武僧",
   21: "战士",
@@ -45,10 +25,10 @@ let jobList = {
   23: "吟游诗人",
   24: "白魔法师",
   25: "黑魔法师",
-
+  // 26: "秘术师",
   27: "召唤师",
   28: "学者",
-
+  // 29: "双剑师",
   30: "忍者",
   31: "机工士",
   32: "暗黑骑士",
@@ -65,7 +45,7 @@ window.onload = function () {
   insertSelect();
 };
 window.checkboxOnclick = function (checkbox) {
-  insertGCD = $(checkbox).prop("checked");
+  shortGCD = $(checkbox).prop("checked");
   $("select.skill").children().remove();
   insertSelect();
 };
@@ -86,9 +66,14 @@ $("#job").on("change", function () {
 function insertSelect() {
   for (let i = 0; i < 10; i++) {
     $("select.skill").eq(i).append(`<option value=""></option>`);
-    for (const key in action[job]) {
+    append: for (const key in action[job]) {
       if (Object.hasOwnProperty.call(action[job], key)) {
-        action[job][key][2] === 0 || (action[job][key][2] === 1 && (insertGCD || action[job][key][5] >= 50))
+        for (const i of compareSameGroup) {
+          if (i[0].toString() === key) {
+            continue append;
+          }
+        }
+        shortGCD || action[job][key][5] >= 100
           ? $("select.skill").eq(i).append(`<option value="${key}">${action[job][key][0]}</option>`)
           : "";
       }
@@ -105,7 +90,8 @@ window.save = function () {
   watch[job] = tempWatch;
   localStorage.setItem("setWatch", JSON.stringify(watch));
 };
-window.jobDefault = function(){
-  watch[job] =defaultWatch[job];
+window.jobDefault = function () {
+  watch[job] = defaultWatch[job];
+  $("select.skill").children().remove();
   insertSelect();
-}
+};
