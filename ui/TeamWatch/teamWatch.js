@@ -2,8 +2,10 @@
 import { checkLog, extractLog } from "../../resources/logLineProcessing.min.js";
 import { partySort } from "../../resources/partyList.min.js";
 import { action } from "../../resources/action.min.js";
-import { ZoneInfoType } from "../../resources/zoneInfo.min.js";
+import { zoneInfoType } from "../../resources/zoneInfo.min.js";
 import { quest } from "../../resources/quest.min.js";
+import { compareSameGroup } from "./compareSameGroup.min.js";
+import { defaultWatch } from "./defaultWatch.min.js";
 let charID = "";
 let party = [];
 let watchingID = Array(8);
@@ -15,53 +17,8 @@ for (let i = 0; i < 8; i++) {
 let sortRuleAll = [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
 let minSync = 1;
 let maxSync = 99;
-let watch = {
-  1: ["", "", "", "", "", "", "7535", "7548", "7533", ""],
-  2: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
-  3: ["", "", "", "", "", "", "7535", "7548", "7533", ""],
-  4: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
-  5: ["", "", "", "", "", "", "", "", "", ""],
-  6: ["", "", "", "", "", "", "", "", "", ""],
-  7: ["", "", "", "", "", "", "7560", "", "157", ""],
-  19: ["20", "7383", "7531", "17", "3540", "7385", "7535", "7548", "7533", "30"],
-  20: ["7395", "", "", "", "", "65", "7549", "7542", "7541", "7396"],
-  21: ["7389", "16464", "7531", "44", "3552", "7388", "7535", "7548", "7533", "43"],
-  22: ["85", "", "", "", "", "", "7549", "7542", "7541", "3557"],
-  23: ["101", "", "", "", "", "", "7405", "", "7541", "118"],
-  24: ["7432", "3570", "3571", "7433", "3569", "", "16536", "7562", "7561", "140"],
-  25: ["3573", "", "", "", "", "", "7560", "", "157", ""],
-  26: ["", "", "", "", "", "", "7560", "", "157", ""],
-  27: ["3581", "7427", "", "", "", "", "7560", "", "7561", "7423"],
-  28: ["166", "188", "3583", "16542", "16537", "7434", "16545", "7562", "7561", "7436"],
-  29: ["", "", "", "", "", "", "7549", "7542", "7541", ""],
-  30: ["2257", "", "", "", "", "", "7549", "7542", "7541", "2258"],
-  31: ["2878", "", "", "", "", "", "16889", "", "7541", ""],
-  32: ["7390", "7393", "7531", "3636", "3634", "16471", "7535", "7548", "7533", "3638"],
-  33: ["16556", "7439", "16557", "16553", "3613", "", "16559", "7562", "7561", "16552"],
-  34: ["16486", "7499", "", "", "", "", "7549", "7542", "7541", ""],
-  35: ["7521", "", "", "", "", "", "7560", "", "7561", "7520"],
-  36: ["11415", "11411", "11421", "23280", "23273", "18320", "7560", "18305", "7561", "18317"],
-  37: ["16138", "16161", "7531", "16148", "16151", "16160", "7535", "7548", "7533", "16152"],
-  38: ["16013", "15998", "", "", "", "16015", "16012", "", "7541", ""],
-};
+let watch = defaultWatch;
 let timerList = [];
-let compareSameGroup = [
-  [16484, 16486], //回返彼岸花→回返纷乱雪月花
-  [16485, 16486], //回返天下五剑→回返纷乱雪月花
-  [16191, 16192], //单色标准舞步→双色标准舞步
-  [15998, 0], //(开始)技巧舞步→0
-  [16193, 15998], //单色技巧舞步结束→技巧舞步
-  [16194, 15998], //双色技巧舞步结束→技巧舞步
-  [16195, 15998], //三色技巧舞步结束→技巧舞步
-  [16196, 15998], //四色技巧舞步结束→技巧舞步
-  [3551, 16464], //直觉→勇猛
-  [16510, 16508], //能量抽取→能量吸收
-  [16513, 3581], //不死鸟附体→龙神附体
-  [7496, 16481], //必杀剑·红莲→必杀剑·闪影
-  [16494, 3562], //影噬箭→侧风诱导箭
-  [16499, 16498], //毒菌冲击→钻头
-  [16527, 7515], //交剑→移转
-];
 $("table").css("border-spacing", "3px 5px");
 $("td").css("width", "30px");
 $("td").css("height", "30px");
@@ -69,22 +26,22 @@ document.addEventListener("onOverlayStateUpdate", (e) => {
   if (e.detail.isLocked) {
     $("#readMe").hide();
     $("body").css("background-color", "rgba(0,0,150,0.0)");
-    $("#userRefresh").show();
+    // $("#userRefresh").show();
   } else {
     $("#readMe").show();
     $("body").css("background-color", "rgba(0,0,150,0.2)");
-    $("#userRefresh").hide();
+    // $("#userRefresh").hide();
   }
 });
 addOverlayListener("LogLine", (e) => {
   checkLog(e.line, "15", {}) || checkLog(e.line, "16", {}) ? checkWatch(e) : "";
 });
-$("#userRefresh").on("mouseover", function () {
-  $("#userRefresh p").show();
-});
-$("#userRefresh").on("mouseleave", function () {
-  $("#userRefresh p").hide();
-});
+// $("#userRefresh").on("mouseover", function () {
+//   $("#userRefresh p").show();
+// });
+// $("#userRefresh").on("mouseleave", function () {
+//   $("#userRefresh p").hide();
+// });
 addOverlayListener("onPartyWipe", () => addIcon());
 addOverlayListener("ChangePrimaryPlayer", (e) => {
   charID = e.charID;
@@ -95,31 +52,33 @@ function addIcon() {
   for (let i = 0; i < party.length; i++) {
     $(`tr:eq(${i})`).css("background-color", "rgba(0,0,0,0.5)");
     for (let j = 0; j < 10; j++) {
-      watchingID[i][j] = watch[party[i].job][9 - j];
-      if (watchingID[i][j] !== "") {
-        watchingRecast[i][j] = action[party[i].job][watchingID[i][j]][5];
-        let td = $(`tr:eq(${i})`).children()[j];
-        $(td).css(
-          "background-image",
-          `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
-        );
-        if (maxSync !== 99) {
-          let skillLevel = action[party[i].job][watch[party[i].job][9 - j]][3];
-          if (skillLevel <= minSync) {
-            $(td).css("opacity", "1");
-          } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
-            $(td).append($("<article></article>").text("?"));
-            $(td).css("opacity", "0.8");
+      try {
+        watchingID[i][j] = watch[party[i].job][9 - j];
+        if (watchingID[i][j] !== "") {
+          watchingRecast[i][j] = action[party[i].job][watchingID[i][j]][5];
+          let td = $(`tr:eq(${i})`).children()[j];
+          $(td).css(
+            "background-image",
+            `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
+          );
+          if (maxSync !== 99) {
+            let skillLevel = action[party[i].job][watch[party[i].job][9 - j]][3];
+            if (skillLevel <= minSync) {
+              $(td).css("opacity", "1");
+            } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
+              $(td).append($("<article></article>").text("?"));
+              $(td).css("opacity", "0.8");
+            }
           }
         }
-      }
+      } catch {}
     }
   }
 }
 addOverlayListener("ChangeZone", (e) => {
   try {
-    minSync = quest[ZoneInfoType[e.zoneID].name["cn"]][0];
-    maxSync = quest[ZoneInfoType[e.zoneID].name["cn"]][1];
+    minSync = quest[zoneInfoType[e.zoneID].name["cn"]][0];
+    maxSync = quest[zoneInfoType[e.zoneID].name["cn"]][1];
   } catch {
     minSync = 1;
     maxSync = 99;
@@ -234,7 +193,7 @@ window.makeFakeParty = function () {
       id: "1039CE69",
       name: "Souma",
       worldId: 1177,
-      job: 34,
+      job: 27,
       inParty: true,
     },
     {
@@ -299,7 +258,7 @@ window.clearShow = function () {
   party = [];
   clearIcon();
 };
-window.userRefresh = function () {
-  addIcon();
-  // location.reload();
-};
+// window.userRefresh = function () {
+//   addIcon();
+//  // location.reload();
+// };
