@@ -1,3 +1,7 @@
+<!--
+ * @Author: Souma
+ * @LastEditTime: 2021-07-27 00:28:39
+-->
 <!DOCTYPE html>
 <html lang="zh">
   <head>
@@ -10,24 +14,24 @@
     <link rel="stylesheet" href="logs.min.css" />
   </head>
   <body>
-    <div id="readMe" >
+    <div id="readMe">
       <p>(🔒锁定悬浮窗以隐藏)</p>
-      <p><label for="api">API Key</label><input type="text" name="api" id="api" value="267dc1f3812db7d8b6bff98904ae8889"></p>
-      <p><label for="server">当前区服</label><input type="text" name="server" id="server" value="海猫茶屋"></p>
-      <p><label for="time">显示时间</label><input type="text" name="time" id="time" value="5"></p>
+      <p><label for="api">API Key</label><input type="text" name="api" id="api" value="" /></p>
+      <p><label for="region">区域</label><input type="text" name="region" id="region" value="" /></p>
+      <p><label for="server">服务器</label><input type="text" name="server" id="server" value="" /></p>
+      <p><label for="zone">副本</label><input type="text" name="zone" id="zone" value="" /></p>
+      <p><label for="time">显示时间</label><input type="text" name="time" id="time" value="" /></p>
+      <input type="button" id="save" value="Save" />
     </div>
-
+    <br />
     <div>
-      <label for="test-id">id<input type="text" name="test-id" id="test-id"></label>
-      <label for="test-server">server<input type="text" name="test-server" id="test-server"></label>
-      <input type="submit" value="Submit">
+      <label for="test-id">id<input type="text" name="test-id" id="test-id" value="Souma" /></label>
+      <label for="test-server">server<input type="text" name="test-server" id="test-server" value="海猫茶屋" /></label>
+      <input type="submit" id="submit" value="Submit" />
     </div>
-    
     <main>
       <table>
-        <tbody>
-
-        </tbody>
+        <tbody></tbody>
       </table>
     </main>
   </body>

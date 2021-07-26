@@ -1,21 +1,21 @@
-function saveItem(namespace,key, value) {
-  let storage = localStorage.getItem(namespace);
+function saveItem(key, value) {
+  let storage = localStorage.getItem("Souma");
   if (!storage) {
     storage = {};
   } else {
     storage = JSON.parse(storage);
   }
   storage[key] = value;
-  localStorage.setItem(namespace, JSON.stringify(storage));
+  localStorage.setItem("Souma", JSON.stringify(storage));
 }
 /**
- * 
- * @param {key} key 
- * @param {默认值} def 
- * @returns 
+ *
+ * @param {key} key
+ * @param {默认值} def
+ * @returns
  */
-function loadItem(namespace,key, def) {
-  let storage = localStorage.getItem(namespace);
+function loadItem(key, def="") {
+  let storage = localStorage.getItem("Souma");
   return storage ? JSON.parse(storage)[key] || def : def;
 }
 export { saveItem, loadItem };
