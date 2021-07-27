@@ -25,9 +25,7 @@ let jobList = [
 
 window.onload = function () {
   if (window.localStorage.getItem("setSortRule") == null) {
-    sortRuleAll = [
-      21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38,
-    ];
+    sortRuleAll = [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
   } else {
     sortRuleAll = JSON.parse(window.localStorage.getItem("setSortRule"));
   }
@@ -40,9 +38,7 @@ $("#save").click(function () {
   saveSort();
 });
 $("#default").click(function () {
-  sortRuleAll = [
-    21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38,
-  ];
+  sortRuleAll = [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
   insertText();
   insertTextCSS();
 });
