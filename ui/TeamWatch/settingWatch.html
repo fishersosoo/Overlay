@@ -1,3 +1,7 @@
+<!--
+ * @Author: Souma
+ * @LastEditTime: 2021-07-28 02:39:01
+-->
 <!DOCTYPE html>
 <html lang="zh">
   <head>
@@ -12,7 +16,7 @@
       <select id="job"></select
       ><br />
       <from>
-        <label for="gcd" style="font-size:small;">CD&#60;10S的技能</label>
+        <label for="gcd" style="font-size: small">CD&#60;10S的技能</label>
         <input type="checkbox" onclick="checkboxOnclick(this)" id="gcd" />
       </from>
       <ul id="ul">
@@ -27,8 +31,13 @@
         <li><select class="skill"></select></li>
         <li><select class="skill"></select></li>
       </ul>
-      <button onclick="save()" style="width: 50px; margin-top: 5px;font-weight: bold;">保存</button>
+      <button onclick="save()" style="width: 50px; margin-top: 5px; font-weight: bold">保存</button>
       <button onclick="jobDefault()" style="width: 40px; margin-top: 5px">默认</button>
+      <br />
+      <button onclick="exp()" style="width: 35px; margin-top: 5px">分享</button>
+      <button onclick="imp()" style="width: 35px; margin-top: 5px">导入</button>
+      <br />
+      <textarea id="area" cols="12" rows="12"></textarea>
     </main>
   </body>
 </html>

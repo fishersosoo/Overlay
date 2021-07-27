@@ -95,3 +95,16 @@ window.jobDefault = function () {
   $("select.skill").children().remove();
   insertSelect();
 };
+window.exp = function () {
+  $("#area").val(window.btoa(JSON.stringify(watch)));
+};
+window.imp = function () {
+  let imp = atob($("#area").val());
+  if (imp) {
+    let c = confirm(`确定要导入此配置吗?\n${imp}`);
+    if (c) {
+      localStorage.setItem("setWatch", imp);
+      location.reload();
+    }
+  }
+};
