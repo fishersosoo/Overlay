@@ -156,7 +156,7 @@ window.settingSort = function () {
   window.open("./settingSort.html", "_blank", "width=200,height=600");
 };
 window.settingWatch = function () {
-  window.open("./settingWatch.html", "_blank", "width=200,height=300");
+  window.open("./settingWatch.html", "_blank", "width=200,height=400");
 };
 
 //#region JobId
