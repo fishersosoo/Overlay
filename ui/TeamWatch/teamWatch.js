@@ -266,5 +266,5 @@ window.clearShow = function () {
 // };
 
 window.settingStyle = function () {
-  window.open("./settingStyle.html", "_blank","width=280,height=300");
+  window.open("./settingStyle.html", "_blank", "width=280,height=300");
 };
