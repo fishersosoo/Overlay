@@ -1,0 +1,4 @@
+版本:	quest,zoneInfo,zones	xivapi/cactbot/fflogs
+技改:	action			xivapi
+服务器:	dataCenter,worldId		xivapi
+
