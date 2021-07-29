@@ -13,30 +13,37 @@
 select {
   width: 6rem;
 }
-#pre {
-  display: inline-block;
-}
 main {
   /* display: inline-block; */
   display: inline-block;
   padding-left: 10px;
   width: 6rem;
-  height: 568px;
+  position: absolute;
+  left: 285px;
+  /* height: 568px; */
 }
-
+#set {
+  position: absolute;
+  /* top: 400px; */
+  bottom: 2px;
+  /* width: 270px; */
+}
 #pre > tr:hover {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.2);
+  filter: brightness(110%);
 }
-table {
+#pre {
+  position: absolute;
+  top: 1rem;
   display: inline-block;
   border-collapse: collapse;
   border: 1px solid black;
   margin: 1px;
   border-spacing: 0px;
+  user-select: none;
 }
 .pre-job {
-  width: 4rem;
+  width: 4rem !important;
   text-shadow: -1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000;
   color: #fff;
   /* font-family: SmartisanHei; */
@@ -50,10 +57,11 @@ table {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-td {
+
+#pre td {
   width: 20px;
   height: 20px;
-  border: 1px dashed gray;
+  border: 1px dashed #ccc;
   background-size: contain;
 }
 button {
@@ -67,18 +75,16 @@ button {
   float: right;
 }
 #area {
-  margin-top: 15px;
-}
-#bg {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 #text {
   float: right;
 }
-.def {
-  position: absolute;
-  bottom: 2%;
-  width: 110px;
+.set {
+  width: 85px;
+}
+#bg {
+  margin-top: 0.5rem;
 }
 #bgOpacity {
   width: 6rem;
@@ -86,23 +92,38 @@ button {
 #sort {
   padding-left: 1rem;
   width: 7rem;
-  height: 568px;
+  /* height: 568px; */
   display: inline-block;
-}
-#updown {
-  display: inline-block;
-  height: 568px;
 }
 #sort > select {
   width: 100%;
   text-align: center;
 }
 .tank {
-  color: blue;
+  color: skyblue;
 }
 .healer {
-  color: green;
+  color: lightgreen;
 }
 .dps {
-  color: red;
+  color: tomato;
+}
+small {
+  position: absolute;
+}
+#ul > li {
+  height: 1.4rem;
+}
+body > main {
+  font-size: 12px;
+}
+.set-save {
+  font-weight: bold;
+}
+.exp {
+  margin-left: 15px;
+}
+.exp,
+.imp {
+  width: 45px;
 }

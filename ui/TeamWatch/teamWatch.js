@@ -155,7 +155,7 @@ function checkWatch(e) {
   }
 }
 window.settingWatch = function () {
-  window.open("./settingWatch.html", "_blank", "width=600,height=611");
+  window.open("./settingWatch.html", "_blank", "width=411,height=467");
 };
 window.makeFakeParty = function () {
   party = [
