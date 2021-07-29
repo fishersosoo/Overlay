@@ -24,9 +24,7 @@ main {
 }
 #set {
   position: absolute;
-  /* top: 400px; */
   bottom: 2px;
-  /* width: 270px; */
 }
 #pre > tr:hover {
   cursor: pointer;
@@ -120,8 +118,15 @@ body > main {
 .set-save {
   font-weight: bold;
 }
+.set-noSave,
+.set-def {
+  width: 4rem;
+}
+.set-rev {
+  width: 2rem;
+}
 .exp {
-  margin-left: 15px;
+  margin-left: 35px;
 }
 .exp,
 .imp {

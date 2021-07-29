@@ -211,3 +211,19 @@ function classColor(e) {
       return "dps";
   }
 }
+$("#set-rev").on("click", () => {
+  let c = confirm("要左右翻转当前设置吗?");
+  if (c) {
+    watch = rev(watch);
+    show(watch);
+  }
+});
+function rev(w) {
+  for (const key in w) {
+    if (Object.hasOwnProperty.call(w, key)) {
+      const e = w[key];
+      e.reverse();
+    }
+  }
+  return w;
+}
