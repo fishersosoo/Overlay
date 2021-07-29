@@ -217,7 +217,7 @@ window.makeFakeParty = function () {
     },
   ];
   sortRule = load("sortRule", defSort);
-  party = partySort(party, charID, sortRule);
+  party = partySort(party, 272223849, sortRule);
   minSync = 999;
   maxSync = 999;
   addIcon();

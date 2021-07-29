@@ -1,6 +1,6 @@
 "use strict";
 
-function partySort(p=[], charID="", rule) {
+function partySort(p = [], charID = "", rule) {
   // for (const i of p) {
   //    delete i.level; //Always 0
   // }
@@ -21,7 +21,7 @@ function partySort(p=[], charID="", rule) {
   ];
   let sortParty = [];
   for (let i = 0; i < rule.length; i++) {
-    const sortJobid = rule[i];
+    const sortJobid = parseInt(rule[i]);
     for (let j = 0; j < p.length; j++) {
       if (p[j].inParty) {
         let orginJobid = p[j].job;
