@@ -1,12 +1,16 @@
 html {
   overflow: hidden;
-  font-weight: bold;
   user-select: none;
+  text-shadow: -1px 0 2px black, 0 1px 2px black, 1px 0 2px black, 0 -1px 2px black;
+  font-family: 微软雅黑, "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 12.5px;
 }
 * {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
+  text-align: center;
 }
 tr {
   display: block;
@@ -14,12 +18,8 @@ tr {
 td {
   background-size: cover;
 }
-/* #userRefresh, */
 #readMe {
   padding: 0px 25px;
-  font-weight: bold;
-  text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
-  font-size: 14px;
   position: fixed;
   z-index: 10;
   width: 100%;
@@ -29,8 +29,8 @@ p {
   margin: 5px 0px;
   border: 1px solid gray;
   background-color: rgba(0, 0, 0, 0.2);
-  text-align: center;
   height: 24px;
+  line-height: 2rem;
 }
 p:first-child {
   color: white;
@@ -47,19 +47,5 @@ article {
   height: 100%;
   width: 100%;
   color: white;
-  font-weight: bold;
-  text-shadow: -1px 0 3px black, 0 1px 3px black, 1px 0 3px black, 0 -1px 3px black;
-  text-align: center;
   line-height: 30px;
 }
-/* #userRefresh {
-  height: 100%;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.01);
-}
-#userRefresh p {
-  margin: 5px 0px;
-  border: 1px solid gray;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: none;
-} */

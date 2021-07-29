@@ -5,7 +5,15 @@ import { action } from "../../resources/action.min.js";
 import { zoneInfoType } from "../../resources/zoneInfo.min.js";
 import { quest } from "../../resources/quest.min.js";
 import { compareSameGroup } from "./compareSameGroup.min.js";
-import { defaultWatch } from "./defaultWatch.min.js";
+import { def, defSort } from "./def.js";
+import { loadItem, saveItem } from "../../resources/localStorage.min.js";
+let namespace = "teamWatch";
+function load(t, a = "") {
+  return loadItem(namespace, t, a);
+}
+function save(t, a) {
+  saveItem(namespace, t, a);
+}
 let charID = "";
 let party = [];
 let watchingID = Array(8);
@@ -14,12 +22,11 @@ for (let i = 0; i < 8; i++) {
   watchingID[i] = ["", "", "", "", "", "", "", "", "", ""];
   watchingRecast[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 }
-let sortRuleAll = [21, 32, 37, 19, 24, 33, 28, 22, 20, 34, 30, 25, 27, 36, 35, 23, 31, 38];
 let minSync = 1;
 let maxSync = 99;
 let watch = {};
 let timerList = [];
-let bgOpacity = 0;
+let bgOpacity;
 $("table").css("border-spacing", "3px 5px");
 $("td").css("width", "30px");
 $("td").css("height", "30px");
@@ -27,44 +34,36 @@ document.addEventListener("onOverlayStateUpdate", (e) => {
   if (e.detail.isLocked) {
     $("#readMe").hide();
     $("body").css("background-color", "rgba(0,0,150,0.0)");
-    // $("#userRefresh").show();
   } else {
     $("#readMe").show();
     $("body").css("background-color", "rgba(0,0,150,0.2)");
-    // $("#userRefresh").hide();
   }
 });
 addOverlayListener("LogLine", (e) => {
   checkLog(e.line, "15", {}) || checkLog(e.line, "16", {}) ? checkWatch(e) : "";
 });
-// $("#userRefresh").on("mouseover", function () {
-//   $("#userRefresh p").show();
-// });
-// $("#userRefresh").on("mouseleave", function () {
-//   $("#userRefresh p").hide();
-// });
 addOverlayListener("onPartyWipe", () => addIcon());
 addOverlayListener("ChangePrimaryPlayer", (e) => {
   charID = e.charID;
 });
 function addIcon() {
   clearIcon();
-  watch = JSON.parse(localStorage.getItem("setWatch")) || defaultWatch;
-  bgOpacity = localStorage.getItem("setBgOpacity") || 0.5;
+  watch = load("watch", def);
+  bgOpacity = load("bgOpacity", "0.5");
   for (let i = 0; i < party.length; i++) {
     $(`tr:eq(${i})`).css("background-color", `rgba(0,0,0,${bgOpacity}`);
     for (let j = 0; j < 10; j++) {
       try {
-        watchingID[i][j] = watch[party[i].job][9 - j];
+        watchingID[i][j] = watch[party[i].job][j];
         if (watchingID[i][j] !== "") {
           watchingRecast[i][j] = action[party[i].job][watchingID[i][j]][5];
           let td = $(`tr:eq(${i})`).children()[j];
           $(td).css(
             "background-image",
-            `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
+            `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][j]][1]})`
           );
           if (maxSync !== 99) {
-            let skillLevel = action[party[i].job][watch[party[i].job][9 - j]][3];
+            let skillLevel = action[party[i].job][watch[party[i].job][j]][3];
             if (skillLevel <= minSync) {
               $(td).css("opacity", "1");
             } else if (minSync < skillLevel && skillLevel <= maxSync && minSync != 80) {
@@ -73,7 +72,9 @@ function addIcon() {
             }
           }
         }
-      } catch {}
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 }
@@ -86,9 +87,10 @@ addOverlayListener("ChangeZone", (e) => {
     maxSync = 99;
   }
 });
+let sortRule;
 addOverlayListener("PartyChanged", (e) => {
-  localStorage.getItem("setSortRule") ? (sortRuleAll = JSON.parse(localStorage.getItem("setSortRule"))) : "";
-  e.party ? (party = partySort(e.party, charID, sortRuleAll)) : "";
+  sortRule = load("sortRule", defSort);
+  e.party ? (party = partySort(e.party, charID, sortRule)) : "";
   setTimeout(() => {
     addIcon();
   }, 1000);
@@ -141,7 +143,7 @@ function checkWatch(e) {
               $(td).text("");
               $(td).css(
                 "background-image",
-                `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][9 - j]][1]})`
+                `url(https://cafemaker.wakingsands.com/i/${action[party[i].job][watch[party[i].job][j]][1]})`
               );
             }
           }, 1000);
@@ -152,43 +154,9 @@ function checkWatch(e) {
     }
   }
 }
-window.settingSort = function () {
-  window.open("./settingSort.html", "_blank", "width=200,height=600");
-};
 window.settingWatch = function () {
-  window.open("./settingWatch.html", "_blank", "width=200,height=400");
+  window.open("./settingWatch.html", "_blank", "width=600,height=611");
 };
-
-//#region JobId
-// GLA 1  剑术师
-// PGL 2  格斗家?WIKI和ACT是PGL 触发器获取的是PUG
-// MRD 3  斧术师
-// LNC 4  枪术士?WIKI和ACT是LNC 触发器获取的是LUC
-// ARC 5  弓箭手
-// CNJ 6  幻术师
-// THM 7  咒术师
-// PLD 19 骑士
-// MNK 20 武僧
-// WAR 21 战士
-// DRG 22 龙骑士
-// BRD 23 吟游诗人
-// WHM 24 白魔法师
-// BLM 25 黑魔法师
-// ACN 26 秘术师
-// SMN 27 召唤师
-// SCH 28 学者
-// ROG 29 双剑师
-// NIN 30 忍者
-// MCH 31 机工士
-// DRK 32 暗黑骑士
-// AST 33 占星术士
-// SAM 34 武士
-// RDM 35 赤魔法师
-// BLU 36 青魔法师
-// GNB 37 绝枪战士
-// DNC 38 舞者
-//#endregion
-
 window.makeFakeParty = function () {
   party = [
     {
@@ -231,7 +199,7 @@ window.makeFakeParty = function () {
       name: "天",
       worldId: 1045,
       job: 20,
-      inParty: false,
+      inParty: true,
     },
     {
       id: "100000007",
@@ -248,10 +216,8 @@ window.makeFakeParty = function () {
       inParty: true,
     },
   ];
-  // console.log(arr.slice(0));
-  // JSON.parse(JSON.stringify(obj);
-  localStorage.getItem("setSortRule") ? (sortRuleAll = JSON.parse(localStorage.getItem("setSortRule"))) : "";
-  party = partySort(party, charID, sortRuleAll);
+  sortRule = load("sortRule", defSort);
+  party = partySort(party, charID, sortRule);
   minSync = 999;
   maxSync = 999;
   addIcon();
@@ -259,12 +225,4 @@ window.makeFakeParty = function () {
 window.clearShow = function () {
   party = [];
   clearIcon();
-};
-// window.userRefresh = function () {
-//   addIcon();
-//  // location.reload();
-// };
-
-window.settingStyle = function () {
-  window.open("./settingStyle.html", "_blank", "width=280,height=300");
 };
