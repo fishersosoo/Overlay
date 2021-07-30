@@ -82,7 +82,7 @@ function insertSelect() {
     append: for (const key in action[job]) {
       if (Object.hasOwnProperty.call(action[job], key)) {
         for (const i of compareSameGroup) {
-          if (i[0].toString() === key) {
+          if (i[0].toString() === key && key !== "15998") {
             continue append;
           }
         }
