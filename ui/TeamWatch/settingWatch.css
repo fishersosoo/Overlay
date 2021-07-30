@@ -116,17 +116,21 @@ body > main {
   font-size: 12px;
 }
 .set-save {
+  width: 4rem;
   font-weight: bold;
 }
 .set-noSave,
 .set-def {
+  width: 3rem;
+}
+.set-old {
   width: 4rem;
 }
 .set-rev {
   width: 2rem;
 }
 .exp {
-  margin-left: 35px;
+  margin-left: 17.5px;
 }
 .exp,
 .imp {
