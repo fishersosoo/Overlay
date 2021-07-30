@@ -131,17 +131,13 @@ function getWatch() {
   return tempWatch;
 }
 $("#set-noSave").on("click", () => {
-  show(watch);
-  insertSelect();
+  location.reload();
 });
 $("#set-def").on("click", () => {
-  let c = confirm("确定要恢复默认吗？（不按保存就不会覆盖设置）");
-  if (c) {
-    sortRule = JSON.parse(JSON.stringify(defSort));
-    watch = JSON.parse(JSON.stringify(def));
-    show(watch);
-    insertSelect();
-  }
+  sortRule = JSON.parse(JSON.stringify(defSort));
+  watch = JSON.parse(JSON.stringify(def));
+  show(watch);
+  insertSelect();
 });
 $("#set-exp").on("click", () => {
   $("#area").val(window.btoa(JSON.stringify(getWatch())));
@@ -226,11 +222,9 @@ $("#set-old").on("click", () => {
   }
 });
 $("#set-rev").on("click", () => {
-  let c = confirm("要左右翻转当前设置吗?");
-  if (c) {
-    watch = rev(watch);
-    show(watch);
-  }
+  watch = rev(watch);
+  insertSelect();
+  show(watch);
 });
 function rev(w) {
   for (const key in w) {
