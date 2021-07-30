@@ -111,7 +111,6 @@ $("#set-save").on("click", () => {
   for (let i = 0; i < $("#pre>tr").length; i++) {
     tempSort.push($("#pre>tr").eq(i)[0].id);
   }
-
   watch = JSON.parse(JSON.stringify(getWatch()));
   sortRule = JSON.parse(JSON.stringify(tempSort));
   save("watch", watch);
@@ -138,9 +137,9 @@ $("#set-noSave").on("click", () => {
 $("#set-def").on("click", () => {
   let c = confirm("确定要恢复默认吗？（不按保存就不会覆盖设置）");
   if (c) {
-    sortRule = defSort;
+    sortRule = JSON.parse(JSON.stringify(defSort));
     watch = JSON.parse(JSON.stringify(def));
-    show(def);
+    show(watch);
     insertSelect();
   }
 });
@@ -158,15 +157,15 @@ function show(w) {
   $("#pre").html("");
   for (let i = 0; i < sortRule.length; i++) {
     const e = sortRule[i];
-    if (jobList[e][1]) {
-      $("#pre").append(
-        `<tr id="${e}"><td class="${classColor(e)} pre-job">${jobList[e][0]}</td>${`${w[e].map((m) =>
-          m
-            ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>`
-            : `<td><span></span></td>`
-        )}`}</tr>`
-      );
-    }
+    $("#pre").append(
+      `<tr id="${e}" ${jobList[e][1] ? "" : "hidden"}><td class="${classColor(e)} pre-job">${jobList[e][0]}</td>${`${w[
+        e
+      ].map((m) =>
+        m
+          ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>`
+          : `<td><span></span></td>`
+      )}`}</tr>`
+    );
   }
   $("tr").on("click", (e) => {
     job = e.currentTarget.id;
@@ -217,8 +216,7 @@ $("#set-old").on("click", () => {
     let old = localStorage.getItem("setWatch");
     if (old) {
       show(JSON.parse(old));
-    }
-    else{
+    } else {
       alert("未找到旧版配置");
     }
   }
