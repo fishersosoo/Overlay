@@ -163,7 +163,7 @@ window.makeFakeParty = function () {
       id: "1039CE69",
       name: "Souma",
       worldId: 1177,
-      job: 27,
+      job: 38,
       inParty: true,
     },
     {

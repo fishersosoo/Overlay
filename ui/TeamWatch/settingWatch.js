@@ -157,15 +157,19 @@ function show(w) {
   $("#pre").html("");
   for (let i = 0; i < sortRule.length; i++) {
     const e = sortRule[i];
-    $("#pre").append(
-      `<tr id="${e}" ${jobList[e][1] ? "" : "hidden"}><td class="${classColor(e)} pre-job">${jobList[e][0]}</td>${`${w[
-        e
-      ].map((m) =>
-        m
-          ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>`
-          : `<td><span></span></td>`
-      )}`}</tr>`
-    );
+    try {
+      $("#pre").append(
+        `<tr id="${e}" ${jobList[e][1] ? "" : "hidden"}><td class="${classColor(e)} pre-job">${jobList[e][0]}</td>${`${w[
+          e
+        ].map((m) =>
+          m
+            ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>`
+            : `<td><span></span></td>`
+        )}`}</tr>`
+      );
+    } catch {
+      console.log(jobList[e][0] + "意外错误，已跳过。");
+    }
   }
   $("tr").on("click", (e) => {
     job = e.currentTarget.id;
