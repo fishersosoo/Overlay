@@ -87,10 +87,20 @@ function insertSelect() {
   for (let i = 0; i < 10; i++) {
     $("select.skill").eq(i).append(`<option value=""></option>`);
     for (const key in action[job]) {
-      if (Object.hasOwnProperty.call(action[job], key) && !compareSameGroup[key]) {
-        shortGCD || action[job][key][5] >= 100
-          ? $("select.skill").eq(i).append(`<option value="${key}">${action[job][key][0]}</option>`)
-          : "";
+      if (
+        Object.hasOwnProperty.call(action[job], key) &&
+        compareSameGroup[key] === undefined &&
+        (shortGCD || action[job][key][5] >= 100)
+      ) {
+        let owned = false;
+        for (const i of $(`#${job}>td>span`)) {
+          if ($(i).text() === key) {
+            owned = true;
+          }
+        }
+        $("select.skill")
+          .eq(i)
+          .append(`<option ${owned ? `class="owned"` : ""} value="${key}">${action[job][key][0]}</option>`);
       }
     }
     $("select.skill").eq(i).val(watch[job][i]);

@@ -136,3 +136,7 @@ body > main {
 .imp {
   width: 45px;
 }
+
+.owned{
+  color:#aaa;
+}
