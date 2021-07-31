@@ -60,11 +60,18 @@ window.checkboxOnClick = function (checkbox) {
   insertSelect();
 };
 function insertJobList() {
+  let firstJobId = 19;
+  for (const i of sortRule) {
+    if (jobList[i][1]) {
+      firstJobId = parseInt(i);
+      break;
+    }
+  }
   for (const key in jobList) {
     if (Object.hasOwnProperty.call(jobList, key)) {
       const e = jobList[key];
       if (e[1]) {
-        $("#job").append(`<option value="${key}" ${parseInt(key) === 19 ? "selected" : ""}>${e[0]}</option>`);
+        $("#job").append(`<option value="${key}" ${parseInt(key) === firstJobId ? "selected" : ""}>${e[0]}</option>`);
       }
     }
   }
@@ -79,13 +86,8 @@ function insertSelect() {
   $("select.skill").children().remove();
   for (let i = 0; i < 10; i++) {
     $("select.skill").eq(i).append(`<option value=""></option>`);
-    append: for (const key in action[job]) {
-      if (Object.hasOwnProperty.call(action[job], key)) {
-        for (const i of compareSameGroup) {
-          if (i[0].toString() === key && key !== "15998") {
-            continue append;
-          }
-        }
+    for (const key in action[job]) {
+      if (Object.hasOwnProperty.call(action[job], key) && !compareSameGroup[key]) {
         shortGCD || action[job][key][5] >= 100
           ? $("select.skill").eq(i).append(`<option value="${key}">${action[job][key][0]}</option>`)
           : "";
@@ -96,13 +98,6 @@ function insertSelect() {
 }
 $(".skill").on("change", (e) => {
   watch[$("#job").val()][$(e.currentTarget).parent().index()] = $(e.currentTarget).val();
-  show(watch);
-});
-$("#ul-def").on("click", () => {
-  watch = load("watch", JSON.parse(JSON.stringify(def)));
-  for (let i = 0; i < 10; i++) {
-    $("select.skill").eq(i).val(watch[job][i]);
-  }
   show(watch);
 });
 $("#set-save").on("click", () => {
@@ -143,9 +138,19 @@ $("#set-exp").on("click", () => {
   $("#area").val(window.btoa(JSON.stringify(getWatch())));
 });
 $("#set-imp").on("click", () => {
-  let imp = atob($("#area").val());
-  if (imp) {
-    show(JSON.parse(imp));
+  let errorText = "在这里输入他人分享的配置，再点导入。";
+  if ($("#area").val() === "" || $("#area").val() === errorText) {
+    $("#area").val(errorText);
+    window.open("https://docs.qq.com/sheet/DTUJuWUprdnVPQlhr?tab=BB08J2", "_blank", "width=1450,height=800");
+  } else {
+    try {
+      watch = JSON.parse(atob($("#area").val()));
+      show(watch);
+      insertSelect();
+      $("#area").val("已导入。");
+    } catch {
+      $("#area").val("读取失败，请检查格式。");
+    }
   }
 });
 show(watch);
@@ -176,13 +181,13 @@ function show(w) {
     let index = e.currentTarget.cellIndex;
     if (index > 0) {
       index--;
-      $(".skill").eq(index).css("backgroundColor", "Red");
+      $(".skill").eq(index).css("backgroundColor", "lightPink");
       setTimeout(() => {
         $(".skill").eq(index).css("backgroundColor", "");
-      }, 1000);
+      }, 500);
     }
   });
-  $("#pre>tr").arrangeable({ dragSelector: "td" });
+  $("#pre>tr").arrangeable({ dragSelector: "td:first" });
   $("#bgOpacity").val(bgOpacity);
   $("#text").text($("#bgOpacity").val());
   $("#pre>tr").css("background-color", `rgba(0,0,0,${bgOpacity})`);

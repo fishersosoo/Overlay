@@ -19,8 +19,8 @@ let party = [];
 let watchingID = Array(8);
 let watchingRecast = Array(8);
 for (let i = 0; i < 8; i++) {
-  watchingID[i] = ["", "", "", "", "", "", "", "", "", ""];
-  watchingRecast[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  watchingID[i] = [, , , , , , , , ,];
+  watchingRecast[i] = [, , , , , , , , ,];
 }
 let minSync = 1;
 let maxSync = 99;
@@ -111,15 +111,10 @@ function checkWatch(e) {
   for1: for (let i = 0; i < party.length; i++) {
     const p = party[i];
     if (p.id === extractLog(e.line, "CasterObjectID")) {
+      let compareId = parseInt(extractLog(e.line, "AbilityID"), 16);
+      compareId = compareSameGroup[compareId] || compareId;
       for (let j = 0; j < watchingID[i].length; j++) {
-        let compareId = parseInt(extractLog(e.line, "AbilityID"), 16);
-        for (const i in compareSameGroup) {
-          if (Object.hasOwnProperty.call(compareSameGroup, i)) {
-            const element = compareSameGroup[i];
-            compareId === element[0] ? (compareId = element[1]) : "";
-          }
-        }
-        if (parseInt(watchingID[i][j]) === compareId) {
+        if (compareId !== 0 && parseInt(watchingID[i][j]) === compareId) {
           let td = $(`tr:eq(${i})`).children()[j];
           if ($(td).text() > 0) {
             break for1;
