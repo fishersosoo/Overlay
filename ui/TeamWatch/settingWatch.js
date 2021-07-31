@@ -89,7 +89,7 @@ function insertSelect() {
     for (const key in action[job]) {
       if (
         Object.hasOwnProperty.call(action[job], key) &&
-        compareSameGroup[key] === undefined &&
+        (compareSameGroup[key] === undefined || key === "15998") &&
         (shortGCD || action[job][key][5] >= 100)
       ) {
         let owned = false;
