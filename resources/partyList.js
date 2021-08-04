@@ -1,3 +1,7 @@
+/*
+ * @Author: Souma
+ * @LastEditTime: 2021-08-04 02:18:37
+ */
 "use strict";
 
 function partySort(p = [], charID = "", rule) {
@@ -30,9 +34,9 @@ function partySort(p = [], charID = "", rule) {
           orginJobid === r[0] ? (orginJobid = r[1]) : "";
         }
         if (orginJobid === sortJobid) {
-          parseInt(p[j].id, 16) === charID ? sortParty.reverse() : "";
+          p[j].id === charID.toString(16).toUpperCase() ? sortParty.reverse() : "";
           sortParty.push(p[j]);
-          parseInt(p[j].id, 16) === charID ? sortParty.reverse() : "";
+          p[j].id === charID.toString(16).toUpperCase() ? sortParty.reverse() : "";
         } else {
         }
       }
