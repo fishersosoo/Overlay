@@ -1,9 +1,9 @@
 "use strict";
 import { action } from "../../resources/action.min.js";
-import { def, defSort } from "./def.js";
+import { def, defSort, defSets } from "./def.min.js";
 import { compareSameGroup } from "./compareSameGroup.min.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
-import "../../resources/drag-arrange.js";
+import "../../resources/drag-arrange.min.js";
 let namespace = "teamWatch";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
@@ -51,10 +51,7 @@ let jobList = {
 };
 let sortRule = load("sortRule", JSON.parse(JSON.stringify(defSort)));
 let job = 19;
-let bgOpacity = load("bgOpacity", "0.5");
-window.onload = function () {
-  insertJobList();
-};
+
 window.checkboxOnClick = function (checkbox) {
   shortGCD = $(checkbox).prop("checked");
   insertSelect();
@@ -87,11 +84,7 @@ function insertSelect() {
   for (let i = 0; i < 10; i++) {
     $("select.skill").eq(i).append(`<option value=""></option>`);
     for (const key in action[job]) {
-      if (
-        Object.hasOwnProperty.call(action[job], key) &&
-        (compareSameGroup[key] === undefined || key === "15998") &&
-        (shortGCD || action[job][key][5] >= 100)
-      ) {
+      if (Object.hasOwnProperty.call(action[job], key) && compareSameGroup[key] === undefined  && (shortGCD || action[job][key][5] >= 100)) {
         let owned = false;
         for (const i of $(`#${job}>td>span`)) {
           if ($(i).text() === key) {
@@ -110,18 +103,7 @@ $(".skill").on("change", (e) => {
   watch[$("#job").val()][$(e.currentTarget).parent().index()] = $(e.currentTarget).val();
   show(watch);
 });
-$("#set-save").on("click", () => {
-  save("bgOpacity", $("#bgOpacity").val());
-  let tempSort = [];
-  for (let i = 0; i < $("#pre>tr").length; i++) {
-    tempSort.push($("#pre>tr").eq(i)[0].id);
-  }
-  watch = JSON.parse(JSON.stringify(getWatch()));
-  sortRule = JSON.parse(JSON.stringify(tempSort));
-  save("watch", watch);
-  save("sortRule", sortRule);
-  show(watch);
-});
+
 function getWatch() {
   let tempWatch = {};
   for (const key in jobList) {
@@ -139,10 +121,13 @@ $("#set-noSave").on("click", () => {
   location.reload();
 });
 $("#set-def").on("click", () => {
-  sortRule = JSON.parse(JSON.stringify(defSort));
-  watch = JSON.parse(JSON.stringify(def));
-  show(watch);
-  insertSelect();
+  let c = confirm("要恢复出厂的监控设置吗？");
+  if (c) {
+    sortRule = JSON.parse(JSON.stringify(defSort));
+    watch = JSON.parse(JSON.stringify(def));
+    show(watch);
+    insertSelect();
+  }
 });
 $("#set-exp").on("click", () => {
   $("#area").val(window.btoa(JSON.stringify(getWatch())));
@@ -163,19 +148,14 @@ $("#set-imp").on("click", () => {
     }
   }
 });
-show(watch);
 function show(w) {
   $("#pre").html("");
   for (let i = 0; i < sortRule.length; i++) {
     const e = sortRule[i];
     try {
       $("#pre").append(
-        `<tr id="${e}" ${jobList[e][1] ? "" : "hidden"}><td class="${classColor(e)} pre-job">${jobList[e][0]}</td>${`${w[
-          e
-        ].map((m) =>
-          m
-            ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>`
-            : `<td><span></span></td>`
+        `<tr id="${e}" ${jobList[e][1] ? "" : "hidden"}><td class="${classColor(e)} pre-job">${jobList[e][0]}</td>${`${w[e].map((m) =>
+          m ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>` : `<td><span></span></td>`
         )}`}</tr>`
       );
     } catch {
@@ -198,15 +178,8 @@ function show(w) {
     }
   });
   $("#pre>tr").arrangeable({ dragSelector: "td:first" });
-  $("#bgOpacity").val(bgOpacity);
-  $("#text").text($("#bgOpacity").val());
-  $("#pre>tr").css("background-color", `rgba(0,0,0,${bgOpacity})`);
+  $("#pre>tr").css("background-color", `rgba(0,0,0,0.5)`);
 }
-$("#bgOpacity").on("change", () => {
-  bgOpacity = $("#bgOpacity").val();
-  $("#text").text(bgOpacity);
-  $("#pre>tr").css("background-color", `rgba(0,0,0,${bgOpacity})`);
-});
 function classColor(e) {
   switch (parseInt(e)) {
     case 1:
@@ -250,3 +223,31 @@ function rev(w) {
   }
   return w;
 }
+$("#set-save").on("click", () => {
+  let tSettings = {};
+  for (const i of $("#sets > input[type=number]")) {
+    tSettings[i.id] = $(i).val();
+  }
+  save("settings", tSettings);
+  let tSortRule = [];
+  for (let i = 0; i < $("#pre>tr").length; i++) {
+    tSortRule.push($("#pre>tr").eq(i)[0].id);
+  }
+  sortRule = JSON.parse(JSON.stringify(tSortRule));
+  save("sortRule", sortRule);
+  watch = JSON.parse(JSON.stringify(getWatch()));
+  save("watch", watch);
+
+  show(watch);
+});
+window.onload = function () {
+  let settings = load("settings", defSets);
+  for (const key in settings) {
+    if (Object.hasOwnProperty.call(settings, key)) {
+      const element = settings[key];
+      $(`#${key}`).val(element);
+    }
+  }
+  insertJobList();
+  show(watch);
+};

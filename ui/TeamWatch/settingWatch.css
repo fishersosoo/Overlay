@@ -1,34 +1,22 @@
+html {
+  font-family: 微软雅黑, "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+}
 * {
   padding: 0;
   margin: 0;
   overflow: hidden;
 }
-/* @font-face {
-  font-family: SmartisanHei;
-  src: url(http://act.diemoe.net/overlays/common/SmartisanHei.ttf);
-} */
-#job {
-  font-weight: bold;
-}
-select {
-  width: 6rem;
-}
-main {
-  /* display: inline-block; */
-  display: inline-block;
-  padding-left: 10px;
-  width: 6rem;
+small {
   position: absolute;
-  left: 285px;
-  /* height: 568px; */
 }
-#set {
-  position: absolute;
-  bottom: 2px;
+.tank {
+  color: skyblue;
 }
-#pre > tr:hover {
-  cursor: pointer;
-  filter: brightness(110%);
+.healer {
+  color: lightgreen;
+}
+.dps {
+  color: tomato;
 }
 #pre {
   position: absolute;
@@ -40,103 +28,83 @@ main {
   border-spacing: 0px;
   user-select: none;
 }
+#pre > tr:hover {
+  cursor: pointer;
+  filter: brightness(110%);
+}
 .pre-job {
   width: 4rem !important;
   text-shadow: -1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000;
-  color: #fff;
-  /* font-family: SmartisanHei; */
   font-weight: bold;
-  height: 20px;
   font-size: 14px;
-  line-height: 20px;
   text-align: center;
-  word-break: keep-all;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-
 #pre td {
   width: 20px;
   height: 20px;
   border: 1px dashed #ccc;
   background-size: contain;
 }
-button {
-  margin-top: 5px;
-  width: 2.5rem;
-}
-.save {
+#job {
   font-weight: bold;
 }
-.rec {
-  float: right;
-}
-#area {
-  margin-top: 10px;
-}
-#text {
-  float: right;
-}
-.set {
-  width: 85px;
-}
-#bg {
-  margin-top: 0.5rem;
-}
-#bgOpacity {
+main {
+  padding-left: 10px;
   width: 6rem;
-}
-#sort {
-  padding-left: 1rem;
-  width: 7rem;
-  /* height: 568px; */
-  display: inline-block;
-}
-#sort > select {
-  width: 100%;
-  text-align: center;
-}
-.tank {
-  color: skyblue;
-}
-.healer {
-  color: lightgreen;
-}
-.dps {
-  color: tomato;
-}
-small {
   position: absolute;
+  left: 285px;
+}
+.skill {
+  width: 90px;
+}
+#btns {
+  position: absolute;
+  top: 400px;
+  left: 5px;
+}
+#sets {
+  margin-top: 1rem;
+}
+.text {
+  float: right;
+}
+#sets > input {
+  width: 90px;
 }
 #ul > li {
-  height: 1.4rem;
+  height: 1.25rem;
+}
+.owned {
+  color: #aaa;
 }
 body > main {
   font-size: 12px;
 }
+.set {
+  width: auto;
+  padding: 1px 6px;
+}
+#area {
+  margin-top: 10px;
+  height: 39px;
+  width: 99%;
+  display: block;
+}
 .set-save {
-  width: 4rem;
+  width: 3rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+#sets > label {
+  display: block;
+  width: 100%;
   font-weight: bold;
 }
-.set-noSave,
-.set-def {
-  width: 3rem;
+#sets small {
+  color: gray;
+  right: 5px;
+  font-weight: normal;
 }
-.set-old {
-  width: 4rem;
-}
-.set-rev {
-  width: 2rem;
-}
-.exp {
-  margin-left: 17.5px;
-}
-.exp,
-.imp {
-  width: 45px;
-}
-
-.owned{
-  color:#aaa;
+#grayInLoad {
+  float: right;
 }
