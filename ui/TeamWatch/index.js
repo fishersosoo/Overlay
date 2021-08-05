@@ -1,14 +1,14 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-04 22:22:52
+ * @LastEditTime: 2021-08-05 16:16:31
  */
 "use strict";
-import { partySort } from "../../resources/partyList.min.js";
 import { action } from "../../resources/action.min.js";
-import { compareSame } from "./compareSameGroup.min.js";
-import { def, defSort, defSets } from "./def.min.js";
 import { loadItem } from "../../resources/localStorage.min.js";
+import { partySort } from "../../resources/partyList.min.js";
 import { zoneSync } from "../../resources/sync.js";
+import { compareSame } from "./compareSameGroup.min.js";
+import { def, defSets, defSort } from "./def.min.js";
 let charID;
 let party = [];
 let intervals = [];
@@ -20,7 +20,7 @@ function load(t, a = "") {
 }
 let settings = load("settings", JSON.parse(JSON.stringify(defSets)));
 function loadTable() {
-  $("table").remove();
+  $("body > main > table").remove();
   let t = $(
     `<table><tbody>${party
       .map(
@@ -49,7 +49,7 @@ function loadTable() {
       return 0.2;
     }
   }
-  $("main").append(t);
+  $("body > main").append(t);
   $(".icon").css({
     position: "absolute",
     height: settings["iconSize"] + "px",
@@ -75,7 +75,7 @@ function loadTable() {
     padding: settings["tablePadding"] + "px",
   });
   $("body > main > table > tbody > tr:last-child > td").css("height", parseInt(settings["iconSize"] - settings["spacingY"] * 2) + "px");
-  $("main").css({
+  $("body > main").css({
     "min-width": settings["iconSize"] * 10 + settings["spacingX"] * 11 + settings["tablePadding"] * 2 + "px",
     "max-width": settings["iconSize"] * 10 + settings["spacingX"] * 11 + settings["tablePadding"] * 2 + "px",
   });
@@ -103,13 +103,10 @@ r[1].addEventListener("click", () => {
 r[2].addEventListener("click", () => {
   party = [];
   for (const i of intervals) clearInterval(i);
-  $("table").remove();
+  $("body > main > table").remove();
 });
+
 document.addEventListener("onOverlayStateUpdate", (e) => (e.detail.isLocked ? $("#readMe").hide() : $("#readMe").show()));
-addOverlayListener("onPartyWipe", () => {
-  for (const i of intervals) clearInterval(i);
-  loadTable();
-});
 addOverlayListener("ChangePrimaryPlayer", (e) => (charID = e.charID));
 addOverlayListener("PartyChanged", (e) => {
   party = partySort(e.party, charID, load("sortRule", JSON.parse(JSON.stringify(defSort))));
@@ -119,27 +116,33 @@ addOverlayListener("PartyChanged", (e) => {
 addOverlayListener("ChangeZone", (e) => {
   sync = zoneSync[e.zoneName] || [0, 999];
 });
+addOverlayListener("onPartyWipe", () => {
+  for (const i of intervals) clearInterval(i);
+  $(`body > main > table > tbody > tr > td > article`).text("");
+});
 addOverlayListener("onLogEvent", (e) => {
   let logs = e.detail.logs;
-  let regex = /^.{15}1[56]:(?<CasterObjectID>1.{7}):[^:]+:(?<AbilityID>[^:]+):/i;
   for (const log of logs) {
-    let g = log.match(regex);
-    if (g) {
+    let networkAbility = log.match(/^.{15}1[56]:(?<CasterObjectID>1.{7}):[^:]+:(?<AbilityID>[^:]+):/i);
+    if (networkAbility) {
       //15、16
       let n = party.findIndex((m) => {
-        return m.id === g.groups.CasterObjectID;
+        return m.id === networkAbility.groups.CasterObjectID;
       });
       if (n + 1) {
         //inparty
-        let cs = compareSame(g.groups.AbilityID);
+        let cs = compareSame(networkAbility.groups.AbilityID);
         let i = watch[party[n].job].findIndex((a) => {
           return parseInt(a) === cs;
         });
         if (i + 1) {
           //watch
-          let f = $(`main>table>tbody>tr`).eq(n).children()[i];
+          let f = $(`body > main > table > tbody > tr`).eq(n).children()[i];
           let d = $(f).children("div")[0];
-          $(d).css({ opacity: 1, "background-image": `url(https://cafemaker.wakingsands.com/i/${action[party[n].job][parseInt(g.groups.AbilityID, 16)][1]})` });
+          $(d).css({
+            opacity: 1,
+            "background-image": `url(https://cafemaker.wakingsands.com/i/${action[party[n].job][parseInt(networkAbility.groups.AbilityID, 16)][1]})`,
+          });
           let a = $(f).children("article")[0];
           let cd = a.title;
           $(a).text(cd--);
