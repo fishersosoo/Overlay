@@ -1,6 +1,6 @@
 /*
  *@Author:Souma
- * @LastEditTime: 2021-08-05 20:17:40
+ * @LastEditTime: 2021-08-07 03:14:41
  */
 let def = {
   1: ["", "7548", "", "", "", "7533", "", "7531", "", "7535"],
@@ -60,7 +60,7 @@ let defSort = [
   "35",
   "36",
 ];
-let defSets = {
+let defCSS = {
   bgOpacity: 0.5,
   iconSize: 30,
   spacingX: 2,
@@ -68,4 +68,4 @@ let defSets = {
   fontSize: 16,
   tablePadding: 5,
 };
-export { def, defSort, defSets };
+export { def, defSort, defCSS };
