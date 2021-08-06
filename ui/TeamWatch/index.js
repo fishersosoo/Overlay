@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-05 16:16:31
+ * @LastEditTime: 2021-08-07 03:41:11
  */
 "use strict";
 import { action } from "../../resources/action.min.js";
@@ -8,7 +8,7 @@ import { loadItem } from "../../resources/localStorage.min.js";
 import { partySort } from "../../resources/partyList.min.js";
 import { zoneSync } from "../../resources/sync.js";
 import { compareSame } from "./compareSameGroup.min.js";
-import { def, defSets, defSort } from "./def.min.js";
+import { def, defCSS, defSort } from "./def.min.js";
 let charID;
 let party = [];
 let intervals = [];
@@ -18,8 +18,8 @@ let sync = [0, 999];
 function load(t, a = "") {
   return loadItem(namespace, t, a);
 }
-let settings = load("settings", JSON.parse(JSON.stringify(defSets)));
 function loadTable() {
+  let settings = load("settings", JSON.parse(JSON.stringify(defCSS)));
   $("body > main > table").remove();
   let t = $(
     `<table><tbody>${party
@@ -90,7 +90,7 @@ r[1].addEventListener("click", () => {
     { id: "10000030", name: "NIN", worldId: 1169, job: 30, inParty: true },
     { id: "10000028", name: "SCH", worldId: 1179, job: 28, inParty: true },
     { id: "10000022", name: "DRG", worldId: 1043, job: 22, inParty: true },
-    { id: charID.toString(16).toUpperCase(), name: "TEST", worldId: 1177, job: 21, inParty: true },
+    { id: (charID || "10000021").toString(16).toUpperCase(), name: "TEST", worldId: 1177, job: 21, inParty: true },
     { id: "10000020", name: "MNK", worldId: 1045, job: 20, inParty: true },
     { id: "10000033", name: "AST", worldId: 1179, job: 33, inParty: true },
     { id: "10000025", name: "BLM", worldId: 1177, job: 25, inParty: true },
