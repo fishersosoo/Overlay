@@ -1,6 +1,6 @@
 "use strict";
 import { action } from "../../resources/action.min.js";
-import { def, defSort, defSets } from "./def.min.js";
+import { def, defSort, defCSS } from "./def.min.js";
 import { compareSameGroup } from "./compareSameGroup.min.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
 import "../../resources/drag-arrange.min.js";
@@ -84,7 +84,7 @@ function insertSelect() {
   for (let i = 0; i < 10; i++) {
     $("select.skill").eq(i).append(`<option value=""></option>`);
     for (const key in action[job]) {
-      if (Object.hasOwnProperty.call(action[job], key) && compareSameGroup[key] === undefined  && (shortGCD || action[job][key][5] >= 100)) {
+      if (Object.hasOwnProperty.call(action[job], key) && compareSameGroup[key] === undefined && (shortGCD || action[job][key][5] >= 100)) {
         let owned = false;
         for (const i of $(`#${job}>td>span`)) {
           if ($(i).text() === key) {
@@ -101,6 +101,7 @@ function insertSelect() {
 }
 $(".skill").on("change", (e) => {
   watch[$("#job").val()][$(e.currentTarget).parent().index()] = $(e.currentTarget).val();
+  sortRule = getNowSortRule();
   show(watch);
 });
 
@@ -121,13 +122,14 @@ $("#set-noSave").on("click", () => {
   location.reload();
 });
 $("#set-def").on("click", () => {
-  let c = confirm("要恢复出厂的监控设置吗？");
-  if (c) {
-    sortRule = JSON.parse(JSON.stringify(defSort));
-    watch = JSON.parse(JSON.stringify(def));
-    show(watch);
-    insertSelect();
-  }
+  let c1 = confirm("(1/3)【技能列表】加载出厂数据吗？");
+  let c2 = confirm("(2/3)【职能排序】加载出厂数据吗？");
+  let c3 = confirm("(3/3)【自定义样式】加载出厂数据吗？");
+  if (c3) loadSettings(JSON.parse(JSON.stringify(defCSS)));
+  if (c2) sortRule = JSON.parse(JSON.stringify(defSort));
+  if (c1) show(JSON.parse(JSON.stringify(def)));
+  insertJobList();
+  insertSelect();
 });
 $("#set-exp").on("click", () => {
   $("#area").val(window.btoa(JSON.stringify(getWatch())));
@@ -140,8 +142,8 @@ $("#set-imp").on("click", () => {
   } else {
     try {
       watch = JSON.parse(atob($("#area").val()));
-      show(watch);
       insertSelect();
+      show(watch);
       $("#area").val("已导入。");
     } catch {
       $("#area").val("读取失败，请检查格式。");
@@ -155,7 +157,9 @@ function show(w) {
     try {
       $("#pre").append(
         `<tr id="${e}" ${jobList[e][1] ? "" : "hidden"}><td class="${classColor(e)} pre-job">${jobList[e][0]}</td>${`${w[e].map((m) =>
-          m ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>` : `<td><span></span></td>`
+          m
+            ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>`
+            : `<td><span></span></td>`
         )}`}</tr>`
       );
     } catch {
@@ -224,30 +228,40 @@ function rev(w) {
   return w;
 }
 $("#set-save").on("click", () => {
+  sortRule = getNowSortRule();
+  save("sortRule", sortRule);
+  watch = JSON.parse(JSON.stringify(getWatch()));
+  save("watch", watch);
+  $("body>small").css({ "background-color": "red", color: "white" });
+  $("body>small").text("已保存！下次小队变化时生效。");
+  for (let i = 0; i < 5; i++) {
+    $("body>small").animate({ opacity: "0.5" }, "slow");
+    $("body>small").animate({ opacity: "1" }, "slow");
+  }
+});
+window.onload = function () {
+  loadSettings(load("settings", defCSS));
+  insertJobList();
+  show(watch);
+};
+function getNowSortRule() {
   let tSettings = {};
   for (const i of $("#sets > input[type=number]")) {
     tSettings[i.id] = $(i).val();
   }
   save("settings", tSettings);
-  let tSortRule = [];
+  let sr = [];
   for (let i = 0; i < $("#pre>tr").length; i++) {
-    tSortRule.push($("#pre>tr").eq(i)[0].id);
+    sr.push($("#pre>tr").eq(i)[0].id);
   }
-  sortRule = JSON.parse(JSON.stringify(tSortRule));
-  save("sortRule", sortRule);
-  watch = JSON.parse(JSON.stringify(getWatch()));
-  save("watch", watch);
+  return JSON.parse(JSON.stringify(sr));
+}
 
-  show(watch);
-});
-window.onload = function () {
-  let settings = load("settings", defSets);
-  for (const key in settings) {
-    if (Object.hasOwnProperty.call(settings, key)) {
-      const element = settings[key];
+function loadSettings(sets) {
+  for (const key in sets) {
+    if (Object.hasOwnProperty.call(sets, key)) {
+      const element = sets[key];
       $(`#${key}`).val(element);
     }
   }
-  insertJobList();
-  show(watch);
-};
+}
