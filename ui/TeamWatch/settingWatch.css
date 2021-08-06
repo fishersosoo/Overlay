@@ -108,3 +108,7 @@ body > main {
 #grayInLoad {
   float: right;
 }
+body>small {
+  text-align: center;
+  width: 289px;
+}
