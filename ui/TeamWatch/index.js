@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-07 03:41:11
+ * @LastEditTime: 2021-08-08 12:30:10
  */
 "use strict";
 import { action } from "../../resources/action.min.js";
@@ -72,7 +72,7 @@ function loadTable() {
   $("body > main > table").css({
     "border-spacing": `${settings["spacingX"]}px ${settings["spacingY"]}px`,
     "background-color": `rgba(0, 0, 0, ${settings["bgOpacity"]})`,
-    padding: settings["tablePadding"] + "px",
+    padding: party.length ? settings["tablePadding"] : 0 + "px",
   });
   $("body > main > table > tbody > tr:last-child > td").css("height", parseInt(settings["iconSize"] - settings["spacingY"] * 2) + "px");
   $("body > main").css({
