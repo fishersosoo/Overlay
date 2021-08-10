@@ -1,0 +1,123 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+html {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  text-shadow: -1px 0 2px black, 0 1px 2px black, 1px 0 2px black, 0 -1px 2px black;
+  overflow-y: auto;
+  overflow-x: hidden;
+  user-select: none;
+  font-family: 微软雅黑, "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  height: 100%;
+  width: 100%;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+main {
+  margin-bottom: 22px;
+}
+footer {
+  position: fixed;
+  bottom: 0%;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+footer > div {
+  font-size: 12px;
+  display: inline-block;
+  padding: 0.25rem 0.55rem;
+  text-align: center;
+}
+footer > div:hover {
+  cursor: pointer;
+  background-color: rgba(20, 20, 20, 0.3);
+}
+.buffs {
+  display: inline-block;
+  position: relative;
+  top: -16px;
+  margin-right: 20px;
+}
+div.list > img {
+  float: left;
+  width: 20px;
+}
+div.list > span {
+  float: right;
+}
+.buffs > img {
+  position: absolute;
+  width: 20px;
+}
+.odd {
+  background-color: rgba(50, 50, 50, 0.3);
+}
+.even {
+  background-color: rgba(20, 20, 20, 0.3);
+}
+.list {
+  padding: 1px 5px;
+  line-height: 20.5px;
+  height: 20.5px;
+  white-space: nowrap;
+}
+.list-text {
+  float: left;
+  margin: 0px 4px;
+}
+.list > article {
+  font-weight: normal;
+  font-size: smaller;
+  height: 20.5px;
+  line-height: 20.5px;
+}
+.from {
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  font-size: 12px;
+  line-height: 12px;
+  width: 22px;
+  z-index: 1;
+}
+.from:hover {
+  opacity: 1;
+}
+.from > p {
+  padding: 0px;
+  margin: 0px;
+  white-space: nowrap;
+}
+.from > p:nth-child(1) {
+  font-weight: bold;
+}
+.invalid {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+.dodge {
+  color: gray;
+}
+.dodge + span + article {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+.dodge::after {
+  content: " 回避";
+}
+.physics {
+  text-shadow: -1px 0 1px rgb(255, 0, 0), 0 1px 1px rgb(255, 0, 0), 1px 0 1px rgb(255, 0, 0), 0 -1px 1px rgb(255, 0, 0);
+}
+.magic {
+  text-shadow: -1px 0 1px rgb(0, 0, 255), 0 1px 1px rgb(0, 0, 255), 1px 0 1px rgb(0, 0, 255), 0 -1px 1px rgb(0, 0, 255);
+}
+.darkness {
+  text-shadow: -1px 0 1px rgb(255, 0, 255), 0 1px 1px rgb(255, 0, 255), 1px 0 1px rgb(255, 0, 255), 0 -1px 1px rgb(255, 0, 255);
+}
+.heal {
+  text-shadow: -1px 0 1px rgb(121, 164, 90), 0 1px 1px rgb(121, 164, 90), 1px 0 1px rgb(121, 164, 90), 0 -1px 1px rgb(121, 164, 90);
+}
