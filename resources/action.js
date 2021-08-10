@@ -881,4 +881,13 @@ let action = {
     7557: ["速行", "000000/000844.png", 0, 0, 0, 50],
   },
 };
-export { action };
+function justGiveMe(id) {
+  for (const key in action) {
+    if (Object.hasOwnProperty.call(action, key)) {
+      const e = action[key];
+      if (e[id]) return e[id];
+    }
+  }
+  return null;
+}
+export { action,justGiveMe };
