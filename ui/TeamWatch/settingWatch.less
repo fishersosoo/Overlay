@@ -1,0 +1,98 @@
+* {
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.tank {
+  color: skyblue;
+}
+.healer {
+  color: lightgreen;
+}
+.dps {
+  color: tomato;
+}
+html {
+  > body {
+    button {
+      display: block;
+      width: 100%;
+      margin: 5px 0px;
+    }
+    > table {
+      display: inline-block;
+      border-collapse: collapse;
+      border: 1px solid black;
+      margin: 1px;
+      border-spacing: 0px;
+      user-select: none;
+      > tr.color-job:hover {
+        cursor: pointer;
+        filter: brightness(110%);
+      }
+      > tr {
+        > td:nth-child(1) {
+          width: 4rem !important;
+          text-shadow: -1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000;
+          font-weight: bold;
+          font-size: 14px;
+          text-align: center;
+        }
+        > td {
+          width: 20px;
+          height: 20px;
+          border: 1px dashed #ccc;
+          background-size: contain;
+        }
+        > td.base-job-name {
+          color: white;
+        }
+      }
+    }
+    > article {
+      @var: 80px;
+      width: @var;
+      display: inline-block;
+      margin: 0px 5px;
+      > select:nth-child(1) {
+        font-weight: bold;
+      }
+      > ul > li {
+        height: 25px;
+        > select > option.owned {
+          color:lightgrey;
+        }
+      }
+      from {
+        font-size: small;
+      }
+      textarea {
+        width: calc(@var - 4px);
+        height: 200px;
+        margin-top: 15px;
+      }
+    }
+    > aside {
+      margin: 0px 5px;
+      width: 100px;
+      display: inline-block;
+      > label {
+        font-size: 12px;
+        font-weight: bold;
+        display: block;
+      }
+      > input {
+        width: 90px;
+        margin-bottom: 5px;
+      }
+      > input:last-of-type {
+        margin-bottom: 42px;
+      }
+    }
+    > small {
+      width: auto;
+      display: block;
+    }
+  }
+}

@@ -60,18 +60,14 @@ function insertJobList() {
   let firstJobId = 19;
   for (const i of sortRule) {
     if (jobList[i][1]) {
-      firstJobId = parseInt(i);
+      firstJobId = i;
       break;
     }
   }
-  for (const key in jobList) {
-    if (Object.hasOwnProperty.call(jobList, key)) {
-      const e = jobList[key];
-      if (e[1]) {
-        $("#job").append(`<option value="${key}" ${parseInt(key) === firstJobId ? "selected" : ""}>${e[0]}</option>`);
-      }
-    }
-  }
+  for (const key in jobList)
+    if (Object.hasOwnProperty.call(jobList, key))
+      $("#job").append(`<option value="${key}" ${key === firstJobId ? "selected" : ""}>${jobList[key][0]}</option>`);
+
   job = $("#job").val();
   insertSelect();
 }
@@ -103,7 +99,7 @@ $(".skill").on("change", (e) => {
   watch[$("#job").val()][$(e.currentTarget).parent().index()] = $(e.currentTarget).val();
   sortRule = getNowSortRule();
   insertSelect();
-  show(watch);
+  show();
 });
 
 function getWatch() {
@@ -128,7 +124,9 @@ $("#set-def").on("click", () => {
   let c3 = confirm("(3/3)【自定义样式】加载出厂数据吗？");
   if (c3) loadSettings(JSON.parse(JSON.stringify(defCSS)));
   if (c2) sortRule = JSON.parse(JSON.stringify(defSort));
-  if (c1) show(JSON.parse(JSON.stringify(def)));
+  if (c1) watch = JSON.parse(JSON.stringify(def));
+  if (c1 || c2) show();
+
   insertJobList();
   insertSelect();
 });
@@ -144,20 +142,22 @@ $("#set-imp").on("click", () => {
     try {
       watch = JSON.parse(atob($("#area").val()));
       insertSelect();
-      show(watch);
+      show();
       $("#area").val("已导入。");
     } catch {
       $("#area").val("读取失败，请检查格式。");
     }
   }
 });
-function show(w) {
+function show() {
   $("#pre").html("");
   for (let i = 0; i < sortRule.length; i++) {
     const e = sortRule[i];
     try {
       $("#pre").append(
-        `<tr id="${e}" ${jobList[e][1] ? "" : "hidden"}><td class="${classColor(e)} pre-job">${jobList[e][0]}</td>${`${w[e].map((m) =>
+        `<tr class="${jobList[e][1] ? "color-job" : "base-job"}" id="${e}"}><td class="${jobList[e][1] ? classColor(e) : "base-job-name"} pre-job">${
+          jobList[e][0]
+        }</td>${`${watch[e].map((m) =>
           m
             ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>`
             : `<td><span></span></td>`
@@ -182,7 +182,7 @@ function show(w) {
       }, 500);
     }
   });
-  $("#pre>tr").arrangeable({ dragSelector: "td:first" });
+  $("#pre>tr.color-job").arrangeable({ dragSelector: "td:first" });
   $("#pre>tr").css("background-color", `rgba(0,0,0,0.5)`);
 }
 function classColor(e) {
@@ -206,7 +206,7 @@ function classColor(e) {
 $("#set-rev").on("click", () => {
   watch = rev(watch);
   insertSelect();
-  show(watch);
+  show();
 });
 function rev(w) {
   for (const key in w) {
@@ -232,7 +232,7 @@ $("#set-save").on("click", () => {
 window.onload = function () {
   loadSettings(load("settings", defCSS));
   insertJobList();
-  show(watch);
+  show();
 };
 function getNowSortRule() {
   let tSettings = {};
