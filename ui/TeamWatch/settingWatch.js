@@ -98,8 +98,8 @@ function insertSelect() {
 $(".skill").on("change", (e) => {
   watch[$("#job").val()][$(e.currentTarget).parent().index()] = $(e.currentTarget).val();
   sortRule = getNowSortRule();
-  insertSelect();
   show();
+  insertSelect();
 });
 
 function getWatch() {
@@ -141,8 +141,8 @@ $("#set-imp").on("click", () => {
   } else {
     try {
       watch = JSON.parse(atob($("#area").val()));
-      insertSelect();
       show();
+      insertSelect();
       $("#area").val("已导入。");
     } catch {
       $("#area").val("读取失败，请检查格式。");
@@ -205,8 +205,8 @@ function classColor(e) {
 }
 $("#set-rev").on("click", () => {
   watch = rev(watch);
-  insertSelect();
   show();
+  insertSelect();
 });
 function rev(w) {
   for (const key in w) {
@@ -231,8 +231,8 @@ $("#set-save").on("click", () => {
 });
 window.onload = function () {
   loadSettings(load("settings", defCSS));
-  insertJobList();
   show();
+  insertJobList();
 };
 function getNowSortRule() {
   let tSettings = {};
