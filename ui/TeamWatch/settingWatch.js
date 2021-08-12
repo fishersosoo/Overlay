@@ -66,8 +66,7 @@ function insertJobList() {
   }
   for (const key in jobList)
     if (Object.hasOwnProperty.call(jobList, key))
-      $("#job").append(`<option value="${key}" ${key === firstJobId ? "selected" : ""}>${jobList[key][0]}</option>`);
-
+      $("#job").append(`<option value="${key}" ${key.toString() === firstJobId.toString() ? "selected" : ""}>${jobList[key][0]}</option>`);
   job = $("#job").val();
   insertSelect();
 }
@@ -126,9 +125,7 @@ $("#set-def").on("click", () => {
   if (c2) sortRule = JSON.parse(JSON.stringify(defSort));
   if (c1) watch = JSON.parse(JSON.stringify(def));
   if (c1 || c2) show();
-
   insertJobList();
-  insertSelect();
 });
 $("#set-exp").on("click", () => {
   $("#area").val(window.btoa(JSON.stringify(getWatch())));
@@ -142,7 +139,7 @@ $("#set-imp").on("click", () => {
     try {
       watch = JSON.parse(atob($("#area").val()));
       show();
-      insertSelect();
+      insertJobList();
       $("#area").val("已导入。");
     } catch {
       $("#area").val("读取失败，请检查格式。");
@@ -206,7 +203,7 @@ function classColor(e) {
 $("#set-rev").on("click", () => {
   watch = rev(watch);
   show();
-  insertSelect();
+  insertJobList();
 });
 function rev(w) {
   for (const key in w) {

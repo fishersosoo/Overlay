@@ -51,17 +51,20 @@ html {
       }
     }
     > article {
-      @var: 80px;
+      @var: 100px;
       width: @var;
       display: inline-block;
       margin: 0px 5px;
+      select {
+        width: @var;
+      }
       > select:nth-child(1) {
         font-weight: bold;
       }
       > ul > li {
         height: 25px;
         > select > option.owned {
-          color:lightgrey;
+          color: lightgrey;
         }
       }
       from {

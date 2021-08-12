@@ -47,9 +47,12 @@ html > body > table > tr > td.base-job-name {
   color: white;
 }
 html > body > article {
-  width: 80px;
+  width: 100px;
   display: inline-block;
   margin: 0px 5px;
+}
+html > body > article select {
+  width: 100px;
 }
 html > body > article > select:nth-child(1) {
   font-weight: bold;
@@ -64,7 +67,7 @@ html > body > article from {
   font-size: small;
 }
 html > body > article textarea {
-  width: calc(80px - 4px);
+  width: calc(100px - 4px);
   height: 200px;
   margin-top: 15px;
 }

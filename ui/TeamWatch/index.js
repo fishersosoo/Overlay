@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-12 22:49:00
+ * @LastEditTime: 2021-08-12 23:22:07
  */
 "use strict";
 import { action } from "../../resources/action.min.js";
@@ -83,7 +83,7 @@ function loadTable() {
 }
 let r = document.querySelectorAll("#readMe > p.clickable");
 r[0].addEventListener("click", () => {
-  window.open("./settingWatch.html", "_blank", "width=526,height=637");
+  window.open("./settingWatch.html", "_blank", "width=543,height=637");
 });
 r[1].addEventListener("click", () => {
   party = [
