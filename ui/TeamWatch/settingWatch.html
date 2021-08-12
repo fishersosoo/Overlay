@@ -1,6 +1,6 @@
 <!--
  * @Author: Souma
- * @LastEditTime: 2021-08-04 02:58:05
+ * @LastEditTime: 2021-08-12 20:56:12
 -->
 <!DOCTYPE html>
 <html lang="zh">
@@ -15,41 +15,49 @@
     <small>（拖拽职业名排序）需要与游戏内保持一致哦~</small>
     <table id="pre"></table>
     <main>
-      <select id="job"></select>
-      <from>
-        <label for="gcd">CD&#60;10S</label>
-        <input type="checkbox" onclick="checkboxOnClick(this)" id="gcd" />
-      </from>
-      <ul id="ul">
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-        <li><select class="skill"></select></li>
-      </ul>
-      <div id="sets">
-        <label for="bgOpacity">背景不透明度<small>0-1</small></label><input type="number" step="0.1" min="0" max="1" name="bgOpacity" id="bgOpacity">
-        <label for="iconSize">图标大小<small>px</small></label><input type="number" step="1" min="10" name="iconSize" id="iconSize">
-        <label for="spacingX">X间隔<small>px</small></label><input type="number" step="1" min="0" name="spacingX" id="spacingX">
-        <label for="spacingY">Y间隔<small>px</small></label><input type="number" step="1" min="0" name="spacingY" id="spacingY">
-        <label for="fontSize">字体尺寸<small>px</small></label><input type="number" step="1" min="1" name="fontSize" id="fontSize">
-        <label for="tablePadding">内边框<small>px</small></label><input type="number" step="0.5" min="0" name="tablePadding" id="tablePadding">
-        <button id="set-save" class="set set-save">保存</button>
-        <button id="set-noSave" class="set set-noSave">取消</button>
-      <div>
+        <select id="job"></select>
+        <from>
+          <label for="gcd">CD&#60;10S</label>
+          <input type="checkbox" onclick="checkboxOnClick(this)" id="gcd" />
+        </from>
+        <ul id="ul">
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+          <li><select class="skill"></select></li>
+        </ul>
+        <div id="btns">
+          <button id="set-def" class="set set-def">重置出厂</button>
+          <button id="set-rev" class="set set-rev">左右翻转</button>
+          <textarea id="area"></textarea>
+          <button id="set-exp" class="set">分享</button>
+          <button id="set-imp" class="set">导入</button>
+        </div>
     </main>
-    <div id="btns">
-      <button id="set-def" class="set set-def">重置出厂</button>
-      <button id="set-old" class="set set-old">尝试载入旧版配置</button>
-      <button id="set-rev" class="set set-rev">左右翻转</button>
-      <textarea id="area"></textarea>
-      <button id="set-exp" class="set">分享</button>
-      <button id="set-imp" class="set">导入</button>
+    <div id="sets">
+      <label for="bgOpacity">整体背景不透明度</label><small>0-1</small
+      ><input type="number" step="0.1" min="0" max="1" value="0.5" name="bgOpacity" id="bgOpacity" />
+      <label for="noOpacity">尚未习得不透明度</label><small>0-1</small
+      ><input type="number" step="0.1" min="0" max="1" value="0.2" name="noOpacity" id="noOpacity" />
+      <label for="mbOpacity">可能习得不透明度</label><small>0-1</small
+      ><input type="number" step="0.1" min="0" max="1" value="0.6" name="mbOpacity" id="mbOpacity" />
+      <label for="yesOpacity">一定习得不透明度</label><small>0-1</small
+      ><input type="number" step="0.1" min="0" max="1" value="1" name="yesOpacity" id="yesOpacity" />
+      <label for="cdOpacity">进入冷却不透明度</label><small>0-1</small
+      ><input type="number" step="0.1" min="0" max="1" value="0.5" name="cdOpacity" id="cdOpacity" /> <label for="iconSize">图标大小</label
+      ><small>px</small><input type="number" step="1" min="10" value="30" name="iconSize" id="iconSize" /> <label for="spacingX">X间隔</label
+      ><small>px</small><input type="number" step="1" min="0" value="2" name="spacingX" id="spacingX" /> <label for="spacingY">Y间隔</label
+      ><small>px</small><input type="number" step="1" min="0" value="10" name="spacingY" id="spacingY" /> <label for="fontSize">字体尺寸</label
+      ><small>px</small><input type="number" step="1" min="1" value="16" name="fontSize" id="fontSize" /> <label for="tablePadding">总内边框</label
+      ><small>px</small><input type="number" step="0.5" min="0" value="5" name="tablePadding" id="tablePadding" />
+      <button id="set-save" class="set set-save">保存</button>
+      <button id="set-noSave" class="set set-noSave">取消</button>
     </div>
   </body>
 </html>

@@ -1,7 +1,5 @@
-html {
-  font-family: 微软雅黑, "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
-}
 * {
+  font-family: 微软雅黑, "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -45,6 +43,7 @@ small {
   border: 1px dashed #ccc;
   background-size: contain;
 }
+
 #job {
   font-weight: bold;
 }
@@ -53,26 +52,35 @@ main {
   width: 6rem;
   position: absolute;
   left: 285px;
+  height: 398px;
 }
 .skill {
   width: 90px;
 }
-#btns {
-  position: absolute;
-  top: 400px;
-  left: 5px;
+#btns > .set {
+  width: 90px;
+  margin: 2px 0px;
 }
+
 #sets {
-  margin-top: 1rem;
+  position: absolute;
+  left: 395px;
+  font-size: 12px;
+  width: 100px;
 }
+
 .text {
   float: right;
 }
 #sets > input {
-  width: 90px;
+  width: 65px;
 }
 #ul > li {
-  height: 1.25rem;
+  height: 20px;
+}
+#ul > li > select {
+  height: 19px;
+  font-size: 12px;
 }
 .owned {
   color: #aaa;
@@ -80,35 +88,38 @@ main {
 body > main {
   font-size: 12px;
 }
-.set {
-  width: auto;
-  padding: 1px 6px;
-}
 #area {
-  margin-top: 10px;
-  height: 39px;
-  width: 99%;
+  margin: 5px 0px;
+  height: 50px;
+  width: 88px;
   display: block;
 }
 .set-save {
-  width: 3rem;
+  width: 100%;
   font-weight: bold;
-  margin-top: 1rem;
+  margin-top: 6px;
+}
+.set-noSave {
+  width: 100%;
+  margin-top: 4px;
 }
 #sets > label {
   display: block;
   width: 100%;
-  font-weight: bold;
+  height: 15.5px;
 }
 #sets small {
   color: gray;
   right: 5px;
   font-weight: normal;
 }
+#sets > input {
+  height: 15px;
+}
 #grayInLoad {
   float: right;
 }
-body>small {
+body > small {
   text-align: center;
   width: 289px;
 }

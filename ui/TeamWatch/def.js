@@ -1,6 +1,6 @@
 /*
  *@Author:Souma
- * @LastEditTime: 2021-08-07 03:14:41
+ * @LastEditTime: 2021-08-12 20:36:38
  */
 let def = {
   1: ["", "7548", "", "", "", "7533", "", "7531", "", "7535"],
@@ -62,6 +62,10 @@ let defSort = [
 ];
 let defCSS = {
   bgOpacity: 0.5,
+  noOpacity: 0.2,
+  mbOpacity: 0.6,
+  yesOpacity: 1,
+  cdOpacity: 0.5,
   iconSize: 30,
   spacingX: 2,
   spacingY: 10,

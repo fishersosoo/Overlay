@@ -202,17 +202,6 @@ function classColor(e) {
       return "dps";
   }
 }
-$("#set-old").on("click", () => {
-  let c = confirm("要尝试恢复旧版本的配置吗？");
-  if (c) {
-    let old = localStorage.getItem("setWatch");
-    if (old) {
-      show(JSON.parse(old));
-    } else {
-      alert("未找到旧版配置");
-    }
-  }
-});
 $("#set-rev").on("click", () => {
   watch = rev(watch);
   insertSelect();

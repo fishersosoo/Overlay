@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-08 12:30:10
+ * @LastEditTime: 2021-08-12 21:11:55
  */
 "use strict";
 import { action } from "../../resources/action.min.js";
@@ -18,8 +18,9 @@ let sync = [0, 999];
 function load(t, a = "") {
   return loadItem(namespace, t, a);
 }
+let settings = load("settings", JSON.parse(JSON.stringify(defCSS)));
 function loadTable() {
-  let settings = load("settings", JSON.parse(JSON.stringify(defCSS)));
+  settings = load("settings", JSON.parse(JSON.stringify(defCSS)));
   $("body > main > table").remove();
   let t = $(
     `<table><tbody>${party
@@ -42,19 +43,19 @@ function loadTable() {
   );
   function canOrNot(skillLevel) {
     if (skillLevel <= sync[0]) {
-      return 1;
+      return settings["yesOpacity"];
     } else if (sync[0] < skillLevel && skillLevel <= sync[1]) {
-      return 0.6;
+      return settings["mbOpacity"];
     } else {
-      return 0.2;
+      return settings["noOpacity"];
     }
   }
   $("body > main").append(t);
   $(".icon").css({
-    position: "absolute",
-    height: settings["iconSize"] + "px",
-    width: settings["iconSize"] + "px",
-    top: -settings["spacingY"] + "px",
+    "position": "absolute",
+    "height": settings["iconSize"] + "px",
+    "width": settings["iconSize"] + "px",
+    "top": -settings["spacingY"] + "px",
     "line-height": settings["iconSize"] + "px",
   });
   $("body > main > table > tbody > tr > td").css({
@@ -63,16 +64,16 @@ function loadTable() {
     width: settings["iconSize"] + "px",
   });
   $("body > main > table > tbody > tr > td > article").css({
-    position: "absolute",
+    "position": "absolute",
     "line-height": settings["iconSize"] + "px",
-    width: settings["iconSize"] + "px",
-    top: -settings["spacingY"] + "px",
-    fontSize: settings["fontSize"] + "px",
+    "width": settings["iconSize"] + "px",
+    "top": -settings["spacingY"] + "px",
+    "fontSize": settings["fontSize"] + "px",
   });
   $("body > main > table").css({
     "border-spacing": `${settings["spacingX"]}px ${settings["spacingY"]}px`,
     "background-color": `rgba(0, 0, 0, ${settings["bgOpacity"]})`,
-    padding: party.length ? settings["tablePadding"] : 0 + "px",
+    "padding": party.length ? settings["tablePadding"] : 0 + "px",
   });
   $("body > main > table > tbody > tr:last-child > td").css("height", parseInt(settings["iconSize"] - settings["spacingY"] * 2) + "px");
   $("body > main").css({
@@ -82,7 +83,7 @@ function loadTable() {
 }
 let r = document.querySelectorAll("#readMe > p.clickable");
 r[0].addEventListener("click", () => {
-  window.open("./settingWatch.html", "_blank", "width=411,height=542");
+  window.open("./settingWatch.html", "_blank", "width=514,height=437");
 });
 r[1].addEventListener("click", () => {
   party = [
@@ -140,13 +141,13 @@ addOverlayListener("onLogEvent", (e) => {
           let f = $(`body > main > table > tbody > tr`).eq(n).children()[i];
           let d = $(f).children("div")[0];
           $(d).css({
-            opacity: 1,
+            "opacity": settings["yesOpacity"],
             "background-image": `url(https://cafemaker.wakingsands.com/i/${action[party[n].job][parseInt(networkAbility.groups.AbilityID, 16)][1]})`,
           });
           let a = $(f).children("article")[0];
           let cd = a.title;
           $(a).text(cd--);
-          $(a).css("background-color", "rgba(27,27,27,0.5)");
+          $(a).css("background-color", `rgba(27,27,27,${settings["cdOpacity"]})`);
           let interval = setInterval(() => {
             $(a).text(cd);
             if (!cd--) {
