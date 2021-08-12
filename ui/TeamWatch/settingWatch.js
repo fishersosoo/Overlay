@@ -86,8 +86,8 @@ function insertSelect() {
     for (const key in action[job]) {
       if (Object.hasOwnProperty.call(action[job], key) && compareSameGroup[key] === undefined && (shortGCD || action[job][key][5] >= 100)) {
         let owned = false;
-        for (const i of $(`#${job}>td>span`)) {
-          if ($(i).text() === key) {
+        for (const w of watch[job]) {
+          if (w === key) {
             owned = true;
           }
         }
@@ -102,6 +102,7 @@ function insertSelect() {
 $(".skill").on("change", (e) => {
   watch[$("#job").val()][$(e.currentTarget).parent().index()] = $(e.currentTarget).val();
   sortRule = getNowSortRule();
+  insertSelect();
   show(watch);
 });
 
@@ -221,7 +222,7 @@ $("#set-save").on("click", () => {
   save("sortRule", sortRule);
   watch = JSON.parse(JSON.stringify(getWatch()));
   save("watch", watch);
-  $("body>small").css({ "background-color": "red", color: "white" });
+  $("body>small").css({ "background-color": "red", "color": "white" });
   $("body>small").text("已保存！下次小队变化时生效。");
   for (let i = 0; i < 5; i++) {
     $("body>small").animate({ opacity: "0.5" }, "slow");
