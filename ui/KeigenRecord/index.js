@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-13 10:30:51
+ * @LastEditTime: 2021-08-13 12:52:32
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -93,26 +93,23 @@ $(function () {
         if (camp(e).inParty && camp(e, "caster").isEnemy) {
           let damage = getDamage(e);
           if (damage.type === "damage" && damage.skillName.substring(0, 8) !== "Unknown_") {
-            let dl = `main>dl[title="${duration}"]`;
+            let dl = `main>dl:last[title="${damage.skillName}"]`;
             if ($("main").children("dl").length >= cacheMax) $("main").children(":first").remove();
-            if ($(`${dl}`).length === 0)
+            if ($(dl).length === 0)
               $(`main`).append(
-                `<dl title="${duration}"><dt onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-name">${damage.skillName}</span><span class="damage-value ${damage.damageType}"></span><span class="status"></span></dt></dl>`
+                `<dl title="${damage.skillName}"><dt onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-name">${damage.skillName}</span><span class="damage-target player-name">${damage.target}</span><span class="damage-value ${damage.damageType}"></span><span class="status"></span></dt></dl>`
               );
             if (damage.target === charName) {
-              $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType));
+              $(`${dl}>dt>.damage-time`).text(duration);
+              $(`${dl}>dt>.damage-target`).text(damage.target);
+              $(`${dl}>dt>.damage-name`).text(damage.skillName);
               $(`${dl}>dt>.damage-value`).text(damage.value.toLocaleString());
+              $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType));
             }
-            let hidden = "";
-            if ($(`${dl}>dd:last`).is(":hidden") || $(`${dl}>dd`).length === 1) {
-              $(`${dl}>dd`).hide();
-              hidden = "hidden";
-            }
-            $(`${dl}>dd`).length ? $(`${dl}>dt`).show() : $(`${dl}>dt`).hide();
             $(`${dl}`).append(
-              `<dd ${hidden}><span class="damage-time">${duration}</span><span class="damage-target player-name">${
-                damage.target
-              }</span><span class="damage-effect">${damage.damageEffect}</span><span class="damage-value ${
+              `<dd hidden><span class="damage-time">${duration}</span><span class="damage-effect">${
+                damage.damageEffect
+              }</span><span class="damage-target player-name">${damage.target}</span><span class="damage-value ${
                 damage.damageType
               }">${damage.value.toLocaleString()}</span><span class="status">${
                 getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType)
@@ -192,23 +189,23 @@ $(function () {
       result.type = "damage";
       result.damageType = "dodge";
       result.damageEffect = "回避";
-    } else if (/^.{0,3}[1-4].{2}(33|.[356])$/.test(e.line[8])) {
+    } else if (/^[^fF].{0,3}[1-4].{2}(33|.[356])$/.test(e.line[8])) {
       result.type = "damage";
       result.damageType = "physics";
       result.damageEffect = getDamageEffect();
-    } else if (/^.{0,3}5.{4}$/.test(e.line[8])) {
+    } else if (/^[^fF].{0,3}5.{4}$/.test(e.line[8])) {
       result.type = "damage";
       result.damageType = "magic";
       result.damageEffect = getDamageEffect();
-    } else if (/^.{0,3}6.{4}$/.test(e.line[8])) {
+    } else if (/^[^fF].{0,3}6.{4}$/.test(e.line[8])) {
       result.type = "damage";
       result.damageType = "darkness";
       result.damageEffect = getDamageEffect();
-    } else if (/^.{0,3}1.{0,3}4$/.test(e.line[8])) {
+    } else if (/^[^fF].{0,3}1.{0,3}4$/.test(e.line[8])) {
       result.type = "heal";
       result.damageType = "heal";
       result.damageEffect = "暴击";
-    } else if (/^.{0,7}4$/.test(e.line[8])) {
+    } else if (/^[^fF].{0,7}4$/.test(e.line[8])) {
       result.type = "heal";
       result.damageType = "heal";
       result.damageEffect = "　　";
