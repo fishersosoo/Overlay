@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-13 12:52:32
+ * @LastEditTime: 2021-08-13 13:13:31
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -73,7 +73,10 @@ $(function () {
     "4ab": { physics: 1, magic: 0 }, //"牵制"
     "4b3": { physics: 0, magic: 1 }, //"昏乱"
   };
-  document.addEventListener("onOverlayStateUpdate", (e) => (e.detail.isLocked ? $("#readMe").hide() : $("#readMe").show()));
+  document.addEventListener("onOverlayStateUpdate", (e) => {
+    $("#readMe").css({ height: "100%", width: "100%" });
+    e.detail.isLocked ? $("#readMe").hide() : $("#readMe").show();
+  });
   let party = [];
   addOverlayListener("PartyChanged", (e) => {
     party = e.party;
