@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-13 10:15:57
+ * @LastEditTime: 2021-08-13 10:21:22
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -101,7 +101,7 @@ $(function () {
               );
             if (damage.target === charName) {
               $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType) + getTargetStatus(damage.target, damage.damageType));
-              $(`${dl}>dt>.damage-value`).text(damage.value);
+              $(`${dl}>dt>.damage-value`).text(damage.value.toLocaleString());
             }
             let hidden = "";
             if ($(`${dl}>dd:last`).is(":hidden") || $(`${dl}>dd`).length === 1) {
