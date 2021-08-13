@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-13 10:21:22
+ * @LastEditTime: 2021-08-13 10:30:51
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -100,7 +100,7 @@ $(function () {
                 `<dl title="${duration}"><dt onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-name">${damage.skillName}</span><span class="damage-value ${damage.damageType}"></span><span class="status"></span></dt></dl>`
               );
             if (damage.target === charName) {
-              $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType) + getTargetStatus(damage.target, damage.damageType));
+              $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType));
               $(`${dl}>dt>.damage-value`).text(damage.value.toLocaleString());
             }
             let hidden = "";
@@ -115,7 +115,7 @@ $(function () {
               }</span><span class="damage-effect">${damage.damageEffect}</span><span class="damage-value ${
                 damage.damageType
               }">${damage.value.toLocaleString()}</span><span class="status">${
-                getTargetStatus(damage.from, damage.damageType) + getTargetStatus(damage.target, damage.damageType)
+                getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType)
               }</span></dd>`
             );
             $(".player-name").css("filter", `blur(${blurName ? 2 : 0}px)`);
@@ -159,12 +159,12 @@ $(function () {
       result.isEnemy = e.line[index - 1].substring(0, 1) === "4";
       return result;
     }
-    function getTargetStatus(name, damageType) {
+    function getTargetStatus(name, damageType, flag = false) {
       if (statusNow[name]) {
         let result = "";
         for (const key in statusNow[name])
           if (Object.hasOwnProperty.call(statusNow[name], key)) {
-            result += `<span class="icons"><img class="${
+            result += `<span class="icons"><img class="${flag ? "icons-offset" : ""} ${
               (statusList[key].physics && damageType === "physics") || (statusList[key].magic && damageType === "magic") || damageType === "dodge"
                 ? "useful"
                 : "useless"

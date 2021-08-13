@@ -39,6 +39,9 @@ html body main dl .icons {
   float: right;
   margin-right: 10px;
 }
+html body main dl .icons-offset {
+  top: -3px;
+}
 html body main dl .status {
   position: absolute;
   right: 5px;
