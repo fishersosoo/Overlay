@@ -1,0 +1,108 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+html {
+  height: 100%;
+  width: 100%;
+}
+html body {
+  color: white;
+  text-shadow: -1px 0 2px black, 0 1px 2px black, 1px 0 2px black, 0 -1px 2px black;
+  overflow-y: auto;
+  overflow-x: hidden;
+  user-select: none;
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  height: 100%;
+  width: 100%;
+}
+html body #readMe {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: rgba(0, 0, 150, 0.2);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+}
+html body main {
+  width: 100%;
+  font-size: 8px;
+}
+html body main dl .icons {
+  float: right;
+  margin-right: 10px;
+}
+html body main dl .status {
+  position: absolute;
+  right: 5px;
+}
+html body main dl img {
+  height: 24px;
+  position: absolute;
+}
+html body main dl .useless {
+  filter: grayscale(100%) opacity(80%);
+}
+html body main dl span {
+  height: 20px;
+  line-height: 20px;
+  margin: 0px 0.5rem;
+}
+html body main dl dt:hover {
+  cursor: pointer;
+}
+html body main dl .damage-target,
+html body main dl .damage-time {
+  width: 6rem;
+  margin: 0px 0.5rem;
+}
+html body main dl .damage-name,
+html body main dl .damage-effect {
+  position: absolute;
+  left: 10.5rem;
+}
+html body main dl .damage-value {
+  position: absolute;
+  left: 7.5rem;
+  text-align: right;
+  width: 3em;
+}
+html body main dl .dodge {
+  color: gray;
+}
+html body main dl .physics {
+  color: #ff6464;
+}
+html body main dl .magic {
+  color: #64c8ff;
+}
+html body main dl .darkness {
+  color: #ffafff;
+}
+html body main dl dt {
+  background-color: rgba(50, 50, 50, 0.8);
+  height: 20px;
+  line-height: 20px;
+}
+html body main dl dt > span {
+  font-weight: bold;
+}
+html body main dl dd {
+  opacity: 0.9;
+  background-color: rgba(10, 10, 10, 0.4);
+  height: 20px;
+  line-height: 20px;
+}
+html body main dl dd .dodge,
+html body main dl dd .physics,
+html body main dl dd .magic,
+html body main dl dd .darkness {
+  text-shadow: -1px 0 2px black, 0 1px 2px black, 1px 0 2px black, 0 -1px 2px black;
+}
