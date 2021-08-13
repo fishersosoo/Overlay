@@ -59,6 +59,7 @@ html body main dl span {
   margin: 0px 0.5rem;
 }
 html body main dl dt:hover {
+  filter: brightness(110%);
   cursor: pointer;
 }
 html body main dl .damage-target,
