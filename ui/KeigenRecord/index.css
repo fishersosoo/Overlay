@@ -48,12 +48,15 @@ html body main dl .damage-name,
 html body main dl .damage-effect {
   position: absolute;
   text-align: center;
-  width: 7em;
+  width: 10em;
   left: 9.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 html body main dl .damage-value {
   position: absolute;
-  left: 16.5em;
+  left: 18.5em;
   text-align: right;
   width: 4.5em;
 }
