@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-13 13:13:31
+ * @LastEditTime: 2021-08-13 14:59:24
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -100,11 +100,15 @@ $(function () {
             if ($("main").children("dl").length >= cacheMax) $("main").children(":first").remove();
             if ($(dl).length === 0)
               $(`main`).append(
-                `<dl title="${damage.skillName}"><dt onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-name">${damage.skillName}</span><span class="damage-target player-name">${damage.target}</span><span class="damage-value ${damage.damageType}"></span><span class="status"></span></dt></dl>`
+                `<dl title="${damage.skillName}"><dt onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-name">${
+                  damage.skillName
+                }</span><span class="damage-target player-name">${nameAbridge(damage.target)}</span><span class="damage-value ${
+                  damage.damageType
+                }"></span><span class="status"></span></dt></dl>`
               );
             if (damage.target === charName) {
               $(`${dl}>dt>.damage-time`).text(duration);
-              $(`${dl}>dt>.damage-target`).text(damage.target);
+              $(`${dl}>dt>.damage-target`).text(nameAbridge(damage.target));
               $(`${dl}>dt>.damage-name`).text(damage.skillName);
               $(`${dl}>dt>.damage-value`).text(damage.value.toLocaleString());
               $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType));
@@ -135,7 +139,10 @@ $(function () {
       default:
         break;
     }
-
+    function nameAbridge(str) {
+      let i = str.indexOf(" ");
+      return i >= 0 ? `${str.substring(0, 1)}. ${str.substring(i + 1, i + 2)}.` : str;
+    }
     function camp(e, t = "target") {
       let index;
       let result = { inParty: false, isEnemy: false };

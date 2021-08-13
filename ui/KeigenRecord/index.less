@@ -35,6 +35,15 @@ html {
 
       dl {
         @var: 20px;
+        .damage-time,
+        .damage-target,
+        .damage-name,
+        .damage-effect,
+        .damage-evalue {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
         .damage-time {
           position: relative;
         }
@@ -50,9 +59,6 @@ html {
           text-align: center;
           width: 10em;
           left: 9.5em;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
         }
         .damage-value {
           position: absolute;
