@@ -1,10 +1,11 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-13 14:59:24
+ * @LastEditTime: 2021-08-14 14:15:30
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
+document.addEventListener("onOverlayStateUpdate", (e) => (e.detail.isLocked ? $("#readMe").hide() : $("#readMe").show()));
 $(function () {
   let namespace = "keigenRecord";
   function load(t, a = "") {
@@ -14,11 +15,43 @@ $(function () {
     saveItem(namespace, t, a);
   }
   let blurName = load("blurName", false);
-  let cacheMax = parseInt(load("cacheMax", "300"));
-  $("#cacheMax").val(cacheMax);
-  $("#readMe>button").on("click", () => {
-    cacheMax = parseInt($("#cacheMax").val());
-    save("cacheMax", cacheMax);
+  let defSettings = {
+    cacheMax: "300",
+    color: {
+      dtColor: "rgba(50, 50, 50, 0.8)",
+      ddColor: "rgba(10, 10, 10, 0.4)",
+      dodgeColor: "rgb(128, 128, 128)",
+      physicsColor: "rgb(255, 100, 100)",
+      magicColor: "rgb(100, 200, 255)",
+      darknessColor: "rgb(255, 175, 255)",
+    },
+  };
+  let settings = load("settings", 0) || defSettings;
+  function showRefresh() {
+    $("#cacheMax").val(settings.cacheMax);
+    for (const key in settings.color) {
+      if (Object.hasOwnProperty.call(settings.color, key)) {
+        $(`#${key}`).val(settings.color[key]);
+        $(`#${key}~span`).css("background-color", settings.color[key]);
+      }
+    }
+  }
+  showRefresh();
+  $("#readMe button").on("click", (e) => {
+    switch ($(e.currentTarget)[0].innerText) {
+      case "保存":
+        settings.cacheMax = $("#cacheMax").val();
+        for (let i = 0; i < $("#readMe>p>input[type='text']").length; i++) {
+          const element = $("#readMe>p>input")[i];
+          settings.color[element.id] = $(element).val();
+        }
+        save("settings", settings);
+        break;
+      case "重置":
+        settings = JSON.parse(JSON.stringify(defSettings));
+        break;
+    }
+    showRefresh();
   });
   let statusNow = {};
   let statusList = {
@@ -73,10 +106,7 @@ $(function () {
     "4ab": { physics: 1, magic: 0 }, //"牵制"
     "4b3": { physics: 0, magic: 1 }, //"昏乱"
   };
-  document.addEventListener("onOverlayStateUpdate", (e) => {
-    $("#readMe").css({ height: "100%", width: "100%" });
-    e.detail.isLocked ? $("#readMe").hide() : $("#readMe").show();
-  });
+
   let party = [];
   addOverlayListener("PartyChanged", (e) => {
     party = e.party;
@@ -97,14 +127,16 @@ $(function () {
           let damage = getDamage(e);
           if (damage.type === "damage" && damage.skillName.substring(0, 8) !== "Unknown_") {
             let dl = `main>dl:last[title="${damage.skillName}"]`;
-            if ($("main").children("dl").length >= cacheMax) $("main").children(":first").remove();
+            if ($("main").children("dl").length >= parseInt(settings.cacheMax)) $("main").children(":first").remove();
             if ($(dl).length === 0)
               $(`main`).append(
-                `<dl title="${damage.skillName}"><dt onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-name">${
+                `<dl title="${damage.skillName}"><dt style="background-color:${
+                  settings.color.dtColor
+                }"onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-name">${
                   damage.skillName
-                }</span><span class="damage-target player-name">${nameAbridge(damage.target)}</span><span class="damage-value ${
-                  damage.damageType
-                }"></span><span class="status"></span></dt></dl>`
+                }</span><span class="damage-target player-name">${nameAbridge(damage.target)}</span><span style="color:${
+                  settings.color[`${damage.damageType}Color`]
+                }" class="damage-value"></span><span class="status"></span></dt></dl>`
               );
             if (damage.target === charName) {
               $(`${dl}>dt>.damage-time`).text(duration);
@@ -114,11 +146,11 @@ $(function () {
               $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType));
             }
             $(`${dl}`).append(
-              `<dd hidden><span class="damage-time">${duration}</span><span class="damage-effect">${
+              `<dd style="background-color:${settings.color.ddColor}"hidden><span class="damage-time">${duration}</span><span class="damage-effect">${
                 damage.damageEffect
-              }</span><span class="damage-target player-name">${damage.target}</span><span class="damage-value ${
-                damage.damageType
-              }">${damage.value.toLocaleString()}</span><span class="status">${
+              }</span><span class="damage-target player-name">${damage.target}</span><span style="color:${
+                settings.color[`${damage.damageType}Color`]
+              }"  class="damage-value">${damage.value.toLocaleString()}</span><span class="status">${
                 getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType)
               }</span></dd>`
             );

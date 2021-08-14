@@ -2,6 +2,7 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -16,7 +17,6 @@ html body {
   overflow-y: auto;
   overflow-x: hidden;
   user-select: none;
-  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
   font-size: 14px;
   height: 100%;
   width: 100%;
@@ -28,8 +28,40 @@ html body #readMe {
   background-color: rgba(0, 0, 150, 0.2);
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: fixed;
+  bottom: 0%;
   z-index: 10;
+}
+html body #readMe p {
+  float: left;
+  width: 100%;
+}
+html body #readMe p span {
+  float: right;
+  width: 1rem;
+}
+html body #readMe p label {
+  float: left;
+  text-align: left;
+}
+html body #readMe p input {
+  float: right;
+  width: 155px;
+  text-align: right;
+}
+html body #readMe button {
+  float: right;
+  margin: 5px 0px;
+  height: 25px;
+  font-size: 14px;
+  margin-right: 5px;
+}
+html body #readMe button:nth-of-type(1) {
+  width: 100px;
+  font-weight: bold;
+}
+html body #readMe button:nth-of-type(2) {
+  width: 125px;
 }
 html body main {
   width: 100%;
@@ -84,18 +116,6 @@ html body main dl .status .useless {
 html body main dl .status img {
   height: 25px;
 }
-html body main dl .dodge {
-  color: gray;
-}
-html body main dl .physics {
-  color: #ff6464;
-}
-html body main dl .magic {
-  color: #64c8ff;
-}
-html body main dl .darkness {
-  color: #ffafff;
-}
 html body main dl span {
   height: 20px;
   line-height: 20px;
@@ -103,10 +123,4 @@ html body main dl span {
 html body main dl dt:hover {
   filter: brightness(110%);
   cursor: pointer;
-}
-html body main dl dt {
-  background-color: rgba(50, 50, 50, 0.8);
-}
-html body main dl dd {
-  background-color: rgba(10, 10, 10, 0.4);
 }

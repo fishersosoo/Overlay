@@ -1,6 +1,6 @@
 <!--
  * @Author: Souma
- * @LastEditTime: 2021-08-13 12:36:05
+ * @LastEditTime: 2021-08-14 14:07:17
 -->
 <!DOCTYPE html>
 <html lang="zh">
@@ -13,11 +13,18 @@
     <link rel="stylesheet" href="index.css" async />
   </head>
   <body>
-    <div id="readMe" hidden>
-      (🔒锁定悬浮窗以隐藏)<br />
-      <label for="cacheMax">最大缓存数量（量力而行）</label
-      ><input type="number" name="cacheMax" id="cacheMax" min="50" max="10000" step="50" /><button>保存</button>
-      <p>右键可模糊玩家名称</p>
+    <div id="readMe">
+      <h3>(🔒锁定悬浮窗以隐藏)</h3>
+      <p><label for="cacheMax">集合储存数量(太多应该会卡)</label><input type="number" name="cacheMax" id="cacheMax" min="50" max="10000" step="50" /><span>　</span></p>
+      <p><label for="dtColor">集合头部 - 背景颜色</label><input type="text" name="dtColor" id="dtColor" /><span>　</span></p>
+      <p><label for="ddColor">集合子群 - 背景颜色</label><input type="text" name="ddColor" id="ddColor" /><span>　</span></p>
+      <p><label for="dodgeColor">伤害类型：回避 - 文字颜色</label><input type="text" name="dodgeColor" id="dodgeColor" /><span>　</span></p>
+      <p><label for="physicsColor">伤害类型：物理 - 文字颜色</label><input type="text" name="physicsColor" id="physicsColor" /><span>　</span></p>
+      <p><label for="magicColor">伤害类型：魔法 - 文字颜色</label><input type="text" name="magicColor" id="magicColor" /><span>　</span></p>
+      <p><label for="darknessColor">伤害类型：暗黑 - 文字颜色</label><input type="text" name="darknessColor" id="darknessColor" /><span>　</span></p>
+      <button>保存</button>
+      <button>恢复出厂(不保存)</button>
+      <p>如需修改，请先切换到ACT，再点击获得焦点。</p>
     </div>
     <main></main>
   </body>

@@ -2,6 +2,7 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -15,7 +16,6 @@ html {
     overflow-y: auto;
     overflow-x: hidden;
     user-select: none;
-    font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
     font-size: 14px;
     height: 100%;
     width: 100%;
@@ -26,8 +26,40 @@ html {
       background-color: rgba(0, 0, 150, 0.2);
       height: 100%;
       width: 100%;
-      position: absolute;
+      position: fixed;
+      bottom: 0%;
       z-index: 10;
+      p {
+        float: left;
+        width: 100%;
+        span {
+          float: right;
+          width: 1rem;
+        }
+        label {
+          float: left;
+          text-align: left;
+        }
+        input {
+          float: right;
+          width: 155px;
+          text-align: right;
+        }
+      }
+      button {
+        float: right;
+        margin: 5px 0px;
+        height: 25px;
+        font-size: 14px;
+        margin-right: 5px;
+      }
+      button:nth-of-type(1) {
+        width: 100px;
+        font-weight: bold;
+      }
+      button:nth-of-type(2) {
+        width: 125px;
+      }
     }
     main {
       width: 100%;
@@ -84,18 +116,6 @@ html {
             height: @var*1.25;
           }
         }
-        .dodge {
-          color: gray;
-        }
-        .physics {
-          color: rgb(255, 100, 100);
-        }
-        .magic {
-          color: rgb(100, 200, 255);
-        }
-        .darkness {
-          color: rgb(255, 175, 255);
-        }
         span {
           height: @var;
           line-height: @var;
@@ -103,12 +123,6 @@ html {
         dt:hover {
           filter: brightness(110%);
           cursor: pointer;
-        }
-        dt {
-          background-color: rgba(50, 50, 50, 0.8);
-        }
-        dd {
-          background-color: rgba(10, 10, 10, 0.4);
         }
       }
     }
