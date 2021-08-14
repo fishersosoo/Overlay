@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-12 23:22:07
+ * @LastEditTime: 2021-08-14 17:00:16
  */
 "use strict";
 import { action } from "../../resources/action.min.js";
@@ -33,7 +33,9 @@ function loadTable() {
                   w > 0
                     ? `<div class="icon" style="opacity:${canOrNot(action[p.job][w][3])};background-image:url(https://cafemaker.wakingsands.com/i/${
                         action[p.job][w][1]
-                      })"></div><article title="${action[p.job][w][5] / 10}"></article>`
+                      })"><aside style="background-image:url(../../resources/img/base.png)" class="icon-border"></aside></div><article title="${
+                        action[p.job][w][5] / 10
+                      }"></article>`
                     : ""
                 }</td>`
             )
@@ -63,8 +65,17 @@ function loadTable() {
     height: settings["iconSize"] + "px",
     width: settings["iconSize"] + "px",
   });
+  let scale = parseInt(settings["iconSize"]) / 40;
+  $("body > main > table > tbody > tr > td > div > aside").css({
+    position: "absolute",
+    height: scale * 48 + "px",
+    width: scale * 48 + "px",
+    top: (scale * -8) / 2 + "px",
+    left: (scale * -8) / 2 + "px",
+  });
   $("body > main > table > tbody > tr > td > article").css({
     "position": "absolute",
+    "height": settings["iconSize"] + "px",
     "line-height": settings["iconSize"] + "px",
     "width": settings["iconSize"] + "px",
     "top": -settings["spacingY"] + "px",

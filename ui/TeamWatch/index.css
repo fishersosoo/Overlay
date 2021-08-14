@@ -32,12 +32,16 @@ html {
   cursor: pointer;
   background-color: rgba(174, 216, 229, 0.75);
 }
-.icon {
+.icon,
+.icon-border {
   background-size: contain;
 }
 main > table > tbody > tr > td > div {
   z-index: 2;
 }
-main > table > tbody > tr > td > article {
+/* main > table > tbody > tr > td > aside {
   z-index: 3;
+} */
+main > table > tbody > tr > td > article {
+  z-index: 4;
 }
