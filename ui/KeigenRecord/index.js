@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-14 14:43:16
+ * @LastEditTime: 2021-08-14 19:44:09
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -103,6 +103,7 @@ $(function () {
     "1e8": { physics: 1, magic: 1 }, //残影
     "a8": { physics: 1, magic: 1 }, //魔罩
     "790": { physics: 1, magic: 1 }, //防护障壁
+    "76a": { physics: 1, magic: 1 }, //残暴弹
 
     "09": { physics: 1, magic: 0 }, //减速（通用）（亲疏自行）
     "4a9": { physics: 1, magic: 1 }, //"雪仇"
@@ -120,14 +121,21 @@ $(function () {
   addOverlayListener("ChangePrimaryPlayer", (e) => (charName = e.charName));
   addOverlayListener("CombatData", (e) => {
     $("main").show();
+    $("#hover").hide();
     duration = e.Encounter.duration;
   });
-  $("html").on("mouseenter", () => $("main").show());
-  $("html").on("mouseleave", () => (duration === "00:00" ? $("main").hide() : ""));
-  addOverlayListener("ChangeZone", () => {
-    statusNow = {};
-    $("#main").hide();
+  $("#hover").on("click", () => {
+    $("main").show();
+    $("#hover").hide();
   });
+  $("html").on("mouseleave", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      $("main").hide();
+      $("#hover").show();
+    }, parseInt(settings.autoHideS) * 1000);
+  });
+  addOverlayListener("ChangeZone", () => (statusNow = {}));
   addOverlayListener("onPartyWipe", () => (statusNow = {}));
   addOverlayListener("LogLine", (e) => handle(e));
   startOverlayEvents();
@@ -170,8 +178,9 @@ $(function () {
             $("html").scrollTop($("main").height());
             clearTimeout(timer);
             timer = setTimeout(() => {
-              $("#main").hide();
-            }, settings.autoHideS * 1000);
+              $("main").hide();
+              $("#hover").show();
+            }, parseInt(settings.autoHideS) * 1000);
           }
         }
         break;
