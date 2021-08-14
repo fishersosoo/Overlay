@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-14 14:15:30
+ * @LastEditTime: 2021-08-14 14:43:16
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -17,6 +17,7 @@ $(function () {
   let blurName = load("blurName", false);
   let defSettings = {
     cacheMax: "300",
+    autoHideS: "15",
     color: {
       dtColor: "rgba(50, 50, 50, 0.8)",
       ddColor: "rgba(10, 10, 10, 0.4)",
@@ -29,6 +30,7 @@ $(function () {
   let settings = load("settings", 0) || defSettings;
   function showRefresh() {
     $("#cacheMax").val(settings.cacheMax);
+    $("#autoHideS").val(settings.autoHideS);
     for (const key in settings.color) {
       if (Object.hasOwnProperty.call(settings.color, key)) {
         $(`#${key}`).val(settings.color[key]);
@@ -41,13 +43,14 @@ $(function () {
     switch ($(e.currentTarget)[0].innerText) {
       case "保存":
         settings.cacheMax = $("#cacheMax").val();
+        settings.autoHideS = $("#autoHideS").val();
         for (let i = 0; i < $("#readMe>p>input[type='text']").length; i++) {
           const element = $("#readMe>p>input")[i];
           settings.color[element.id] = $(element).val();
         }
         save("settings", settings);
         break;
-      case "重置":
+      case "恢复出厂(不保存)":
         settings = JSON.parse(JSON.stringify(defSettings));
         break;
     }
@@ -113,9 +116,18 @@ $(function () {
   });
   let charName = "";
   let duration = "00:00";
+  let timer;
   addOverlayListener("ChangePrimaryPlayer", (e) => (charName = e.charName));
-  addOverlayListener("CombatData", (e) => (duration = e.Encounter.duration));
-  addOverlayListener("ChangeZone", () => (statusNow = {}));
+  addOverlayListener("CombatData", (e) => {
+    $("main").show();
+    duration = e.Encounter.duration;
+  });
+  $("html").on("mouseenter", () => $("main").show());
+  $("html").on("mouseleave", () => (duration === "00:00" ? $("main").hide() : ""));
+  addOverlayListener("ChangeZone", () => {
+    statusNow = {};
+    $("#main").hide();
+  });
   addOverlayListener("onPartyWipe", () => (statusNow = {}));
   addOverlayListener("LogLine", (e) => handle(e));
   startOverlayEvents();
@@ -156,6 +168,10 @@ $(function () {
             );
             $(".player-name").css("filter", `blur(${blurName ? 2 : 0}px)`);
             $("html").scrollTop($("main").height());
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+              $("#main").hide();
+            }, settings.autoHideS * 1000);
           }
         }
         break;
