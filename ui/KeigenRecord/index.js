@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-15 22:40:13
+ * @LastEditTime: 2021-08-15 22:51:11
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -58,40 +58,40 @@ $(function () {
   });
   let statusNow = {};
   let statusList = {
-    "4a7": { physics: 1, magic: 1 }, //"铁壁"
-    "740": { physics: 1, magic: 1 }, //"盾阵"
-    "496": { physics: 1, magic: 1 }, //"干预"
-    "4a": { physics: 1, magic: 1 }, //"预警"
-    "498": { physics: 1, magic: 1 }, //"武装"
-    "52": { physics: 1, magic: 1 }, //"神圣领域"
-    "2df": { physics: 1, magic: 1 }, //"原初的直觉"
-    "8b3": { physics: 1, magic: 1 }, //"原初的勇猛"
-    "57": { physics: 1, magic: 1 }, //"战栗"
-    "59": { physics: 1, magic: 1 }, //"复仇"
-    "199": { physics: 1, magic: 1 }, //"死斗"
+    "4a7": { physics: 1, magic: 1 }, //铁壁
+    "740": { physics: 1, magic: 1 }, //盾阵
+    "496": { physics: 1, magic: 1 }, //干预
+    "4a": { physics: 1, magic: 1 }, //预警
+    "498": { physics: 1, magic: 1 }, //武装
+    "52": { physics: 1, magic: 1 }, //神圣领域
+    "2df": { physics: 1, magic: 1 }, //原初的直觉
+    "8b3": { physics: 1, magic: 1 }, //原初的勇猛
+    "57": { physics: 1, magic: 1 }, //战栗
+    "59": { physics: 1, magic: 1 }, //复仇
+    "199": { physics: 1, magic: 1 }, //死斗
     "49a": { physics: 1, magic: 1 }, //至黑之夜
-    "2ea": { physics: 0, magic: 1 }, //"弃明投暗"
+    "2ea": { physics: 0, magic: 1 }, //弃明投暗
     "2eb": { physics: 1, magic: 1 }, //暗影墙
-    "766": { physics: 0, magic: 1 }, //"暗黑布道"
-    "32a": { physics: 1, magic: 1 }, //"行尸走肉"
-    "811": { physics: 1, magic: 1 }, //"死而不僵"
-    "730": { physics: 1, magic: 1 }, //"石之心"
-    "728": { physics: 1, magic: 1 }, //"伪装"
-    "72a": { physics: 1, magic: 1 }, //"星云"
-    "72f": { physics: 0, magic: 1 }, //"光之心"
-    "72c": { physics: 1, magic: 1 }, //"超火流星"
-    "751": { physics: 1, magic: 1 }, //"节制"
-    "12b": { physics: 1, magic: 1 }, //"野战治疗阵"
-    "13d": { physics: 0, magic: 1 }, //"异想的幻光"
-    "753": { physics: 0, magic: 1 }, //"炽天的幻光"
-    "351": { physics: 1, magic: 1 }, //"命运之轮（日）"
-    "4b6": { physics: 1, magic: 1 }, //"命运之轮（夜）"
+    "766": { physics: 0, magic: 1 }, //暗黑布道
+    "32a": { physics: 1, magic: 1 }, //行尸走肉
+    "811": { physics: 1, magic: 1 }, //死而不僵
+    "730": { physics: 1, magic: 1 }, //石之心
+    "728": { physics: 1, magic: 1 }, //伪装
+    "72a": { physics: 1, magic: 1 }, //星云
+    "72f": { physics: 0, magic: 1 }, //光之心
+    "72c": { physics: 1, magic: 1 }, //超火流星
+    "751": { physics: 1, magic: 1 }, //节制
+    "12b": { physics: 1, magic: 1 }, //野战治疗阵
+    "13d": { physics: 0, magic: 1 }, //异想的幻光
+    "753": { physics: 0, magic: 1 }, //炽天的幻光
+    "351": { physics: 1, magic: 1 }, //命运之轮（日）
+    "4b6": { physics: 1, magic: 1 }, //命运之轮（夜）
 
-    "4d0": { physics: 1, magic: 1 }, //"心眼"
-    "49b": { physics: 1, magic: 1 }, //"金刚极意"
-    "78e": { physics: 1, magic: 1 }, //"行吟"
-    "79f": { physics: 1, magic: 1 }, //"策动"
-    "722": { physics: 1, magic: 1 }, //"防守之桑巴"
+    "4d0": { physics: 1, magic: 1 }, //心眼
+    "49b": { physics: 1, magic: 1 }, //金刚极意
+    "78e": { physics: 1, magic: 1 }, //行吟
+    "79f": { physics: 1, magic: 1 }, //策动
+    "722": { physics: 1, magic: 1 }, //防守之桑巴
 
     "2d7": { physics: 1, magic: 1 }, //圣光幕帘（已触发）
     "4c2": { physics: 1, magic: 1 }, //神祝祷
@@ -107,9 +107,14 @@ $(function () {
     "76a": { physics: 1, magic: 1 }, //残暴弹
 
     "09": { physics: 1, magic: 0 }, //减速（通用）（亲疏自行）
-    "4a9": { physics: 1, magic: 1 }, //"雪仇"
-    "4ab": { physics: 1, magic: 0 }, //"牵制"
-    "4b3": { physics: 0, magic: 1 }, //"昏乱"
+    "4a9": { physics: 1, magic: 1 }, //雪仇
+    "4ab": { physics: 1, magic: 0 }, //牵制
+    "4b3": { physics: 0, magic: 1 }, //昏乱
+
+    "848":{ physics: 1, magic: 1 }, //体力增加（捕食）
+    "6b3":{ physics: 1, magic: 1 }, //腐臭（臭气）
+    "843":{ physics: 0, magic: 1 }, //智力精神降低（魔法锤）
+
   };
   let statusTimer = [];
   let party = [];
