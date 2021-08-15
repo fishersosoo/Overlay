@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-14 19:44:09
+ * @LastEditTime: 2021-08-15 22:40:13
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -65,6 +65,7 @@ $(function () {
     "498": { physics: 1, magic: 1 }, //"武装"
     "52": { physics: 1, magic: 1 }, //"神圣领域"
     "2df": { physics: 1, magic: 1 }, //"原初的直觉"
+    "8b3": { physics: 1, magic: 1 }, //"原初的勇猛"
     "57": { physics: 1, magic: 1 }, //"战栗"
     "59": { physics: 1, magic: 1 }, //"复仇"
     "199": { physics: 1, magic: 1 }, //"死斗"
@@ -110,7 +111,7 @@ $(function () {
     "4ab": { physics: 1, magic: 0 }, //"牵制"
     "4b3": { physics: 0, magic: 1 }, //"昏乱"
   };
-
+  let statusTimer = [];
   let party = [];
   addOverlayListener("PartyChanged", (e) => {
     party = e.party;
@@ -123,6 +124,11 @@ $(function () {
     $("main").show();
     $("#hover").hide();
     duration = e.Encounter.duration;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      $("main").hide();
+      $("#hover").show();
+    }, parseInt(settings.autoHideS) * 1000);
   });
   $("#hover").on("click", () => {
     $("main").show();
@@ -176,22 +182,26 @@ $(function () {
             );
             $(".player-name").css("filter", `blur(${blurName ? 2 : 0}px)`);
             $("html").scrollTop($("main").height());
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-              $("main").hide();
-              $("#hover").show();
-            }, parseInt(settings.autoHideS) * 1000);
           }
         }
         break;
       case "26":
         if ((camp(e).inParty || camp(e).isEnemy) && statusList[e.line[2]]) {
           if (!statusNow[e.line[8]]) statusNow[e.line[8]] = {};
+          if (!statusTimer[e.line[8]]) statusTimer[e.line[8]] = {};
           statusNow[e.line[8]][e.line[2]] = { name: e.line[3], from: e.line[6] };
+          clearTimeout(statusTimer[e.line[8]][e.line[2]]);
+          statusTimer[e.line[8]][e.line[2]] = setTimeout(() => {
+            delete statusNow[e.line[8]][e.line[2]];
+          }, parseInt(e.line[4] * 1000) + 500);
+          //预留500ms防止节制类技能未判定上
+          break;
         }
-        break;
       case "30":
-        if ((camp(e).inParty || camp(e).isEnemy) && statusNow[e.line[8]]) delete statusNow[e.line[8]][e.line[2]];
+        if ((camp(e).inParty || camp(e).isEnemy) && statusNow[e.line[8]]) {
+          clearTimeout(statusTimer[e.line[8]][e.line[2]]);
+          delete statusNow[e.line[8]][e.line[2]];
+        }
         break;
       default:
         break;
