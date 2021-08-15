@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-15 23:05:36
+ * @LastEditTime: 2021-08-16 01:02:54
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -19,12 +19,12 @@ $(function () {
     cacheMax: "300",
     autoHideS: "15",
     color: {
-      dtColor: "rgba(50, 50, 50, 0.8)",
-      ddColor: "rgba(10, 10, 10, 0.4)",
-      dodgeColor: "rgb(128, 128, 128)",
-      physicsColor: "rgb(255, 100, 100)",
-      magicColor: "rgb(100, 200, 255)",
-      darknessColor: "rgb(255, 175, 255)",
+      dtColor: "rgba(10,10,10,0.5)",
+      ddColor: "rgba(10,10,10,0.2)",
+      dodgeColor: "rgb(128,128,128)",
+      physicsColor: "rgb(255,100,100)",
+      magicColor: "rgb(100,200,255)",
+      darknessColor: "rgb(255,175,255)",
     },
   };
   let settings = load("settings", 0) || defSettings;
@@ -169,9 +169,9 @@ $(function () {
               $(`main`).append(
                 `<dl title="${damage.skillName}"><dt style="background-color:${
                   settings.color.dtColor
-                }"onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-name">${
-                  damage.skillName
-                }</span><span class="damage-target player-name">${nameAbridge(damage.target)}</span><span style="color:${
+                }"onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-target player-name">${nameAbridge(
+                  damage.target
+                )}</span><span class="damage-name">${damage.skillName}</span><span style="color:${
                   settings.color[`${damage.damageType}Color`]
                 }" class="damage-value"></span><span class="status"></span></dt></dl>`
               );
@@ -183,11 +183,15 @@ $(function () {
               $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType));
             }
             $(`${dl}`).append(
-              `<dd style="background-color:${settings.color.ddColor}"hidden><span class="damage-time">${duration}</span><span class="damage-effect">${
-                damage.damageEffect
-              }</span><span class="damage-target player-name">${damage.target}</span><span style="color:${
+              `<dd style="background-color:${settings.color.ddColor}" ${
+                $(`${dl}>dd:last`).is(":hidden") ? "hidden" : ""
+              }><span class="damage-time">${duration}</span><span class="damage-target player-name">${
+                damage.target
+              }</span><span class="damage-name">${damage.skillName}</span><span style="color:${
                 settings.color[`${damage.damageType}Color`]
-              }"  class="damage-value">${damage.value.toLocaleString()}</span><span class="status">${
+              }"  class="damage-value">${damage.value.toLocaleString()}</span><span class="damage-effect">${
+                damage.damageEffect
+              }</span><span class="status">${
                 getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType)
               }</span></dd>`
             );
@@ -203,7 +207,7 @@ $(function () {
           statusNow[e.line[8]][e.line[2]] = { name: e.line[3], from: e.line[6] };
           clearTimeout(statusTimer[e.line[8]][e.line[2]]);
           statusTimer[e.line[8]][e.line[2]] = setTimeout(() => {
-            delete statusNow[e.line[8]][e.line[2]];
+            if (statusNow[e.line[8]][e.line[2]]) delete statusNow[e.line[8]][e.line[2]];
           }, parseInt(e.line[4] * 1000) + 500);
           //预留500ms防止节制类技能未判定上
           break;
@@ -211,7 +215,7 @@ $(function () {
       case "30":
         if ((camp(e).inParty || camp(e).isEnemy) && statusNow[e.line[8]]) {
           clearTimeout(statusTimer[e.line[8]][e.line[2]]);
-          delete statusNow[e.line[8]][e.line[2]];
+          if (statusNow[e.line[8]][e.line[2]]) delete statusNow[e.line[8]][e.line[2]];
         }
         break;
       default:
