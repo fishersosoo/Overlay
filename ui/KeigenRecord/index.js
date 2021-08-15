@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-16 01:02:54
+ * @LastEditTime: 2021-08-16 04:38:47
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -165,7 +165,8 @@ $(function () {
           if (damage.type === "damage" && damage.skillName.substring(0, 8) !== "Unknown_") {
             let dl = `main>dl:last[title="${damage.skillName}"]`;
             if ($("main").children("dl").length >= parseInt(settings.cacheMax)) $("main").children(":first").remove();
-            if ($(dl).length === 0)
+            if ($(dl).length === 0) {
+              $("main>dl:last-child>dd").hide()
               $(`main`).append(
                 `<dl title="${damage.skillName}"><dt style="background-color:${
                   settings.color.dtColor
@@ -175,6 +176,7 @@ $(function () {
                   settings.color[`${damage.damageType}Color`]
                 }" class="damage-value"></span><span class="status"></span></dt></dl>`
               );
+            }
             if (damage.target === charName) {
               $(`${dl}>dt>.damage-time`).text(duration);
               $(`${dl}>dt>.damage-target`).text(nameAbridge(damage.target));

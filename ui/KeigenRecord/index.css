@@ -84,9 +84,8 @@ html body main dl .damage-time,
 html body main dl .damage-target,
 html body main dl .damage-name,
 html body main dl .damage-effect,
-html body main dl .damage-value,
-html body main dl .status {
-  margin-right: 0.5em;
+html body main dl .damage-value {
+  margin: 0px 0.5em;
 }
 html body main dl .damage-effect {
   font-style: oblique;
@@ -97,7 +96,7 @@ html body main dl .damage-value {
 }
 html body main dl .status {
   position: absolute;
-  right: 0.2em;
+  right: 0.1em;
 }
 html body main dl .status .icons {
   position: relative;
