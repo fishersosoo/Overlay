@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-17 06:36:31
+ * @LastEditTime: 2021-08-17 06:51:43
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -115,12 +115,12 @@ $(function () {
     "848": { physics: 1, magic: 1 }, //体力增加（捕食）
     "6b3": { physics: 1, magic: 1 }, //腐臭（臭气）
     "843": { physics: 0, magic: 1 }, //智力精神降低（魔法锤）
-    "9c4": { physics: 1, macig: 1 }, //龙之力
-    "6ba": { physics: 1, macig: 1 }, //超硬化
-    "9c0": { physics: 1, macig: 1 }, //玄结界
-    "847": { physics: 1, macig: 1 }, //仙人盾
-    "6b7": { physics: 1, macig: 1 }, //强力守护
-    "842": { physics: 1, macig: 1 }, //哥布防御
+    "9c4": { physics: 1, magic: 1 }, //龙之力
+    "6ba": { physics: 1, magic: 1 }, //超硬化
+    "9c0": { physics: 1, magic: 1 }, //玄结界
+    "847": { physics: 1, magic: 1 }, //仙人盾
+    "6b7": { physics: 1, magic: 1 }, //强力守护
+    "842": { physics: 1, magic: 1 }, //哥布防御
   };
   let statusTimer = [];
   let party = [];
