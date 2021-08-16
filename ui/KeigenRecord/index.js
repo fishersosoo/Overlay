@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-16 04:38:47
+ * @LastEditTime: 2021-08-16 21:32:22
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -99,7 +99,7 @@ $(function () {
     "129": { physics: 1, magic: 1 }, //鼓舞
     "77d": { physics: 1, magic: 1 }, //炽天的幕帘
     "345": { physics: 1, magic: 1 }, //黑夜领域
-    "757": { physics: 1, magic: 1 }, //天星冲日（夜）
+    "758": { physics: 1, magic: 1 }, //天星冲日（夜）
     "761": { physics: 1, magic: 1 }, //天星交错（夜）
     "1e8": { physics: 1, magic: 1 }, //残影
     "a8": { physics: 1, magic: 1 }, //魔罩
