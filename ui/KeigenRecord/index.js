@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-16 21:32:22
+ * @LastEditTime: 2021-08-17 06:36:31
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -106,7 +106,7 @@ $(function () {
     "790": { physics: 1, magic: 1 }, //防护障壁
     "76a": { physics: 1, magic: 1 }, //残暴弹
 
-    "09": { physics: 1, magic: 0 }, //减速（通用）（亲疏自行）
+    "4b9": { physics: 1, magic: 0 }, //亲疏自行
     "4a9": { physics: 1, magic: 1 }, //雪仇
     "4ab": { physics: 1, magic: 0 }, //牵制
     "4b3": { physics: 0, magic: 1 }, //昏乱
@@ -166,7 +166,7 @@ $(function () {
             let dl = `main>dl:last[title="${damage.skillName}"]`;
             if ($("main").children("dl").length >= parseInt(settings.cacheMax)) $("main").children(":first").remove();
             if ($(dl).length === 0) {
-              $("main>dl:last-child>dd").hide()
+              $("main>dl:last-child>dd").hide();
               $(`main`).append(
                 `<dl title="${damage.skillName}"><dt style="background-color:${
                   settings.color.dtColor
