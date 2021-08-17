@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-14 17:00:16
+ * @LastEditTime: 2021-08-17 21:36:20
  */
 "use strict";
 import { action } from "../../resources/action.min.js";
@@ -126,7 +126,7 @@ addOverlayListener("PartyChanged", (e) => {
   setTimeout(() => loadTable(), 1000);
 });
 addOverlayListener("ChangeZone", (e) => {
-  sync = zoneSync[e.zoneName] || [0, 999];
+  sync = zoneSync[e.zoneName] || [999, 999];
 });
 addOverlayListener("onPartyWipe", () => {
   for (const i of intervals) clearInterval(i);
