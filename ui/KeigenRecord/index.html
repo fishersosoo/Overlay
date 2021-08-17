@@ -1,6 +1,6 @@
 <!--
  * @Author: Souma
- * @LastEditTime: 2021-08-16 00:35:48
+ * @LastEditTime: 2021-08-17 16:17:16
 -->
 <!DOCTYPE html>
 <html lang="zh">
@@ -15,9 +15,7 @@
   <body>
     <div id="readMe" hidden>
       <h3>(🔒锁定悬浮窗以隐藏)</h3>
-      <p>
-        <label for="cacheMax">集合储存数量</label><input type="number" name="cacheMax" id="cacheMax" min="50" max="10000" step="50" />
-      </p>
+      <p><label for="cacheMax">集合储存数量</label><input type="number" name="cacheMax" id="cacheMax" min="50" max="10000" step="50" /></p>
       <p><label for="autoHideS">脱战隐藏时间</label><input type="number" name="autoHideS" id="autoHideS" min="1" max="10000" step="1" /></p>
       <p><label for="dtColor">头部 - 背景颜色</label><input type="text" name="dtColor" id="dtColor" /><span>　</span></p>
       <p><label for="ddColor">子群 - 背景颜色</label><input type="text" name="ddColor" id="ddColor" /><span>　</span></p>
@@ -29,6 +27,7 @@
       <button>恢复出厂(不保存)</button>
       <p>如需修改，请先切换到ACT，再点击获得焦点。</p>
     </div>
+    <input type="text" id="toCopy" style="opacity: 0; position: absolute; left: -500px" ; />
     <main></main>
     <div id="hover" hidden>🔍</div>
   </body>

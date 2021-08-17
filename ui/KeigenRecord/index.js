@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-17 06:51:43
+ * @LastEditTime: 2021-08-17 16:53:07
  */
 import { status } from "../../resources/status.js";
 import { loadItem, saveItem } from "../../resources/localStorage.min.js";
@@ -17,9 +17,9 @@ $(function () {
   let blurName = load("blurName", false);
   let defSettings = {
     cacheMax: "300",
-    autoHideS: "15",
+    autoHideS: "10",
     color: {
-      dtColor: "rgba(10,10,10,0.5)",
+      dtColor: "rgba(10,10,10,0.8)",
       ddColor: "rgba(10,10,10,0.2)",
       dodgeColor: "rgb(128,128,128)",
       physicsColor: "rgb(255,100,100)",
@@ -55,6 +55,9 @@ $(function () {
         break;
     }
     showRefresh();
+  });
+  $("#readMe input").on("change", () => {
+    for (const key in settings.color) $(`#${key}~span`).css("background-color", $(`#${key}`).val());
   });
   let statusNow = {};
   let statusList = {
@@ -170,7 +173,7 @@ $(function () {
               $(`main`).append(
                 `<dl title="${damage.skillName}"><dt style="background-color:${
                   settings.color.dtColor
-                }"onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-target player-name">${nameAbridge(
+                }" onclick="dtClick(this)"><span class="damage-time">${duration}</span><span class="damage-target player-name">${nameAbridge(
                   damage.target
                 )}</span><span class="damage-name">${damage.skillName}</span><span style="color:${
                   settings.color[`${damage.damageType}Color`]
@@ -185,7 +188,7 @@ $(function () {
               $(`${dl}>dt>.status`).html(getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType));
             }
             $(`${dl}`).append(
-              `<dd style="background-color:${settings.color.ddColor}" ${
+              `<dd onclick="ddClick(this)" style="background-color:${settings.color.ddColor}" ${
                 $(`${dl}>dd:last`).is(":hidden") ? "hidden" : ""
               }><span class="damage-time">${duration}</span><span class="damage-target player-name">${
                 damage.target
@@ -259,7 +262,7 @@ $(function () {
               (statusList[key].physics && damageType === "physics") || (statusList[key].magic && damageType === "magic") || damageType === "dodge"
                 ? "useful"
                 : "useless"
-            }" src="https://cafemaker.wakingsands.com/i/${status[parseInt(key, 16)].url}"></span>`;
+            }" title="${statusNow[name][key].name}" src="https://cafemaker.wakingsands.com/i/${status[parseInt(key, 16)].url}"></span>`;
           }
         return result;
       } else {
@@ -268,6 +271,29 @@ $(function () {
     }
   }
   window.dtClick = (e) => ($($(e).siblings("dd")[0]).is(":hidden") ? $(e).siblings("dd").show() : $(e).siblings("dd").hide());
+  window.ddClick = function (e) {
+    // $(e).children(".damage-effect").text();
+    let result = `${$(e).children(".damage-time").text()} ${$(e).children(".damage-target").text()} ${$(e).children(".damage-name").text()} ${$(e)
+      .children(".damage-value")
+      .text()} `;
+    for (let i = 0; i < $(e).find("img").length; i++) result += $(e).find("img")[i].title + " ";
+    $("#toCopy").val(result);
+    document.getElementById("toCopy").select();
+    document.execCommand("copy");
+    $("#hint").remove();
+    let hint = $(`<div id="hint">已复制！</div>`);
+    hint.css({
+      "position": "sticky",
+      "bottom": "10px",
+      "width": "100%",
+      "backgroundColor": "rgba(255,255,255,0.2)",
+      "text-align": "center",
+    });
+    hint.stop();
+    hint.animate({ opacity: 1 }, 1000);
+    hint.animate({ opacity: 0 }, 1500);
+    $("body").append(hint);
+  };
   function getDamage(e) {
     let result = {
       type: "unknown",
