@@ -1,6 +1,6 @@
 <!--
  * @Author: Souma
- * @LastEditTime: 2021-08-17 16:17:16
+ * @LastEditTime: 2021-08-18 01:19:47
 -->
 <!DOCTYPE html>
 <html lang="zh">
@@ -9,23 +9,13 @@
     <title>KeigenRecord</title>
     <script src="https://act.diemoe.net/overlays/common/common.min.js"></script>
     <script src="../../resources/jquery-3.6.0.min.js" async></script>
-    <script type="module" src="index.js" async></script>
-    <link rel="stylesheet" href="index.css" async />
+    <script type="module" src="./js/index.js" async></script>
+    <link rel="stylesheet" href="./style/index.css" async />
   </head>
   <body>
     <div id="readMe" hidden>
-      <h3>(🔒锁定悬浮窗以隐藏)</h3>
-      <p><label for="cacheMax">集合储存数量</label><input type="number" name="cacheMax" id="cacheMax" min="50" max="10000" step="50" /></p>
-      <p><label for="autoHideS">脱战隐藏时间</label><input type="number" name="autoHideS" id="autoHideS" min="1" max="10000" step="1" /></p>
-      <p><label for="dtColor">头部 - 背景颜色</label><input type="text" name="dtColor" id="dtColor" /><span>　</span></p>
-      <p><label for="ddColor">子群 - 背景颜色</label><input type="text" name="ddColor" id="ddColor" /><span>　</span></p>
-      <p><label for="dodgeColor">伤害类型：回避 - 文字颜色</label><input type="text" name="dodgeColor" id="dodgeColor" /><span>　</span></p>
-      <p><label for="physicsColor">伤害类型：物理 - 文字颜色</label><input type="text" name="physicsColor" id="physicsColor" /><span>　</span></p>
-      <p><label for="magicColor">伤害类型：魔法 - 文字颜色</label><input type="text" name="magicColor" id="magicColor" /><span>　</span></p>
-      <p><label for="darknessColor">伤害类型：暗黑 - 文字颜色</label><input type="text" name="darknessColor" id="darknessColor" /><span>　</span></p>
-      <button>保存</button>
-      <button>恢复出厂(不保存)</button>
-      <p>如需修改，请先切换到ACT，再点击获得焦点。</p>
+      <p>(🔒锁定悬浮窗以隐藏)</p>
+      <p class="clickable" id="goSettings">设置</p>
     </div>
     <input type="text" id="toCopy" style="opacity: 0; position: absolute; left: -500px" ; />
     <main></main>
