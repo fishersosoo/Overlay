@@ -27,6 +27,7 @@ html > body > article {
 html > body > article > div.fcolorpicker-curbox {
   width: 50px !important;
   height: 20px !important;
+  border: 1px solid black;
 }
 html > body > span,
 html > body > label {
