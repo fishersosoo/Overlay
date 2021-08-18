@@ -429,10 +429,10 @@ function jobIDConvert(jobID) {
       };
     case "7":
       return {
-        job: "",
-        short: "",
-        middle: "",
-        full: "",
+        job: "THM",
+        short: "咒",
+        middle: "咒术",
+        full: "咒术师",
       };
     case "19":
       return {
