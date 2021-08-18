@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-18 01:16:59
+ * @LastEditTime: 2021-08-18 21:56:07
  */
 import { def } from "./def.js";
 Object.freeze(def);
@@ -29,6 +29,7 @@ $(function () {
         for (const c of colors) settings.color[$(c).parent().attr("id")] = $(c).css("background-color");
         save("settings", settings);
     }
+    window.opener.document.location.reload();
   });
   $("#cancel").on("click", () => location.reload());
   $("#reset").on("click", () => {
