@@ -1,19 +1,22 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-17 21:36:20
+ * @LastEditTime: 2021-08-18 21:21:17
  */
 "use strict";
-import { action } from "../../resources/action.min.js";
-import { loadItem } from "../../resources/localStorage.min.js";
-import { partySort } from "../../resources/partyList.min.js";
-import { zoneSync } from "../../resources/sync.js";
-import { compareSame } from "./compareSameGroup.min.js";
-import { def, defCSS, defSort } from "./def.min.js";
+import { action } from "../../../resources/action.min.js";
+import { loadItem } from "../../../resources/localStorage.min.js";
+import { partySort } from "../../../resources/partyList.min.js";
+import { zoneSync } from "../../../resources/sync.js";
+import { TTS } from "../../../resources/TTS.js";
+import { compareSame } from "./compareSameGroup.js";
+import { def, defCSS, defSort, defTTS } from "./def.js";
 let charID;
 let party = [];
 let intervals = [];
 let namespace = "teamWatch";
 let watch = load("watch", JSON.parse(JSON.stringify(def)));
+let actionTTS = load("TTS", JSON.parse(JSON.stringify(defTTS)));
+let TTSOn = load("TTSOn", false);
 let sync = [0, 999];
 function load(t, a = "") {
   return loadItem(namespace, t, a);
@@ -94,7 +97,7 @@ function loadTable() {
 }
 let r = document.querySelectorAll("#readMe > p.clickable");
 r[0].addEventListener("click", () => {
-  window.open("./settingWatch.html", "_blank", "width=543,height=637");
+  window.open("./settingWatch.html", "_blank", "width=872,height=637");
 });
 r[1].addEventListener("click", () => {
   party = [
@@ -141,6 +144,8 @@ addOverlayListener("onLogEvent", (e) => {
       let n = party.findIndex((m) => {
         return m.id === networkAbility.groups.CasterObjectID;
       });
+      if (TTSOn && (n + 1 || parseInt(networkAbility.groups.CasterObjectID, 16) === charID))
+        TTS(actionTTS[parseInt(networkAbility.groups.AbilityID, 16)]);
       if (n + 1) {
         //inparty
         let cs = compareSame(networkAbility.groups.AbilityID);

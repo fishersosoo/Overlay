@@ -1,9 +1,10 @@
 "use strict";
-import { action } from "../../resources/action.min.js";
-import { def, defSort, defCSS } from "./def.min.js";
-import { compareSameGroup } from "./compareSameGroup.min.js";
-import { loadItem, saveItem } from "../../resources/localStorage.min.js";
-import "../../resources/drag-arrange.min.js";
+import { action, justGiveMe } from "../../../resources/action.min.js";
+import "../../../resources/drag-arrange.min.js";
+import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
+import { jobIDConvert } from "../../../resources/logLineProcessing.min.js";
+import { compareSameGroup } from "./compareSameGroup.js";
+import { def, defCSS, defSort, defTTS } from "./def.js";
 let namespace = "teamWatch";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
@@ -50,6 +51,8 @@ let jobList = {
   38: ["舞者", true],
 };
 let sortRule = load("sortRule", JSON.parse(JSON.stringify(defSort)));
+let actionTTS = load("TTS", JSON.parse(JSON.stringify(defTTS)));
+let TTSOn = load("TTSOn", false);
 let job = 19;
 
 window.checkboxOnClick = function (checkbox) {
@@ -219,17 +222,13 @@ $("#set-save").on("click", () => {
   save("sortRule", sortRule);
   watch = JSON.parse(JSON.stringify(getWatch()));
   save("watch", watch);
-  $("body>small").css({ "background-color": "red", "color": "white" });
-  $("body>small").text("已保存！下次小队变化时生效。");
-  for (let i = 0; i < 5; i++) {
-    $("body>small").animate({ opacity: "0.5" }, "slow");
-    $("body>small").animate({ opacity: "1" }, "slow");
-  }
+  window.opener.document.location.reload();
 });
 window.onload = function () {
   loadSettings(load("settings", defCSS));
   show();
   insertJobList();
+  loadTTS();
 };
 function getNowSortRule() {
   let tSettings = {};
@@ -252,3 +251,72 @@ function loadSettings(sets) {
     }
   }
 }
+let loadTTS = () => {
+  $("#TTSOn").prop("checked", TTSOn);
+  $("#TTSOn").on("change", () => (TTSOn = $("#TTSOn").prop("checked")));
+  let dom = $(`<ul></ul>`);
+  for (const key in actionTTS) {
+    if (Object.hasOwnProperty.call(actionTTS, key)) {
+      const e = actionTTS[key];
+      dom.append(
+        `<li title="${key}">${justGiveMe(key)[0]}<input type="text" value="${e}"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`
+      );
+    }
+  }
+  $("#TTS").append(dom);
+  $("#jobSelect").append(() => {
+    let result = "";
+    for (const job in action) {
+      if (Object.hasOwnProperty.call(action, job)) {
+        result += `<option value="${job}">${jobIDConvert(job).full}</option>`;
+      }
+    }
+    return result;
+  });
+  insertAction();
+  $("#jobSelect").on("change", () => {
+    insertAction();
+  });
+  function insertAction() {
+    $("#actionSelect").html(() => {
+      let result;
+      for (const a in action[$("#jobSelect").val()]) {
+        if (Object.hasOwnProperty.call(action[$("#jobSelect").val()], a)) {
+          const element = action[$("#jobSelect").val()][a];
+          result += `<option value="${a}">${element[0]}</option>`;
+        }
+      }
+      return result;
+    });
+  }
+  $("#addTTS").on("click", () => {
+    if (actionTTS[$("#actionSelect").val()]) {
+      let l = $("#TTS>ul>li").filter((i, o) => {
+        return o.firstChild.nodeValue === $("#actionSelect").find("option:selected").text();
+      });
+      l.css({ color: "red" });
+      l.one("mouseenter", (e) => {
+        $(e.currentTarget).css({ color: "" });
+      });
+    } else {
+      actionTTS[$("#actionSelect").val()] = $("#actionSelect").find("option:selected").text();
+      $("#TTS>ul").append(
+        `<li title="${$("#actionSelect").val()}">${$("#actionSelect").find("option:selected").text()}<input type="text" value="${
+          actionTTS[$("#actionSelect").val()]
+        }"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`
+      );
+    }
+  });
+  $("#saveTTS").on("click", () => {
+    save("TTSOn", TTSOn);
+    for (const i of $("#TTS>ul>li")) {
+      actionTTS[$(i).attr("title")] = $(i).children("input").val();
+    }
+    save("TTS", actionTTS);
+    window.opener.document.location.reload();
+  });
+};
+window.delTTS = (e) => {
+  $(e).parent().remove();
+  delete actionTTS[$(e).parent().attr("title")];
+};

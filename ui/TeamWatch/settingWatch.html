@@ -1,6 +1,6 @@
 <!--
  * @Author: Souma
- * @LastEditTime: 2021-08-14 17:17:15
+ * @LastEditTime: 2021-08-18 21:25:08
 -->
 <!DOCTYPE html>
 <html lang="zh">
@@ -8,8 +8,8 @@
     <meta charset="UTF-8" />
     <title>设置(*╹▽╹*)</title>
     <script src="../../resources/jquery-3.6.0.min.js"></script>
-    <script type="module" src="settingWatch.js"></script>
-    <link rel="stylesheet" href="settingWatch.css" />
+    <script type="module" src="./js/settingWatch.js" async></script>
+    <link rel="stylesheet" href="./style/settingWatch.css" />
   </head>
   <body>
     <table id="pre"></table>
@@ -55,6 +55,18 @@
       <button id="set-save" class="set set-save">保存</button>
       <button id="set-noSave" class="set set-noSave">取消</button>
     </aside>
+    <div id="TTS">
+      <h4>TTS提醒</h4>
+      <button id="saveTTS">保存</button><br />
+      <label for="TTSOn"><input type="checkbox" id="TTSOn" />启用</label>
+      <p>
+        <label for="jobSelect">职业</label
+        ><select id="jobSelect"></select
+        ><label for="actionSelect">技能</label
+        ><select id="actionSelect"></select
+        ><button id="addTTS">添加</button>
+      </p>
+    </div>
     <small>（拖拽<b>特职职业名</b>排序）与游戏内保持一致哦~（基础职业自动绑定特职无需拖拽）</small>
   </body>
 </html>
