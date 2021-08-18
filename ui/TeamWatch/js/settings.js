@@ -258,9 +258,10 @@ let loadTTS = () => {
   for (const key in actionTTS) {
     if (Object.hasOwnProperty.call(actionTTS, key)) {
       const e = actionTTS[key];
-      dom.append(
-        `<li title="${key}">${justGiveMe(key)[0]}<input type="text" value="${e}"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`
-      );
+      if (compareSameGroup[e] === undefined)
+        dom.append(
+          `<li title="${key}">${justGiveMe(key)[0]}<input type="text" value="${e}"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`
+        );
     }
   }
   $("#TTS").append(dom);
@@ -283,7 +284,7 @@ let loadTTS = () => {
       for (const a in action[$("#jobSelect").val()]) {
         if (Object.hasOwnProperty.call(action[$("#jobSelect").val()], a)) {
           const element = action[$("#jobSelect").val()][a];
-          result += `<option value="${a}">${element[0]}</option>`;
+          if (compareSameGroup[parseInt(a)] === undefined) result += `<option value="${a}">${element[0]}</option>`;
         }
       }
       return result;
@@ -313,7 +314,10 @@ let loadTTS = () => {
       actionTTS[$(i).attr("title")] = $(i).children("input").val();
     }
     save("TTS", actionTTS);
-    window.opener.document.location.reload();
+    console.log(actionTTS);
+    try {
+      window.opener.document.location.reload();
+    } catch {}
   });
 };
 window.delTTS = (e) => {

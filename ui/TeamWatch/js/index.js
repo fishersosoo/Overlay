@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-18 21:21:17
+ * @LastEditTime: 2021-08-18 22:30:39
  */
 "use strict";
 import { action } from "../../../resources/action.min.js";
@@ -97,7 +97,7 @@ function loadTable() {
 }
 let r = document.querySelectorAll("#readMe > p.clickable");
 r[0].addEventListener("click", () => {
-  window.open("./settingWatch.html", "_blank", "width=872,height=637");
+  window.open("./settings.html", "_blank", "width=872,height=637");
 });
 r[1].addEventListener("click", () => {
   party = [
@@ -144,11 +144,10 @@ addOverlayListener("onLogEvent", (e) => {
       let n = party.findIndex((m) => {
         return m.id === networkAbility.groups.CasterObjectID;
       });
-      if (TTSOn && (n + 1 || parseInt(networkAbility.groups.CasterObjectID, 16) === charID))
-        TTS(actionTTS[parseInt(networkAbility.groups.AbilityID, 16)]);
+      let cs = compareSame(networkAbility.groups.AbilityID);
+      if (TTSOn && (n + 1 || parseInt(networkAbility.groups.CasterObjectID, 16) === charID)) TTS(actionTTS[cs]);
       if (n + 1) {
         //inparty
-        let cs = compareSame(networkAbility.groups.AbilityID);
         let i = watch[party[n].job].findIndex((a) => {
           return parseInt(a) === cs;
         });
