@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-18 22:30:39
+ * @LastEditTime: 2021-08-19 00:32:19
  */
 "use strict";
 import { action } from "../../../resources/action.min.js";
@@ -142,7 +142,7 @@ addOverlayListener("onLogEvent", (e) => {
     if (networkAbility) {
       //15、16
       let n = party.findIndex((m) => {
-        return m.id === networkAbility.groups.CasterObjectID;
+        return m.id === networkAbility.groups.CasterObjectID && m.inParty;
       });
       let cs = compareSame(networkAbility.groups.AbilityID);
       if (TTSOn && (n + 1 || parseInt(networkAbility.groups.CasterObjectID, 16) === charID)) TTS(actionTTS[cs]);
