@@ -258,7 +258,7 @@ let loadTTS = () => {
   for (const key in actionTTS) {
     if (Object.hasOwnProperty.call(actionTTS, key)) {
       const e = actionTTS[key];
-      if (compareSameGroup[e] === undefined)
+      if (compareSameGroup[key] === undefined)
         dom.append(
           `<li title="${key}">${justGiveMe(key)[0]}<input type="text" value="${e}"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`
         );
@@ -314,7 +314,6 @@ let loadTTS = () => {
       actionTTS[$(i).attr("title")] = $(i).children("input").val();
     }
     save("TTS", actionTTS);
-    console.log(actionTTS);
     try {
       window.opener.document.location.reload();
     } catch {}
