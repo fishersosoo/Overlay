@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-19 00:32:19
+ * @LastEditTime: 2021-08-19 05:15:34
  */
 "use strict";
 import { action } from "../../../resources/action.min.js";
@@ -129,15 +129,18 @@ addOverlayListener("PartyChanged", (e) => {
   setTimeout(() => loadTable(), 1000);
 });
 addOverlayListener("ChangeZone", (e) => {
+  for (const i of intervals) clearInterval(i);
   sync = zoneSync[e.zoneName] || [999, 999];
 });
 addOverlayListener("onPartyWipe", () => {
   for (const i of intervals) clearInterval(i);
-  $(`body > main > table > tbody > tr > td > article`).text("");
+  loadTable();
 });
 addOverlayListener("onLogEvent", (e) => {
   let logs = e.detail.logs;
   for (const log of logs) {
+    // if (log.match(/^.{14} 00:0038:test$/)) {
+    // }
     let networkAbility = log.match(/^.{15}1[56]:(?<CasterObjectID>1.{7}):[^:]+:(?<AbilityID>[^:]+):/i);
     if (networkAbility) {
       //15、16
