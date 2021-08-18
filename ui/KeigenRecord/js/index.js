@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-18 01:25:16
+ * @LastEditTime: 2021-08-18 17:31:17
  */
 import { status } from "../../../resources/status.js";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -122,8 +122,14 @@ $(function () {
       $("#hover").show();
     }, parseInt(settings.autoHideS) * 1000);
   });
-  addOverlayListener("ChangeZone", () => (statusNow = {}));
-  addOverlayListener("onPartyWipe", () => (statusNow = {}));
+  addOverlayListener("ChangeZone", () => {
+    statusNow = {};
+    for (const timer of statusTimer) for (const t of timer) clearTimeout(t);
+  });
+  addOverlayListener("onPartyWipe", () => {
+    statusNow = {};
+    for (const timer of statusTimer) for (const t of timer) clearTimeout(t);
+  });
   addOverlayListener("LogLine", (e) => handle(e));
   startOverlayEvents();
   function handle(e) {
@@ -179,7 +185,7 @@ $(function () {
           statusNow[e.line[8]][e.line[2]] = { name: e.line[3], from: e.line[6] };
           clearTimeout(statusTimer[e.line[8]][e.line[2]]);
           statusTimer[e.line[8]][e.line[2]] = setTimeout(() => {
-            if (statusNow[e.line[8]][e.line[2]]) delete statusNow[e.line[8]][e.line[2]];
+            if (statusNow && statusNow[e.line[8]][e.line[2]]) delete statusNow[e.line[8]][e.line[2]];
           }, parseInt(e.line[4] * 1000) + 500);
           //预留500ms防止节制类技能未判定上
           break;
@@ -187,7 +193,7 @@ $(function () {
       case "30":
         if ((camp(e).inParty || camp(e).isEnemy) && statusNow[e.line[8]]) {
           clearTimeout(statusTimer[e.line[8]][e.line[2]]);
-          if (statusNow[e.line[8]][e.line[2]]) delete statusNow[e.line[8]][e.line[2]];
+          if (statusNow && statusNow[e.line[8]][e.line[2]]) delete statusNow[e.line[8]][e.line[2]];
         }
         break;
       default:
