@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-20 00:38:35
+ * @LastEditTime: 2021-08-20 00:45:04
  */
 import { def } from "./def.js";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -14,7 +14,7 @@ function save(t, a) {
   saveItem(namespace, t, a);
 }
 $(function () {
-  let settings = load("settings") || JSON.parse(JSON.parse(def));
+  let settings = load("settings") || JSON.parse(JSON.stringify(def));
   loadColor(settings);
   $("#cacheMax").val(settings.cacheMax);
   $("#autoHideS").val(settings.autoHideS);
@@ -32,7 +32,7 @@ $(function () {
   });
   $("#cancel").on("click", () => location.reload());
   $("#reset").on("click", () => {
-    loadColor(JSON.parse(JSON.parse(def)));
+    loadColor(JSON.parse(JSON.stringify(def)));
   });
 });
 function loadColor(settings) {
