@@ -155,12 +155,10 @@ function show() {
     const e = sortRule[i];
     try {
       $("#pre").append(
-        `<tr class="${jobList[e][1] ? "color-job" : "base-job"}" id="${e}"}><td class="${jobList[e][1] ? classColor(e) : "base-job-name"} pre-job">${
-          jobList[e][0]
-        }</td>${`${watch[e].map((m) =>
-          m
-            ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>`
-            : `<td><span></span></td>`
+        `<tr class="${jobList[e][1] ? "color-job" : "base-job"}" id="${e}"}><td class="${jobList[e][1] ? classColor(e) : "base-job-name"} pre-job">${jobList[e][0]}</td>${`${watch[
+          e
+        ].map((m) =>
+          m ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>` : `<td><span></span></td>`
         )}`}</tr>`
       );
     } catch {
@@ -222,7 +220,9 @@ $("#set-save").on("click", () => {
   save("sortRule", sortRule);
   watch = JSON.parse(JSON.stringify(getWatch()));
   save("watch", watch);
-  window.opener.document.location.reload();
+  try {
+    window.opener.document.location.reload();
+  } catch {}
 });
 window.onload = function () {
   loadSettings(load("settings", defCSS));
@@ -259,9 +259,7 @@ let loadTTS = () => {
     if (Object.hasOwnProperty.call(actionTTS, key)) {
       const e = actionTTS[key];
       if (compareSameGroup[key] === undefined)
-        dom.append(
-          `<li title="${key}">${justGiveMe(key)[0]}<input type="text" value="${e}"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`
-        );
+        dom.append(`<li title="${key}">${justGiveMe(key)[0]}<input type="text" value="${e}"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`);
     }
   }
   $("#TTS").append(dom);
