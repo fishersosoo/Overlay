@@ -1,4 +1,7 @@
-版本:	quest,zoneInfo,zones	xivapi/cactbot/fflogs
-技改:	action			Datamining-cn
-服务器:	dataCenter,worldId		xivapi
+ActionCategory
+ClassJobCategory 
+IsPvP = false
+Recast<100ms> >=100 
 
+Trait:
+Trait.csv+TraitTransient.csv

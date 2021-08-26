@@ -1,0 +1,170 @@
+* {
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+  box-sizing: border-box;
+}
+html body nav {
+  user-select: none;
+  background-color: #824880;
+}
+html body nav ul li {
+  display: inline-block;
+  padding: 5px 30px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+html body nav ul li:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+}
+html body nav ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, #824880, #1abc9c, #f1c40f, #e74c3c, #824880);
+  transform: translateX(-100%);
+  transition: 1s;
+}
+html body nav ul li:hover::before {
+  transform: translateX(100%);
+}
+html body main article {
+  padding: 5px;
+  height: 100%;
+}
+html body main article#style > ul li {
+  width: 800px;
+  padding: 15px 35px;
+  font-size: 16px;
+  font-weight: bold;
+}
+html body main article#style > ul li input,
+html body main article#style > ul li select {
+  font-size: 16px;
+  float: right;
+  width: 16em;
+  text-align: right;
+}
+html body main article#style > ul li input::-webkit-outer-spin-button,
+html body main article#style > ul li input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+html body main article#watchs > ul > li {
+  font-weight: bold;
+}
+html body main article#watchs > ul > li > article {
+  user-select: none;
+}
+html body main article#watchs > ul > li > article:hover {
+  cursor: move;
+}
+html body main article#watchs > ul > li > article > aside {
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+  text-align: right;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  color: white;
+  text-shadow: 0px 0px 3px red;
+  opacity: 0;
+}
+html body main article#watchs > ul > li > article > button {
+  opacity: 0;
+}
+html body main article#watchs > ul > li > article:hover > aside {
+  cursor: pointer;
+  opacity: 1;
+}
+html body main article#watchs > ul > li > article:hover > button {
+  opacity: 1;
+}
+html body main article#partySort > #jobSort {
+  float: left;
+  padding: 15px;
+  font-weight: bold;
+}
+html body main article#partySort > #jobSort select {
+  display: block;
+}
+html body main article#partySort > ul {
+  list-style-type: decimal;
+  float: left;
+  margin: 20px;
+}
+html body main article#partySort > ul li {
+  user-select: none;
+  width: 200px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  position: relative;
+}
+html body main article#partySort > ul li:hover {
+  cursor: move;
+}
+html body main article#partySort > ul.Tank {
+  border: 3px solid blue;
+}
+html body main article#partySort > ul.Tank > li:hover {
+  background: lightblue;
+}
+html body main article#partySort > ul.Healer {
+  border: 3px solid green;
+}
+html body main article#partySort > ul.Healer > li:hover {
+  background: lightgreen;
+}
+html body main article#partySort > ul.Dps {
+  border: 3px solid red;
+}
+html body main article#partySort > ul.Dps > li:hover {
+  background: lightcoral;
+}
+html body main article#tts > .ttsSkill,
+html body main article#tts #ttsPlus {
+  font-weight: bold;
+  display: inline-block;
+  width: 300px;
+  height: 40px;
+  padding: 10px 10px;
+  margin: 5px;
+  border: 1px dashed gray;
+}
+html body main article#tts input {
+  float: right;
+  width: 5em;
+  text-align: right;
+}
+html body main article#share p {
+  height: 100px;
+}
+html body main article#share p textarea {
+  width: 500px;
+  height: 80px;
+  float: left;
+}
+html body main article#share p button {
+  padding: 20px;
+  margin: 10px;
+}
+html body #save {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 34px;
+  width: 150px;
+  font-size: 18px;
+  color: #4361ee;
+  text-align: center;
+}
+html body #save:hover {
+  cursor: pointer;
+}

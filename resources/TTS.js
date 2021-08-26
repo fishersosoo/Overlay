@@ -1,14 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-18 18:39:22
+ * @LastEditTime: 2021-08-24 11:50:40
  */
-// let TTS = (t) => callOverlayHandler({ call: "cactbotSay", text: t });
-let his = [];
-let TTS = (t) => {
-  if (his.indexOf(t) && t) {
-    his.push(t);
-    setTimeout(() => his.shift(), 1000);
-    callOverlayHandler({ call: "cactbotSay", text: t });
-  }
-};
+let TTS = (t) => (t ? callOverlayHandler({ call: "cactbotSay", text: t }) : "");
 export { TTS };

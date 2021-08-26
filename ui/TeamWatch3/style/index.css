@@ -1,0 +1,52 @@
+* {
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  user-select: none;
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+  width: 100%;
+}
+html > body {
+  transform-origin: bottom right;
+  height: 100%;
+  width: 100%;
+}
+html > body #readMe {
+  background-color: rgba(0, 0, 150, 0.2);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+  color: white;
+  text-shadow: -1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000;
+}
+html > body #readMe > p {
+  border: 1px solid rgba(0, 0, 0, 0);
+  box-sizing: border-box;
+  line-height: 2rem;
+  width: 100%;
+  min-width: 10rem;
+  max-width: 30rem;
+  text-align: center;
+}
+html > body #readMe > .clickable {
+  font-weight: bold;
+}
+html > body #readMe > .clickable:hover {
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: rgba(174, 216, 229, 0.75);
+}
+html > body > main {
+  float: right;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  text-shadow: -1px 0 3px #000, 0 1px 3px #000, 1px 0 3px #000, 0 -1px 3px #000;
+  font-weight: bold;
+}

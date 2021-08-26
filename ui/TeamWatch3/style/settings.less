@@ -1,0 +1,187 @@
+* {
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+  // overflow: hidden;
+  user-select: none;
+  box-sizing: border-box;
+}
+html {
+  body {
+    nav {
+      user-select: none;
+      background-color: #824880;
+      ul {
+        li {
+          display: inline-block;
+          padding: 5px 30px;
+          color: white;
+          position: relative;
+          overflow: hidden;
+          &:hover {
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+          }
+          &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(to right, #824880, #1abc9c, #f1c40f, #e74c3c, #824880);
+            transform: (translateX(-100%));
+            transition: 1s;
+          }
+          &:hover::before {
+            transform: (translateX(100%));
+          }
+        }
+      }
+    }
+    main {
+      article {
+        padding: 5px;
+        height: 100%;
+        &#style > ul {
+          li {
+            width: 800px;
+            padding: 15px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            input,
+            select {
+              font-size: 16px;
+              float: right;
+              width: 16em;
+              text-align: right;
+            }
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+            }
+          }
+        }
+        &#watchs > ul > li {
+          font-weight: bold;
+          > article {
+            user-select: none;
+            &:hover {
+              cursor: move;
+            }
+            > aside {
+              width: 1em;
+              height: 1em;
+              line-height: 1em;
+              text-align: right;
+              position: absolute;
+              right: 0px;
+              top: 0px;
+              color: white;
+              text-shadow: 0px 0px 3px red;
+              opacity: 0;
+            }
+            > button {
+              opacity: 0;
+            }
+            &:hover {
+              > aside {
+                cursor: pointer;
+                opacity: 1;
+              }
+              > button {
+                opacity: 1;
+              }
+            }
+          }
+        }
+        &#partySort > #jobSort {
+          float: left;
+          padding: 15px;
+          font-weight: bold;
+          select {
+            display: block;
+          }
+        }
+        &#partySort > ul {
+          list-style-type: decimal;
+          float: left;
+          margin: 20px;
+          li {
+            user-select: none;
+            width: 200px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            position: relative;
+            &:hover {
+              cursor: move;
+            }
+          }
+          &.Tank {
+            border: 3px solid blue;
+            > li:hover {
+              background: lightblue;
+            }
+          }
+          &.Healer {
+            border: 3px solid green;
+            > li:hover {
+              background: lightgreen;
+            }
+          }
+          &.Dps {
+            border: 3px solid red;
+            > li:hover {
+              background: lightcoral;
+            }
+          }
+        }
+        &#tts {
+          > .ttsSkill,
+          #ttsPlus {
+            font-weight: bold;
+            display: inline-block;
+            width: 300px;
+            height: 40px;
+            padding: 10px 10px;
+            margin: 5px;
+            border: 1px dashed gray;
+          }
+          input {
+            float: right;
+            width: 5em;
+            text-align: right;
+          }
+        }
+        &#share {
+          p {
+            height: 100px;
+            textarea {
+              width: 500px;
+              height: 80px;
+              float: left;
+            }
+            button {
+              padding: 20px;
+              margin: 10px;
+            }
+          }
+        }
+      }
+    }
+    #save {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      height: 34px;
+      width: 150px;
+      font-size: 18px;
+      color: #4361ee;
+      text-align: center;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
