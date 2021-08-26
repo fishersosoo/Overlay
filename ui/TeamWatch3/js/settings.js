@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-26 21:21:36
+ * @LastEditTime: 2021-08-26 22:55:30
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -98,7 +98,7 @@ for (const i in settings.watchs) {
   btn.innerText = "+";
   btn.style.marginLeft = "1em";
   btn.style.padding = "0.375em 0.75em";
-  btn.setAttribute("name", jobList.find((j) => j.ID === watch.job)[settings.language]);
+  btn.setAttribute("name", jobList.find((j) => j.ID === watch.job).cn);//不要改cn
   btn.onclick = function () {
     let remove = document.querySelector("#watchs > ul > li > div");
     if (remove) remove.remove();
