@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-26 21:09:31
+ * @LastEditTime: 2021-08-26 21:21:36
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -109,9 +109,7 @@ for (const i in settings.watchs) {
     div.style.top = "0px";
     div.style.position = "absolute";
     let select = document.createElement("select");
-    for (const action of actions.filter((action) =>
-      new RegExp(`^${btn.getAttribute("name")}| ${btn.getAttribute("name")} |${btn.getAttribute("name")}$`).test(action.ClassJobCategory)
-    )) {
+    for (const action of actions.filter((action) => new RegExp(`(^| )${btn.getAttribute("name")}($| )`).test(action.ClassJobCategory))) {
       if (compareSameGroup[action.ID] === undefined) {
         if ([].slice.call(li.querySelectorAll("article")).find((a) => a.getAttribute("name") === (compareSameGroup[action.ID] || action.ID)) === undefined) {
           let option = document.createElement("option");
