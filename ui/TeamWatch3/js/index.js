@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-26 20:14:40
+ * @LastEditTime: 2021-08-26 20:30:47
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -62,7 +62,7 @@ function partySort(party) {
 addOverlayListener("ChangePrimaryPlayer", (e) => (charID = e.charID.toString(16).toUpperCase()));
 addOverlayListener("onLogEvent", (e) => {
   for (const log of e.detail.logs) {
-    let AddCombatant = log.match(/^.{15}03:(?<id>1.{7}):AddCombatant new combatant .+? Job:.+? Level: (?<level>\d+) Max HP/);
+    let AddCombatant = log.match(/^.{15}03:(?<id>1.{7}):Added new combatant .+? Job:.+? Level: (?<level>\d+) Max HP/);
     let RemoveCombatant = log.match(/^.{15}04:(?<id>1.{7}):/);
     let NetworkAbility = log.match(/^.{15}1[56]:(?<id>1.{7}):[^:]+:(?<ability>[^:]+):.+:0$/);
     if (AddCombatant) {
