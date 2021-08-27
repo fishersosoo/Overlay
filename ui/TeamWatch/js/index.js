@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 16:01:28
+ * @LastEditTime: 2021-08-27 16:46:19
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -52,6 +52,7 @@ let settings;
 (function loadSettings() {
   settings = Object.assign(defaultSettings, load("settings", {}));
 })();
+
 function partySort(party) {
   let result = [];
   settings.partySort["when" + jobList.find((j) => j.ID.toString() === party.find((p) => p.id !== charID).job.toString()).Role]
@@ -88,8 +89,8 @@ function handle() {
         let action = actions.find((action) => action.ID === skill.id);
         let art = document.createElement("article");
         art.style.position = "absolute";
-        art.style.top = `${parseInt(skill.top) + 50 * i}px`;
-        art.style.right = skill.right;
+        art.style.top = `${parseInt(skill.top) + 50 * i * 0.8}px`;
+        art.style.right = parseInt(skill.right) * 0.8 + "px";
         art.style.width = "48px";
         art.style.height = art.style.width;
         art.style.lineHeight = art.style.width;
@@ -184,4 +185,17 @@ document.addEventListener("onOverlayStateUpdate", (e) =>
 );
 document.querySelector("#settings").onclick = () => {
   window.open("./settings.html", "_blank", "width=1280,height=720");
+};
+document.querySelector("#showFake").onclick = () => {
+  party = [
+    { id: "10000027", name: "PLD", worldId: 1177, job: 19, inParty: true },
+    { id: "10000030", name: "NIN", worldId: 1169, job: 30, inParty: true },
+    { id: "10000028", name: "SCH", worldId: 1179, job: 28, inParty: true },
+    { id: "10000022", name: "DRG", worldId: 1043, job: 22, inParty: true },
+    { id: (charID || "10000021").toString(16).toUpperCase(), name: "TEST", worldId: 1177, job: 38, inParty: true },
+    { id: "10000020", name: "MNK", worldId: 1045, job: 20, inParty: true },
+    { id: "10000033", name: "AST", worldId: 1179, job: 33, inParty: true },
+    { id: "10000025", name: "BLM", worldId: 1177, job: 25, inParty: true },
+  ];
+  handle();
 };

@@ -11,7 +11,6 @@ html {
   width: 100%;
 }
 html > body {
-  transform-origin: bottom right;
   height: 100%;
   width: 100%;
 }
@@ -49,4 +48,8 @@ html > body > main {
   color: white;
   text-shadow: -1px 0 3px #000, 0 1px 3px #000, 1px 0 3px #000, 0 -1px 3px #000;
   font-weight: bold;
+}
+html > body > main > article {
+  transform-origin: top right;
+  transform: scale(0.8);
 }

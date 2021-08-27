@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 16:22:26
+ * @LastEditTime: 2021-08-27 16:56:23
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -17,7 +17,8 @@ function load(t, a = "") {
 function save(t, a) {
   saveItem(namespace, t, a);
 }
-let settings = Object.assign(defaultSettings, load("settings", {}), { share: {} });
+let loadSettings = load("settings", {});
+let settings = Object.assign(defaultSettings, loadSettings, { share: {} });
 let nav = document.createElement("ul");
 let skinList = { "默认": "default", "Material UI MOD": "material" };
 let urlList = { cafemaker: "https://cafemaker.wakingsands.com/i/", XIVAPI: "https://xivapi.com/i/" };
@@ -42,33 +43,35 @@ let styleOptions = document.createElement("ul");
 //常规
 for (const key in settings.style) {
   let li = document.createElement("li");
-  li.innerText = language[key] ? language[key][settings.language] : key;
-  let input;
-  if (!isNaN(settings.style[key])) {
-    input = document.createElement("input");
-    input.setAttribute("type", "number");
-    input.title = key;
-    input.value = settings.style[key];
-  } else {
-    input = document.createElement("select");
-    if (key === "skin") {
-      for (const key in skinList) {
-        let option = document.createElement("option");
-        option.value = skinList[key];
-        option.innerText = key;
-        input.appendChild(option);
-      }
-    } else if (key === "url") {
-      for (const key in urlList) {
-        let option = document.createElement("option");
-        option.value = urlList[key];
-        option.innerText = key;
-        input.appendChild(option);
+  if (language[key] !== undefined) {
+    li.innerText = language[key][settings.language];
+    let input;
+    if (!isNaN(settings.style[key])) {
+      input = document.createElement("input");
+      input.setAttribute("type", "number");
+      input.title = key;
+      input.value = settings.style[key];
+    } else {
+      input = document.createElement("select");
+      if (key === "skin") {
+        for (const key in skinList) {
+          let option = document.createElement("option");
+          option.value = skinList[key];
+          option.innerText = key;
+          input.appendChild(option);
+        }
+      } else if (key === "url") {
+        for (const key in urlList) {
+          let option = document.createElement("option");
+          option.value = urlList[key];
+          option.innerText = key;
+          input.appendChild(option);
+        }
       }
     }
+    li.appendChild(input);
+    styleOptions.appendChild(li);
   }
-  li.appendChild(input);
-  styleOptions.appendChild(li);
 }
 document.querySelector("#style").appendChild(styleOptions);
 //监控列表
