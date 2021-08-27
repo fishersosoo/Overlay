@@ -138,6 +138,20 @@ html {
           }
         }
         &#tts {
+          > div {
+            &:hover {
+              > button {
+                opacity: 1;
+              }
+            }
+            > button {
+              padding: 0px 5px;
+              margin:0px 5px;
+              width: 45px;
+              height: 20px;
+              opacity: 0;
+            }
+          }
           > .ttsSkill,
           #ttsPlus {
             font-weight: bold;

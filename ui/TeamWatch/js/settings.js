@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 22:33:57
+ * @LastEditTime: 2021-08-27 22:47:06
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -165,7 +165,7 @@ for (const i in settings.watchs) {
   watchOptions.appendChild(li);
 }
 document.querySelector("#watchs").appendChild(watchOptions);
-
+//语音提醒
 for (const key in settings.tts) {
   if (Object.hasOwnProperty.call(settings.tts, key)) {
     const value = settings.tts[key];
@@ -347,7 +347,13 @@ function insertTTS(key, value) {
   input.setAttribute("type", "text");
   input.value = value;
   input.title = key;
-  div.append(input);
+  div.appendChild(input);
+  let del = document.createElement("button");
+  del.innerHTML = "X";
+  del.onclick = function () {
+    this.parentNode.remove();
+  };
+  div.appendChild(del);
   document.querySelector("#tts").insertBefore(div, document.getElementById("ttsPlus"));
 }
 
