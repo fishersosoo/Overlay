@@ -128,6 +128,11 @@ html body main article#partySort > ul.Dps {
 html body main article#partySort > ul.Dps > li:hover {
   background: lightcoral;
 }
+html body main article#tts > div:nth-child(1) > input {
+  float: none;
+  width: auto;
+  margin: 5px;
+}
 html body main article#tts > div:hover > button {
   opacity: 1;
 }

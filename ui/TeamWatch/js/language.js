@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 17:05:02
+ * @LastEditTime: 2021-08-27 23:02:58
  */
 let language = {
   style: { cn: "常规", en: "routine", jp: "全般" },
@@ -21,5 +21,6 @@ let language = {
   jobSortTank: { cn: "当你是坦克时", en: "Tank's situation", jp: "Tankの場合" },
   jobSortHealer: { cn: "当你是治疗时", en: "Healer's situation", jp: "Healerの場合" },
   jobSortDps: { cn: "当你是输出时", en: "Dps's situation", jp: "Dpsの場合" },
+  ttsOnText: { cn: "TTS开关", en: "TTS switch", jp: "TTSスイッチ" },
 };
 export { language };

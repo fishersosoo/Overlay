@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 15:58:25
+ * @LastEditTime: 2021-08-27 23:10:22
  */
 let defaultSettings = {
   style: {
@@ -306,6 +306,7 @@ let defaultSettings = {
       ],
     },
   ],
+  ttsOn: "false",
   tts: {
     30: "无敌",
     43: "死斗",

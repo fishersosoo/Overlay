@@ -1,8 +1,7 @@
 "use strict";
-
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 22:47:06
+ * @LastEditTime: 2021-08-27 23:20:11
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -40,6 +39,7 @@ let nav = document.createElement("ul");
 let skinList = { "默认": "default", "Material UI MOD": "material" };
 let urlList = { cafemaker: "https://cafemaker.wakingsands.com/i/", XIVAPI: "https://xivapi.com/i/" };
 for (const key in settings) {
+  if (key === "ttsOn") continue;
   let li = document.createElement("li");
   li.title = key;
   li.innerText = language[key][settings.language] || key;
@@ -166,6 +166,15 @@ for (const i in settings.watchs) {
 }
 document.querySelector("#watchs").appendChild(watchOptions);
 //语音提醒
+let div = document.createElement("div");
+let ttsOnBtn = document.createElement("input");
+ttsOnBtn.setAttribute("type", "checkbox");
+ttsOnBtn.checked = settings.ttsOn === "true";
+div.appendChild(ttsOnBtn);
+let ttsOnText = document.createElement("span");
+ttsOnText.innerText = language.ttsOnText[settings.language];
+div.appendChild(ttsOnText);
+document.querySelector("#tts").appendChild(div);
 for (const key in settings.tts) {
   if (Object.hasOwnProperty.call(settings.tts, key)) {
     const value = settings.tts[key];
@@ -321,6 +330,7 @@ document.querySelector("#save").onclick = function () {
     settings.watchs.find((w) => w.job === e.title).watch = arr;
   });
   //语音提醒
+  settings.ttsOn = document.querySelector("#tts > div:nth-child(1) > input[type=checkbox]").checked.toString();
   let t = {};
   document.querySelectorAll("#tts>div>input").forEach((e) => (t[e.title] = e.value));
   settings.tts = t;
@@ -336,10 +346,11 @@ document.querySelector("#save").onclick = function () {
   //finish
   save("settings", settings);
   location.reload();
-  window.opener.location.reload();
+  if (window.opener) window.opener.location.reload();
 };
 document.querySelector("nav>ul>li:nth-of-type(1)").onclick();
 function insertTTS(key, value) {
+  if (!parseInt(key) > 0) return;
   let div = document.createElement("div");
   div.classList.add("ttsSkill");
   div.innerText = actions.find((action) => action.ID === key)[`Name_${settings.language}`];
