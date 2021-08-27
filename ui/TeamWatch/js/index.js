@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 23:48:59
+ * @LastEditTime: 2021-08-28 00:07:42
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -181,7 +181,7 @@ function handle() {
 }
 addOverlayListener("PartyChanged", (e) => {
   party = e.party;
-  if (e.party.length) party = [party.find((p) => p.id === charID), ...partySort(party.filter((p) => p.id !== charID))];
+  if (e.party.length) party = [party.find((p) => p.id === charID && p.inParty), ...partySort(party.filter((p) => p.id !== charID && p.inParty))];
   handle();
 });
 startOverlayEvents();
