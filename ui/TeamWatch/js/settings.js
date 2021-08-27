@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 16:56:23
+ * @LastEditTime: 2021-08-27 22:30:54
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -19,6 +19,21 @@ function save(t, a) {
 }
 let loadSettings = load("settings", {});
 let settings = Object.assign(defaultSettings, loadSettings, { share: {} });
+let old = localStorage.getItem("teamWatch");
+if (old) {
+  //导入旧数据
+  console.log("从旧版本中继承了数据");
+  old = JSON.parse(old).watch;
+  for (const key in old) {
+    let n = [];
+    let i = 0;
+    for (const id of old[key]) {
+      if (id !== "") n.push({ id: id, scale: "1", top: "0px", right: 44 * i + "px" });
+      i++;
+    }
+    settings.watchs.find((w) => w.job === key).watch = n;
+  }
+}
 let nav = document.createElement("ul");
 let skinList = { "默认": "default", "Material UI MOD": "material" };
 let urlList = { cafemaker: "https://cafemaker.wakingsands.com/i/", XIVAPI: "https://xivapi.com/i/" };
