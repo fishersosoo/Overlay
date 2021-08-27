@@ -33,6 +33,7 @@ if (old) {
     }
     settings.watchs.find((w) => w.job === key).watch = n;
   }
+  save("settings", settings);
   localStorage.removeItem("teamWatch");
 }
 let nav = document.createElement("ul");
