@@ -2,174 +2,169 @@
   font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
   padding: 0;
   margin: 0;
+  user-select: none;
+  box-sizing: border-box;
+}
+html body nav {
+  user-select: none;
+  background-color: #824880;
+}
+html body nav ul li {
+  display: inline-block;
+  padding: 5px 30px;
+  color: white;
+  position: relative;
   overflow: hidden;
 }
-.tank {
-  color: skyblue;
+html body nav ul li:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
 }
-.healer {
-  color: lightgreen;
-}
-.dps {
-  color: tomato;
-}
-html {
-  user-select: none;
-}
-html > body button {
-  display: block;
+html body nav ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
   width: 100%;
-  margin: 5px 0px;
+  background: linear-gradient(to right, #824880, #1abc9c, #f1c40f, #e74c3c, #824880);
+  transform: translateX(-100%);
+  transition: 1s;
 }
-html > body > table {
-  display: inline-block;
-  border-collapse: collapse;
-  border: 1px solid black;
-  margin: 1px;
-  border-spacing: 0px;
+html body nav ul li:hover::before {
+  transform: translateX(100%);
+}
+html body main article {
+  padding: 5px;
+  height: 100%;
+}
+html body main article#style > ul li {
+  width: 800px;
+  padding: 15px 35px;
+  font-size: 16px;
+  font-weight: bold;
+}
+html body main article#style > ul li input,
+html body main article#style > ul li select {
+  font-size: 16px;
+  float: right;
+  width: 16em;
+  text-align: right;
+}
+html body main article#style > ul li input::-webkit-outer-spin-button,
+html body main article#style > ul li input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+html body main article#watchs > ul > li {
+  font-weight: bold;
+}
+html body main article#watchs > ul > li > article {
   user-select: none;
 }
-html > body > table > tr.color-job:hover {
-  cursor: pointer;
-  filter: brightness(110%);
+html body main article#watchs > ul > li > article:hover {
+  cursor: move;
 }
-html > body > table > tr > td:nth-child(1) {
-  width: 4rem !important;
-  text-shadow: -1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000;
-  font-weight: bold;
-  font-size: 14px;
-  text-align: center;
-}
-html > body > table > tr > td {
-  width: 20px;
-  height: 20px;
-  border: 1px dashed #ccc;
-  background-size: contain;
-}
-html > body > table > tr > td.base-job-name {
+html body main article#watchs > ul > li > article > aside {
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+  text-align: right;
+  position: absolute;
+  right: 0px;
+  top: 0px;
   color: white;
-}
-html > body > article {
-  width: 100px;
-  display: inline-block;
-  margin: 0px 5px;
-}
-html > body > article select {
-  width: 100px;
-}
-html > body > article > select:nth-child(1) {
-  font-weight: bold;
-}
-html > body > article > ul > li {
-  height: 25px;
-}
-html > body > article > ul > li > select > option.owned {
-  color: lightgrey;
-}
-html > body > article from {
-  font-size: small;
-}
-html > body > article textarea {
-  width: calc(100px - 4px);
-  height: 200px;
-  margin-top: 15px;
-}
-html > body > aside {
-  margin: 0px 5px;
-  width: 100px;
-  display: inline-block;
-}
-html > body > aside > label {
-  font-size: 12px;
-  font-weight: bold;
-  display: block;
-}
-html > body > aside > input {
-  width: 90px;
-  margin-bottom: 5px;
-}
-html > body > aside > input:last-of-type {
-  margin-bottom: 42px;
-}
-html > body > small {
-  width: auto;
-  display: block;
-}
-html > body #TTS {
-  overflow-y: auto;
-  display: inline-block;
-  position: absolute;
-  margin: 0px 5px;
-  width: 19.5em;
-  height: 600px;
-  padding-left: 10px;
-}
-html > body #TTS h4 {
-  display: inline-block;
-}
-html > body #TTS #saveTTS {
-  width: 12em;
-  float: right;
-  position: absolute;
-  top: 0px;
-  right: 5px;
-  margin: 0px;
-}
-html > body #TTS > label {
-  position: absolute;
-  top: 0px;
-  left: 75px;
-}
-html > body #TTS > label #TTSOn {
-  width: auto;
-  margin-right: 0.25em;
-}
-html > body #TTS p {
-  padding-left: 0.5em;
-  background-color: rgba(0, 0, 0, 0.05);
-}
-html > body #TTS p #jobSelect {
-  width: 5em;
-  display: inline-block;
-  margin: 0px 5px;
-}
-html > body #TTS p #actionSelect {
-  margin: 0px 5px;
-  width: 7.5em;
-  display: inline-block;
-}
-html > body #TTS p #addTTS {
-  display: inline-block;
-  width: 3em;
-}
-html > body #TTS ul {
-  border: 1px dashed gray;
-}
-html > body #TTS ul li {
-  width: 8em;
-  font-weight: bold;
-  font-size: 12px;
-  margin: 2.5px;
-  display: inline-block;
-  position: relative;
-  left: 0.5em;
-}
-html > body #TTS ul li > aside {
-  position: absolute;
-  right: 5px;
-  color: black;
-  display: inline-block;
+  text-shadow: 0px 0px 3px red;
   opacity: 0;
-  font-weight: normal;
+}
+html body main article#watchs > ul > li > article > button {
+  opacity: 0;
+}
+html body main article#watchs > ul > li > article:hover > aside {
   cursor: pointer;
-}
-html > body #TTS ul li > aside:hover {
-  transform: scale(1.25);
-  font-weight: bold;
-}
-html > body #TTS ul li:hover > aside {
   opacity: 1;
 }
-html > body #TTS ul input {
-  width: 6em;
+html body main article#watchs > ul > li > article:hover > button {
+  opacity: 1;
+}
+html body main article#partySort > #jobSort {
+  float: left;
+  padding: 15px;
+  font-weight: bold;
+}
+html body main article#partySort > #jobSort select {
+  display: block;
+}
+html body main article#partySort > ul {
+  list-style-type: decimal;
+  float: left;
+  margin: 20px;
+}
+html body main article#partySort > ul li {
+  user-select: none;
+  width: 200px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  position: relative;
+}
+html body main article#partySort > ul li:hover {
+  cursor: move;
+}
+html body main article#partySort > ul.Tank {
+  border: 3px solid blue;
+}
+html body main article#partySort > ul.Tank > li:hover {
+  background: lightblue;
+}
+html body main article#partySort > ul.Healer {
+  border: 3px solid green;
+}
+html body main article#partySort > ul.Healer > li:hover {
+  background: lightgreen;
+}
+html body main article#partySort > ul.Dps {
+  border: 3px solid red;
+}
+html body main article#partySort > ul.Dps > li:hover {
+  background: lightcoral;
+}
+html body main article#tts > .ttsSkill,
+html body main article#tts #ttsPlus {
+  font-weight: bold;
+  display: inline-block;
+  width: 300px;
+  height: 40px;
+  padding: 10px 10px;
+  margin: 5px;
+  border: 1px dashed gray;
+}
+html body main article#tts input {
+  float: right;
+  width: 5em;
+  text-align: right;
+}
+html body main article#share p {
+  height: 100px;
+}
+html body main article#share p textarea {
+  width: 500px;
+  height: 80px;
+  float: left;
+}
+html body main article#share p button {
+  padding: 20px;
+  margin: 10px;
+}
+html body #save {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 34px;
+  width: 150px;
+  font-size: 18px;
+  color: #4361ee;
+  text-align: center;
+}
+html body #save:hover {
+  cursor: pointer;
 }

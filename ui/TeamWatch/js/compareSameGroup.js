@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-20 22:46:44
+ * @LastEditTime: 2021-08-24 23:18:48
  */
 "use strict";
 let compareSameGroup = {
@@ -114,9 +114,5 @@ let compareSameGroup = {
   16010: 0, //前冲步→0
   7546: 0, //真北→0
 };
-function compareSame(id) {
-  id = parseInt(id, 16);
-  let r = compareSameGroup[id];
-  return r + 1 ? r : id;
-}
+let compareSame = (id) => (compareSameGroup[id] === undefined ? id : compareSameGroup[id]);
 export { compareSame, compareSameGroup };

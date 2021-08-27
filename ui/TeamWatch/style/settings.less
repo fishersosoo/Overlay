@@ -2,182 +2,185 @@
   font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
   padding: 0;
   margin: 0;
-  overflow: hidden;
-}
-.tank {
-  color: skyblue;
-}
-.healer {
-  color: lightgreen;
-}
-.dps {
-  color: tomato;
+  // overflow: hidden;
+  user-select: none;
+  box-sizing: border-box;
 }
 html {
-  user-select: none;
-  > body {
-    button {
-      display: block;
-      width: 100%;
-      margin: 5px 0px;
-    }
-    > table {
-      display: inline-block;
-      border-collapse: collapse;
-      border: 1px solid black;
-      margin: 1px;
-      border-spacing: 0px;
+  body {
+    nav {
       user-select: none;
-      > tr.color-job:hover {
-        cursor: pointer;
-        filter: brightness(110%);
-      }
-      > tr {
-        > td:nth-child(1) {
-          width: 4rem !important;
-          text-shadow: -1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000;
-          font-weight: bold;
-          font-size: 14px;
-          text-align: center;
-        }
-        > td {
-          width: 20px;
-          height: 20px;
-          border: 1px dashed #ccc;
-          background-size: contain;
-        }
-        > td.base-job-name {
-          color: white;
-        }
-      }
-    }
-    > article {
-      @var: 100px;
-      width: @var;
-      display: inline-block;
-      margin: 0px 5px;
-      select {
-        width: @var;
-      }
-      > select:nth-child(1) {
-        font-weight: bold;
-      }
-      > ul > li {
-        height: 25px;
-        > select > option.owned {
-          color: lightgrey;
-        }
-      }
-      from {
-        font-size: small;
-      }
-      textarea {
-        width: calc(@var - 4px);
-        height: 200px;
-        margin-top: 15px;
-      }
-    }
-    > aside {
-      margin: 0px 5px;
-      width: 100px;
-      display: inline-block;
-      > label {
-        font-size: 12px;
-        font-weight: bold;
-        display: block;
-      }
-      > input {
-        width: 90px;
-        margin-bottom: 5px;
-      }
-      > input:last-of-type {
-        margin-bottom: 42px;
-      }
-    }
-    > small {
-      width: auto;
-      display: block;
-    }
-    #TTS {
-      overflow-y: auto;
-      display: inline-block;
-      position: absolute;
-      margin: 0px 5px;
-      width: 19.5em;
-      height: 600px;
-      padding-left: 10px;
-      h4 {
-        display: inline-block;
-      }
-      #saveTTS {
-        width: 12em;
-        float: right;
-        position: absolute;
-        top: 0px;
-        right: 5px;
-        margin:0px;
-      }
-      > label {
-        position: absolute;
-        top: 0px;
-        left: 75px;
-        #TTSOn {
-          width: auto;
-          margin-right: 0.25em;
-        }
-      }
-      p {
-        padding-left: 0.5em;
-        background-color: rgba(0, 0, 0, 0.05);
-        #jobSelect {
-          width: 5em;
-          display: inline-block;
-          margin: 0px 5px;
-        }
-        #actionSelect {
-          margin: 0px 5px;
-          width: 7.5em;
-          display: inline-block;
-        }
-        #addTTS {
-          display: inline-block;
-          width: 3em;
-        }
-      }
+      background-color: #824880;
       ul {
-        border: 1px dashed gray;
         li {
-          width: 8em;
-          font-weight: bold;
-          font-size: 12px;
-          margin: 2.5px;
           display: inline-block;
+          padding: 5px 30px;
+          color: white;
           position: relative;
-          left: 0.5em;
-          > aside {
-            position: absolute;
-            right: 5px;
-            color: black;
-            display: inline-block;
-            opacity: 0;
-            font-weight: normal;
+          overflow: hidden;
+          &:hover {
             cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
           }
-          > aside:hover {
-            transform: scale(1.25);
+          &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(to right, #824880, #1abc9c, #f1c40f, #e74c3c, #824880);
+            transform: (translateX(-100%));
+            transition: 1s;
+          }
+          &:hover::before {
+            transform: (translateX(100%));
+          }
+        }
+      }
+    }
+    main {
+      article {
+        padding: 5px;
+        height: 100%;
+        &#style > ul {
+          li {
+            width: 800px;
+            padding: 15px 35px;
+            font-size: 16px;
             font-weight: bold;
+            input,
+            select {
+              font-size: 16px;
+              float: right;
+              width: 16em;
+              text-align: right;
+            }
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+            }
           }
         }
-        li:hover {
-          > aside {
-            opacity: 1;
+        &#watchs > ul > li {
+          font-weight: bold;
+          > article {
+            user-select: none;
+            &:hover {
+              cursor: move;
+            }
+            > aside {
+              width: 1em;
+              height: 1em;
+              line-height: 1em;
+              text-align: right;
+              position: absolute;
+              right: 0px;
+              top: 0px;
+              color: white;
+              text-shadow: 0px 0px 3px red;
+              opacity: 0;
+            }
+            > button {
+              opacity: 0;
+            }
+            &:hover {
+              > aside {
+                cursor: pointer;
+                opacity: 1;
+              }
+              > button {
+                opacity: 1;
+              }
+            }
           }
         }
-        input {
-          // display: block;
-          // float: right;
-          width: 6em;
+        &#partySort > #jobSort {
+          float: left;
+          padding: 15px;
+          font-weight: bold;
+          select {
+            display: block;
+          }
         }
+        &#partySort > ul {
+          list-style-type: decimal;
+          float: left;
+          margin: 20px;
+          li {
+            user-select: none;
+            width: 200px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            position: relative;
+            &:hover {
+              cursor: move;
+            }
+          }
+          &.Tank {
+            border: 3px solid blue;
+            > li:hover {
+              background: lightblue;
+            }
+          }
+          &.Healer {
+            border: 3px solid green;
+            > li:hover {
+              background: lightgreen;
+            }
+          }
+          &.Dps {
+            border: 3px solid red;
+            > li:hover {
+              background: lightcoral;
+            }
+          }
+        }
+        &#tts {
+          > .ttsSkill,
+          #ttsPlus {
+            font-weight: bold;
+            display: inline-block;
+            width: 300px;
+            height: 40px;
+            padding: 10px 10px;
+            margin: 5px;
+            border: 1px dashed gray;
+          }
+          input {
+            float: right;
+            width: 5em;
+            text-align: right;
+          }
+        }
+        &#share {
+          p {
+            height: 100px;
+            textarea {
+              width: 500px;
+              height: 80px;
+              float: left;
+            }
+            button {
+              padding: 20px;
+              margin: 10px;
+            }
+          }
+        }
+      }
+    }
+    #save {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      height: 34px;
+      width: 150px;
+      font-size: 18px;
+      color: #4361ee;
+      text-align: center;
+      &:hover {
+        cursor: pointer;
       }
     }
   }

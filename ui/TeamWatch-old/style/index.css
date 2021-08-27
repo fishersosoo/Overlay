@@ -1,0 +1,47 @@
+html {
+  overflow: hidden;
+  user-select: none;
+  text-shadow: -1px 0 2px black, 0 1px 2px black, 1px 0 2px black, 0 -1px 2px black;
+  color: white;
+  font-family: 微软雅黑, "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+* {
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
+
+#readMe {
+  background-color: rgba(0, 0, 150, 0.2);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+}
+#readMe > p {
+  border: 1px solid rgba(0, 0, 0, 0);
+  box-sizing: border-box;
+  line-height: 2rem;
+  width: 100%;
+  min-width: 10rem;
+  max-width: 30rem;
+}
+#readMe > .clickable:hover {
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: rgba(174, 216, 229, 0.75);
+}
+.icon,
+.icon-border {
+  background-size: contain;
+}
+main > table > tbody > tr > td > div {
+  z-index: 2;
+}
+/* main > table > tbody > tr > td > aside {
+  z-index: 3;
+} */
+main > table > tbody > tr > td > article {
+  z-index: 4;
+}

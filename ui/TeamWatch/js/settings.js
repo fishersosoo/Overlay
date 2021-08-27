@@ -1,323 +1,412 @@
 "use strict";
-import { action, justGiveMe } from "../../../resources/action.min.js";
-import "../../../resources/drag-arrange.min.js";
+
+/*
+ * @Author: Souma
+ * @LastEditTime: 2021-08-26 22:55:30
+ */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
-import { jobIDConvert } from "../../../resources/logLineProcessing.min.js";
-import { compareSameGroup } from "./compareSameGroup.js";
-import { def, defCSS, defSort, defTTS } from "./def.js";
-let namespace = "teamWatch";
+import { actions } from "./actions.min.js";
+import { compareSameGroup } from "./compareSameGroup.min.js";
+import { defaultSettings } from "./defaultSettings.min.js";
+import { jobList } from "./job.min.js";
+import { language } from "./language.min.js";
+let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
 }
 function save(t, a) {
   saveItem(namespace, t, a);
 }
-let watch;
-try {
-  watch = load("watch", JSON.parse(JSON.stringify(def)));
-} catch {
-  console.log("配置格式错误，已恢复默认。");
-  watch = JSON.parse(JSON.stringify(def));
-  save("watch", watch);
+let settings = Object.assign(defaultSettings, load("settings", {}), { share: {} });
+let nav = document.createElement("ul");
+let skinList = { "默认": "default", "Material UI MOD": "material" };
+let urlList = { cafemaker: "https://cafemaker.wakingsands.com/i/", XIVAPI: "https://xivapi.com/i/" };
+for (const key in settings) {
+  let li = document.createElement("li");
+  li.title = key;
+  li.innerText = language[key][settings.language] || key;
+  li.onclick = () => {
+    for (const li of document.querySelectorAll("main>article")) li.style.display = "none";
+    document.querySelector(`#${li.title}`).style.display = "block";
+    for (const li of document.querySelectorAll("nav>ul>li")) li.style.fontWeight = "normal";
+    li.style.fontWeight = "bold";
+  };
+  nav.appendChild(li);
+  let element = document.createElement("article");
+  element.id = key;
+  document.querySelector("main").appendChild(element);
 }
-let shortGCD = false;
-let jobList = {
-  1: ["剑术师", false],
-  2: ["格斗家", false],
-  3: ["斧术师", false],
-  4: ["枪术士", false],
-  5: ["弓箭手", false],
-  6: ["幻术师", false],
-  7: ["咒术师", false],
-  19: ["骑士", true],
-  20: ["武僧", true],
-  21: ["战士", true],
-  22: ["龙骑士", true],
-  23: ["吟游诗人", true],
-  24: ["白魔法师", true],
-  25: ["黑魔法师", true],
-  26: ["秘术师", false],
-  27: ["召唤师", true],
-  28: ["学者", true],
-  29: ["双剑师", false],
-  30: ["忍者", true],
-  31: ["机工士", true],
-  32: ["暗黑骑士", true],
-  33: ["占星术士", true],
-  34: ["武士", true],
-  35: ["赤魔法师", true],
-  36: ["青魔法师", true],
-  37: ["绝枪战士", true],
-  38: ["舞者", true],
-};
-let sortRule = load("sortRule", JSON.parse(JSON.stringify(defSort)));
-let actionTTS = load("TTS", JSON.parse(JSON.stringify(defTTS)));
-let TTSOn = load("TTSOn", false);
-let job = 19;
+document.querySelector("nav").appendChild(nav);
 
-window.checkboxOnClick = function (checkbox) {
-  shortGCD = $(checkbox).prop("checked");
-  insertSelect();
-};
-function insertJobList() {
-  let firstJobId = 19;
-  for (const i of sortRule) {
-    if (jobList[i][1]) {
-      firstJobId = i;
-      break;
-    }
-  }
-  for (const key in jobList)
-    if (Object.hasOwnProperty.call(jobList, key))
-      $("#job").append(`<option value="${key}" ${key.toString() === firstJobId.toString() ? "selected" : ""}>${jobList[key][0]}</option>`);
-  job = $("#job").val();
-  insertSelect();
-}
-$("#job").on("change", function () {
-  job = $("#job").val();
-  insertSelect();
-});
-function insertSelect() {
-  $("select.skill").children().remove();
-  for (let i = 0; i < 10; i++) {
-    $("select.skill").eq(i).append(`<option value=""></option>`);
-    for (const key in action[job]) {
-      if (Object.hasOwnProperty.call(action[job], key) && compareSameGroup[key] === undefined && (shortGCD || action[job][key][5] >= 100)) {
-        let owned = false;
-        for (const w of watch[job]) {
-          if (w === key) {
-            owned = true;
-          }
-        }
-        $("select.skill")
-          .eq(i)
-          .append(`<option ${owned ? `class="owned"` : ""} value="${key}">${action[job][key][0]}</option>`);
-      }
-    }
-    $("select.skill").eq(i).val(watch[job][i]);
-  }
-}
-$(".skill").on("change", (e) => {
-  watch[$("#job").val()][$(e.currentTarget).parent().index()] = $(e.currentTarget).val();
-  sortRule = getNowSortRule();
-  show();
-  insertSelect();
-});
-
-function getWatch() {
-  let tempWatch = {};
-  for (const key in jobList) {
-    let tempArray = [];
-    if (Object.hasOwnProperty.call(jobList, key)) {
-      for (let i = 0; i < 10; i++) {
-        tempArray.push($(`#${key} span`).eq(i).text());
-      }
-      tempWatch[key] = JSON.parse(JSON.stringify(tempArray));
-    }
-  }
-  return tempWatch;
-}
-$("#set-noSave").on("click", () => {
-  location.reload();
-});
-$("#set-def").on("click", () => {
-  let c1 = confirm("(1/3)【技能列表】加载出厂数据吗？");
-  let c2 = confirm("(2/3)【职能排序】加载出厂数据吗？");
-  let c3 = confirm("(3/3)【自定义样式】加载出厂数据吗？");
-  if (c3) loadSettings(JSON.parse(JSON.stringify(defCSS)));
-  if (c2) sortRule = JSON.parse(JSON.stringify(defSort));
-  if (c1) watch = JSON.parse(JSON.stringify(def));
-  if (c1 || c2) show();
-  insertJobList();
-});
-$("#set-exp").on("click", () => {
-  $("#area").val(window.btoa(JSON.stringify(getWatch())));
-});
-$("#set-imp").on("click", () => {
-  let errorText = "在这里输入他人分享的配置，再点导入。";
-  if ($("#area").val() === "" || $("#area").val() === errorText) {
-    $("#area").val(errorText);
-    window.open("https://docs.qq.com/sheet/DTUJuWUprdnVPQlhr?tab=BB08J2", "_blank", "width=1450,height=800");
+let styleOptions = document.createElement("ul");
+//常规
+for (const key in settings.style) {
+  let li = document.createElement("li");
+  li.innerText = language[key] ? language[key][settings.language] : key;
+  let input;
+  if (!isNaN(settings.style[key])) {
+    input = document.createElement("input");
+    input.setAttribute("type", "number");
+    input.title = key;
+    input.value = settings.style[key];
   } else {
-    try {
-      watch = JSON.parse(atob($("#area").val()));
-      show();
-      insertJobList();
-      $("#area").val("已导入。");
-    } catch {
-      $("#area").val("读取失败，请检查格式。");
-    }
-  }
-});
-function show() {
-  $("#pre").html("");
-  for (let i = 0; i < sortRule.length; i++) {
-    const e = sortRule[i];
-    try {
-      $("#pre").append(
-        `<tr class="${jobList[e][1] ? "color-job" : "base-job"}" id="${e}"}><td class="${jobList[e][1] ? classColor(e) : "base-job-name"} pre-job">${jobList[e][0]}</td>${`${watch[
-          e
-        ].map((m) =>
-          m ? `<td style="background-image:url(https://cafemaker.wakingsands.com/i/${action[e][m][1]})"><span style="display:none">${m}</span></td>` : `<td><span></span></td>`
-        )}`}</tr>`
-      );
-    } catch {
-      console.log(jobList[e][0] + "意外错误，已跳过。");
-    }
-  }
-  $("tr").on("click", (e) => {
-    job = e.currentTarget.id;
-    $("#job").val(job);
-    insertSelect();
-  });
-  $("td").on("click", (e) => {
-    let index = e.currentTarget.cellIndex;
-    if (index > 0) {
-      index--;
-      $(".skill").eq(index).css("backgroundColor", "lightPink");
-      setTimeout(() => {
-        $(".skill").eq(index).css("backgroundColor", "");
-      }, 500);
-    }
-  });
-  $("#pre>tr.color-job").arrangeable({ dragSelector: "td:first" });
-  $("#pre>tr").css("background-color", `rgba(0,0,0,0.5)`);
-}
-function classColor(e) {
-  switch (parseInt(e)) {
-    case 1:
-    case 3:
-    case 21:
-    case 32:
-    case 37:
-    case 19:
-      return "tank";
-    case 6:
-    case 24:
-    case 33:
-    case 28:
-      return "healer";
-    default:
-      return "dps";
-  }
-}
-$("#set-rev").on("click", () => {
-  watch = rev(watch);
-  show();
-  insertJobList();
-});
-function rev(w) {
-  for (const key in w) {
-    if (Object.hasOwnProperty.call(w, key)) {
-      const e = w[key];
-      e.reverse();
-    }
-  }
-  return w;
-}
-$("#set-save").on("click", () => {
-  sortRule = getNowSortRule();
-  save("sortRule", sortRule);
-  watch = JSON.parse(JSON.stringify(getWatch()));
-  save("watch", watch);
-  try {
-    window.opener.document.location.reload();
-  } catch {}
-});
-window.onload = function () {
-  loadSettings(load("settings", defCSS));
-  show();
-  insertJobList();
-  loadTTS();
-};
-function getNowSortRule() {
-  let tSettings = {};
-  for (const i of $("#sets > input[type=number]")) {
-    tSettings[i.id] = $(i).val();
-  }
-  save("settings", tSettings);
-  let sr = [];
-  for (let i = 0; i < $("#pre>tr").length; i++) {
-    sr.push($("#pre>tr").eq(i)[0].id);
-  }
-  return JSON.parse(JSON.stringify(sr));
-}
-
-function loadSettings(sets) {
-  for (const key in sets) {
-    if (Object.hasOwnProperty.call(sets, key)) {
-      const element = sets[key];
-      $(`#${key}`).val(element);
-    }
-  }
-}
-let loadTTS = () => {
-  $("#TTSOn").prop("checked", TTSOn);
-  $("#TTSOn").on("change", () => (TTSOn = $("#TTSOn").prop("checked")));
-  let dom = $(`<ul></ul>`);
-  for (const key in actionTTS) {
-    if (Object.hasOwnProperty.call(actionTTS, key)) {
-      const e = actionTTS[key];
-      if (compareSameGroup[key] === undefined)
-        dom.append(`<li title="${key}">${justGiveMe(key)[0]}<input type="text" value="${e}"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`);
-    }
-  }
-  $("#TTS").append(dom);
-  $("#jobSelect").append(() => {
-    let result = "";
-    for (const job in action) {
-      if (Object.hasOwnProperty.call(action, job)) {
-        result += `<option value="${job}">${jobIDConvert(job).full}</option>`;
+    input = document.createElement("select");
+    if (key === "skin") {
+      for (const key in skinList) {
+        let option = document.createElement("option");
+        option.value = skinList[key];
+        option.innerText = key;
+        input.appendChild(option);
+      }
+    } else if (key === "url") {
+      for (const key in urlList) {
+        let option = document.createElement("option");
+        option.value = urlList[key];
+        option.innerText = key;
+        input.appendChild(option);
       }
     }
-    return result;
-  });
-  insertAction();
-  $("#jobSelect").on("change", () => {
-    insertAction();
-  });
-  function insertAction() {
-    $("#actionSelect").html(() => {
-      let result;
-      for (const a in action[$("#jobSelect").val()]) {
-        if (Object.hasOwnProperty.call(action[$("#jobSelect").val()], a)) {
-          const element = action[$("#jobSelect").val()][a];
-          if (compareSameGroup[parseInt(a)] === undefined) result += `<option value="${a}">${element[0]}</option>`;
+  }
+  li.appendChild(input);
+  styleOptions.appendChild(li);
+}
+document.querySelector("#style").appendChild(styleOptions);
+//监控列表
+let watchOptions = document.createElement("ul");
+// document.oncontextmenu = () => false;
+let pos = {};
+for (const i in settings.watchs) {
+  const watch = settings.watchs[i];
+  let li = document.createElement("li");
+  li.innerText = jobList.find((j) => j.ID === watch.job)[settings.language];
+  li.style.height = (settings.style.iconSize * 1 + settings.style.ySpace * 1) * settings.style.scale + "px";
+  li.style.lineHeight = li.style.height;
+  li.style.outline = "gray dashed 1px";
+  li.style.width = settings.style.iconSize * settings.style.scale * watch.length + "px";
+  li.style.position = "relative";
+  li.title = watch.job;
+  for (const skill of watch.watch) {
+    let action = actions.find((action) => action.ID === skill.id);
+    let art = document.createElement("article");
+    art.style.position = "absolute";
+    art.style.top = skill.top;
+    art.style.right = skill.right;
+    insertWatch(art, action, li);
+  }
+  li.style.paddingLeft = "0.5em";
+  let btn = document.createElement("button");
+  btn.innerText = "+";
+  btn.style.marginLeft = "1em";
+  btn.style.padding = "0.375em 0.75em";
+  btn.setAttribute("name", jobList.find((j) => j.ID === watch.job).cn);//不要改cn
+  btn.onclick = function () {
+    let remove = document.querySelector("#watchs > ul > li > div");
+    if (remove) remove.remove();
+    let div = document.createElement("div");
+    div.style.height = li.style.height;
+    div.style.width = "300px";
+    div.style.left = "8em";
+    div.style.top = "0px";
+    div.style.position = "absolute";
+    let select = document.createElement("select");
+    for (const action of actions.filter((action) => new RegExp(`(^| )${btn.getAttribute("name")}($| )`).test(action.ClassJobCategory))) {
+      if (compareSameGroup[action.ID] === undefined) {
+        if ([].slice.call(li.querySelectorAll("article")).find((a) => a.getAttribute("name") === (compareSameGroup[action.ID] || action.ID)) === undefined) {
+          let option = document.createElement("option");
+          option.innerText = action[`Name_${settings.language}`];
+          option.setAttribute("value", action.ID);
+          select.appendChild(option);
         }
       }
-      return result;
-    });
+    }
+    div.appendChild(select);
+    let add = document.createElement("button");
+    add.innerText = language.add[settings.language];
+    let cancel = document.createElement("button");
+    cancel.innerText = language.cancel[settings.language];
+    div.appendChild(add);
+    add.onclick = function () {
+      let action = actions.find((action) => action.ID === this.parentNode.querySelector("select").value);
+      let art = document.createElement("article");
+      art.style.position = "absolute";
+      art.style.top = "0px";
+      let mostRight = [].slice.call(li.querySelectorAll("article")).reduce((pre, value) => (parseInt(pre.style.right) > parseInt(value.style.right) ? pre : value));
+      art.style.right = parseInt(mostRight.style.right) + parseInt(settings.style.iconSize) + 4 + "px";
+      insertWatch(art, action, li);
+      cancel.onclick();
+    };
+    div.appendChild(cancel);
+    cancel.onclick = function () {
+      this.parentNode.remove();
+    };
+    li.appendChild(div);
+  };
+  li.appendChild(btn);
+  watchOptions.appendChild(li);
+}
+document.querySelector("#watchs").appendChild(watchOptions);
+
+for (const key in settings.tts) {
+  if (Object.hasOwnProperty.call(settings.tts, key)) {
+    const value = settings.tts[key];
+    insertTTS(key, value);
   }
-  $("#addTTS").on("click", () => {
-    if (actionTTS[$("#actionSelect").val()]) {
-      let l = $("#TTS>ul>li").filter((i, o) => {
-        return o.firstChild.nodeValue === $("#actionSelect").find("option:selected").text();
-      });
-      l.css({ color: "red" });
-      l.one("mouseenter", (e) => {
-        $(e.currentTarget).css({ color: "" });
-      });
-    } else {
-      actionTTS[$("#actionSelect").val()] = $("#actionSelect").find("option:selected").text();
-      $("#TTS>ul").append(
-        `<li title="${$("#actionSelect").val()}">${$("#actionSelect").find("option:selected").text()}<input type="text" value="${
-          actionTTS[$("#actionSelect").val()]
-        }"><aside onclick="delTTS(this)" class="delTTS">x</aside></li>`
-      );
+}
+let ttsAdd = document.createElement("button");
+ttsAdd.id = "ttsPlus";
+ttsAdd.innerText = "+";
+ttsAdd.onclick = function () {
+  if (document.querySelector("#ttsAddSelect")) return;
+  let div = document.createElement("div");
+  div.style.display = "inline-block";
+  div.id = "ttsAddSelect";
+  let select = document.createElement("select");
+  for (const i of actions) {
+    if (compareSameGroup[i.ID]) continue;
+    let option = document.createElement("option");
+    option.innerText = i[`Name_${settings.language}`];
+    option.value = i.ID;
+    select.appendChild(option);
+  }
+  let add = document.createElement("button");
+  add.innerText = language.add[settings.language];
+  add.onclick = function () {
+    insertTTS(select.value, "");
+    div.remove();
+  };
+  let cancel = document.createElement("button");
+  cancel.innerText = language.cancel[settings.language];
+  cancel.onclick = function () {
+    div.remove();
+  };
+  div.style.position = "relative";
+  div.style.left = "-245px";
+  div.style.bottom = "-30px";
+  div.appendChild(select);
+  div.appendChild(add);
+  div.appendChild(cancel);
+  ttsAdd.parentNode.appendChild(div);
+};
+document.querySelector("#tts").appendChild(ttsAdd);
+{
+  //小队排序
+  let jobSort = document.createElement("div");
+  jobSort.id = "jobSort";
+  let jobSortOptions = ["Tank>Healer>Dps", "Tank>Dps>Healer", "Healer>Tank>Dps", "Healer>Dps>Tank", "Dps>Healer>Tank", "Dps>Tank>Healer"];
+  let forList = ["Tank", "Healer", "Dps"];
+  let jobSortList = ["jobSortTank", "jobSortHealer", "jobSortDps"];
+  for (const role of jobSortList) {
+    let span = document.createElement("span");
+    span.innerText = language[role][settings.language];
+    jobSort.appendChild(span);
+    let select = document.createElement("select");
+    for (const o of jobSortOptions) {
+      let option = document.createElement("option");
+      option.value = o;
+      option.innerText = o;
+      select.appendChild(option);
     }
-  });
-  $("#saveTTS").on("click", () => {
-    save("TTSOn", TTSOn);
-    for (const i of $("#TTS>ul>li")) {
-      actionTTS[$(i).attr("title")] = $(i).children("input").val();
+    select.title = `when${role.replace("jobSort", "")}`;
+    select.value = settings.partySort[`when${role.replace("jobSort", "")}`];
+    jobSort.appendChild(select);
+  }
+  document.querySelector("#partySort").appendChild(jobSort);
+  let srcdiv = null;
+  let srcrole = null;
+  for (const role of forList) {
+    let ul = document.createElement("ul");
+    ul.classList.add(role);
+    for (const t of settings.partySort[role]) {
+      let li = document.createElement("li");
+      li.innerText = jobList.find((j) => j.ID === t.toString())[settings.language];
+      li.setAttribute("name", t);
+      li.setAttribute("draggable", "true");
+      li.ondragstart = function (e) {
+        srcrole = e.path[1].classList.value;
+        srcdiv = e.target;
+        e.dataTransfer.setData("text/html", e.target.innerHTML);
+      };
+      li.ondrop = function (e) {
+        if (srcdiv != e.target && srcrole === e.path[1].classList.value) {
+          srcdiv.innerHTML = e.target.innerHTML;
+          e.target.innerHTML = e.dataTransfer.getData("text/html");
+        }
+      };
+      li.ondragover = (e) => {
+        e.preventDefault();
+      };
+      ul.appendChild(li);
     }
-    save("TTS", actionTTS);
+    document.querySelector("#partySort").appendChild(ul);
+  }
+}
+{
+  //语言
+  let language = document.createElement("select");
+  let languageList = ["cn", "en", "jp"];
+  for (const lge of languageList) {
+    let option = document.createElement("option");
+    option.value = lge;
+    option.innerText = lge;
+    language.appendChild(option);
+  }
+  language.title = "language";
+  language.style.width = "5em";
+  language.style.padding = "25px";
+  language.style.margin = "25px";
+  language.style.fontSize = "25px";
+  language.value = settings.language;
+  document.querySelector("#language").appendChild(language);
+}
+{
+  //导入导出
+  let shareIn = document.createElement("p");
+  let shareInBtn = document.createElement("button");
+  let shareInInput = document.createElement("textarea");
+  shareInInput.id = "shareInInput";
+  shareInBtn.innerText = language.shareIn[settings.language];
+  shareIn.appendChild(shareInInput);
+  shareIn.appendChild(shareInBtn);
+  let shareOut = document.createElement("p");
+  let shareOutBtn = document.createElement("button");
+  let shareOutInput = document.createElement("textarea");
+  shareOutInput.id = "shareOutInput";
+  shareOutBtn.innerText = language.shareOut[settings.language];
+  shareOut.appendChild(shareOutInput);
+  shareOut.appendChild(shareOutBtn);
+  document.querySelector("#share").appendChild(shareIn);
+  document.querySelector("#share").appendChild(shareOut);
+  shareInBtn.onclick = () => {
     try {
-      window.opener.document.location.reload();
-    } catch {}
+      save("settings", JSON.parse(window.decodeURIComponent(window.atob(document.querySelector("#shareInInput").value))));
+      location.reload();
+    } catch {
+      document.querySelector("#shareInInput").value = "格式错误";
+    }
+  };
+  shareOutBtn.onclick = () => {
+    document.querySelector("#shareOutInput").value = window.btoa(window.encodeURIComponent(JSON.stringify(settings)));
+  };
+}
+document.querySelector("#save").innerHTML = language.save[settings.language];
+document.querySelector("#save").onclick = function () {
+  //常规
+  document.querySelectorAll("#style>ul>li>input").forEach((e) => (settings.style[e.title] = e.value));
+  //监控列表
+  document.querySelectorAll("#watchs>ul>li").forEach((e) => {
+    let arr = [];
+    e.querySelectorAll("article").forEach((a) =>
+      arr.push({ id: a.getAttribute("name"), scale: a.style.transform.replace(/[^0-9\.]/gi, ""), top: a.style.top, right: a.style.right })
+    );
+    settings.watchs.find((w) => w.job === e.title).watch = arr;
   });
+  //语音提醒
+  let t = {};
+  document.querySelectorAll("#tts>div>input").forEach((e) => (t[e.title] = e.value));
+  settings.tts = t;
+  //小队排序
+  document.querySelectorAll("#partySort>#jobSort>select").forEach((e) => (settings.partySort[e.title] = e.value));
+  document.querySelectorAll("#partySort>ul").forEach((e) => {
+    let s = [];
+    e.querySelectorAll("li").forEach((l) => s.push(l.getAttribute("name")));
+    settings.partySort[e.getAttribute("name")] = s;
+  });
+  //语言
+  settings.language = document.querySelector("#language > select").value;
+  //finish
+  save("settings", settings);
+  location.reload();
+  window.opener.location.reload();
 };
-window.delTTS = (e) => {
-  $(e).parent().remove();
-  delete actionTTS[$(e).parent().attr("title")];
-};
+document.querySelector("nav>ul>li:nth-of-type(1)").onclick();
+function insertTTS(key, value) {
+  let div = document.createElement("div");
+  div.classList.add("ttsSkill");
+  div.innerText = actions.find((action) => action.ID === key)[`Name_${settings.language}`];
+  let input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.value = value;
+  input.title = key;
+  div.append(input);
+  document.querySelector("#tts").insertBefore(div, document.getElementById("ttsPlus"));
+}
+
+function insertWatch(art, action, li) {
+  art.style.transform = `scale(${settings.style.scale})`;
+  art.style.width = (settings.style.iconSize * 48) / settings.style.iconSize + "px";
+  art.style.height = art.style.width;
+  art.style.lineHeight = art.style.height;
+  art.style.background = `url(./resources/${settings.style.skin}.png),url(${settings.style.url}${action.Url}.png) center / 40px 40px no-repeat `;
+  art.title = action["Name_" + settings.language];
+  art.setAttribute("name", action.ID);
+  art.setAttribute("draggable", "true");
+  art.ondragstart = function (e) {
+    pos.x = e.x;
+    pos.y = e.y;
+    pos.right = this.style.right;
+    pos.top = this.style.top;
+    let element = document.createElement("img");
+    e.dataTransfer.setDragImage(element, 0, 0);
+    e.dataTransfer.effectAllowed = "move";
+  };
+  let space = 22;
+  art.ondrag = function (e) {
+    this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
+    this.style.top =
+      Math.min(
+        Math.max(
+          Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space,
+          0 - 0.5 * (1 - this.style.transform.replace(/[^0-9\.]/gi, "")) * parseInt(settings.style.iconSize)
+        ),
+        40 - settings.style.iconSize * this.style.transform.replace(/[^0-9\.]/gi, "")
+      ) + "px";
+  };
+  li.ondragover = (e) => e.preventDefault();
+  art.ondragend = function (e) {
+    this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
+    this.style.top =
+      Math.min(
+        Math.max(
+          Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space,
+          0 - 0.5 * (1 - this.style.transform.replace(/[^0-9\.]/gi, "")) * parseInt(settings.style.iconSize)
+        ),
+        40 - settings.style.iconSize * this.style.transform.replace(/[^0-9\.]/gi, "")
+      ) + "px";
+  };
+  let aside = document.createElement("aside");
+  aside.innerText = "X";
+  aside.onclick = function () {
+    let c = confirm(`要删除${aside.parentNode.title}吗？`);
+    if (c) this.parentNode.remove();
+  };
+  let zp50 = document.createElement("button");
+  zp50.innerText = "S";
+  zp50.style.height = "16px";
+  zp50.style.lineHeight = "10px";
+  zp50.style.width = "16px";
+  zp50.style.position = "absolute";
+  zp50.style.bottom = "4px";
+  zp50.style.left = "1px";
+  zp50.style.fontSize = "12px";
+  zp50.onclick = function () {
+    art.style.transform = `scale(0.5)`;
+    art.style.top = "0px";
+  };
+  let zp100 = document.createElement("button");
+  zp100.innerText = "L";
+  zp100.style.height = "16px";
+  zp100.style.lineHeight = "10px";
+  zp100.style.width = "16px";
+  zp100.style.position = "absolute";
+  zp100.style.bottom = "4px";
+  zp100.style.left = "31px";
+  zp100.style.fontSize = "12px";
+  zp100.onclick = function () {
+    art.style.transform = `scale(1)`;
+    art.style.top = "0px";
+  };
+  art.appendChild(zp50);
+  art.appendChild(zp100);
+  art.appendChild(aside);
+  li.appendChild(art);
+}
