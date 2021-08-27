@@ -1,15 +1,12 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 12:15:44
+ * @LastEditTime: 2021-08-27 15:58:25
  */
 let defaultSettings = {
   style: {
-    scale: "1",
-    iconSize: "40",
-    ySpace: "10",
     fontSize: "18",
-    skin: "default",
     refreshRate: "333",
+    skin: "default",
     url: "https://cafemaker.wakingsands.com/i/",
   },
   watchs: [

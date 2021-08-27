@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-26 22:55:30
+ * @LastEditTime: 2021-08-27 16:22:26
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -79,10 +79,10 @@ for (const i in settings.watchs) {
   const watch = settings.watchs[i];
   let li = document.createElement("li");
   li.innerText = jobList.find((j) => j.ID === watch.job)[settings.language];
-  li.style.height = (settings.style.iconSize * 1 + settings.style.ySpace * 1) * settings.style.scale + "px";
+  li.style.height = "50px";
   li.style.lineHeight = li.style.height;
   li.style.outline = "gray dashed 1px";
-  li.style.width = settings.style.iconSize * settings.style.scale * watch.length + "px";
+  li.style.width = 40 * watch.length + "px";
   li.style.position = "relative";
   li.title = watch.job;
   for (const skill of watch.watch) {
@@ -98,7 +98,7 @@ for (const i in settings.watchs) {
   btn.innerText = "+";
   btn.style.marginLeft = "1em";
   btn.style.padding = "0.375em 0.75em";
-  btn.setAttribute("name", jobList.find((j) => j.ID === watch.job).cn);//不要改cn
+  btn.setAttribute("name", jobList.find((j) => j.ID === watch.job).cn); //不要改cn
   btn.onclick = function () {
     let remove = document.querySelector("#watchs > ul > li > div");
     if (remove) remove.remove();
@@ -131,7 +131,7 @@ for (const i in settings.watchs) {
       art.style.position = "absolute";
       art.style.top = "0px";
       let mostRight = [].slice.call(li.querySelectorAll("article")).reduce((pre, value) => (parseInt(pre.style.right) > parseInt(value.style.right) ? pre : value));
-      art.style.right = parseInt(mostRight.style.right) + parseInt(settings.style.iconSize) + 4 + "px";
+      art.style.right = parseInt(mostRight.style.right) + parseInt(40) + 4 + "px";
       insertWatch(art, action, li);
       cancel.onclick();
     };
@@ -332,8 +332,8 @@ function insertTTS(key, value) {
 }
 
 function insertWatch(art, action, li) {
-  art.style.transform = `scale(${settings.style.scale})`;
-  art.style.width = (settings.style.iconSize * 48) / settings.style.iconSize + "px";
+  art.style.transform = `scale(1)`;
+  art.style.width = "48px";
   art.style.height = art.style.width;
   art.style.lineHeight = art.style.height;
   art.style.background = `url(./resources/${settings.style.skin}.png),url(${settings.style.url}${action.Url}.png) center / 40px 40px no-repeat `;
@@ -351,27 +351,17 @@ function insertWatch(art, action, li) {
   };
   let space = 22;
   art.ondrag = function (e) {
+    let s = this.style.transform.replace(/[^0-9\.]/gi, "");
+    space = 22 * s;
     this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
-    this.style.top =
-      Math.min(
-        Math.max(
-          Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space,
-          0 - 0.5 * (1 - this.style.transform.replace(/[^0-9\.]/gi, "")) * parseInt(settings.style.iconSize)
-        ),
-        40 - settings.style.iconSize * this.style.transform.replace(/[^0-9\.]/gi, "")
-      ) + "px";
+    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0 - 0.5 * (1 - s) * 40), 40 - 40 * s) + "px";
   };
   li.ondragover = (e) => e.preventDefault();
   art.ondragend = function (e) {
+    let s = this.style.transform.replace(/[^0-9\.]/gi, "");
+    space = 22 * s;
     this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
-    this.style.top =
-      Math.min(
-        Math.max(
-          Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space,
-          0 - 0.5 * (1 - this.style.transform.replace(/[^0-9\.]/gi, "")) * parseInt(settings.style.iconSize)
-        ),
-        40 - settings.style.iconSize * this.style.transform.replace(/[^0-9\.]/gi, "")
-      ) + "px";
+    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0 - 0.5 * (1 - s) * 40), 40 - 40 * s) + "px";
   };
   let aside = document.createElement("aside");
   aside.innerText = "X";

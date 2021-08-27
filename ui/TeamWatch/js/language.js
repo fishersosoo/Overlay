@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-26 15:09:32
+ * @LastEditTime: 2021-08-27 15:58:14
  */
 let language = {
   style: { cn: "常规", en: "routine", jp: "全般" },
@@ -8,7 +8,6 @@ let language = {
   tts: { cn: "语音提醒", en: "TTS", jp: "音声合成" },
   partySort: { cn: "小队排序", en: "Party sort", jp: "パーティーの順序付け" },
   refreshRate: { cn: "动画刷新间隔(ms)", en: "Animation refresh interval (ms)", jp: "アニメーションの更新間隔(ms)" },
-  scale: { cn: "整体缩放(1=100%)", en: "Scale(1=100%)", jp: "スケール(1=100%)" },
   iconSize: { cn: "图标尺寸(px)", en: "Icon size(px)", jp: "アイコンサイズ(px)" },
   xSpace: { cn: "横向间隔(px)", en: "X spacing(px)", jp: "横の間隔(px)" },
   ySpace: { cn: "纵向间隔(px)", en: "X spacing(px)", jp: "縦の間隔(px)" },

@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-26 20:30:47
+ * @LastEditTime: 2021-08-27 16:01:28
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -88,9 +88,9 @@ function handle() {
         let action = actions.find((action) => action.ID === skill.id);
         let art = document.createElement("article");
         art.style.position = "absolute";
-        art.style.top = `${parseInt(skill.top) + (settings.style.iconSize * 1 + settings.style.ySpace * 1) * i}px`;
+        art.style.top = `${parseInt(skill.top) + 50 * i}px`;
         art.style.right = skill.right;
-        art.style.width = (settings.style.iconSize * 48) / settings.style.iconSize + "px";
+        art.style.width = "48px";
         art.style.height = art.style.width;
         art.style.lineHeight = art.style.width;
         art.style.visibility = action.IsRoleAction === "TRUE" ? "none" : action.ClassJobLevel > levels[player.id] ? "hidden" : "none";
@@ -172,7 +172,6 @@ function handle() {
         document.querySelector("main").appendChild(art);
       });
   }
-  document.querySelector("body").style.transform = `scale(${settings.style.scale})`;
 }
 addOverlayListener("PartyChanged", (e) => {
   party = e.party;
