@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 17:24:22
+ * @LastEditTime: 2021-08-27 18:02:48
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -95,7 +95,9 @@ function handle() {
         art.style.width = "48px";
         art.style.height = art.style.width;
         art.style.lineHeight = art.style.width;
-        art.style.visibility = action.IsRoleAction === "TRUE" ? "none" : action.ClassJobLevel > levels[player.id] ? "hidden" : "none";
+        setTimeout(() => {
+          if (action.IsRoleAction !== "TRUE" && parseInt(action.ClassJobLevel) > parseInt(levels[player.id])) art.style.opacity = "0.5";
+        }, 1000);
         art.style.fontSize = settings.style.fontSize + "px";
         art.setAttribute("name", i + "-" + action.ID);
         let recast100ms = action.Recast100ms instanceof Function ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10 : action.Recast100ms / 10;
@@ -113,6 +115,7 @@ function handle() {
         }
         art.use = function () {
           TTS(settings.tts[action.ID]);
+          art.style.opacity = "1";
           if (maxCharges === "0") {
             clearInterval(art.timer);
             let url = `url(./resources/${settings.style.skin + action.ActionCategory}.png)`;
