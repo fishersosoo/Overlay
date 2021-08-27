@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 22:30:54
+ * @LastEditTime: 2021-08-27 22:33:57
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -33,6 +33,7 @@ if (old) {
     }
     settings.watchs.find((w) => w.job === key).watch = n;
   }
+  localStorage.removeItem("teamWatch");
 }
 let nav = document.createElement("ul");
 let skinList = { "默认": "default", "Material UI MOD": "material" };
