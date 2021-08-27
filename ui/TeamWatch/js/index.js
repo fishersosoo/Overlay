@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 18:02:48
+ * @LastEditTime: 2021-08-27 23:48:59
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -90,11 +90,12 @@ function handle() {
         let action = actions.find((action) => action.ID === skill.id);
         let art = document.createElement("article");
         art.style.position = "absolute";
-        art.style.top = `${parseInt(skill.top) + 50 * i * 0.8}px`;
+        art.style.top = `${(parseInt(skill.top) + 50 * i) * 0.8}px`;
         art.style.right = parseInt(skill.right) * 0.8 + "px";
         art.style.width = "48px";
         art.style.height = art.style.width;
         art.style.lineHeight = art.style.width;
+        art.style.transform = `scale(${skill.scale * 0.8})`;
         setTimeout(() => {
           if (action.IsRoleAction !== "TRUE" && parseInt(action.ClassJobLevel) > parseInt(levels[player.id])) art.style.opacity = "0.5";
         }, 1000);

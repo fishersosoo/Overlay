@@ -59,6 +59,7 @@ html body main article#watchs > ul > li {
   font-weight: bold;
 }
 html body main article#watchs > ul > li > article {
+  transform-origin: top right;
   user-select: none;
 }
 html body main article#watchs > ul > li > article:hover {

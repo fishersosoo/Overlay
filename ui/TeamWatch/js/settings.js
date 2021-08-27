@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 23:20:11
+ * @LastEditTime: 2021-08-27 23:45:39
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -19,7 +19,7 @@ function save(t, a) {
 let loadSettings = load("settings", {});
 let settings = Object.assign(defaultSettings, loadSettings, { share: {} });
 let old = localStorage.getItem("teamWatch");
-if (old) {
+if (old && !localStorage.getItem("TeamWatch3")) {
   //导入旧数据
   console.log("从旧版本中继承了数据");
   old = JSON.parse(old).watch;
@@ -33,7 +33,7 @@ if (old) {
     settings.watchs.find((w) => w.job === key).watch = n;
   }
   save("settings", settings);
-  localStorage.removeItem("teamWatch");
+  // localStorage.removeItem("teamWatch");
 }
 let nav = document.createElement("ul");
 let skinList = { "默认": "default", "Material UI MOD": "material" };
@@ -111,6 +111,7 @@ for (const i in settings.watchs) {
     art.style.position = "absolute";
     art.style.top = skill.top;
     art.style.right = skill.right;
+    art.style.transform = `scale(${skill.scale})`;
     insertWatch(art, action, li);
   }
   li.style.paddingLeft = "0.5em";
@@ -369,7 +370,7 @@ function insertTTS(key, value) {
 }
 
 function insertWatch(art, action, li) {
-  art.style.transform = `scale(1)`;
+  if (art.style.transform === "") art.style.transform = "scale(1)";
   art.style.width = "48px";
   art.style.height = art.style.width;
   art.style.lineHeight = art.style.height;
@@ -391,14 +392,14 @@ function insertWatch(art, action, li) {
     let s = this.style.transform.replace(/[^0-9\.]/gi, "");
     space = 22 * s;
     this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
-    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0 - 0.5 * (1 - s) * 40), 40 - 40 * s) + "px";
+    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0), (1 - s) * space * 4) + "px";
   };
   li.ondragover = (e) => e.preventDefault();
   art.ondragend = function (e) {
     let s = this.style.transform.replace(/[^0-9\.]/gi, "");
     space = 22 * s;
     this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
-    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0 - 0.5 * (1 - s) * 40), 40 - 40 * s) + "px";
+    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0), (1 - s) * space * 4) + "px";
   };
   let aside = document.createElement("aside");
   aside.innerText = "X";
