@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 16:46:19
+ * @LastEditTime: 2021-08-27 17:24:22
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -80,6 +80,7 @@ addOverlayListener("onLogEvent", (e) => {
   }
 });
 function handle() {
+  document.querySelector("main").innerHTML = "";
   for (let i = 0; i < party.length; i++) {
     const player = party[i];
     if (player === undefined) break;
@@ -197,5 +198,9 @@ document.querySelector("#showFake").onclick = () => {
     { id: "10000033", name: "AST", worldId: 1179, job: 33, inParty: true },
     { id: "10000025", name: "BLM", worldId: 1177, job: 25, inParty: true },
   ];
+  handle();
+};
+document.querySelector("#clear").onclick = () => {
+  party = [];
   handle();
 };
