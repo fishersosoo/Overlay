@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 23:45:39
+ * @LastEditTime: 2021-08-27 23:52:26
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -333,7 +333,7 @@ document.querySelector("#save").onclick = function () {
   //语音提醒
   settings.ttsOn = document.querySelector("#tts > div:nth-child(1) > input[type=checkbox]").checked.toString();
   let t = {};
-  document.querySelectorAll("#tts>div>input").forEach((e) => (t[e.title] = e.value));
+  document.querySelectorAll("#tts>div.ttsSkill>input").forEach((e) => (t[e.title] = e.value));
   settings.tts = t;
   //小队排序
   document.querySelectorAll("#partySort>#jobSort>select").forEach((e) => (settings.partySort[e.title] = e.value));
