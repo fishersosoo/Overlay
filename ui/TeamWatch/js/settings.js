@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 17:19:51
+ * @LastEditTime: 2021-08-28 17:29:34
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -25,30 +25,16 @@ let old = localStorage.getItem("teamWatch");
 if (old && !localStorage.getItem("TeamWatch3")) {
   //导入旧数据
   console.log(language.loadOldSettings[settings.language]);
-  old = JSON.parse(old);
-  for (const key in old.watch) {
-    let n = [];
-    let i = 0;
-    for (const id of old.watch[key]) {
-      if (id !== "") n.push({ id: id, scale: "1", top: "0px", right: 44 * i + "px" });
-      i++;
-    }
-    settings.watchs.find((w) => w.job === key).watch = n;
-  }
-  settings.ttsOn = old.TTSOn;
-  settings.tts = old.TTS;
-  settings.style.fontSize = old.settings.fontSize;
-  save("settings", settings);
-  // localStorage.removeItem("teamWatch");
+  convertOldSettings(old);
 }
 let nav = document.createElement("ul");
 let skinList = { "默认": "default", "Material UI MOD": "material" };
 let urlList = { cafemaker: "https://cafemaker.wakingsands.com/i/", XIVAPI: "https://xivapi.com/i/" };
 for (const key in settings) {
-  if (key === "ttsOn") continue;
+  if (key === "ttsOn" || language[key] === undefined) continue;
   let li = document.createElement("li");
   li.title = key;
-  li.innerText = language[key][settings.language] || key;
+  if (language[key]) li.innerText = language[key][settings.language] || key;
   li.onclick = () => {
     for (const li of document.querySelectorAll("main>article")) li.style.display = "none";
     document.querySelector(`#${li.title}`).style.display = "block";
@@ -371,6 +357,23 @@ document.querySelector("#save").onclick = function () {
   if (window.opener) window.opener.location.reload();
 };
 document.querySelector("nav>ul>li:nth-of-type(1)").onclick();
+function convertOldSettings(old) {
+  old = JSON.parse(old);
+  for (const key in old.watch) {
+    let n = [];
+    let i = 0;
+    for (const id of old.watch[key]) {
+      if (id !== "") n.push({ id: id, scale: "1", top: "0px", right: 44 * i + "px" });
+      i++;
+    }
+    settings.watchs.find((w) => w.job === key).watch = n;
+  }
+  settings.ttsOn = old.TTSOn;
+  settings.tts = old.TTS;
+  settings.style.fontSize = old.settings.fontSize;
+  save("settings", settings);
+}
+
 function insertTTS(key, value) {
   if (!parseInt(key) > 0) return;
   let div = document.createElement("div");
