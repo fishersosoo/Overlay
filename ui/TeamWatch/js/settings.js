@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 16:34:04
+ * @LastEditTime: 2021-08-28 17:00:05
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -9,6 +9,9 @@ import { compareSameGroup } from "./compareSameGroup.min.js";
 import { defaultSettings } from "./defaultSettings.min.js";
 import { jobList } from "./job.min.js";
 import { language } from "./language.min.js";
+import "../../../resources/jquery-3.6.0.min.js";
+import "../../../resources/drag-arrange.min.js";
+// import "../../..";
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
@@ -266,32 +269,24 @@ document.querySelector("#tts").appendChild(ttsAdd);
     jobSort.appendChild(select);
   }
   document.querySelector("#partySort").appendChild(jobSort);
-  let srcdiv = null;
-  let srcrole = null;
+
   for (const role of forList) {
     let ul = document.createElement("ul");
     ul.classList.add(role);
     for (const t of settings.partySort[role]) {
       let li = document.createElement("li");
-      li.innerText = jobList.find((j) => j.ID === t.toString())[settings.language];
+      let p = document.createElement("p");
+      p.innerText = jobList.find((j) => j.ID === t.toString())[settings.language];
+      p.classList.add("drag");
+      p.style.height = "100%";
+      p.style.width = "100%";
+      li.appendChild(p);
       li.setAttribute("name", t);
-      li.setAttribute("draggable", "true");
-      li.ondragstart = function (e) {
-        srcrole = e.path[1].classList.value;
-        srcdiv = e.target;
-        e.dataTransfer.setData("text/html", e.target.innerHTML);
-      };
-      li.ondrop = function (e) {
-        if (srcdiv != e.target && srcrole === e.path[1].classList.value) {
-          srcdiv.innerHTML = e.target.innerHTML;
-          e.target.innerHTML = e.dataTransfer.getData("text/html");
-        }
-      };
-      li.ondragover = (e) => {
-        e.preventDefault();
-      };
       ul.appendChild(li);
     }
+    $("#partySort > ul.Tank > li").arrangeable({ dragSelector: `.drag` });
+    $("#partySort > ul.Healer > li").arrangeable({ dragSelector: `.drag` });
+    $("#partySort > ul.Dps > li").arrangeable({ dragSelector: `.drag` });
     document.querySelector("#partySort").appendChild(ul);
   }
 }
@@ -366,7 +361,7 @@ document.querySelector("#save").onclick = function () {
   document.querySelectorAll("#partySort>ul").forEach((e) => {
     let s = [];
     e.querySelectorAll("li").forEach((l) => s.push(l.getAttribute("name")));
-    settings.partySort[e.getAttribute("name")] = s;
+    settings.partySort[e.className] = s;
   });
   //语言
   settings.language = document.querySelector("#language > select").value;

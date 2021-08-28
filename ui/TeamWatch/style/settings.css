@@ -96,7 +96,7 @@ html body main article#partySort > #jobSort select {
   display: block;
 }
 html body main article#partySort > ul {
-  list-style-type: decimal;
+  list-style-type: none;
   float: left;
   margin: 20px;
 }

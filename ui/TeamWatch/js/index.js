@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 15:18:38
+ * @LastEditTime: 2021-08-28 16:38:52
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -197,7 +197,7 @@ document.querySelector("#showFake").onclick = () => {
     { id: "10000030", name: "NIN", worldId: 1169, job: 30, inParty: true },
     { id: "10000028", name: "SCH", worldId: 1179, job: 28, inParty: true },
     { id: "10000022", name: "DRG", worldId: 1043, job: 22, inParty: true },
-    { id: (charID || "10000021").toString(16).toUpperCase(), name: "TEST", worldId: 1177, job: 38, inParty: true },
+    { id: charID || "10000021", name: "TEST", worldId: 1177, job: 38, inParty: true },
     { id: "10000020", name: "MNK", worldId: 1045, job: 20, inParty: true },
     { id: "10000033", name: "AST", worldId: 1179, job: 33, inParty: true },
     { id: "10000025", name: "BLM", worldId: 1177, job: 25, inParty: true },
