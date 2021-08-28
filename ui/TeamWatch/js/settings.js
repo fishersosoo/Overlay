@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 13:28:24
+ * @LastEditTime: 2021-08-28 13:34:10
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -107,13 +107,16 @@ for (const i in settings.watchs) {
   li.title = watch.job;
   for (const skill of watch.watch) {
     let action = actions.find((action) => action.ID === skill.id);
-    let art = document.createElement("article");
-    art.style.position = "absolute";
-    art.style.top = skill.top;
-    art.style.right = skill.right;
-    art.style.transform = `scale(${skill.scale})`;
-    if (action === undefined) console.log(`${skill.id}未找到，已跳过`);
-    insertWatch(art, action, li);
+    if (action === undefined) {
+      console.log(`${skill.id}未找到，已跳过`);
+    } else {
+      let art = document.createElement("article");
+      art.style.position = "absolute";
+      art.style.top = skill.top;
+      art.style.right = skill.right;
+      art.style.transform = `scale(${skill.scale})`;
+      insertWatch(art, action, li);
+    }
   }
   li.style.paddingLeft = "0.5em";
   let btn = document.createElement("button");
