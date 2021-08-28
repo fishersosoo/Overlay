@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 17:00:05
+ * @LastEditTime: 2021-08-28 17:19:51
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -284,11 +284,11 @@ document.querySelector("#tts").appendChild(ttsAdd);
       li.setAttribute("name", t);
       ul.appendChild(li);
     }
-    $("#partySort > ul.Tank > li").arrangeable({ dragSelector: `.drag` });
-    $("#partySort > ul.Healer > li").arrangeable({ dragSelector: `.drag` });
-    $("#partySort > ul.Dps > li").arrangeable({ dragSelector: `.drag` });
     document.querySelector("#partySort").appendChild(ul);
   }
+  $("#partySort > ul.Tank > li").arrangeable({ dragSelector: `.drag` });
+  $("#partySort > ul.Healer > li").arrangeable({ dragSelector: `.drag` });
+  $("#partySort > ul.Dps > li").arrangeable({ dragSelector: `.drag` });
 }
 {
   //语言
