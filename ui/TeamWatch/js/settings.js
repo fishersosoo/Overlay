@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 13:48:49
+ * @LastEditTime: 2021-08-28 14:06:57
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -21,7 +21,7 @@ let settings = Object.assign(defaultSettings, loadSettings, { share: {} });
 let old = localStorage.getItem("teamWatch");
 if (old && !localStorage.getItem("TeamWatch3")) {
   //导入旧数据
-  console.log("从旧版本中继承了数据");
+  console.log(language.loadOldSettings[settings.language]);
   old = JSON.parse(old);
   for (const key in old.watch) {
     let n = [];
@@ -197,6 +197,21 @@ ttsAdd.onclick = function () {
   let div = document.createElement("div");
   div.style.display = "inline-block";
   div.id = "ttsAddSelect";
+  let input = document.createElement("input");
+  input.setAttribute("placeholder", language.searchSkill[settings.language]);
+  input.onchange = function () {
+    // this.value
+    select.innerHTML = "";
+    actions
+      .filter((action) => action.Name_cn.indexOf(this.value) !== -1 || action.Name_en.indexOf(this.value) !== -1 || action.Name_jp.indexOf(this.value) !== -1)
+      .forEach((element) => {
+        console.log(element);
+        let option = document.createElement("option");
+        option.innerText = element[`Name_${settings.language}`];
+        option.value = element.ID;
+        select.appendChild(option);
+      });
+  };
   let select = document.createElement("select");
   for (const i of actions) {
     if (compareSameGroup[i.ID]) continue;
@@ -217,8 +232,9 @@ ttsAdd.onclick = function () {
     div.remove();
   };
   div.style.position = "relative";
-  div.style.left = "-245px";
+  div.style.left = "-300px";
   div.style.bottom = "-30px";
+  div.appendChild(input);
   div.appendChild(select);
   div.appendChild(add);
   div.appendChild(cancel);

@@ -154,10 +154,20 @@ html body main article#tts #ttsPlus {
   margin: 5px;
   border: 1px dashed gray;
 }
-html body main article#tts input {
+html body main article#tts .ttsSkill > input {
   float: right;
   width: 5em;
   text-align: right;
+}
+html body main article#tts #ttsAddSelect input {
+  width: 7.5em;
+}
+html body main article#tts #ttsAddSelect select {
+  width: 7.5em;
+}
+html body main article#tts #ttsAddSelect button {
+  opacity: 1;
+  margin: 0;
 }
 html body main article#share p {
   height: 100px;
