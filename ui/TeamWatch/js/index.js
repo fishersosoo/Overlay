@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 00:07:42
+ * @LastEditTime: 2021-08-28 15:14:16
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -115,7 +115,7 @@ function handle() {
           art.style.padding = "15px 0px 0px 30px";
         }
         art.use = function () {
-          TTS(settings.tts[action.ID]);
+          if (settings.ttsOn === "true") TTS(settings.tts[action.ID]);
           art.style.opacity = "1";
           if (maxCharges === "0") {
             clearInterval(art.timer);
