@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 14:06:57
+ * @LastEditTime: 2021-08-28 16:34:04
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -73,6 +73,7 @@ for (const key in settings.style) {
       input.value = settings.style[key];
     } else {
       input = document.createElement("select");
+      input.title = key;
       if (key === "skin") {
         for (const key in skinList) {
           let option = document.createElement("option");
@@ -88,6 +89,7 @@ for (const key in settings.style) {
           input.appendChild(option);
         }
       }
+      input.value = settings.style[key];
     }
     li.appendChild(input);
     styleOptions.appendChild(li);
@@ -345,6 +347,7 @@ document.querySelector("#save").innerHTML = language.save[settings.language];
 document.querySelector("#save").onclick = function () {
   //常规
   document.querySelectorAll("#style>ul>li>input").forEach((e) => (settings.style[e.title] = e.value));
+  document.querySelectorAll("#style>ul>li>select").forEach((e) => (settings.style[e.title] = e.value));
   //监控列表
   document.querySelectorAll("#watchs>ul>li").forEach((e) => {
     let arr = [];
@@ -410,19 +413,19 @@ function insertWatch(art, action, li) {
     e.dataTransfer.setDragImage(element, 0, 0);
     e.dataTransfer.effectAllowed = "move";
   };
-  let space = 22;
+  let space = 11;
   art.ondrag = function (e) {
     let s = this.style.transform.replace(/[^0-9\.]/gi, "");
-    space = 22 * s;
+    space = 11 * s;
     this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
-    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0), (1 - s) * space * 4) + "px";
+    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0), (1 - s) * 44) + "px";
   };
   li.ondragover = (e) => e.preventDefault();
   art.ondragend = function (e) {
     let s = this.style.transform.replace(/[^0-9\.]/gi, "");
-    space = 22 * s;
+    space = 11 * s;
     this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
-    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0), (1 - s) * space * 4) + "px";
+    this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0), (1 - s) * 44) + "px";
   };
   let aside = document.createElement("aside");
   aside.innerText = "X";

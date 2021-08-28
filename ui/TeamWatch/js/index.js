@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 15:14:16
+ * @LastEditTime: 2021-08-28 15:18:38
  */
 "use strict";
 import { loadItem } from "../../../resources/localStorage.min.js";
@@ -13,9 +13,9 @@ let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
 }
-function save(t, a) {
-  saveItem(namespace, t, a);
-}
+// function save(t, a) {
+//   saveItem(namespace, t, a);
+// }
 let baseClass = {
   1: 19,
   2: 20,
