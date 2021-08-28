@@ -1,9 +1,9 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 16:38:52
+ * @LastEditTime: 2021-08-28 20:55:09
  */
 "use strict";
-import { loadItem } from "../../../resources/localStorage.min.js";
+import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { TTS } from "../../../resources/TTS.js";
 import { actions } from "./actions.min.js";
 import { compareSame } from "./compareSameGroup.min.js";
@@ -13,9 +13,9 @@ let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
 }
-// function save(t, a) {
-//   saveItem(namespace, t, a);
-// }
+function save(t, a) {
+  saveItem(namespace, t, a);
+}
 let baseClass = {
   1: 19,
   2: 20,
@@ -50,7 +50,35 @@ let party = [];
 let levels = {};
 let settings;
 (function loadSettings() {
+  function convertOldWatchs(old) {
+    let result = [];
+    for (const key in old) {
+      old[key].reverse();
+      let watch = {};
+      watch.job = key;
+      let w = [];
+      let i = 0;
+      for (const id of old[key]) {
+        if (id !== "") w.push({ id: id, scale: "1", top: "0px", right: 44 * i + "px" });
+        i++;
+      }
+      watch.watch = w;
+      result.push(watch);
+    }
+    return result;
+  }
   settings = Object.assign(defaultSettings, load("settings", {}));
+  let old = localStorage.getItem("teamWatch");
+  if (old && !localStorage.getItem("TeamWatch3")) {
+    //导入旧数据
+    console.log("从旧版本中继承了数据");
+    old = JSON.parse(old);
+    settings = Object.assign(defaultSettings, { watchs: convertOldWatchs(old.watch) });
+    settings.ttsOn = old.TTSOn || settings.ttsOn;
+    settings.tts = old.TTS || settings.tts;
+    settings.style.fontSize = old.settings.fontSize || settings.style.fontSize;
+    save("settings", settings);
+  }
 })();
 
 function partySort(party) {

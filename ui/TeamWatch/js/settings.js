@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 20:23:42
+ * @LastEditTime: 2021-08-28 20:53:35
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -18,8 +18,7 @@ function load(t, a = "") {
 function save(t, a) {
   saveItem(namespace, t, a);
 }
-let loadSettings = load("settings", {});
-let settings = Object.assign(defaultSettings, loadSettings, { share: {} });
+let settings = Object.assign(defaultSettings, load("settings", {}), { share: {} });
 let old = localStorage.getItem("teamWatch");
 if (old && !localStorage.getItem("TeamWatch3")) {
   //导入旧数据
