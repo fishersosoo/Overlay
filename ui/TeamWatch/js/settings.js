@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 18:04:03
+ * @LastEditTime: 2021-08-28 20:23:42
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -93,8 +93,8 @@ document.querySelector("#style").appendChild(styleOptions);
 let watchOptions = document.createElement("ul");
 // document.oncontextmenu = () => false;
 let pos = {};
-for (const i in settings.watchs) {
-  const watch = settings.watchs[i];
+[...settings.partySort.Tank, ...settings.partySort.Healer, ...settings.partySort.Dps, "1", "2", "3", "4", "5", "6", "7", "26", "29"].forEach((element) => {
+  const watch = settings.watchs.find((watch) => watch.job === element);
   let li = document.createElement("li");
   li.innerText = jobList.find((j) => j.ID === watch.job)[settings.language];
   li.style.height = "50px";
@@ -166,7 +166,7 @@ for (const i in settings.watchs) {
   };
   li.appendChild(btn);
   watchOptions.appendChild(li);
-}
+});
 document.querySelector("#watchs").appendChild(watchOptions);
 //语音提醒
 let div = document.createElement("div");

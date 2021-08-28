@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-24 23:36:03
+ * @LastEditTime: 2021-08-28 20:40:21
  */
 let actions = [
   {"ID":"17","Name_en":"Sentinel","Name_jp":"センチネル","Name_cn":"预警","Url":"000000/000151","ActionCategory":"能力","ClassJobLevel":"38","IsRoleAction":"FALSE","Recast100ms":"1200","MaxCharges":"0","ClassJobCategory":"剑术师 骑士"},
@@ -41,7 +41,7 @@ let actions = [
   {"ID":"184","Name_en":"Enkindle","Name_jp":"エンキンドル","Name_cn":"内力迸发","Url":"002000/002677","ActionCategory":"能力","ClassJobLevel":"50","IsRoleAction":"FALSE","Recast100ms":"1800","MaxCharges":"0","ClassJobCategory":"召唤师"},
   {"ID":"188","Name_en":"Sacred Soil","Name_jp":"野戦治療の陣","Name_cn":"野战治疗阵","Url":"002000/002804","ActionCategory":"能力","ClassJobLevel":"50","IsRoleAction":"FALSE","Recast100ms":"300","MaxCharges":"0","ClassJobCategory":"学者"},
   {"ID":"2241","Name_en":"Shade Shift","Name_jp":"残影","Name_cn":"残影","Url":"000000/000607","ActionCategory":"能力","ClassJobLevel":"2","IsRoleAction":"FALSE","Recast100ms":"1200","MaxCharges":"0","ClassJobCategory":"双剑师  忍者"},
-  {"ID":"2245","Name_en":"Hide","Name_jp":"かくれる","Name_cn":"隐遁","Url":"000000/000609","ActionCategory":"能力","ClassJobLevel":"10","IsRoleAction":"FALSE","Recast100ms":"200","MaxCharges":"0","ClassJobCategory":"双剑师  忍者"},
+  // {"ID":"2245","Name_en":"Hide","Name_jp":"かくれる","Name_cn":"隐遁","Url":"000000/000609","ActionCategory":"能力","ClassJobLevel":"10","IsRoleAction":"FALSE","Recast100ms":"200","MaxCharges":"0","ClassJobCategory":"双剑师  忍者"},
   {"ID":"2248","Name_en":"Mug","Name_jp":"ぶんどる","Name_cn":"夺取","Url":"000000/000613","ActionCategory":"能力","ClassJobLevel":"15","IsRoleAction":"FALSE","Recast100ms":"1200","MaxCharges":"0","ClassJobCategory":"双剑师  忍者"},
   {"ID":"2257","Name_en":"Shadow Fang","Name_jp":"影牙","Name_cn":"影牙","Url":"000000/000606","ActionCategory":"战技","ClassJobLevel":"30","IsRoleAction":"FALSE","Recast100ms":"700","MaxCharges":"0","ClassJobCategory":"双剑师  忍者"},
   {"ID":"2258","Name_en":"Trick Attack","Name_jp":"だまし討ち","Name_cn":"攻其不备","Url":"000000/000618","ActionCategory":"能力","ClassJobLevel":"18","IsRoleAction":"FALSE","Recast100ms":"600","MaxCharges":"0","ClassJobCategory":"双剑师  忍者"},
