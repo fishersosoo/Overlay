@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 17:29:34
+ * @LastEditTime: 2021-08-28 17:59:47
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -11,7 +11,6 @@ import { jobList } from "./job.min.js";
 import { language } from "./language.min.js";
 import "../../../resources/jquery-3.6.0.min.js";
 import "../../../resources/drag-arrange.min.js";
-// import "../../..";
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
@@ -25,7 +24,12 @@ let old = localStorage.getItem("teamWatch");
 if (old && !localStorage.getItem("TeamWatch3")) {
   //导入旧数据
   console.log(language.loadOldSettings[settings.language]);
-  convertOldSettings(old);
+  old = JSON.parse(old);
+  settings = Object.assign(defaultSettings, { watchs: convertOldWatchs(old.watch) });
+  settings.ttsOn = old.TTSOn || settings.ttsOn;
+  settings.tts = old.TTS || settings.tts;
+  settings.style.fontSize = old.settings.fontSize || settings.style.fontSize;
+  save("settings", settings);
 }
 let nav = document.createElement("ul");
 let skinList = { "默认": "default", "Material UI MOD": "material" };
@@ -196,7 +200,6 @@ ttsAdd.onclick = function () {
     actions
       .filter((action) => action.Name_cn.indexOf(this.value) !== -1 || action.Name_en.indexOf(this.value) !== -1 || action.Name_jp.indexOf(this.value) !== -1)
       .forEach((element) => {
-        console.log(element);
         let option = document.createElement("option");
         option.innerText = element[`Name_${settings.language}`];
         option.value = element.ID;
@@ -314,7 +317,12 @@ document.querySelector("#tts").appendChild(ttsAdd);
   document.querySelector("#share").appendChild(shareOut);
   shareInBtn.onclick = () => {
     try {
-      save("settings", JSON.parse(window.decodeURIComponent(window.atob(document.querySelector("#shareInInput").value))));
+      let ipt = JSON.parse(window.decodeURIComponent(window.atob(document.querySelector("#shareInInput").value)));
+      if (ipt[1] instanceof Array) {
+        save("settings", Object.assign(defaultSettings, { watchs: convertOldWatchs(ipt) }));
+      } else {
+        save("settings", ipt);
+      }
       location.reload();
     } catch {
       document.querySelector("#shareInInput").value = "格式错误";
@@ -357,21 +365,21 @@ document.querySelector("#save").onclick = function () {
   if (window.opener) window.opener.location.reload();
 };
 document.querySelector("nav>ul>li:nth-of-type(1)").onclick();
-function convertOldSettings(old) {
-  old = JSON.parse(old);
-  for (const key in old.watch) {
-    let n = [];
+function convertOldWatchs(old) {
+  let result = [];
+  for (const key in old) {
+    let watch = {};
+    watch.job = key;
+    let w = [];
     let i = 0;
-    for (const id of old.watch[key]) {
-      if (id !== "") n.push({ id: id, scale: "1", top: "0px", right: 44 * i + "px" });
+    for (const id of old[key]) {
+      if (id !== "") w.push({ id: id, scale: "1", top: "0px", right: 44 * i + "px" });
       i++;
     }
-    settings.watchs.find((w) => w.job === key).watch = n;
+    watch.watch = w;
+    result.push(watch);
   }
-  settings.ttsOn = old.TTSOn;
-  settings.tts = old.TTS;
-  settings.style.fontSize = old.settings.fontSize;
-  save("settings", settings);
+  return result;
 }
 
 function insertTTS(key, value) {
