@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 13:34:10
+ * @LastEditTime: 2021-08-28 13:48:49
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -22,16 +22,19 @@ let old = localStorage.getItem("teamWatch");
 if (old && !localStorage.getItem("TeamWatch3")) {
   //导入旧数据
   console.log("从旧版本中继承了数据");
-  old = JSON.parse(old).watch;
-  for (const key in old) {
+  old = JSON.parse(old);
+  for (const key in old.watch) {
     let n = [];
     let i = 0;
-    for (const id of old[key]) {
+    for (const id of old.watch[key]) {
       if (id !== "") n.push({ id: id, scale: "1", top: "0px", right: 44 * i + "px" });
       i++;
     }
     settings.watchs.find((w) => w.job === key).watch = n;
   }
+  settings.ttsOn = old.TTSOn;
+  settings.tts = old.TTS;
+  settings.style.fontSize = old.settings.fontSize;
   save("settings", settings);
   // localStorage.removeItem("teamWatch");
 }
