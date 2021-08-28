@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-27 23:52:26
+ * @LastEditTime: 2021-08-28 13:28:24
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -112,6 +112,7 @@ for (const i in settings.watchs) {
     art.style.top = skill.top;
     art.style.right = skill.right;
     art.style.transform = `scale(${skill.scale})`;
+    if (action === undefined) console.log(`${skill.id}未找到，已跳过`);
     insertWatch(art, action, li);
   }
   li.style.paddingLeft = "0.5em";
