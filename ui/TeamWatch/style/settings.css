@@ -47,14 +47,17 @@ html body main article#style > ul li {
   font-size: 16px;
   font-weight: bold;
   position: relative;
-  height: 4em;
+  height: 6em;
+  border: 1px dashed gray;
+  padding: 10px;
+  margin: 10px;
 }
 html body main article#style > ul li input,
 html body main article#style > ul li select {
   font-size: 16px;
   position: absolute;
-  left: 0px;
-  top: 1.5em;
+  bottom: 10px;
+  right: 10px;
   width: 12em;
   text-align: left;
 }
