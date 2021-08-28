@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 17:59:47
+ * @LastEditTime: 2021-08-28 18:04:03
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -368,6 +368,7 @@ document.querySelector("nav>ul>li:nth-of-type(1)").onclick();
 function convertOldWatchs(old) {
   let result = [];
   for (const key in old) {
+    old[key].reverse();
     let watch = {};
     watch.job = key;
     let w = [];
