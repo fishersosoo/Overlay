@@ -55,6 +55,10 @@ html body main article#style > ul li input::-webkit-outer-spin-button,
 html body main article#style > ul li input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+html body main article#watchs > #stepInput {
+  width: 3em;
+  margin: 0px 0px 7px 4px;
+}
 html body main article#watchs > ul > li {
   font-weight: bold;
 }

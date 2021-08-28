@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 22:34:18
+ * @LastEditTime: 2021-08-28 22:54:48
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -14,7 +14,7 @@ import "../../../resources/drag-arrange.min.js";
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
-} 
+}
 function save(t, a) {
   saveItem(namespace, t, a);
 }
@@ -92,6 +92,16 @@ for (const key in settings.style) {
 }
 document.querySelector("#style").appendChild(styleOptions);
 //监控列表
+let stepInputText = document.createElement("span");
+stepInputText.innerText = language.stepInputText[settings.language];
+document.querySelector("#watchs").appendChild(stepInputText);
+let stepInput = document.createElement("input");
+stepInput.setAttribute("type", "number");
+stepInput.setAttribute("step", "0.5");
+stepInput.value = 22;
+stepInput.id = "stepInput";
+document.querySelector("#watchs").appendChild(stepInput);
+
 let watchOptions = document.createElement("ul");
 // document.oncontextmenu = () => false;
 let pos = {};
@@ -155,8 +165,10 @@ let pos = {};
       let art = document.createElement("article");
       art.style.position = "absolute";
       art.style.top = "0px";
-      let mostRight = [].slice.call(li.querySelectorAll("article")).reduce((pre, value) => (parseInt(pre.style.right) > parseInt(value.style.right) ? pre : value));
-      art.style.right = parseInt(mostRight.style.right) + parseInt(40) + 4 + "px";
+      let mostRight = [].slice
+        .call(li.querySelectorAll("article"))
+        .reduce((pre, value) => (parseInt(pre.style.right) > parseInt(value.style.right) ? pre : value), { style: { right: -44 } });
+      art.style.right = parseInt(mostRight.style.right) + 44 + "px";
       insertWatch(art, action, li);
       cancel.onclick();
     };
@@ -421,17 +433,16 @@ function insertWatch(art, action, li) {
     e.dataTransfer.setDragImage(element, 0, 0);
     e.dataTransfer.effectAllowed = "move";
   };
-  let space = 11;
   art.ondrag = function (e) {
     let s = this.style.transform.replace(/[^0-9\.]/gi, "");
-    space = 11 * s;
+    let space = document.querySelector("#stepInput").value * s;
     this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
     this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0), (1 - s) * 44) + "px";
   };
   li.ondragover = (e) => e.preventDefault();
   art.ondragend = function (e) {
     let s = this.style.transform.replace(/[^0-9\.]/gi, "");
-    space = 11 * s;
+    let space = document.querySelector("#stepInput").value * s;
     this.style.right = Math.min(Math.max(Math.round((parseInt(pos.right) - parseInt(e.x - pos.x)) / space) * space, 0), document.body.clientWidth - 150) + "px";
     this.style.top = Math.min(Math.max(Math.round((parseInt(pos.top) + parseInt(e.y - pos.y)) / space) * space, 0), (1 - s) * 44) + "px";
   };

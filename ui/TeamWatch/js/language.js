@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 14:06:44
+ * @LastEditTime: 2021-08-28 22:52:46
  */
 let language = {
   style: { cn: "常规", en: "routine", jp: "全般" },
@@ -10,7 +10,7 @@ let language = {
   refreshRate: { cn: "动画刷新间隔(ms)", en: "Animation refresh interval (ms)", jp: "アニメーションの更新間隔(ms)" },
   fontSize: { cn: "字体尺寸(px)", en: "Font size(px)", jp: "フォントサイズ(px)" },
   skin: { cn: "样式皮肤", en: "Skin", jp: "スタイル" },
-  url: { cn: "国内玩家选择默认cafe即可", en: "Xivapi is recommended", jp: "Xivapi is recommended" },
+  url: { cn: "图标源（国内建议cake）", en: "Icon source (XIVAPI recommended)", jp: "アイコンのソース（XIVAPI推奨）" },
   language: { cn: "语言(cn)", en: "Language(en)", jp: "言語(jp)" },
   add: { cn: "添加", en: "Add", jp: "追加" },
   cancel: { cn: "取消", en: "Cancel", jp: "戻る" },
@@ -24,5 +24,6 @@ let language = {
   ttsOnText: { cn: "TTS开关", en: "TTS switch", jp: "TTSスイッチ" },
   loadOldSettings: { cn: "从旧版本中继承了数据", en: "Inherited data from older versions", jp: "古いバージョンからデータを引き継ぎました。" },
   searchSkill: { cn: "搜索技能名", en: "Search skill name", jp: "検索スキル名" },
+  stepInputText: { cn: "拖动步进值", en: "Drag step value", jp: "ドラッグステップ値" },
 };
 export { language };
