@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 22:54:48
+ * @LastEditTime: 2021-08-28 23:55:53
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -64,8 +64,29 @@ for (const key in settings.style) {
     if (!isNaN(settings.style[key])) {
       input = document.createElement("input");
       input.setAttribute("type", "number");
+      input.onkeypress = () => /[\d\.]/.test(String.fromCharCode(event.keyCode));
       input.title = key;
       input.value = settings.style[key];
+      switch (key) {
+        case "fontSize":
+          input.setAttribute("min", "12");
+          break;
+        case "xSpace":
+          input.setAttribute("min", "-50");
+          input.setAttribute("max", "50");
+          input.onkeypress = () => false;
+          break;
+        case "ySpace":
+          input.setAttribute("min", "-44");
+          input.setAttribute("max", "44");
+          input.onkeypress = () => false;
+          break;
+        case "refreshRate":
+          input.setAttribute("step", "37");
+          break;
+        default:
+          break;
+      }
     } else {
       input = document.createElement("select");
       input.title = key;

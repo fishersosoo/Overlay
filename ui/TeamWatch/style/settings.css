@@ -38,25 +38,28 @@ html body main article {
   padding: 5px;
   height: 100%;
 }
+html body main article#style > ul {
+  margin: 10px 20px;
+  list-style: none;
+}
 html body main article#style > ul li {
   width: 800px;
-  padding: 15px 35px;
   font-size: 16px;
   font-weight: bold;
+  position: relative;
+  height: 4em;
 }
 html body main article#style > ul li input,
 html body main article#style > ul li select {
   font-size: 16px;
-  float: right;
-  width: 16em;
-  text-align: right;
-}
-html body main article#style > ul li input::-webkit-outer-spin-button,
-html body main article#style > ul li input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+  position: absolute;
+  left: 0px;
+  top: 1.5em;
+  width: 12em;
+  text-align: left;
 }
 html body main article#watchs > #stepInput {
-  width: 3em;
+  width: 4em;
   margin: 0px 0px 7px 4px;
 }
 html body main article#watchs > ul > li {

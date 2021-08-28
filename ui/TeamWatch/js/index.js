@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 20:55:09
+ * @LastEditTime: 2021-08-28 23:43:15
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -118,8 +118,8 @@ function handle() {
         let action = actions.find((action) => action.ID === skill.id);
         let art = document.createElement("article");
         art.style.position = "absolute";
-        art.style.top = `${(parseInt(skill.top) + 50 * i) * 0.8}px`;
-        art.style.right = parseInt(skill.right) * 0.8 + "px";
+        art.style.top = (parseFloat(skill.top) + i * (50 + parseFloat(settings.style.ySpace))) * 0.8 + "px";
+        art.style.right = parseFloat(skill.right) * (1 + settings.style.xSpace / 100) * 0.8 + "px";
         art.style.width = "48px";
         art.style.height = art.style.width;
         art.style.lineHeight = art.style.width;

@@ -44,26 +44,31 @@ html {
         padding: 5px;
         height: 100%;
         &#style > ul {
+          margin: 10px 20px;
+          list-style: none;
           li {
             width: 800px;
-            padding: 15px 35px;
             font-size: 16px;
             font-weight: bold;
+            position: relative;
+            height: 4em;
             input,
             select {
               font-size: 16px;
-              float: right;
-              width: 16em;
-              text-align: right;
+              position: absolute;
+              left: 0px;
+              top: 1.5em;
+              width: 12em;
+              text-align: left;
             }
-            input::-webkit-outer-spin-button,
-            input::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-            }
+            // input::-webkit-outer-spin-button,
+            // input::-webkit-inner-spin-button {
+            //   -webkit-appearance: none;
+            // }
           }
         }
         &#watchs > #stepInput {
-          width: 3em;
+          width: 4em;
           margin: 0px 0px 7px 4px;
         }
         &#watchs > ul > li {
