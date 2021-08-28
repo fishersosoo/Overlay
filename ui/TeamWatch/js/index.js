@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 23:43:15
+ * @LastEditTime: 2021-08-29 00:08:24
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -9,6 +9,7 @@ import { actions } from "./actions.min.js";
 import { compareSame } from "./compareSameGroup.min.js";
 import { defaultSettings } from "./defaultSettings.min.js";
 import { jobList } from "./job.min.js";
+
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
@@ -67,13 +68,14 @@ let settings;
     }
     return result;
   }
-  settings = Object.assign(defaultSettings, load("settings", {}));
+  settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), load("settings", {}));
+  settings.style = Object.assign(JSON.parse(JSON.stringify(defaultSettings)).style, load("settings", {}).style);
   let old = localStorage.getItem("teamWatch");
   if (old && !localStorage.getItem("TeamWatch3")) {
     //导入旧数据
     console.log("从旧版本中继承了数据");
     old = JSON.parse(old);
-    settings = Object.assign(defaultSettings, { watchs: convertOldWatchs(old.watch) });
+    settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), { watchs: convertOldWatchs(old.watch) });
     settings.ttsOn = old.TTSOn || settings.ttsOn;
     settings.tts = old.TTS || settings.tts;
     settings.style.fontSize = old.settings.fontSize || settings.style.fontSize;

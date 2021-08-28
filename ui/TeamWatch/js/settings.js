@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 23:55:53
+ * @LastEditTime: 2021-08-29 00:07:03
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -21,13 +21,14 @@ function save(t, a) {
 window.onerror = function () {
   alert(`遇到了意料之外的错误。\n${JSON.stringify(arguments, null, 2)}`);
 };
-let settings = Object.assign(defaultSettings, load("settings", {}), { share: {} });
+let settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), load("settings", {}), { share: {} });
+settings.style = Object.assign(JSON.parse(JSON.stringify(defaultSettings)).style, load("settings", {}).style);
 let old = localStorage.getItem("teamWatch");
 if (old && !localStorage.getItem("TeamWatch3")) {
   //导入旧数据
   console.log(language.loadOldSettings[settings.language]);
   old = JSON.parse(old);
-  settings = Object.assign(defaultSettings, { watchs: convertOldWatchs(old.watch) });
+  settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), { watchs: convertOldWatchs(old.watch) });
   settings.ttsOn = old.TTSOn || settings.ttsOn;
   settings.tts = old.TTS || settings.tts;
   settings.style.fontSize = old.settings.fontSize || settings.style.fontSize;
@@ -353,7 +354,7 @@ document.querySelector("#tts").appendChild(ttsAdd);
     try {
       let ipt = JSON.parse(window.decodeURIComponent(window.atob(document.querySelector("#shareInInput").value)));
       if (ipt[1] instanceof Array) {
-        save("settings", Object.assign(defaultSettings, { watchs: convertOldWatchs(ipt) }));
+        save("settings", Object.assign(JSON.parse(JSON.stringify(defaultSettings)), { watchs: convertOldWatchs(ipt) }));
       } else {
         save("settings", ipt);
       }
