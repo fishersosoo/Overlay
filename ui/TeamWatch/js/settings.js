@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 20:53:35
+ * @LastEditTime: 2021-08-28 22:34:18
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -14,10 +14,13 @@ import "../../../resources/drag-arrange.min.js";
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
-}
+} 
 function save(t, a) {
   saveItem(namespace, t, a);
 }
+window.onerror = function () {
+  alert(`遇到了意料之外的错误。\n${JSON.stringify(arguments, null, 2)}`);
+};
 let settings = Object.assign(defaultSettings, load("settings", {}), { share: {} });
 let old = localStorage.getItem("teamWatch");
 if (old && !localStorage.getItem("TeamWatch3")) {
@@ -189,7 +192,6 @@ ttsAdd.innerText = "+";
 ttsAdd.onclick = function () {
   if (document.querySelector("#ttsAddSelect")) return;
   let div = document.createElement("div");
-  div.style.display = "inline-block";
   div.id = "ttsAddSelect";
   let input = document.createElement("input");
   input.setAttribute("placeholder", language.searchSkill[settings.language]);
@@ -224,9 +226,9 @@ ttsAdd.onclick = function () {
   cancel.onclick = function () {
     div.remove();
   };
-  div.style.position = "relative";
-  div.style.left = "-300px";
-  div.style.bottom = "-30px";
+  div.style.position = "absolute";
+  div.style.top = ttsAdd.offsetTop * 1 + 40 + "px";
+  div.style.left = ttsAdd.offsetLeft + "px";
   div.appendChild(input);
   div.appendChild(select);
   div.appendChild(add);
