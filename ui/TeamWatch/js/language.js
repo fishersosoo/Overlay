@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 23:42:13
+ * @LastEditTime: 2021-08-29 00:36:57
  */
 let language = {
   style: { cn: "常规", en: "routine", jp: "全般" },
@@ -35,5 +35,7 @@ let language = {
     en: "Additional offset of Y axis per index (px) (please note: adjusting this option will cause the team list to be unable to align with the skill list under the default zoom)",
     jp: "各メンバーの索引Y軸の追加オフセット（px）(注意してください。このオプションを調整すると、標準のズームで小隊のリストがスキルリストに整列できなくなります。)",
   },
+  unifiedScale: { cn: "设置所有缩放", en: "Set zoom for all skills", jp: "すべてのスキルのズームを設定します" },
+  confirmPer: { cn: "即将将所有图标缩放统一为：", en: "All icons will be scaled to:", jp: "すべてのアイコンがこれになります：" },
 };
 export { language };

@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 00:07:03
+ * @LastEditTime: 2021-08-29 00:36:06
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -123,7 +123,26 @@ stepInput.setAttribute("step", "0.5");
 stepInput.value = 22;
 stepInput.id = "stepInput";
 document.querySelector("#watchs").appendChild(stepInput);
-
+let unifiedScale = document.createElement("div");
+unifiedScale.innerText = language.unifiedScale[settings.language];
+let per50 = document.createElement("button");
+per50.innerText = "S";
+per50.classList.add("unifiedScalePer");
+per50.onclick = () => toUnifiedScale(0.5);
+let per75 = document.createElement("button");
+per75.innerText = "M";
+per75.classList.add("unifiedScalePer");
+per75.value = 0.75;
+per75.onclick = () => toUnifiedScale(0.75);
+let per100 = document.createElement("button");
+per100.innerText = "L";
+per100.classList.add("unifiedScalePer");
+per100.value = 1;
+per100.onclick = () => toUnifiedScale(1);
+unifiedScale.appendChild(per50);
+unifiedScale.appendChild(per75);
+unifiedScale.appendChild(per100);
+document.querySelector("#watchs").appendChild(unifiedScale);
 let watchOptions = document.createElement("ul");
 // document.oncontextmenu = () => false;
 let pos = {};
@@ -476,32 +495,35 @@ function insertWatch(art, action, li) {
   };
   let zp50 = document.createElement("button");
   zp50.innerText = "S";
-  zp50.style.height = "16px";
-  zp50.style.lineHeight = "10px";
-  zp50.style.width = "16px";
-  zp50.style.position = "absolute";
-  zp50.style.bottom = "4px";
-  zp50.style.left = "1px";
-  zp50.style.fontSize = "12px";
+  zp50.classList.add("zp");
+  zp50.classList.add("zp-left");
   zp50.onclick = function () {
     art.style.transform = `scale(0.5)`;
     art.style.top = "0px";
   };
+  let zp75 = document.createElement("button");
+  zp75.innerText = "M";
+  zp75.classList.add("zp");
+  zp75.classList.add("zp-mid");
+  zp75.onclick = function () {
+    art.style.transform = `scale(0.75)`;
+    art.style.top = "0px";
+  };
   let zp100 = document.createElement("button");
   zp100.innerText = "L";
-  zp100.style.height = "16px";
-  zp100.style.lineHeight = "10px";
-  zp100.style.width = "16px";
-  zp100.style.position = "absolute";
-  zp100.style.bottom = "4px";
-  zp100.style.left = "31px";
-  zp100.style.fontSize = "12px";
+  zp100.classList.add("zp");
+  zp100.classList.add("zp-right");
   zp100.onclick = function () {
     art.style.transform = `scale(1)`;
     art.style.top = "0px";
   };
   art.appendChild(zp50);
+  art.appendChild(zp75);
   art.appendChild(zp100);
   art.appendChild(aside);
   li.appendChild(art);
+}
+function toUnifiedScale(per) {
+  if (confirm(language.confirmPer[settings.language] + per * 100 + "%"))
+    document.querySelectorAll("#watchs > ul > li> article").forEach((art) => (art.style.transform = "scale(" + per + ")"));
 }

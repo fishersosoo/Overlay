@@ -71,9 +71,30 @@ html {
           width: 4em;
           margin: 0px 0px 7px 4px;
         }
+        &#watchs .unifiedScalePer {
+          width: 1.5em;
+          margin: 0px 1px;
+        }
         &#watchs > ul > li {
           font-weight: bold;
           > article {
+            .zp {
+              height: 16px;
+              line-height: 10px;
+              width: 16px;
+              position: absolute;
+              bottom: 4px;
+              font-size: 12px;
+              &.zp-left {
+                left: 1px;
+              }
+              &.zp-mid {
+                left: 16px;
+              }
+              &.zp-right {
+                left: 31px;
+              }
+            }
             transform-origin: top right;
             user-select: none;
             &:hover {

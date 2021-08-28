@@ -62,12 +62,33 @@ html body main article#watchs > #stepInput {
   width: 4em;
   margin: 0px 0px 7px 4px;
 }
+html body main article#watchs .unifiedScalePer {
+  width: 1.5em;
+  margin: 0px 1px;
+}
 html body main article#watchs > ul > li {
   font-weight: bold;
 }
 html body main article#watchs > ul > li > article {
   transform-origin: top right;
   user-select: none;
+}
+html body main article#watchs > ul > li > article .zp {
+  height: 16px;
+  line-height: 10px;
+  width: 16px;
+  position: absolute;
+  bottom: 4px;
+  font-size: 12px;
+}
+html body main article#watchs > ul > li > article .zp.zp-left {
+  left: 1px;
+}
+html body main article#watchs > ul > li > article .zp.zp-mid {
+  left: 16px;
+}
+html body main article#watchs > ul > li > article .zp.zp-right {
+  left: 31px;
 }
 html body main article#watchs > ul > li > article:hover {
   cursor: move;
