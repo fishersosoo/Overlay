@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 18:03:22
+ * @LastEditTime: 2021-08-29 18:22:22
  */
 let defaultSettings = {
   style: {
@@ -9,7 +9,7 @@ let defaultSettings = {
     ySpace: "0",
     fontSize: "18",
     fontColor: "White",
-    hideYourself: "false",
+    hideYourself: "False",
     refreshRate: "333",
     skin: "default",
     url: "https://cafemaker.wakingsands.com/i/",
