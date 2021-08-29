@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 17:51:04
+ * @LastEditTime: 2021-08-29 18:13:54
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -133,6 +133,7 @@ function handle() {
           if (action.IsRoleAction !== "TRUE" && parseInt(action.ClassJobLevel) > parseInt(levels[player.id])) art.style.opacity = "0.5";
         }, 1000);
         art.style.fontSize = settings.style.fontSize + "px";
+        art.style.color = settings.style.fontColor;
         art.setAttribute("name", i + "-" + action.ID);
         let recast100ms = action.Recast100ms instanceof Function ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10 : action.Recast100ms / 10;
         art.setAttribute("reset100ms", recast100ms);
@@ -237,6 +238,9 @@ document.querySelector("#showFake").onclick = () => {
   ];
   party = [party.find((p) => p.id === charID && p.inParty), ...partySort(party.filter((p) => p.id !== charID && p.inParty))];
   handle();
+};
+document.querySelector("#showUse").onclick = () => {
+  for (const art of document.querySelectorAll("main>article")) art.use();
 };
 document.querySelector("#clear").onclick = () => {
   party = [];

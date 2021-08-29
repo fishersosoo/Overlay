@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 17:44:21
+ * @LastEditTime: 2021-08-29 17:59:15
  */
 let language = {
   style: { cn: "常规", en: "routine", jp: "全般" },
@@ -39,6 +39,7 @@ let language = {
   confirmPer: { cn: "即将将所有图标缩放统一为：", en: "All icons will be scaled to:", jp: "すべてのアイコンがこれになります：" },
   scale: { cn: "页面缩放", en: "Page scale", jp: "ページスケール" },
   ckboxText: { cn: "删除技能前弹窗确认", en: "Pop up confirmation before deleting skill", jp: "スキルを削除する前にポップアップ確認" },
-  hideYourself:{cn:"隐藏自己",en:"Hide yourself",jp:"自分を隠して"}
+  hideYourself: { cn: "隐藏自己", en: "Hide yourself", jp: "自分を隠して" },
+  fontColor: { cn: "字体颜色", en: "Font Color", jp: "フォントの色" },
 };
 export { language };
