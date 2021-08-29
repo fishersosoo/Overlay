@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 00:08:24
+ * @LastEditTime: 2021-08-29 17:51:04
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -9,7 +9,9 @@ import { actions } from "./actions.min.js";
 import { compareSame } from "./compareSameGroup.min.js";
 import { defaultSettings } from "./defaultSettings.min.js";
 import { jobList } from "./job.min.js";
-
+window.onerror = function () {
+  alert(`遇到了意料之外的错误。\n${JSON.stringify(arguments, null, 2)}`);
+};
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
@@ -76,9 +78,10 @@ let settings;
     console.log("从旧版本中继承了数据");
     old = JSON.parse(old);
     settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), { watchs: convertOldWatchs(old.watch) });
-    settings.ttsOn = old.TTSOn || settings.ttsOn;
-    settings.tts = old.TTS || settings.tts;
-    settings.style.fontSize = old.settings.fontSize || settings.style.fontSize;
+    try {
+      settings.ttsOn = old.TTSOn || settings.ttsOn;
+      settings.tts = old.TTS || settings.tts;
+    } catch {}
     save("settings", settings);
   }
 })();
@@ -113,19 +116,19 @@ function handle() {
   document.querySelector("main").innerHTML = "";
   for (let i = 0; i < party.length; i++) {
     const player = party[i];
-    if (player === undefined) break;
+    if (player === undefined || (player.id === charID && settings.style.hideYourself === "True")) continue;
     settings.watchs
       .find((watch) => watch.job === player.job.toString())
       .watch.forEach((skill) => {
         let action = actions.find((action) => action.ID === skill.id);
         let art = document.createElement("article");
         art.style.position = "absolute";
-        art.style.top = (parseFloat(skill.top) + i * (50 + parseFloat(settings.style.ySpace))) * 0.8 + "px";
-        art.style.right = parseFloat(skill.right) * (1 + settings.style.xSpace / 100) * 0.8 + "px";
-        art.style.width = "48px";
+        art.style.top = (parseFloat(skill.top) + i * (50 + parseFloat(settings.style.ySpace))) * 0.8 * settings.style.scale + "px";
+        art.style.right = parseFloat(skill.right) * (1 + settings.style.xSpace / 100) * 0.8 * settings.style.scale + "px";
+        art.style.width = `48px`;
         art.style.height = art.style.width;
         art.style.lineHeight = art.style.width;
-        art.style.transform = `scale(${skill.scale * 0.8})`;
+        art.style.transform = `scale(${skill.scale * 0.8 * settings.style.scale})`;
         setTimeout(() => {
           if (action.IsRoleAction !== "TRUE" && parseInt(action.ClassJobLevel) > parseInt(levels[player.id])) art.style.opacity = "0.5";
         }, 1000);
@@ -232,6 +235,7 @@ document.querySelector("#showFake").onclick = () => {
     { id: "10000033", name: "AST", worldId: 1179, job: 33, inParty: true },
     { id: "10000025", name: "BLM", worldId: 1177, job: 25, inParty: true },
   ];
+  party = [party.find((p) => p.id === charID && p.inParty), ...partySort(party.filter((p) => p.id !== charID && p.inParty))];
   handle();
 };
 document.querySelector("#clear").onclick = () => {

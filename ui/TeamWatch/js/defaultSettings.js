@@ -1,12 +1,14 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-28 23:41:46
+ * @LastEditTime: 2021-08-29 17:43:41
  */
 let defaultSettings = {
   style: {
-    fontSize: "18",
+    scale: "1",
     xSpace: "0",
     ySpace: "0",
+    fontSize: "18",
+    hideYourself:"false",
     refreshRate: "333",
     skin: "default",
     url: "https://cafemaker.wakingsands.com/i/",

@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 00:36:06
+ * @LastEditTime: 2021-08-29 17:47:36
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -29,9 +29,10 @@ if (old && !localStorage.getItem("TeamWatch3")) {
   console.log(language.loadOldSettings[settings.language]);
   old = JSON.parse(old);
   settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), { watchs: convertOldWatchs(old.watch) });
-  settings.ttsOn = old.TTSOn || settings.ttsOn;
-  settings.tts = old.TTS || settings.tts;
-  settings.style.fontSize = old.settings.fontSize || settings.style.fontSize;
+  try {
+    settings.ttsOn = old.TTSOn || settings.ttsOn;
+    settings.tts = old.TTS || settings.tts;
+  } catch {}
   save("settings", settings);
 }
 let nav = document.createElement("ul");
@@ -69,8 +70,15 @@ for (const key in settings.style) {
       input.title = key;
       input.value = settings.style[key];
       switch (key) {
+        case "scale":
+          input.setAttribute("min", "0");
+          input.setAttribute("max", "1");
+          input.setAttribute("step", "0.05");
+          // input.onkeypress = () => false;
+          break;
         case "fontSize":
           input.setAttribute("min", "12");
+          // input.onkeypress = () => false;
           break;
         case "xSpace":
           input.setAttribute("min", "-50");
@@ -84,6 +92,7 @@ for (const key in settings.style) {
           break;
         case "refreshRate":
           input.setAttribute("step", "37");
+          // input.onkeypress = () => false;
           break;
         default:
           break;
@@ -105,11 +114,20 @@ for (const key in settings.style) {
           option.innerText = key;
           input.appendChild(option);
         }
+      } else if (key === "hideYourself") {
+        for (const key of ["False", "True"]) {
+          let option = document.createElement("option");
+          option.value = key;
+          option.innerText = key;
+          input.appendChild(option);
+        }
       }
       input.value = settings.style[key];
     }
     li.appendChild(input);
     styleOptions.appendChild(li);
+  } else {
+    console.log(`${key}被跳过了`);
   }
 }
 document.querySelector("#style").appendChild(styleOptions);
@@ -143,6 +161,14 @@ unifiedScale.appendChild(per50);
 unifiedScale.appendChild(per75);
 unifiedScale.appendChild(per100);
 document.querySelector("#watchs").appendChild(unifiedScale);
+let ckboxText = document.createElement("span");
+ckboxText.innerText = language.ckboxText[settings.language];
+document.querySelector("#watchs").appendChild(ckboxText);
+let ckbox = document.createElement("input");
+ckbox.setAttribute("type", "checkbox");
+ckbox.checked = true;
+ckbox.id = "ckboxBeforeDelete";
+document.querySelector("#watchs").appendChild(ckbox);
 let watchOptions = document.createElement("ul");
 // document.oncontextmenu = () => false;
 let pos = {};
@@ -490,8 +516,7 @@ function insertWatch(art, action, li) {
   let aside = document.createElement("aside");
   aside.innerText = "X";
   aside.onclick = function () {
-    let c = confirm(`要删除${aside.parentNode.title}吗？`);
-    if (c) this.parentNode.remove();
+    if (!document.querySelector("#ckboxBeforeDelete").checked || confirm(`要删除${aside.parentNode.title}吗？`)) this.parentNode.remove();
   };
   let zp50 = document.createElement("button");
   zp50.innerText = "S";
