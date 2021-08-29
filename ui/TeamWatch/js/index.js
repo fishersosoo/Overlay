@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 21:50:03
+ * @LastEditTime: 2021-08-29 21:57:34
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -10,7 +10,12 @@ import { compareSame } from "./compareSameGroup.min.js";
 import { defaultSettings } from "./defaultSettings.min.js";
 import { jobList } from "./job.min.js";
 window.onerror = function () {
-  console.log(`遇到了意料之外的错误。\n${JSON.stringify(arguments, null, 2)}`);
+  console.log(`遇到了意料之外的错误。
+${JSON.stringify(arguments[0])},
+${JSON.stringify(arguments[1])},
+${JSON.stringify(arguments[2])},
+${JSON.stringify(arguments[3])},
+`);
 };
 let namespace = "TeamWatch3";
 function load(t, a = "") {
