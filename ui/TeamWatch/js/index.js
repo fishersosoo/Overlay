@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 18:13:54
+ * @LastEditTime: 2021-08-29 21:50:03
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -10,7 +10,7 @@ import { compareSame } from "./compareSameGroup.min.js";
 import { defaultSettings } from "./defaultSettings.min.js";
 import { jobList } from "./job.min.js";
 window.onerror = function () {
-  alert(`遇到了意料之外的错误。\n${JSON.stringify(arguments, null, 2)}`);
+  console.log(`遇到了意料之外的错误。\n${JSON.stringify(arguments, null, 2)}`);
 };
 let namespace = "TeamWatch3";
 function load(t, a = "") {
@@ -88,10 +88,12 @@ let settings;
 
 function partySort(party) {
   let result = [];
-  settings.partySort["when" + jobList.find((j) => j.ID.toString() === party.find((p) => p.id !== charID).job.toString()).Role]
-    .split(">")
-    .forEach((element) => result.push(...settings.partySort[element]));
-  return party.sort((a, b) => parseInt(result.indexOf(baseClass[a.job].toString())) - parseInt(result.indexOf(baseClass[b.job].toString())));
+  let player = party.find((p) => p.id === charID && p.inParty);
+  result.push(player);
+  let rule = [];
+  for (const key of settings.partySort[`when${jobList.find((job) => job.ID.toString() === player.job.toString()).Role}`].split(">")) rule.push(...settings.partySort[key]);
+  result.push(...party.filter((p) => p.id !== charID && p.inParty).sort((a, b) => rule.indexOf(baseClass[a.job].toString()) - rule.indexOf(baseClass[b.job].toString())));
+  return result;
 }
 addOverlayListener("ChangePrimaryPlayer", (e) => (charID = e.charID.toString(16).toUpperCase()));
 addOverlayListener("onLogEvent", (e) => {
@@ -215,7 +217,7 @@ function handle() {
 }
 addOverlayListener("PartyChanged", (e) => {
   party = e.party;
-  if (e.party.length) party = [party.find((p) => p.id === charID && p.inParty), ...partySort(party.filter((p) => p.id !== charID && p.inParty))];
+  if (e.party.length) party = partySort(party);
   handle();
 });
 startOverlayEvents();
@@ -226,17 +228,72 @@ document.querySelector("#settings").onclick = () => {
   window.open("./settings.html", "_blank", "width=1280,height=720");
 };
 document.querySelector("#showFake").onclick = () => {
-  party = [
-    { id: "10000027", name: "PLD", worldId: 1177, job: 19, inParty: true },
-    { id: "10000030", name: "NIN", worldId: 1169, job: 30, inParty: true },
-    { id: "10000028", name: "SCH", worldId: 1179, job: 28, inParty: true },
-    { id: "10000022", name: "DRG", worldId: 1043, job: 22, inParty: true },
-    { id: charID || "10000021", name: "TEST", worldId: 1177, job: 38, inParty: true },
-    { id: "10000020", name: "MNK", worldId: 1045, job: 20, inParty: true },
-    { id: "10000033", name: "AST", worldId: 1179, job: 33, inParty: true },
-    { id: "10000025", name: "BLM", worldId: 1177, job: 25, inParty: true },
-  ];
-  party = [party.find((p) => p.id === charID && p.inParty), ...partySort(party.filter((p) => p.id !== charID && p.inParty))];
+  party = partySort([
+    {
+      id: "104600C5",
+      name: "右手",
+      worldId: 1177,
+      job: 19,
+      level: 0,
+      inParty: true,
+    },
+    {
+      id: "10440020",
+      name: "咕咕",
+      worldId: 1043,
+      job: 24,
+      level: 0,
+      inParty: true,
+    },
+    {
+      id: "1039CE69",
+      name: "Souma",
+      worldId: 1177,
+      job: 24,
+      level: 0,
+      inParty: true,
+    },
+    {
+      id: "1046002D",
+      name: "宇智波",
+      worldId: 1178,
+      job: 22,
+      level: 0,
+      inParty: true,
+    },
+    {
+      id: "102B00B4",
+      name: "玖久",
+      worldId: 1045,
+      job: 35,
+      level: 0,
+      inParty: true,
+    },
+    {
+      id: "10460007",
+      name: "一哥",
+      worldId: 1178,
+      job: 27,
+      level: 0,
+      inParty: true,
+    },
+    {
+      id: "103D00BB",
+      name: "Ivance",
+      worldId: 1045,
+      job: 37,
+      level: 0,
+      inParty: true,
+    },
+    {
+      id: "1046000E",
+      name: "五十岚",
+      worldId: 1178,
+      job: 30,
+      level: 0,
+      inParty: true,
+    },
+  ]);
   handle();
 };
 document.querySelector("#showUse").onclick = () => {

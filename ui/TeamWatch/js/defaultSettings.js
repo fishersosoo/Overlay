@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 18:22:22
+ * @LastEditTime: 2021-08-29 21:48:55
  */
 let defaultSettings = {
   style: {
@@ -1224,7 +1224,7 @@ let defaultSettings = {
   partySort: {
     Tank: ["19", "21", "32", "37"],
     Healer: ["24", "28", "33"],
-    Dps: ["20", "22", "23", "25", "27", "30", "31", "34", "35", "36", "38"],
+    Dps: ["20", "22", "30", "34", "23", "31", "38", "25", "27", "35", "36"],
     whenTank: "Tank>Healer>Dps",
     whenHealer: "Tank>Healer>Dps",
     whenDps: "Tank>Healer>Dps",

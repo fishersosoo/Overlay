@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 17:59:15
+ * @LastEditTime: 2021-08-29 21:53:26
  */
 let language = {
   style: { cn: "常规", en: "routine", jp: "全般" },
@@ -22,7 +22,6 @@ let language = {
   jobSortHealer: { cn: "当你是治疗时", en: "Healer's situation", jp: "Healerの場合" },
   jobSortDps: { cn: "当你是输出时", en: "Dps's situation", jp: "Dpsの場合" },
   ttsOnText: { cn: "TTS开关", en: "TTS switch", jp: "TTSスイッチ" },
-  loadOldSettings: { cn: "从旧版本中继承了数据", en: "Inherited data from older versions", jp: "古いバージョンからデータを引き継ぎました。" },
   searchSkill: { cn: "搜索技能名", en: "Search skill name", jp: "検索スキル名" },
   stepInputText: { cn: "拖动步进值", en: "Drag step value", jp: "ドラッグステップ値" },
   xSpace: {

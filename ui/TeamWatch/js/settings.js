@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 18:15:50
+ * @LastEditTime: 2021-08-29 21:53:08
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -19,14 +19,19 @@ function save(t, a) {
   saveItem(namespace, t, a);
 }
 window.onerror = function () {
-  alert(`遇到了意料之外的错误。\n${JSON.stringify(arguments, null, 2)}`);
+  document.querySelector("header").innerText = `遇到了意料之外的错误。 
+${JSON.stringify(arguments[0])}
+${JSON.stringify(arguments[1])}
+${JSON.stringify(arguments[2])}
+${JSON.stringify(arguments[3])}
+`;
 };
 let settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), load("settings", {}), { share: {} });
 settings.style = Object.assign(JSON.parse(JSON.stringify(defaultSettings)).style, load("settings", {}).style);
 let old = localStorage.getItem("teamWatch");
 if (old && !localStorage.getItem("TeamWatch3")) {
   //导入旧数据
-  console.log(language.loadOldSettings[settings.language]);
+  console.log("从旧版本继承了监控技能");
   old = JSON.parse(old);
   settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), { watchs: convertOldWatchs(old.watch) });
   try {
