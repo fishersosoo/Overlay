@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-04 02:18:37
+ * @LastEditTime: 2021-09-02 21:06:33
  */
 "use strict";
 
@@ -8,9 +8,7 @@ function partySort(p = [], charID = "", rule) {
   // for (const i of p) {
   //    delete i.level; //Always 0
   // }
-  p.sort(function (a, b) {
-    return parseInt(b.id, 16) - parseInt(a.id, 16);
-  });
+  p.sort((a, b) => parseInt(b.id, 16) - parseInt(a.id, 16));
   //似乎没有必要?本身就已经是倒序排序了
   let replaceClassId = [
     [1, 19],

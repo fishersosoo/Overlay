@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 21:57:34
+ * @LastEditTime: 2021-09-02 21:28:40
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -92,11 +92,21 @@ let settings;
 })();
 
 function partySort(party) {
+  party.sort((a, b) => parseInt(b.id, 16) - parseInt(a.id, 16));
   let result = [];
-  let player = party.find((p) => p.id === charID && p.inParty);
+  let player = party.find((p) => p.id.toString() === charID.toString() && p.inParty);
   result.push(player);
   let rule = [];
-  for (const key of settings.partySort[`when${jobList.find((job) => job.ID.toString() === player.job.toString()).Role}`].split(">")) rule.push(...settings.partySort[key]);
+  try {
+    for (const key of settings.partySort[`when${jobList.find((job) => job.ID.toString() === player.job.toString()).Role}`].split(">")) rule.push(...settings.partySort[key]);
+  } catch {
+    console.error(`排序时出现未知错误。
+${JSON.stringify(arguments[0])},
+${JSON.stringify(arguments[1])},
+${JSON.stringify(arguments[2])},
+${JSON.stringify(arguments[3])},`);
+    return party;
+  }
   result.push(...party.filter((p) => p.id !== charID && p.inParty).sort((a, b) => rule.indexOf(baseClass[a.job].toString()) - rule.indexOf(baseClass[b.job].toString())));
   return result;
 }
@@ -233,10 +243,10 @@ document.querySelector("#settings").onclick = () => {
   window.open("./settings.html", "_blank", "width=1280,height=720");
 };
 document.querySelector("#showFake").onclick = () => {
-  party = partySort([
+  party = [
     {
       id: "104600C5",
-      name: "右手",
+      name: "A",
       worldId: 1177,
       job: 19,
       level: 0,
@@ -244,61 +254,61 @@ document.querySelector("#showFake").onclick = () => {
     },
     {
       id: "10440020",
-      name: "咕咕",
+      name: "B",
       worldId: 1043,
-      job: 24,
+      job: 32,
       level: 0,
       inParty: true,
     },
     {
-      id: "1039CE69",
-      name: "Souma",
+      id: "10390069",
+      name: "C",
       worldId: 1177,
-      job: 24,
+      job: 33,
       level: 0,
       inParty: true,
     },
     {
       id: "1046002D",
-      name: "宇智波",
+      name: "D",
       worldId: 1178,
-      job: 22,
+      job: 28,
       level: 0,
       inParty: true,
     },
     {
       id: "102B00B4",
-      name: "玖久",
+      name: "E",
       worldId: 1045,
-      job: 35,
+      job: 30,
       level: 0,
       inParty: true,
     },
     {
       id: "10460007",
-      name: "一哥",
+      name: "F",
       worldId: 1178,
-      job: 27,
+      job: 20,
       level: 0,
       inParty: true,
     },
     {
       id: "103D00BB",
-      name: "Ivance",
+      name: "G",
       worldId: 1045,
-      job: 37,
+      job: 25,
       level: 0,
       inParty: true,
     },
     {
       id: "1046000E",
-      name: "五十岚",
+      name: "H",
       worldId: 1178,
-      job: 30,
+      job: 38,
       level: 0,
       inParty: true,
     },
-  ]);
+  ];
   handle();
 };
 document.querySelector("#showUse").onclick = () => {
