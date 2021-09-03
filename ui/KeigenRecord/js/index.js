@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-18 17:31:17
+ * @LastEditTime: 2021-09-03 23:17:55
  */
 import { status } from "../../../resources/status.js";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -113,6 +113,7 @@ $(function () {
   });
   $("#hover").on("click", () => {
     $("main").show();
+    $("html").scrollTop($("main").height());
     $("#hover").hide();
   });
   $("html").on("mouseleave", () => {
@@ -163,15 +164,11 @@ $(function () {
             $(`${dl}`).append(
               `<dd onclick="ddClick(this)" style="background-color:${settings.color.ddColor}" ${
                 $(`${dl}>dd:last`).is(":hidden") ? "hidden" : ""
-              }><span class="damage-time">${duration}</span><span class="damage-target player-name">${
-                damage.target
-              }</span><span class="damage-name">${damage.skillName}</span><span style="color:${
-                settings.color[`${damage.damageType}Color`]
-              }"  class="damage-value">${damage.value.toLocaleString()}</span><span class="damage-effect">${
+              }><span class="damage-time">${duration}</span><span class="damage-target player-name">${damage.target}</span><span class="damage-name">${
+                damage.skillName
+              }</span><span style="color:${settings.color[`${damage.damageType}Color`]}"  class="damage-value">${damage.value.toLocaleString()}</span><span class="damage-effect">${
                 damage.damageEffect
-              }</span><span class="status">${
-                getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType)
-              }</span></dd>`
+              }</span><span class="status">${getTargetStatus(damage.from, damage.damageType, true) + getTargetStatus(damage.target, damage.damageType)}</span></dd>`
             );
             $(".player-name").css("filter", `blur(${blurName ? 2 : 0}px)`);
             $("html").scrollTop($("main").height());
@@ -232,7 +229,10 @@ $(function () {
         for (const key in statusNow[name])
           if (Object.hasOwnProperty.call(statusNow[name], key)) {
             result += `<span class="icons"><img class="${flag ? "icons-offset" : ""} ${
-              (statusList[key].physics && damageType === "physics") || (statusList[key].magic && damageType === "magic") || damageType === "dodge"
+              (statusList[key].physics && damageType === "physics") ||
+              (statusList[key].magic && damageType === "magic") ||
+              damageType === "dodge" ||
+              (damageType === "darkness" && statusList[key].physics && statusList[key].magic)
                 ? "useful"
                 : "useless"
             }" title="${statusNow[name][key].name}" src="https://cafemaker.wakingsands.com/i/${status[parseInt(key, 16)].url}"></span>`;
@@ -259,7 +259,7 @@ $(function () {
       "position": "sticky",
       "bottom": "10px",
       "width": "100%",
-      "backgroundColor": "rgba(255,255,255,0.2)",
+      "backgroundColor": "rgba(255,255,255,0.4)",
       "text-align": "center",
     });
     hint.stop();

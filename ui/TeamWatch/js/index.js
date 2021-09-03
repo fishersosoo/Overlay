@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-02 21:28:40
+ * @LastEditTime: 2021-09-03 20:58:50
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -100,11 +100,11 @@ function partySort(party) {
   try {
     for (const key of settings.partySort[`when${jobList.find((job) => job.ID.toString() === player.job.toString()).Role}`].split(">")) rule.push(...settings.partySort[key]);
   } catch {
-    console.error(`排序时出现未知错误。
-${JSON.stringify(arguments[0])},
-${JSON.stringify(arguments[1])},
-${JSON.stringify(arguments[2])},
-${JSON.stringify(arguments[3])},`);
+    console.log(charID);
+    console.log(party);
+    console.log(player);
+    console.log(settings);
+    console.error("排序时出现未知错误。");
     return party;
   }
   result.push(...party.filter((p) => p.id !== charID && p.inParty).sort((a, b) => rule.indexOf(baseClass[a.job].toString()) - rule.indexOf(baseClass[b.job].toString())));
