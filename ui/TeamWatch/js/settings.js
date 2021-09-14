@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 21:53:08
+ * @LastEditTime: 2021-09-14 22:02:34
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -80,6 +80,11 @@ for (const key in settings.style) {
           input.setAttribute("max", "1");
           input.setAttribute("step", "0.05");
           // input.onkeypress = () => false;
+          break;
+        case "opacity":
+          input.setAttribute("min", "0");
+          input.setAttribute("max", "1");
+          input.setAttribute("step", "0.05");
           break;
         case "fontSize":
           input.setAttribute("min", "12");

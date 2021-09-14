@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 21:53:26
+ * @LastEditTime: 2021-09-14 22:01:56
  */
 let language = {
   style: { cn: "常规", en: "routine", jp: "全般" },
@@ -40,5 +40,6 @@ let language = {
   ckboxText: { cn: "删除技能前弹窗确认", en: "Pop up confirmation before deleting skill", jp: "スキルを削除する前にポップアップ確認" },
   hideYourself: { cn: "隐藏自己", en: "Hide yourself", jp: "自分を隠して" },
   fontColor: { cn: "字体颜色", en: "Font Color", jp: "フォントの色" },
+  opacity: { cn: "不透明度", en: "Opacity", jp: "不透明度" },
 };
 export { language };

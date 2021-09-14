@@ -221,6 +221,7 @@ html body #save {
   font-size: 18px;
   color: #4361ee;
   text-align: center;
+  font-weight: bold;
 }
 html body #save:hover {
   cursor: pointer;

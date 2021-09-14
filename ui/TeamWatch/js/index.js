@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-03 20:58:50
+ * @LastEditTime: 2021-09-14 22:04:29
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -142,6 +142,7 @@ function handle() {
         art.style.position = "absolute";
         art.style.top = (parseFloat(skill.top) + i * (50 + parseFloat(settings.style.ySpace))) * 0.8 * settings.style.scale + "px";
         art.style.right = parseFloat(skill.right) * (1 + settings.style.xSpace / 100) * 0.8 * settings.style.scale + "px";
+        art.style.opacity = settings.style.opacity || 1;
         art.style.width = `48px`;
         art.style.height = art.style.width;
         art.style.lineHeight = art.style.width;
@@ -240,7 +241,7 @@ document.addEventListener("onOverlayStateUpdate", (e) =>
   e.detail.isLocked ? document.querySelector("#readMe").setAttribute("hidden", true) : document.querySelector("#readMe").removeAttribute("hidden")
 );
 document.querySelector("#settings").onclick = () => {
-  window.open("./settings.html", "_blank", "width=1280,height=720");
+  window.open("./settings.html", "_blank", "width=966,height=720");
 };
 document.querySelector("#showFake").onclick = () => {
   party = [

@@ -1,10 +1,11 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-29 21:48:55
+ * @LastEditTime: 2021-09-14 22:01:00
  */
 let defaultSettings = {
   style: {
     scale: "1",
+    opacity: "1",
     xSpace: "0",
     ySpace: "0",
     fontSize: "18",
