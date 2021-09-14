@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-14 22:02:34
+ * @LastEditTime: 2021-09-14 22:10:04
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -632,19 +632,24 @@ function insertTTS(key, value) {
   if (!parseInt(key) > 0) return;
   let div = document.createElement("div");
   div.classList.add("ttsSkill");
-  div.innerText = actions.find((action) => action.ID === key)[`Name_${settings.language}`];
-  let input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.value = value;
-  input.title = key;
-  div.appendChild(input);
-  let del = document.createElement("button");
-  del.innerHTML = "X";
-  del.onclick = function () {
-    this.parentNode.remove();
-  };
-  div.appendChild(del);
-  document.querySelector("#tts").insertBefore(div, document.getElementById("ttsPlus"));
+  try {
+    div.innerText = actions.find((action) => action.ID === key)[`Name_${settings.language}`];
+
+    let input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.value = value;
+    input.title = key;
+    div.appendChild(input);
+    let del = document.createElement("button");
+    del.innerHTML = "X";
+    del.onclick = function () {
+      this.parentNode.remove();
+    };
+    div.appendChild(del);
+    document.querySelector("#tts").insertBefore(div, document.getElementById("ttsPlus"));
+  } catch {
+    console.log(`导入TTS时：未找到key=${key},value=${value}的action，已跳过此项。`);
+  }
 }
 
 function insertWatch(art, action, li) {
