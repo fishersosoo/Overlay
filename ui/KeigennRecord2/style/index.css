@@ -1,0 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  text-align: center;
+  user-select: none;
+}
+body main {
+  margin: 0px 0px 20px 0px;
+  height: calc(100vh - 20px);
+  overflow: auto;
+  background-color: rgba(5, 5, 5, 0.45);
+}
+body main::-webkit-scrollbar {
+  width: 10px;
+}
+body main::-webkit-scrollbar-track {
+  background-color: #333333;
+}
+body main::-webkit-scrollbar-thumb {
+  height: 30px;
+  border-radius: 10px;
+  background-color: rgba(216, 216, 216, 0.4);
+}
+body main::-webkit-scrollbar-thumb:active {
+  background-color: #a0a0a0;
+}
+body main table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+body main table thead tr {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  height: 20px;
+  background-color: #333333;
+}
+body main table thead th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body main table thead th:nth-child(1) {
+  width: 15vw;
+}
+body main table thead th:nth-child(2) {
+  width: 25vw;
+}
+body main table thead th:nth-child(3) {
+  width: 20vw;
+}
+body main table thead th:nth-child(4) {
+  width: 40vw;
+}
+body main table tbody tr {
+  height: 24px;
+}
+body main table tbody tr td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body main table tbody tr td:nth-child(1) {
+  width: 15vw;
+}
+body main table tbody tr td:nth-child(2) {
+  width: 25vw;
+}
+body main table tbody tr td:nth-child(3) {
+  width: 20vw;
+}
+body main table tbody tr td:nth-child(4) {
+  width: 40vw;
+  display: flex;
+  justify-content: flex-start;
+}
+body main table tbody tr td:nth-child(4) img {
+  height: 24px;
+}
+body main .dodge {
+  text-decoration: line-through;
+}
+body main .physics {
+  color: #ff6464;
+}
+body main .magic {
+  color: #64c8ff;
+}
+body main .darkness {
+  color: #ffafff;
+}
+body main .useless {
+  filter: grayscale(100%);
+}
+body footer {
+  position: fixed;
+  bottom: 0;
+}
+body footer ul {
+  width: 100vw;
+  list-style: none;
+  display: inline-flex;
+  height: 20px;
+}
+body footer ul li {
+  flex-grow: 1;
+  cursor: pointer;
+  background: rgba(51, 51, 51, 0.8);
+  color: white;
+}
+body footer ul li:not(:last-of-type) {
+  border-right: 0.1rem solid rgba(255, 255, 255, 0.5);
+}
+body footer ul li.select {
+  color: #a0d8ef;
+  font-weight: bold;
+}
