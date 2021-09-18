@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-14 22:04:29
+ * @LastEditTime: 2021-09-18 13:19:29
  */
 "use strict";
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
@@ -77,6 +77,7 @@ let settings;
   }
   settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), load("settings", {}));
   settings.style = Object.assign(JSON.parse(JSON.stringify(defaultSettings)).style, load("settings", {}).style);
+  if (settings.style.skin === "material") settings.style.skin = "Material-UI-DISCORD";
   let old = localStorage.getItem("teamWatch");
   if (old && !localStorage.getItem("TeamWatch3")) {
     //导入旧数据
@@ -158,7 +159,7 @@ function handle() {
         let maxCharges = action.MaxCharges instanceof Function ? action.MaxCharges(levels[player.id] ? levels[player.id] : 0) : action.MaxCharges;
         art.style.background = `
         url(),
-        url(./resources/${settings.style.skin}.png),
+        url(./resources/${settings.style.skin}/icon.png),
         url(https://cafemaker.wakingsands.com/i/${action.Url}.png) center / 40px 40px no-repeat `;
         if (maxCharges > 0) {
           art.innerText = maxCharges;
@@ -171,7 +172,7 @@ function handle() {
           art.style.opacity = "1";
           if (maxCharges === "0") {
             clearInterval(art.timer);
-            let url = `url(./resources/${settings.style.skin + action.ActionCategory}.png)`;
+            let url = `url(./resources/${settings.style.skin}/${action.ActionCategory}.png)`;
             let bgArr = art.style.background.split(",");
             bgArr[0] = `${url} 0px 0px/ 432px 432px`;
             art.style.background = bgArr.join(",");
@@ -193,9 +194,9 @@ function handle() {
               }
             }, settings.style.refreshRate);
           } else {
-            art.innerText = parseInt(art.innerText) - 1;
+            art.innerText = Math.max(parseInt(art.innerText) - 1, 0);
             let bgArr = art.style.background.split(",");
-            bgArr[1] = `url(./resources/${art.innerText !== "0" ? settings.style.skin : "0charges"}.png)`;
+            bgArr[1] = `url(./resources/${settings.style.skin}/${art.innerText !== "0" ? "icon" : "0charges"}.png)`;
             art.style.background = bgArr.join(",");
             art.style.color = art.innerText === "0" ? "rgb(255,100,100)" : "white";
             let now = recast100ms;
@@ -206,18 +207,18 @@ function handle() {
                 let y = Math.floor(p * 9);
                 if (!(x === 8 && y === 8)) {
                   now -= settings.style.refreshRate / 1000;
-                  bgArr[0] = `url(./resources/charges.png) ${-48 * x}px ${-48 * y}px / 432px 432px`;
-                  bgArr[1] = `url(./resources/${art.innerText !== "0" ? settings.style.skin : "0charges"}.png)`;
+                  bgArr[0] = `url(./resources/${settings.style.skin}/charges.png) ${-48 * x}px ${-48 * y}px / 432px 432px`;
+                  bgArr[1] = `url(./resources/${settings.style.skin}/${art.innerText !== "0" ? "icon" : "0charges"}.png)`;
                   art.style.background = bgArr.join(",");
                 } else {
                   clearInterval(art.timer);
                   art.timer = undefined;
                   art.innerText = parseInt(art.innerText) + 1;
-                  bgArr[0] = `url(./resources/charges.png) 0px 0px/ 432px 432px`;
-                  bgArr[1] = `url(./resources/${art.innerText !== "0" ? settings.style.skin : "0charges"}.png)`;
+                  bgArr[0] = `url(./resources/${settings.style.skin}/charges.png) 0px 0px/ 432px 432px`;
+                  bgArr[1] = `url(./resources/${settings.style.skin}/${art.innerText !== "0" ? "icon" : "0charges"}.png)`;
                   art.style.background = bgArr.join(",");
                   if (art.innerText === maxCharges) {
-                    bgArr[1] = `url(./resources/${settings.style.skin}.png)`;
+                    bgArr[1] = `url(./resources/${settings.style.skin}/icon.png)`;
                   } else {
                     art.innerText = parseInt(art.innerText) + 1;
                     art.use();

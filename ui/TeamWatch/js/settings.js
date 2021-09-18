@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-14 22:10:04
+ * @LastEditTime: 2021-09-18 13:22:03
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -41,8 +41,9 @@ if (old && !localStorage.getItem("TeamWatch3")) {
   save("settings", settings);
 }
 let nav = document.createElement("ul");
-let skinList = { "默认": "default", "Material UI MOD": "material" };
+let skinList = { "FFXIV原生": "default", "Material-UI(BLACK)": "Material-UI-BLACK", "Material-UI(DISCORD)": "Material-UI-DISCORD" };
 let urlList = { cafemaker: "https://cafemaker.wakingsands.com/i/", XIVAPI: "https://xivapi.com/i/" };
+if (settings.style.skin === "material") settings.style.skin = "Material-UI-DISCORD";
 for (const key in settings) {
   if (key === "ttsOn" || language[key] === undefined) continue;
   let li = document.createElement("li");
