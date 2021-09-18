@@ -1,6 +1,6 @@
 <!--
  * @Author: Souma
- * @LastEditTime: 2021-08-13 07:16:10
+ * @LastEditTime: 2021-09-18 13:06:22
 -->
 <!DOCTYPE html>
 <html>
@@ -9,30 +9,30 @@
     <title>Title</title>
   </head>
   <body onkeydown="keydown()">
-    <h4>快速跳转：</h4>
+    <!-- <h4>快速跳转：</h4> -->
     <ul>
-      <li><a href="ui/FFlogsUploader/index.html">FFLogs上传器下载加速</a></li>
-      <li><a href="ui/MpTick/index.html">回蓝监控</a></li>
-      <li><a href="ui/CastingMonitor/index.html">施法监控</a></li>
-      <li><a href="ui/TeamWatch/index.html">小队监控</a></li>
-      <li><a href="ui/KeigenRecord/index.html">减伤记录</a></li>
-      <li class="hidden" style="display: none"><a href="ui/Logs/index.html">FFLogs查询</a></li>
+      <!-- <li><a href="ui/FFlogsUploader/index.html">FFLogs上传器下载加速</a></li> -->
+      <!-- <li><a href="ui/MpTick/index.html">回蓝监控</a></li> -->
+      <!-- <li><a href="ui/CastingMonitor/index.html">施法监控</a></li> -->
+      <li><a href="ui/TeamWatch/index.html">TeamWatch</a></li>
+      <li><a href="ui/Keigenn2Record/index.html">Keigenn2Record</a></li>
+      <!-- <li class="hidden" style="display: none"><a href="ui/Logs/index.html">FFLogs查询</a></li> -->
     </ul>
-    <p style="opacity: 0.1" id="really">按T键没有作用</p>
+    <!-- <p style="opacity: 0.1" id="really">按T键没有作用</p> -->
   </body>
   <script>
-    function keydown() {
-      if (event.key === "t") {
-        for (const i of document.getElementsByClassName("hidden")) {
-          i.style.display = "";
-          document.getElementById("really").style.display = "none";
-        }
-      } else {
-        for (const i of document.getElementsByClassName("hidden")) {
-          i.style.display = "none";
-          document.getElementById("really").style.display = "";
-        }
-      }
-    }
+    // function keydown() {
+    //   if (event.key === "t") {
+    //     for (const i of document.getElementsByClassName("hidden")) {
+    //       i.style.display = "";
+    //       document.getElementById("really").style.display = "none";
+    //     }
+    //   } else {
+    //     for (const i of document.getElementsByClassName("hidden")) {
+    //       i.style.display = "none";
+    //       document.getElementById("really").style.display = "";
+    //     }
+    //   }
+    // }
   </script>
 </html>
