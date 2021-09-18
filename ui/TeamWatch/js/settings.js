@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-18 13:22:03
+ * @LastEditTime: 2021-09-18 13:32:49
  */
 import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
 import { actions } from "./actions.min.js";
@@ -658,7 +658,7 @@ function insertWatch(art, action, li) {
   art.style.width = "48px";
   art.style.height = art.style.width;
   art.style.lineHeight = art.style.height;
-  art.style.background = `url(./resources/${settings.style.skin}.png),url(${settings.style.url}${action.Url}.png) center / 40px 40px no-repeat `;
+  art.style.background = `url(./resources/${settings.style.skin}/icon.png),url(${settings.style.url}${action.Url}.png) center / 40px 40px no-repeat `;
   art.title = action["Name_" + settings.language];
   art.setAttribute("name", action.ID);
   art.setAttribute("draggable", "true");
