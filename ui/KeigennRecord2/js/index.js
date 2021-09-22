@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-17 16:15:42
+ * @LastEditTime: 2021-09-23 02:36:45
  */
 "use strict";
 
@@ -49,7 +49,7 @@ function addFooter() {
       li.classList.add("select");
       document
         .querySelectorAll("body > main > table > tbody > tr:not(:nth-child(1))")
-        .forEach((element) => (element.style.display = element.getAttribute("data-master") === li.getAttribute("data-object-id") ? "table-row" : "none"));
+        .forEach((element) => (element.style.display = element.getAttribute("data-master-id") === li.getAttribute("data-object-id") ? "table-row" : "none"));
     };
     li.oncontextmenu = () =>
       document
@@ -97,7 +97,8 @@ addOverlayListener("LogLine", (e) => {
       l = logProcessing(e.line, "action");
       if (relevantAction(e.line)) {
         let row = document.querySelector("body > main > table > tbody").insertRow(-1);
-        row.setAttribute("data-master", l["targetID"]);
+        row.setAttribute("data-master-id", l["targetID"]);
+        row.setAttribute("data-master-name", l["targetName"]);
         row.style.display = document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") === "true" ? "table-row" : "none";
         let damage = getDamage(e);
         row.insertCell(0).innerHTML = duration;
@@ -121,6 +122,23 @@ addOverlayListener("LogLine", (e) => {
         if (scrollMove && document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") === "true") {
           document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
         }
+        row.onclick = () => {
+          let result = [];
+          result.push(row.children[0].innerHTML);
+          result.push(row.children[2].title);
+          result.push(row.children[1].innerHTML);
+          result.push(row.getAttribute("data-master-name"));
+          result.push(row.children[2].innerHTML);
+          for (const kg of row.children[3].children) result.push(kg.title);
+          document.querySelector("#toCopy").value = result.join(" ");
+          document.querySelector("#toCopy").select();
+          document.execCommand("copy");
+          document.querySelector("#hint").innerText = "已复制！";
+          document.querySelector("#hint").classList.add("anim-opacity2");
+          setTimeout(() => {
+            document.querySelector("#hint").classList.remove("anim-opacity2");
+          }, 2000);
+        };
       }
       break;
     case "26":

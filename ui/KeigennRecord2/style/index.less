@@ -9,6 +9,33 @@
 }
 @lineheight: 24px;
 body {
+  .anim-opacity2 {
+    display: block !important;
+    animation: opacity2 2s ease 0s infinite;
+  }
+  @keyframes opacity2 {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  #hint {
+    display: none;
+    width: 100vw;
+    height: 100vw;
+    line-height: 100vw;
+    position: fixed;
+    font-size: 400%;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0px 0px 5px #ff0000;
+    z-index: 20;
+  }
   main {
     &::-webkit-scrollbar {
       width: 10px;
@@ -60,6 +87,10 @@ body {
       }
       tbody {
         tr {
+          cursor: pointer;
+          &:hover {
+            background-color: rgba(216, 216, 216, 0.4);
+          }
           height: @lineheight;
           td {
             overflow: hidden;
@@ -78,7 +109,7 @@ body {
           td:nth-child(4) {
             width: 40vw;
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             img {
               height: @lineheight;
             }

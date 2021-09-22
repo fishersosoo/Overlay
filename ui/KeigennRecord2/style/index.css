@@ -7,6 +7,33 @@
   text-align: center;
   user-select: none;
 }
+body .anim-opacity2 {
+  display: block !important;
+  animation: opacity2 2s ease 0s infinite;
+}
+@keyframes opacity2 {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+body #hint {
+  display: none;
+  width: 100vw;
+  height: 100vw;
+  line-height: 100vw;
+  position: fixed;
+  font-size: 400%;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0px 0px 5px #ff0000;
+  z-index: 20;
+}
 body main {
   margin: 0px 0px 20px 0px;
   height: calc(100vh - 20px);
@@ -57,7 +84,11 @@ body main table thead th:nth-child(4) {
   width: 40vw;
 }
 body main table tbody tr {
+  cursor: pointer;
   height: 24px;
+}
+body main table tbody tr:hover {
+  background-color: rgba(216, 216, 216, 0.4);
 }
 body main table tbody tr td {
   overflow: hidden;
@@ -76,7 +107,7 @@ body main table tbody tr td:nth-child(3) {
 body main table tbody tr td:nth-child(4) {
   width: 40vw;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 body main table tbody tr td:nth-child(4) img {
   height: 24px;
