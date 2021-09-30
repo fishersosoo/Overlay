@@ -1,14 +1,12 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-23 02:36:45
+ * @LastEditTime: 2021-09-30 15:21:08
  */
 "use strict";
-
 import { jobList } from "../../../resources/data/job.js";
 import { status } from "../../../resources/data/status.js";
-import { logProcessing } from "../../../resources/data/logProcessing.js";
 import { getDamage } from "../../../resources/function/damage.js";
-// import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
+import { logProcessing } from "../../../resources/function/logProcessing.js";
 import { keigenn } from "../data/keigenn.js";
 let party = [],
   youID = "",
@@ -57,45 +55,28 @@ function addFooter() {
         .forEach((li) => (li.innerText = li.innerText === li.getAttribute("data-reality-name") ? li.getAttribute("data-job-name") : li.getAttribute("data-reality-name")));
   });
 }
-
 addOverlayListener("ChangePrimaryPlayer", (e) => {
   youID = e.charID.toString(16).toUpperCase();
   addFooter();
 });
-
 addOverlayListener("PartyChanged", (e) => {
   party = e.party.filter((p) => p.inParty);
   addFooter();
 });
-
 addOverlayListener("CombatData", (e) => (duration = e.Encounter.duration));
-
-addOverlayListener("ChangeZone", () => {
-  FFXIVObject = {};
-  document.querySelector("body > main > table > tbody").innerHTML = "<tr></tr>";
-});
-
+addOverlayListener("ChangeZone", () => (FFXIVObject = {}), (document.querySelector("body > main > table > tbody").innerHTML = "<tr></tr>"));
 addOverlayListener("onPartyWipe", () => {
   FFXIVObject = {};
   document.querySelector("body > main > table > tbody").insertRow(-1).insertCell(0).innerHTML = "团灭";
+  document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
 });
-
 addOverlayListener("LogLine", (e) => {
-  let l;
-
-  function relevantAction() {
-    return l["casterID"].substring(0, 1) === "4" && (party.some((value) => value.id === l["targetID"] && value.inParty) || l["targetID"] === youID);
-  }
-
-  function relevantStatus() {
-    return party.some((value) => value.id === l["targetID"] && value.inParty) || l["targetID"] === youID || l["targetID"].substring(0, 1) === "4";
-  }
-
+  let l = {};
   switch (e.line[0]) {
     case "21":
     case "22":
       l = logProcessing(e.line, "action");
-      if (relevantAction(e.line)) {
+      if (l["casterID"].substring(0, 1) === "4" && (party.some((value) => value.id === l["targetID"] && value.inParty) || l["targetID"] === youID)) {
         let row = document.querySelector("body > main > table > tbody").insertRow(-1);
         row.setAttribute("data-master-id", l["targetID"]);
         row.setAttribute("data-master-name", l["targetName"]);
@@ -104,21 +85,20 @@ addOverlayListener("LogLine", (e) => {
         row.insertCell(0).innerHTML = duration;
         row.insertCell(1).innerHTML = l["actionName"];
         let cell3 = row.insertCell(2);
-        cell3.innerHTML = damage.value;
+        cell3.innerHTML = damage.value.toLocaleString();
         cell3.setAttribute("data-damage-effect", damage.damageEffect);
         cell3.title = damage.from;
         cell3.classList.add(damage.damageType);
         let cell4 = row.insertCell(3);
-
-        function createImg(type, key, damage, cell4) {
+        function createImg(type, key) {
           let img = document.createElement("img");
           img.setAttribute("src", `https://cafemaker.wakingsands.com/i/${status[parseInt(key, 16)].url}`);
           img.title = FFXIVObject[l[type]].Status[key].name;
-          if (keigenn[key][damage.damageType] === "0") img.classList.add("useless");
+          if (keigenn[key] && keigenn[key][damage.damageType] === "0") img.classList.add("useless");
           cell4.appendChild(img);
         }
-        if (FFXIVObject[l["targetID"]]) for (const key in FFXIVObject[l["targetID"]].Status) createImg("targetID", key, damage, cell4);
-        if (FFXIVObject[l["casterID"]]) for (const key in FFXIVObject[l["casterID"]].Status) createImg("casterID", key, damage, cell4);
+        if (FFXIVObject[l["targetID"]]) for (const key in FFXIVObject[l["targetID"]].Status) createImg("targetID", key);
+        if (FFXIVObject[l["casterID"]]) for (const key in FFXIVObject[l["casterID"]].Status) createImg("casterID", key);
         if (scrollMove && document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") === "true") {
           document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
         }
@@ -135,35 +115,36 @@ addOverlayListener("LogLine", (e) => {
           document.execCommand("copy");
           document.querySelector("#hint").innerText = "已复制！";
           document.querySelector("#hint").classList.add("anim-opacity2");
-          setTimeout(() => {
-            document.querySelector("#hint").classList.remove("anim-opacity2");
-          }, 2000);
+          setTimeout(() => document.querySelector("#hint").classList.remove("anim-opacity2"), 2000);
         };
+      } else if ((party.some((value) => value.id === l["targetID"] && value.inParty) || l["targetID"] === youID) && keigenn[l["actionID"]] !== undefined) {
+        document.querySelector("body > main > table > tbody").insertRow(-1).insertCell(0).innerHTML = `${duration} ${l["casterName"]}发动了“${l["actionName"]}”。`;
+        document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
       }
       break;
     case "26":
       l = logProcessing(e.line, "status");
-      if (keigenn[l["statusID"]] && relevantStatus(e.line)) {
+      if (
+        keigenn[l["statusID"]] !== undefined &&
+        (party.some((value) => value.id === l["targetID"] && value.inParty) || l["targetID"] === youID || l["targetID"].substring(0, 1) === "4")
+      ) {
         FFXIVObject[l["targetID"]] = FFXIVObject[l["targetID"]] || new FFObject(l["targetID"], l["targetName"]);
-        FFXIVObject[l["targetID"]].Status[l["statusID"]] = {
-          name: l["statusName"],
-          caster: l["casterName"],
-        };
+        FFXIVObject[l["targetID"]].Status[l["statusID"]] = { name: l["statusName"], caster: l["casterName"] };
       }
       break;
     case "30":
       l = logProcessing(e.line, "status");
-      if (keigenn[l["statusID"]] && relevantStatus(e.line)) {
+      if (
+        keigenn[l["statusID"]] !== undefined &&
+        (party.some((value) => value.id === l["targetID"] && value.inParty) || l["targetID"] === youID || l["targetID"].substring(0, 1) === "4")
+      )
         try {
           delete FFXIVObject[l["targetID"]].Status[l["statusID"]];
         } catch {}
-      }
       break;
     default:
       break;
   }
 });
-
 startOverlayEvents();
-
 document.querySelector("main").onscroll = (e) => (scrollMove = document.querySelector("main").scrollHeight - 282 - e.target.scrollTop < 5);

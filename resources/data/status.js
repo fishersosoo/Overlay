@@ -2,7 +2,7 @@
 
 /*
  * @Author: Souma
- * @LastEditTime: 2021-08-10 01:04:16
+ * @LastEditTime: 2021-09-30 06:08:08
  */
 let status = {
   1: { url: "015000/015001.png", CN: "石化" },

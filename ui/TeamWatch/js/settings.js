@@ -1,16 +1,15 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-18 13:32:49
+ * @LastEditTime: 2021-09-30 06:28:17
  */
-import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
-import { actions } from "./actions.min.js";
-import { compareSameGroup } from "./compareSameGroup.min.js";
+import { actions } from "../../../resources/data/actions.js";
+import { jobList } from "../../../resources/data/job.js";
+import "../../../resources/library/drag-arrange.min.js";
+import { compareSameGroup } from "../../../resources/function/compareSameGroup.min.js";
+import { loadItem, saveItem } from "../../../resources/function/localStorage.min.js";
 import { defaultSettings } from "./defaultSettings.min.js";
-import { jobList } from "./job.min.js";
 import { language } from "./language.min.js";
-import "../../../resources/jquery-3.6.0.min.js";
-import "../../../resources/drag-arrange.min.js";
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);

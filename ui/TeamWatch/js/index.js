@@ -1,14 +1,14 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-18 13:19:29
+ * @LastEditTime: 2021-09-30 07:20:26
  */
 "use strict";
-import { loadItem, saveItem } from "../../../resources/localStorage.min.js";
-import { TTS } from "../../../resources/TTS.js";
-import { actions } from "./actions.min.js";
-import { compareSame } from "./compareSameGroup.min.js";
+import { actions } from "../../../resources/data/actions.js";
+import { jobList } from "../../../resources/data/job.js";
+import { compareSame } from "../../../resources/function/compareSameGroup.min.js";
+import { loadItem, saveItem } from "../../../resources/function/localStorage.min.js";
+import { TTS } from "../../../resources/function/TTS.js";
 import { defaultSettings } from "./defaultSettings.min.js";
-import { jobList } from "./job.min.js";
 window.onerror = function () {
   console.log(`遇到了意料之外的错误。
 ${JSON.stringify(arguments[0])},
@@ -314,7 +314,10 @@ document.querySelector("#showFake").onclick = () => {
   handle();
 };
 document.querySelector("#showUse").onclick = () => {
+  let temp = settings.ttsOn.toString();
+  settings.ttsOn = "false";
   for (const art of document.querySelectorAll("main>article")) art.use();
+  settings.ttsOn = temp.toString();
 };
 document.querySelector("#clear").onclick = () => {
   party = [];

@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-17 16:13:43
+ * @LastEditTime: 2021-09-30 05:31:57
  */
 function getDamage(e) {
   function getEffect() {
@@ -44,7 +44,7 @@ function getDamage(e) {
   } else if (/^[^fF].{0,3}1.{0,3}4$/.test(e.line[8])) {
     result.type = "heal";
     result.damageType = "heal";
-    result.damageEffect = "暴击";
+    result.damageEffect = "暴疗";
   } else if (/^[^fF].{0,7}4$/.test(e.line[8])) {
     result.type = "heal";
     result.damageType = "heal";
