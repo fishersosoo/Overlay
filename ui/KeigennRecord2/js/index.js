@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-30 15:21:08
+ * @LastEditTime: 2021-10-01 14:07:33
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -148,3 +148,13 @@ addOverlayListener("LogLine", (e) => {
 });
 startOverlayEvents();
 document.querySelector("main").onscroll = (e) => (scrollMove = document.querySelector("main").scrollHeight - 282 - e.target.scrollTop < 5);
+document.querySelector("header").onclick = function () {
+  let m = document.querySelector("main");
+  if (m.style.opacity === "0") {
+    m.style.opacity = "1";
+    this.style.opacity = "0.5";
+  } else {
+    m.style.opacity = "0";
+    this.style.opacity = "1";
+  }
+};

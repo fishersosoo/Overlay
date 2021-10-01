@@ -7,6 +7,14 @@
   text-align: center;
   user-select: none;
 }
+body header {
+  cursor: pointer;
+  z-index: 30;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
 body .anim-opacity2 {
   display: block !important;
   animation: opacity2 2s ease 0s infinite;
