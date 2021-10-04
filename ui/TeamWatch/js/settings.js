@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-04 15:40:38
+ * @LastEditTime: 2021-10-05 07:13:57
  */
 import { actions } from "../../../resources/data/actions.js";
 import { jobList } from "../../../resources/data/job.js";
@@ -439,21 +439,22 @@ ttsAdd.onclick = function () {
   input.onchange = function () {
     // this.value
     select.innerHTML = "";
-    actions
-      .filter((action) => action.Name_cn.indexOf(this.value) !== -1 || action.Name_en.indexOf(this.value) !== -1 || action.Name_jp.indexOf(this.value) !== -1)
-      .forEach((element) => {
+    for (const key in actions) {
+      const action = actions[key];
+      if (action[`Name_${settings.language}`].indexOf(this.value) !== -1) {
         let option = document.createElement("option");
-        option.innerText = element[`Name_${settings.language}`];
-        option.value = element.ID;
+        option.innerText = action[`Name_${settings.language}`];
+        option.value = key;
         select.appendChild(option);
-      });
+      }
+    }
   };
   let select = document.createElement("select");
-  for (const i of actions) {
-    if (compareSameGroup[i.ID]) continue;
+  for (const key in actions) {
+    if (compareSameGroup[key]) continue;
     let option = document.createElement("option");
-    option.innerText = i[`Name_${settings.language}`];
-    option.value = i.ID;
+    option.innerText = actions[key][`Name_${settings.language}`];
+    option.value = key;
     select.appendChild(option);
   }
   let add = document.createElement("button");
