@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-04 15:05:25
+ * @LastEditTime: 2021-10-05 06:25:44
  */
 let actions={
   1:{"Name_cn":"任务道具","Name_en":"Key Item","Name_jp":"イベントアイテム","Url":"000000/000405","ActionCategory":"任务","ClassJobLevel":"0","IsRoleAction":"FALSE","Recast100ms":"0","MaxCharges":"0","ClassJobCategory":"所有职业"},
@@ -1134,6 +1134,10 @@ let actions={
   24622:{"Name_cn":"色相反转","Name_en":"F-0 Switch","Name_jp":"色相反転","Url":"064000/064885","ActionCategory":"能力","ClassJobLevel":"0","IsRoleAction":"FALSE","Recast100ms":"15","MaxCharges":"0","ClassJobCategory":"所有职业"},
 }
 for (const s of [
+  { ID: "2", prop: "Url", to:"000000/000123" },
+  { ID: "3", prop: "Url", to:"000000/000104" },
+  { ID: "4", prop: "Url", to:"000000/000118" },
+  { ID: "7", prop: "Url", to:"000000/000101" },
   { ID: "71", prop: "MaxCharges", to: (level) => (level >= 66 ? "2" : "1") },
   { ID: "2874", prop: "MaxCharges", to: (level) => (level >= 74 ? "3" : "2") },
   { ID: "2890", prop: "MaxCharges", to: (level) => (level >= 74 ? "3" : "2") },

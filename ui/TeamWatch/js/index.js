@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-04 15:41:21
+ * @LastEditTime: 2021-10-05 06:16:35
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -113,6 +113,7 @@ addOverlayListener("onLogEvent", (e) => {
       let index = party.findIndex((p) => p.id === NetworkAbility.groups.id && p.inParty === true);
       if (index >= 0) {
         let bom = document.querySelector(`[name="${index}-${compareSame(parseInt(NetworkAbility.groups.ability, 16))}"]`);
+  
         if (bom) bom.use();
       }
     }
@@ -141,7 +142,7 @@ function handle() {
         }, 1000);
         art.style.fontSize = settings.style.fontSize + "px";
         art.style.color = settings.style.fontColor;
-        art.setAttribute("name", i + "-" + action.ID);
+        art.setAttribute("name", i + "-" + skill.id);
         let recast1000ms = action.Recast100ms instanceof Function ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10 : action.Recast100ms / 10;
         art.setAttribute("reset100ms", recast1000ms);
         let maxCharges = action.MaxCharges instanceof Function ? action.MaxCharges(levels[player.id] ? levels[player.id] : 0) : action.MaxCharges;
@@ -156,7 +157,7 @@ function handle() {
           art.style.padding = "15px 0px 0px 30px";
         }
         art.use = function () {
-          if (settings.ttsOn === "true") TTS(settings.tts[action.ID]);
+          if (settings.ttsOn === "true") TTS(settings.tts[skill.id]);
           art.style.opacity = "1";
           if (maxCharges === "0") {
             clearInterval(art.timer);
@@ -235,7 +236,7 @@ document.querySelector("#settings").onclick = () => {
 document.querySelector("#showFake").onclick = () => {
   party = [
     {
-      id: "104600C5",
+      id: "1039CE69",
       name: "A",
       worldId: 1177,
       job: 19,
