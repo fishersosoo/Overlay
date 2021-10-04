@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  user-select: none;
+}
+body {
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.4);
+  header {
+    position: fixed;
+    top: 0;
+    cursor: pointer;
+    color: white;
+    aside {
+      display: inline;
+      padding: 0px 2px;
+    }
+  }
+  main {
+    section {
+      margin-top: 20px;
+      animation: fadeInRight 10s linear;
+      position: absolute;
+      opacity: 0;
+      height: 48px;
+      width: 48px;
+      img:nth-of-type(1) {
+        height: 40px;
+        width: 40px;
+      }
+      img:nth-of-type(2) {
+        height: 48px;
+        width: 48px;
+        position: absolute;
+        top: -4px;
+        left: -4px;
+      }
+    }
+    .oGCD {
+      transform: scale(0.75);
+      transform-origin: top left;
+    }
+    .AA {
+      background-image: url(https://cafemaker.wakingsands.com/i/000000/000101.png);
+      background-size: cover;
+      height: 14px;
+      width: 14px;
+      top: -18px;
+    }
+  }
+}
+@keyframes fadeInRight {
+  from {
+    opacity: 1;
+    right: 0%;
+  }
+  to {
+    opacity: 1;
+    right: 100%;
+  }
+}
