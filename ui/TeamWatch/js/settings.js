@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-05 07:13:57
+ * @LastEditTime: 2021-10-05 07:17:03
  */
 import { actions } from "../../../resources/data/actions.js";
 import { jobList } from "../../../resources/data/job.js";
@@ -575,10 +575,10 @@ document.querySelector("#tts").appendChild(ttsAdd);
     document.querySelector("#shareOutInput").value = window.btoa(window.encodeURIComponent(JSON.stringify(settings)));
   };
   let reset = document.createElement("button");
-  reset.innerText = language.reset;
+  reset.innerText = language.reset[settings.language];
   document.querySelector("#share").appendChild(reset);
   reset.onclick = () => {
-    let c = confirm(language.resetC);
+    let c = confirm(language.resetC[[settings.language]]);
     if (c) {
       save("settings", defaultSettings);
       location.reload();
