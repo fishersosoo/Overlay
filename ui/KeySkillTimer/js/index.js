@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-30 15:17:57
+ * @LastEditTime: 2021-10-04 15:45:35
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -60,54 +60,55 @@ startOverlayEvents();
 function show(party) {
   for (const p of party) {
     if (!p.inParty) break;
-    for (const action of actions.filter(
-      (action) => !!raidBuffs[action.ID] && new RegExp(`(^| )${jobList.find((j) => j.ID.toString() === p.job.toString()).cn}($| )`).test(action.ClassJobCategory)
-    )) {
-      let art = document.createElement("article");
-      art.style.order = raidBuffs[action.ID].order;
-      art.setAttribute("data-from", `${p.id}-${action.ID}`);
-      let aside = document.createElement("aside");
-      aside.setAttribute("data-recast", action.Recast100ms / 10);
-      aside.setAttribute("data-duration", raidBuffs[action.ID].duration);
-      aside.innerText = "Ready";
-      art.append(aside);
-      let section = document.createElement("section");
-      section.style.backgroundImage = `url(https://cafemaker.wakingsands.com/i/${action.Url}.png)`;
-      art.append(section);
-      let shadow = document.createElement("div");
-      shadow.classList.add("shadow");
-      art.append(shadow);
-      document.querySelector(art.style.order > 0 ? "body > main" : "body > div").append(art);
-      art.use = function () {
-        TTS(raidBuffs[action.ID].name);
-        let recast = aside.getAttribute("data-recast");
-        let time = parseInt(recast);
-        let duration = aside.getAttribute("data-duration");
-        aside.innerText = duration;
-        art.classList.add("use");
-        clearInterval(art.timer);
-        aside.style.color = "gold";
-        art.timer = setInterval(() => {
-          aside.innerText = duration;
-          if (time > recast - duration) {
-            aside.innerText = duration - (recast - --time);
-            shadow.style.clipPath = `inset(${100 - ((recast - time) / duration) * 100}% 0 0 0)`;
-          } else {
-            aside.innerText = --time - duration;
-            shadow.style.clipPath = `inset(${100 - (time / (recast - duration)) * 100}% 0 0 0)`;
-            aside.style.color = "white";
-          }
-          if (time === 0) art.cancel();
-        }, 1000);
-        timers.push(art.timer);
-      };
-      // art.onclick = () => art.use();
-      art.cancel = () => {
-        clearInterval(art.timer);
-        art.classList.remove("use");
+    for (const key in actions) {
+      const action = actions[key];
+      if (!!raidBuffs[key] && new RegExp(`(^| )${jobList.find((j) => j.ID.toString() === p.job.toString()).cn}($| )`).test(action.ClassJobCategory)) {
+        let art = document.createElement("article");
+        art.style.order = raidBuffs[key].order;
+        art.setAttribute("data-from", `${p.id}-${key}`);
+        let aside = document.createElement("aside");
+        aside.setAttribute("data-recast", action.Recast100ms instanceof Function ? action.Recast100ms(80) / 10 : action.Recast100ms / 10);
+        aside.setAttribute("data-duration", raidBuffs[key].duration);
         aside.innerText = "Ready";
-        shadow.style.clipPath = `inset(100% 0 0 0)`;
-      };
+        art.append(aside);
+        let section = document.createElement("section");
+        section.style.backgroundImage = `url(https://cafemaker.wakingsands.com/i/${action.Url}.png)`;
+        art.append(section);
+        let shadow = document.createElement("div");
+        shadow.classList.add("shadow");
+        art.append(shadow);
+        document.querySelector(art.style.order > 0 ? "body > main" : "body > div").append(art);
+        art.use = function () {
+          TTS(raidBuffs[key].name);
+          let recast = aside.getAttribute("data-recast");
+          let time = parseInt(recast);
+          let duration = aside.getAttribute("data-duration");
+          aside.innerText = duration;
+          art.classList.add("use");
+          clearInterval(art.timer);
+          aside.style.color = "gold";
+          art.timer = setInterval(() => {
+            aside.innerText = duration;
+            if (time > recast - duration) {
+              aside.innerText = duration - (recast - --time);
+              shadow.style.clipPath = `inset(${100 - ((recast - time) / duration) * 100}% 0 0 0)`;
+            } else {
+              aside.innerText = --time - duration;
+              shadow.style.clipPath = `inset(${100 - (time / (recast - duration)) * 100}% 0 0 0)`;
+              aside.style.color = "white";
+            }
+            if (time === 0) art.cancel();
+          }, 1000);
+          timers.push(art.timer);
+        };
+        // art.onclick = () => art.use();
+        art.cancel = () => {
+          clearInterval(art.timer);
+          art.classList.remove("use");
+          aside.innerText = "Ready";
+          shadow.style.clipPath = `inset(100% 0 0 0)`;
+        };
+      }
     }
   }
 }

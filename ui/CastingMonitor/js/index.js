@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-04 12:55:55
+ * @LastEditTime: 2021-10-04 15:18:52
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -19,7 +19,7 @@ addOverlayListener("LogLine", (e) => {
         section.classList.add("AA");
       } else {
         let img = document.createElement("img");
-        let action = actions.find((action) => action.ID === parseInt(l.actionID, 16).toString());
+        let action = actions[parseInt(l.actionID, 16).toString()];
         img.setAttribute("src", "https://cafemaker.wakingsands.com/i/" + (action || { Url: "000000/000405" }).Url + ".png");
         img.setAttribute("alt", l.actionName);
         section.classList.add((action || { ActionCategory: "能力" }).ActionCategory === "能力" ? "oGCD" : "GCD");
@@ -41,21 +41,22 @@ let span = document.querySelector("header>span");
 let isLock = false;
 document.querySelector("header").onclick = () => {
   isLock = !isLock;
-  lock = { ID: span.innerText, Name: span.getAttribute("data-id") };
+  lock = { ID: span.getAttribute("data-id"), Name: span.getAttribute("data-name") };
 };
 addOverlayListener("EnmityTargetData", (e) => {
   if (!isLock && e.Target) {
     let tarID = e.Target.ID.toString(16).toUpperCase();
     if (tarID.substr(0, 1) === "1" && tarID !== player) {
-      aside.innerText = "点击监控:";
+      aside.innerText = `当前目标:${lock.Name === null ? "YOU" : lock.Name},点击这里切换为:`;
       span.innerText = e.Target.Name;
+      span.setAttribute("data-name", e.Target.Name);
       span.setAttribute("data-id", tarID);
     }
   } else if (isLock) {
-    aside.innerText = "当前目标:";
+    aside.innerText = "";
     span.innerText = lock.Name;
   } else {
-    aside.innerText = "玩家";
+    aside.innerText = "";
     span.innerText = "";
     lock = { ID: null, Name: null };
   }

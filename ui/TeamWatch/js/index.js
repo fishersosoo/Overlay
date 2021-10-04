@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-30 07:20:26
+ * @LastEditTime: 2021-10-04 15:41:21
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -9,14 +9,6 @@ import { compareSame } from "../../../resources/function/compareSameGroup.min.js
 import { loadItem, saveItem } from "../../../resources/function/localStorage.min.js";
 import { TTS } from "../../../resources/function/TTS.js";
 import { defaultSettings } from "./defaultSettings.min.js";
-window.onerror = function () {
-  console.log(`遇到了意料之外的错误。
-${JSON.stringify(arguments[0])},
-${JSON.stringify(arguments[1])},
-${JSON.stringify(arguments[2])},
-${JSON.stringify(arguments[3])},
-`);
-};
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);
@@ -101,10 +93,6 @@ function partySort(party) {
   try {
     for (const key of settings.partySort[`when${jobList.find((job) => job.ID.toString() === player.job.toString()).Role}`].split(">")) rule.push(...settings.partySort[key]);
   } catch {
-    console.log(charID);
-    console.log(party);
-    console.log(player);
-    console.log(settings);
     console.error("排序时出现未知错误。");
     return party;
   }
@@ -132,18 +120,18 @@ addOverlayListener("onLogEvent", (e) => {
 });
 function handle() {
   document.querySelector("main").innerHTML = "";
+  document.querySelector("main").style.opacity = settings.style.opacity || 1;
   for (let i = 0; i < party.length; i++) {
     const player = party[i];
     if (player === undefined || (player.id === charID && settings.style.hideYourself === "True")) continue;
     settings.watchs
       .find((watch) => watch.job === player.job.toString())
       .watch.forEach((skill) => {
-        let action = actions.find((action) => action.ID === skill.id);
+        let action = actions[skill.id];
         let art = document.createElement("article");
         art.style.position = "absolute";
         art.style.top = (parseFloat(skill.top) + i * (50 + parseFloat(settings.style.ySpace))) * 0.8 * settings.style.scale + "px";
         art.style.right = parseFloat(skill.right) * (1 + settings.style.xSpace / 100) * 0.8 * settings.style.scale + "px";
-        art.style.opacity = settings.style.opacity || 1;
         art.style.width = `48px`;
         art.style.height = art.style.width;
         art.style.lineHeight = art.style.width;
@@ -154,8 +142,8 @@ function handle() {
         art.style.fontSize = settings.style.fontSize + "px";
         art.style.color = settings.style.fontColor;
         art.setAttribute("name", i + "-" + action.ID);
-        let recast100ms = action.Recast100ms instanceof Function ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10 : action.Recast100ms / 10;
-        art.setAttribute("reset100ms", recast100ms);
+        let recast1000ms = action.Recast100ms instanceof Function ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10 : action.Recast100ms / 10;
+        art.setAttribute("reset100ms", recast1000ms);
         let maxCharges = action.MaxCharges instanceof Function ? action.MaxCharges(levels[player.id] ? levels[player.id] : 0) : action.MaxCharges;
         art.style.background = `
         url(),
@@ -176,12 +164,12 @@ function handle() {
             let bgArr = art.style.background.split(",");
             bgArr[0] = `${url} 0px 0px/ 432px 432px`;
             art.style.background = bgArr.join(",");
-            let now = recast100ms;
+            let now = recast1000ms;
             art.timer = setInterval(() => {
-              let p = 1 - now / recast100ms;
+              let p = 1 - now / recast1000ms;
               let x = Math.floor((p * 81) % 9);
               let y = Math.floor(p * 9);
-              if (!(x === 8 && y === 8)) {
+              if (!(x === 8 && y === 8) && p <= 1) {
                 now -= settings.style.refreshRate / 1000;
                 art.innerText = Math.round(now);
                 bgArr[0] = `${url} ${-48 * x}px ${-48 * y}px / 432px 432px`;
@@ -199,10 +187,10 @@ function handle() {
             bgArr[1] = `url(./resources/${settings.style.skin}/${art.innerText !== "0" ? "icon" : "0charges"}.png)`;
             art.style.background = bgArr.join(",");
             art.style.color = art.innerText === "0" ? "rgb(255,100,100)" : "white";
-            let now = recast100ms;
+            let now = recast1000ms;
             if (!art.timer) {
               art.timer = setInterval(() => {
-                let p = 1 - now / recast100ms;
+                let p = 1 - now / recast1000ms;
                 let x = Math.floor((p * 81) % 9);
                 let y = Math.floor(p * 9);
                 if (!(x === 8 && y === 8)) {
@@ -267,7 +255,7 @@ document.querySelector("#showFake").onclick = () => {
       name: "C",
       worldId: 1177,
       job: 33,
-      level: 0,
+      level: 80,
       inParty: true,
     },
     {

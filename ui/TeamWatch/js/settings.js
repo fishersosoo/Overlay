@@ -1,7 +1,7 @@
 "use strict";
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-30 06:28:17
+ * @LastEditTime: 2021-10-04 15:40:38
  */
 import { actions } from "../../../resources/data/actions.js";
 import { jobList } from "../../../resources/data/job.js";
@@ -17,14 +17,6 @@ function load(t, a = "") {
 function save(t, a) {
   saveItem(namespace, t, a);
 }
-window.onerror = function () {
-  document.querySelector("header").innerText = `遇到了意料之外的错误。 
-${JSON.stringify(arguments[0])}
-${JSON.stringify(arguments[1])}
-${JSON.stringify(arguments[2])}
-${JSON.stringify(arguments[3])}
-`;
-};
 let settings = Object.assign(JSON.parse(JSON.stringify(defaultSettings)), load("settings", {}), { share: {} });
 settings.style = Object.assign(JSON.parse(JSON.stringify(defaultSettings)).style, load("settings", {}).style);
 let old = localStorage.getItem("teamWatch");
@@ -348,7 +340,7 @@ let pos = {};
   li.style.position = "relative";
   li.title = watch.job;
   for (const skill of watch.watch) {
-    let action = actions.find((action) => action.ID === skill.id);
+    let action = actions[skill.id];
     if (action === undefined) {
       console.log(`${skill.id}未找到，已跳过`);
     } else {
@@ -357,7 +349,7 @@ let pos = {};
       art.style.top = skill.top;
       art.style.right = skill.right;
       art.style.transform = `scale(${skill.scale})`;
-      insertWatch(art, action, li);
+      insertWatch(art, action, li, skill.id);
     }
   }
   li.style.paddingLeft = "0.5em";
@@ -376,14 +368,19 @@ let pos = {};
     div.style.top = "0px";
     div.style.position = "absolute";
     let select = document.createElement("select");
-    for (const action of actions.filter((action) => new RegExp(`(^| )${btn.getAttribute("name")}($| )`).test(action.ClassJobCategory))) {
-      if (compareSameGroup[action.ID] === undefined) {
-        if ([].slice.call(li.querySelectorAll("article")).find((a) => a.getAttribute("name") === (compareSameGroup[action.ID] || action.ID)) === undefined) {
-          let option = document.createElement("option");
-          option.innerText = action[`Name_${settings.language}`];
-          option.setAttribute("value", action.ID);
-          select.appendChild(option);
-        }
+    for (const key in actions) {
+      const action = actions[key];
+      if (
+        action.ClassJobLevel !== "0" &&
+        !(parseInt(action.Recast100ms) < 50) &&
+        (action.ClassJobCategory === "所有职业" || new RegExp(`(^| )${btn.getAttribute("name")}($| )`).test(action.ClassJobCategory)) &&
+        compareSameGroup[key] === undefined &&
+        [].slice.call(li.querySelectorAll("article")).find((a) => a.getAttribute("name") === (compareSameGroup[key] || key)) === undefined
+      ) {
+        let option = document.createElement("option");
+        option.innerText = action[`Name_${settings.language}`];
+        option.setAttribute("value", key);
+        select.appendChild(option);
       }
     }
     div.appendChild(select);
@@ -393,7 +390,7 @@ let pos = {};
     cancel.innerText = language.cancel[settings.language];
     div.appendChild(add);
     add.onclick = function () {
-      let action = actions.find((action) => action.ID === this.parentNode.querySelector("select").value);
+      let action = actions[this.parentNode.querySelector("select").value];
       let art = document.createElement("article");
       art.style.position = "absolute";
       art.style.top = "0px";
@@ -401,7 +398,7 @@ let pos = {};
         .call(li.querySelectorAll("article"))
         .reduce((pre, value) => (parseInt(pre.style.right) > parseInt(value.style.right) ? pre : value), { style: { right: -44 } });
       art.style.right = parseInt(mostRight.style.right) + 44 + "px";
-      insertWatch(art, action, li);
+      insertWatch(art, action, li, this.parentNode.querySelector("select").value);
       cancel.onclick();
     };
     div.appendChild(cancel);
@@ -576,6 +573,16 @@ document.querySelector("#tts").appendChild(ttsAdd);
   shareOutBtn.onclick = () => {
     document.querySelector("#shareOutInput").value = window.btoa(window.encodeURIComponent(JSON.stringify(settings)));
   };
+  let reset = document.createElement("button");
+  reset.innerText = language.reset;
+  document.querySelector("#share").appendChild(reset);
+  reset.onclick = () => {
+    let c = confirm(language.resetC);
+    if (c) {
+      save("settings", defaultSettings);
+      location.reload();
+    }
+  };
 }
 document.querySelector("#save").innerHTML = language.save[settings.language];
 document.querySelector("#save").onclick = function () {
@@ -633,8 +640,7 @@ function insertTTS(key, value) {
   let div = document.createElement("div");
   div.classList.add("ttsSkill");
   try {
-    div.innerText = actions.find((action) => action.ID === key)[`Name_${settings.language}`];
-
+    div.innerText = actions[key][`Name_${settings.language}`];
     let input = document.createElement("input");
     input.setAttribute("type", "text");
     input.value = value;
@@ -652,14 +658,14 @@ function insertTTS(key, value) {
   }
 }
 
-function insertWatch(art, action, li) {
+function insertWatch(art, action, li, id) {
   if (art.style.transform === "") art.style.transform = "scale(1)";
   art.style.width = "48px";
   art.style.height = art.style.width;
   art.style.lineHeight = art.style.height;
   art.style.background = `url(./resources/${settings.style.skin}/icon.png),url(${settings.style.url}${action.Url}.png) center / 40px 40px no-repeat `;
   art.title = action["Name_" + settings.language];
-  art.setAttribute("name", action.ID);
+  art.setAttribute("name", id);
   art.setAttribute("draggable", "true");
   art.ondragstart = function (e) {
     pos.x = e.x;

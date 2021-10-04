@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-14 22:01:56
+ * @LastEditTime: 2021-10-04 15:39:44
  */
 let language = {
   style: { cn: "常规", en: "routine", jp: "全般" },
@@ -41,5 +41,7 @@ let language = {
   hideYourself: { cn: "隐藏自己", en: "Hide yourself", jp: "自分を隠して" },
   fontColor: { cn: "字体颜色", en: "Font Color", jp: "フォントの色" },
   opacity: { cn: "不透明度", en: "Opacity", jp: "不透明度" },
+  reset: { cn: "重置", en: "Reset", jp: "リセット" },
+  resetC: { cn: "确定要重置吗？", en: "Are you sure you want to reset?", jp: "リセットしますか？" },
 };
 export { language };
