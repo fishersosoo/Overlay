@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-01 14:07:33
+ * @LastEditTime: 2021-10-05 14:39:01
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -20,6 +20,14 @@ class FFObject {
     this.Status = {};
   }
 }
+function getUrlParam(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]);
+  return null;
+}
+document.querySelector("main").style.backgroundColor = `rgba(5,5,5,${getUrlParam("bgOpacity") || 0.45})`;
+document.body.style.opacity = getUrlParam("bodyOpacity") || 1;
 function addFooter() {
   document.querySelector("body > footer > ul").innerHTML = `<li class="select" data-object-id="${youID}" data-select="true" data-job-name="YOU" data-reality-name="YOU">YOU</li>`;
   if (party.length) {
