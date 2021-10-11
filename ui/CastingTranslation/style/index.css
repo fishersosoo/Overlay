@@ -2,10 +2,25 @@
   margin: 0;
   padding: 0;
   font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
-  font-size: 12px;
   user-select: none;
+  overflow: hidden;
 }
-body main {
+body #readMe {
+  background-color: rgba(0, 0, 150, 0.2);
+  height: 100vw;
+  width: 100vw;
+  position: absolute;
+  z-index: 10;
+  color: white;
+  text-shadow: -1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000;
+}
+body #readMe button {
+  padding: 10px;
+  margin: 10px;
+}
+body main,
+body article {
+  font-weight: bold;
   font-size: 22px;
   text-align: right;
   color: white;
