@@ -20,7 +20,6 @@ body #readMe button {
 }
 body main,
 body article {
-  font-weight: bold;
   font-size: 22px;
   text-align: right;
   color: white;
