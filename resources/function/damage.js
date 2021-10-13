@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-09-30 05:31:57
+ * @LastEditTime: 2021-10-13 08:07:26
  */
 function getDamage(e) {
   function getEffect() {
@@ -25,27 +25,29 @@ function getDamage(e) {
     from: e.line[3],
     target: e.line[7],
   };
-  if (/^.{0,7}1$/.test(e.line[8])) {
+  if (/^f/i.test(e.line[8])) {
+    return result;
+  } else if (/1$/.test(e.line[8])) {
     result.type = "damage";
     result.damageType = "dodge";
     result.damageEffect = "回避";
-  } else if (/^[^fF].{0,3}[1-4].{2}(33|.[356])$/.test(e.line[8])) {
+  } else if (/[1-4].{2}(33|.[356])$/.test(e.line[8])) {
     result.type = "damage";
     result.damageType = "physics";
     result.damageEffect = getEffect();
-  } else if (/^[^fF].{0,3}5.{4}$/.test(e.line[8])) {
+  } else if (/5.{4}$/.test(e.line[8])) {
     result.type = "damage";
     result.damageType = "magic";
     result.damageEffect = getEffect();
-  } else if (/^[^fF].{0,3}6.{4}$/.test(e.line[8])) {
+  } else if (/6.{4}$/.test(e.line[8])) {
     result.type = "damage";
     result.damageType = "darkness";
     result.damageEffect = getEffect();
-  } else if (/^[^fF].{0,3}1.{0,3}4$/.test(e.line[8])) {
+  } else if (/1.{3}4$/.test(e.line[8])) {
     result.type = "heal";
     result.damageType = "heal";
     result.damageEffect = "暴疗";
-  } else if (/^[^fF].{0,7}4$/.test(e.line[8])) {
+  } else if (/4$/.test(e.line[8])) {
     result.type = "heal";
     result.damageType = "heal";
     result.damageEffect = "　　";

@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-12 11:37:38
+ * @LastEditTime: 2021-10-13 09:37:20
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -33,23 +33,21 @@ document.body.style.opacity = getUrlParam("bodyOpacity") || 1;
 function addFooter() {
   document.querySelector(
     "body > footer > ul"
-  ).innerHTML = `<li class="select" data-object-id="${youID}" data-select="true" data-job-name="YOU" data-reality-name="YOU">YOU</li>`;
+  ).innerHTML = `<li class="select" data-select="true" data-job-name="All" data-reality-name="All" id="all">ALL</li>`;
   if (party.length) {
     document.querySelector("body > footer > ul").append(
-      ...party
-        .filter((p) => p.id !== youID)
-        .map((value) => {
-          let li = document.createElement("li");
-          li.setAttribute("data-reality-name", value.name);
-          li.setAttribute(
-            "data-job-name",
-            (jobList.find((job) => job.ID.toString() === value.job.toString()) || { cn: "未知" }).cn
-          );
-          li.appendChild(document.createTextNode(li.getAttribute("data-job-name")));
-          li.setAttribute("data-object-id", value.id);
-          li.setAttribute("data-select", "false");
-          return li;
-        })
+      ...party.map((value) => {
+        let li = document.createElement("li");
+        li.setAttribute("data-reality-name", value.id === youID ? "YOU" : value.name);
+        li.setAttribute(
+          "data-job-name",
+          value.id === youID ? "YOU" : (jobList.find((job) => job.ID.toString() === value.job.toString()) || { cn: "?" }).simple1
+        );
+        li.appendChild(document.createTextNode(li.getAttribute("data-job-name")));
+        li.setAttribute("data-object-id", value.id);
+        li.setAttribute("data-select", "false");
+        return li;
+      })
     );
   }
   document.querySelectorAll("body > footer > ul > li ").forEach((li) => {
@@ -60,13 +58,13 @@ function addFooter() {
       });
       this.setAttribute("data-select", "true");
       li.classList.add("select");
-      document
-        .querySelectorAll("body > main > table > tbody > tr:not(:nth-child(1))")
-        .forEach(
-          (element) =>
-            (element.style.display =
-              element.getAttribute("data-master-id") === li.getAttribute("data-object-id") ? "table-row" : "none")
-        );
+      document.querySelectorAll("body > main > table > tbody > tr").forEach((element) => {
+        if (li.getAttribute("id") === "all" || element.getAttribute("data-master-id") === li.getAttribute("data-object-id")) {
+          element.style.display = "table-row";
+        } else {
+          element.style.display = "none";
+        }
+      });
     };
     li.oncontextmenu = () =>
       document
@@ -95,7 +93,7 @@ try {
 }
 addOverlayListener("ChangeZone", () => {
   FFXIVObject = {};
-  document.querySelector("body > main > table > tbody").innerHTML = "<tr></tr>";
+  document.querySelector("body > main > table > tbody").innerHTML = "";
   inCombat = false;
   clearTimeout(combatTimer);
   duration = "00:00";
@@ -109,34 +107,48 @@ addOverlayListener("onPartyWipe", () => {
   duration = "00:00";
 });
 addOverlayListener("LogLine", (e) => {
-  let l = {};
+  let l;
   switch (e.line[0]) {
     case "21":
     case "22":
       l = logProcessing(e.line, "action");
+      let damage = getDamage(e);
       if (
+        damage.type === "damage" &&
         l["casterID"].substring(0, 1) === "4" &&
-        (party.some((value) => value.id === l["targetID"] && value.inParty) || l["targetID"] === youID)
+        (l["targetID"] === youID || party.some((value) => value.id === l["targetID"] && value.inParty))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
-        let row = document.querySelector("body > main > table > tbody").insertRow(-1);
-        row.setAttribute("data-master-id", l["targetID"]);
-        row.setAttribute("data-master-name", l["targetName"]);
-        row.style.display =
-          document
-            .querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`)
-            .getAttribute("data-select") === "true"
-            ? "table-row"
-            : "none";
-        let damage = getDamage(e);
-        row.insertCell(0).innerHTML = duration;
-        row.insertCell(1).innerHTML = l["actionName"];
-        let cell3 = row.insertCell(2);
+        let tr = document.querySelector("body > main > table > tbody").insertRow(-1);
+        tr.setAttribute("data-master-id", l["targetID"]);
+        tr.setAttribute("data-master-name", l["targetName"]);
+        if (
+          document.querySelector("#all").getAttribute("data-select") === "true" ||
+          document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") ===
+            "true"
+        ) {
+          tr.style.display = "table-row";
+        } else {
+          tr.style.display = "none";
+        }
+        tr.insertCell(0).innerHTML = duration; //战斗时间
+        tr.insertCell(1).innerHTML = l["actionName"]; //技能名
+        let cell2 = tr.insertCell(2);
+        try {
+          let j = jobList.find(
+            (job) => job.ID === (party.find((p) => p.id === l["targetID"]) || { job: "unknown" }).job.toString()
+          );
+          cell2.innerHTML = l["targetID"] === youID ? "YOU" : j.simple2;
+          cell2.classList.add(!party.length ? "YOU" : j.en);
+        } catch {
+          cell2.innerHTML = l["targetName"];
+        }
+        let cell3 = tr.insertCell(3);
         cell3.innerHTML = damage.value.toLocaleString();
         cell3.setAttribute("data-damage-effect", damage.damageEffect);
         cell3.title = damage.from;
         cell3.classList.add(damage.damageType);
-        let cell4 = row.insertCell(3);
+        let cell4 = tr.insertCell(4);
         function createImg(type, key) {
           let img = document.createElement("img");
           img.setAttribute("src", `https://cafemaker.wakingsands.com/i/${status[parseInt(key, 16)].url}`);
@@ -148,36 +160,27 @@ addOverlayListener("LogLine", (e) => {
         if (FFXIVObject[l["casterID"]]) for (const key in FFXIVObject[l["casterID"]].Status) createImg("casterID", key);
         if (
           scrollMove &&
-          document
-            .querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`)
-            .getAttribute("data-select") === "true"
+          (document.querySelector("#all").getAttribute("data-select") === "true" ||
+            document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") ===
+              "true")
         ) {
           document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
         }
-        row.onclick = () => {
+        tr.onclick = () => {
           let result = [];
-          result.push(row.children[0].innerHTML);
-          result.push(row.children[2].title);
-          result.push(row.children[1].innerHTML);
-          result.push(row.getAttribute("data-master-name"));
-          result.push(row.children[2].innerHTML);
-          for (const kg of row.children[3].children) result.push(kg.title);
+          result.push(tr.children[0].innerHTML);
+          result.push(tr.children[3].title);
+          result.push(tr.children[1].innerHTML);
+          result.push(tr.getAttribute("data-master-name"));
+          result.push(tr.children[3].innerHTML);
+          for (const kg of tr.children[4].children) result.push(kg.title);
           document.querySelector("#toCopy").value = result.join(" ");
           document.querySelector("#toCopy").select();
           document.execCommand("copy");
           document.querySelector("#hint").innerText = "已复制！";
           document.querySelector("#hint").classList.add("anim-opacity2");
-          setTimeout(() => document.querySelector("#hint").classList.remove("anim-opacity2"), 2000);
+          setTimeout(() => document.querySelector("#hint").classList.remove("anim-opacity2"), 1000);
         };
-      } else if (
-        (party.some((value) => value.id === l["targetID"] && value.inParty) || l["targetID"] === youID) &&
-        keigenn[l["actionID"]] !== undefined
-      ) {
-        document
-          .querySelector("body > main > table > tbody")
-          .insertRow(-1)
-          .insertCell(0).innerHTML = `${duration} ${l["casterName"]}发动了“${l["actionName"]}”。`;
-        document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
       }
       break;
     case "26":

@@ -12,12 +12,13 @@ body header {
   z-index: 30;
   position: fixed;
   top: 0;
-  left: 0;
+  right: 15px;
   opacity: 0.5;
 }
 body .anim-opacity2 {
   display: block !important;
-  animation: opacity2 2s ease 0s infinite;
+  opacity: 0;
+  animation: opacity2 1s ease-in-out;
 }
 @keyframes opacity2 {
   0% {
@@ -67,29 +68,8 @@ body main table {
   border-collapse: collapse;
   color: white;
 }
-body main table thead tr {
-  z-index: 10;
-  position: fixed;
-  top: 0;
-  height: 20px;
-  background-color: #333333;
-}
-body main table thead th {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-body main table thead th:nth-child(1) {
-  width: 15vw;
-}
-body main table thead th:nth-child(2) {
-  width: 25vw;
-}
-body main table thead th:nth-child(3) {
-  width: 20vw;
-}
-body main table thead th:nth-child(4) {
-  width: 40vw;
+body main table thead {
+  background-color: rgba(5, 5, 5, 0.45);
 }
 body main table tbody tr {
   cursor: pointer;
@@ -104,21 +84,108 @@ body main table tbody tr td {
   white-space: nowrap;
 }
 body main table tbody tr td:nth-child(1) {
-  width: 15vw;
+  width: 2em;
 }
 body main table tbody tr td:nth-child(2) {
-  width: 25vw;
+  width: 5em;
 }
 body main table tbody tr td:nth-child(3) {
-  width: 20vw;
+  width: 2em;
 }
 body main table tbody tr td:nth-child(4) {
-  width: 40vw;
+  width: 4em;
+}
+body main table tbody tr td:nth-child(5) {
   display: flex;
   justify-content: center;
 }
-body main table tbody tr td:nth-child(4) img {
+body main table tbody tr td:nth-child(5) img {
   height: 24px;
+}
+body main table tbody tr .YOU {
+  font-weight: bold;
+  text-shadow: -1px 0 1px #03a9f4, 0 1px 1px #03a9f4, 1px 0 1px #03a9f4, 0 -1px 1px #03a9f4;
+}
+body main table tbody tr .GLA {
+  text-shadow: -1px 0 1px #7b9aa2, 0 1px 1px #7b9aa2, 1px 0 1px #7b9aa2, 0 -1px 1px #7b9aa2;
+}
+body main table tbody tr .PGL {
+  text-shadow: -1px 0 1px #b38915, 0 1px 1px #b38915, 1px 0 1px #b38915, 0 -1px 1px #b38915;
+}
+body main table tbody tr .MRD {
+  text-shadow: -1px 0 1px #a91a16, 0 1px 1px #a91a16, 1px 0 1px #a91a16, 0 -1px 1px #a91a16;
+}
+body main table tbody tr .LNC {
+  text-shadow: -1px 0 1px #3752d8, 0 1px 1px #3752d8, 1px 0 1px #3752d8, 0 -1px 1px #3752d8;
+}
+body main table tbody tr .ARC {
+  text-shadow: -1px 0 1px #adc551, 0 1px 1px #adc551, 1px 0 1px #adc551, 0 -1px 1px #adc551;
+}
+body main table tbody tr .CNJ {
+  text-shadow: -1px 0 1px #bdbdbd, 0 1px 1px #bdbdbd, 1px 0 1px #bdbdbd, 0 -1px 1px #bdbdbd;
+}
+body main table tbody tr .THM {
+  text-shadow: -1px 0 1px #674598, 0 1px 1px #674598, 1px 0 1px #674598, 0 -1px 1px #674598;
+}
+body main table tbody tr .PLD {
+  text-shadow: -1px 0 1px #7b9aa2, 0 1px 1px #7b9aa2, 1px 0 1px #7b9aa2, 0 -1px 1px #7b9aa2;
+}
+body main table tbody tr .MNK {
+  text-shadow: -1px 0 1px #b38915, 0 1px 1px #b38915, 1px 0 1px #b38915, 0 -1px 1px #b38915;
+}
+body main table tbody tr .WAR {
+  text-shadow: -1px 0 1px #a91a16, 0 1px 1px #a91a16, 1px 0 1px #a91a16, 0 -1px 1px #a91a16;
+}
+body main table tbody tr .DRG {
+  text-shadow: -1px 0 1px #3752d8, 0 1px 1px #3752d8, 1px 0 1px #3752d8, 0 -1px 1px #3752d8;
+}
+body main table tbody tr .BRD {
+  text-shadow: -1px 0 1px #adc551, 0 1px 1px #adc551, 1px 0 1px #adc551, 0 -1px 1px #adc551;
+}
+body main table tbody tr .WHM {
+  text-shadow: -1px 0 1px #bdbdbd, 0 1px 1px #bdbdbd, 1px 0 1px #bdbdbd, 0 -1px 1px #bdbdbd;
+}
+body main table tbody tr .BLM {
+  text-shadow: -1px 0 1px #674598, 0 1px 1px #674598, 1px 0 1px #674598, 0 -1px 1px #674598;
+}
+body main table tbody tr .ACN {
+  text-shadow: -1px 0 1px #32670b, 0 1px 1px #32670b, 1px 0 1px #32670b, 0 -1px 1px #32670b;
+}
+body main table tbody tr .SMN {
+  text-shadow: -1px 0 1px #32670b, 0 1px 1px #32670b, 1px 0 1px #32670b, 0 -1px 1px #32670b;
+}
+body main table tbody tr .SCH {
+  text-shadow: -1px 0 1px #32307b, 0 1px 1px #32307b, 1px 0 1px #32307b, 0 -1px 1px #32307b;
+}
+body main table tbody tr .ROG {
+  text-shadow: -1px 0 1px #ee2e48, 0 1px 1px #ee2e48, 1px 0 1px #ee2e48, 0 -1px 1px #ee2e48;
+}
+body main table tbody tr .NIN {
+  text-shadow: -1px 0 1px #ee2e48, 0 1px 1px #ee2e48, 1px 0 1px #ee2e48, 0 -1px 1px #ee2e48;
+}
+body main table tbody tr .MCH {
+  text-shadow: -1px 0 1px #148aa9, 0 1px 1px #148aa9, 1px 0 1px #148aa9, 0 -1px 1px #148aa9;
+}
+body main table tbody tr .DRK {
+  text-shadow: -1px 0 1px #682531, 0 1px 1px #682531, 1px 0 1px #682531, 0 -1px 1px #682531;
+}
+body main table tbody tr .AST {
+  text-shadow: -1px 0 1px #b1561c, 0 1px 1px #b1561c, 1px 0 1px #b1561c, 0 -1px 1px #b1561c;
+}
+body main table tbody tr .SAM {
+  text-shadow: -1px 0 1px #e45a0f, 0 1px 1px #e45a0f, 1px 0 1px #e45a0f, 0 -1px 1px #e45a0f;
+}
+body main table tbody tr .RDM {
+  text-shadow: -1px 0 1px #ac2997, 0 1px 1px #ac2997, 1px 0 1px #ac2997, 0 -1px 1px #ac2997;
+}
+body main table tbody tr .BLU {
+  text-shadow: -1px 0 1px #183d9a, 0 1px 1px #183d9a, 1px 0 1px #183d9a, 0 -1px 1px #183d9a;
+}
+body main table tbody tr .GNB {
+  text-shadow: -1px 0 1px #796d30, 0 1px 1px #796d30, 1px 0 1px #796d30, 0 -1px 1px #796d30;
+}
+body main table tbody tr .DNC {
+  text-shadow: -1px 0 1px #e2b0af, 0 1px 1px #e2b0af, 1px 0 1px #e2b0af, 0 -1px 1px #e2b0af;
 }
 body main .dodge {
   text-decoration: line-through;
