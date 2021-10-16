@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-04 15:45:35
+ * @LastEditTime: 2021-10-16 21:39:03
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -62,12 +62,18 @@ function show(party) {
     if (!p.inParty) break;
     for (const key in actions) {
       const action = actions[key];
-      if (!!raidBuffs[key] && new RegExp(`(^| )${jobList.find((j) => j.ID.toString() === p.job.toString()).cn}($| )`).test(action.ClassJobCategory)) {
+      if (
+        !!raidBuffs[key] &&
+        new RegExp(`(^| )${jobList.find((j) => j.ID.toString() === p.job.toString()).cn}($| )`).test(action.ClassJobCategory)
+      ) {
         let art = document.createElement("article");
         art.style.order = raidBuffs[key].order;
         art.setAttribute("data-from", `${p.id}-${key}`);
         let aside = document.createElement("aside");
-        aside.setAttribute("data-recast", action.Recast100ms instanceof Function ? action.Recast100ms(80) / 10 : action.Recast100ms / 10);
+        aside.setAttribute(
+          "data-recast",
+          action.Recast100ms instanceof Function ? action.Recast100ms(80) / 10 : action.Recast100ms / 10
+        );
         aside.setAttribute("data-duration", raidBuffs[key].duration);
         aside.innerText = "Ready";
         art.append(aside);
@@ -97,7 +103,7 @@ function show(party) {
               shadow.style.clipPath = `inset(${100 - (time / (recast - duration)) * 100}% 0 0 0)`;
               aside.style.color = "white";
             }
-            if (time === 0) art.cancel();
+            if (time - duration === 0) art.cancel();
           }, 1000);
           timers.push(art.timer);
         };
