@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-05 07:02:24
+ * @LastEditTime: 2021-10-16 22:39:18
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -27,7 +27,11 @@ addOverlayListener("LogLine", (e) => {
           "src",
           "https://cafemaker.wakingsands.com/i/" +
             (l.actionName.indexOf("Item_") === 0
-              ? (items[parseInt(e.line[5].substr(5, 5), 16) - (e.line[5].substr(5, 1) === "F" ? 1000000 : 0)] || { Url: "000000/000405" }).Url
+              ? (
+                  items[parseInt(e.line[5].substr(5, 5), 16) - (e.line[5].substr(5, 1) === "F" ? 1000000 : 0)] || {
+                    Url: "000000/000405",
+                  }
+                ).Url
               : (action || { Url: "000000/000405" }).Url) +
             ".png"
         );
@@ -59,7 +63,10 @@ document.querySelector("header").onclick = () => {
   lock = { ID: span.getAttribute("data-id"), Name: span.getAttribute("data-name") };
 };
 addOverlayListener("EnmityTargetData", (e) => {
-  if (!isLock && e.Target) {
+  if (isLock) {
+    aside.innerText = "";
+    span.innerText = lock.Name;
+  } else if (!isLock && e.Target) {
     let tarID = e.Target.ID.toString(16).toUpperCase();
     if (tarID.substr(0, 1) === "1" && tarID !== player) {
       aside.innerText = `当前目标:${lock.Name === null ? "YOU" : lock.Name},点击这里切换为:`;
@@ -67,9 +74,6 @@ addOverlayListener("EnmityTargetData", (e) => {
       span.setAttribute("data-name", e.Target.Name);
       span.setAttribute("data-id", tarID);
     }
-  } else if (isLock) {
-    aside.innerText = "";
-    span.innerText = lock.Name;
   } else {
     aside.innerText = "";
     span.innerText = "";
