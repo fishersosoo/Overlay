@@ -60,7 +60,7 @@ html body main article div,
 html body div article div {
   clip-path: inset(100% 0 0 0);
   background-color: black;
-  opacity: 0.7;
+  opacity: 0.5;
   height: 40px;
   width: 40px;
   border-radius: 50%;
