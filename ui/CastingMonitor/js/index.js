@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-16 22:39:18
+ * @LastEditTime: 2021-10-16 22:53:45
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -63,21 +63,21 @@ document.querySelector("header").onclick = () => {
   lock = { ID: span.getAttribute("data-id"), Name: span.getAttribute("data-name") };
 };
 addOverlayListener("EnmityTargetData", (e) => {
-  if (isLock) {
-    aside.innerText = "";
-    span.innerText = lock.Name;
-  } else if (!isLock && e.Target) {
+  if (e.Target !== null) {
     let tarID = e.Target.ID.toString(16).toUpperCase();
-    if (tarID.substr(0, 1) === "1" && tarID !== player) {
+    if (isLock) {
+      aside.innerText = "";
+      span.innerText = lock.Name;
+    } else if (!isLock && tarID.substr(0, 1) === "1" && tarID !== player) {
       aside.innerText = `当前目标:${lock.Name === null ? "YOU" : lock.Name},点击这里切换为:`;
       span.innerText = e.Target.Name;
       span.setAttribute("data-name", e.Target.Name);
       span.setAttribute("data-id", tarID);
+    } else {
+      aside.innerText = "";
+      span.innerText = "";
+      lock = { ID: null, Name: null };
     }
-  } else {
-    aside.innerText = "";
-    span.innerText = "";
-    lock = { ID: null, Name: null };
   }
 });
 startOverlayEvents();
