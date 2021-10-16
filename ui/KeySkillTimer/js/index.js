@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-16 23:51:29
+ * @LastEditTime: 2021-10-17 01:13:55
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -45,7 +45,7 @@ addOverlayListener("PartyChanged", (e) => {
   show(party);
 });
 addOverlayListener("LogLine", (e) => {
-  if (e.line[0] === "21" || e.line[0] === "22") {
+  if (e.line[0] === "21" || (e.line[0] === "22" && e.line[45] === "0")) {
     let l = logProcessing(e.line, "action");
     if (party.some((p) => p.inParty && p.id === l["casterID"])) {
       let d = document.querySelector(`article[data-from="${l["casterID"]}-${compareSame(parseInt(l["actionID"], 16))}"]`);
