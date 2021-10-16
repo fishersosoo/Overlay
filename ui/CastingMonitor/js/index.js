@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-16 22:53:45
+ * @LastEditTime: 2021-10-16 23:35:31
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -75,6 +75,18 @@ addOverlayListener("EnmityTargetData", (e) => {
       span.setAttribute("data-id", tarID);
     } else {
       aside.innerText = "";
+      if (isLock) {
+        span.innerText = lock.Name;
+      } else {
+        span.innerText = "";
+        lock = { ID: null, Name: null };
+      }
+    }
+  } else {
+    aside.innerText = "";
+    if (isLock) {
+      span.innerText = lock.Name;
+    } else {
       span.innerText = "";
       lock = { ID: null, Name: null };
     }
