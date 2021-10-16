@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-16 23:35:31
+ * @LastEditTime: 2021-10-17 00:58:53
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -63,7 +63,15 @@ document.querySelector("header").onclick = () => {
   lock = { ID: span.getAttribute("data-id"), Name: span.getAttribute("data-name") };
 };
 addOverlayListener("EnmityTargetData", (e) => {
-  if (e.Target !== null) {
+  if (e.Target === null) {
+    aside.innerText = "";
+    if (isLock) {
+      span.innerText = lock.Name;
+    } else {
+      span.innerText = "";
+      lock = { ID: null, Name: null };
+    }
+  } else {
     let tarID = e.Target.ID.toString(16).toUpperCase();
     if (isLock) {
       aside.innerText = "";
@@ -81,14 +89,6 @@ addOverlayListener("EnmityTargetData", (e) => {
         span.innerText = "";
         lock = { ID: null, Name: null };
       }
-    }
-  } else {
-    aside.innerText = "";
-    if (isLock) {
-      span.innerText = lock.Name;
-    } else {
-      span.innerText = "";
-      lock = { ID: null, Name: null };
     }
   }
 });
