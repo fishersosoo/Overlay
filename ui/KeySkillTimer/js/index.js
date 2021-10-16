@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-17 01:13:55
+ * @LastEditTime: 2021-10-17 01:25:11
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -8,6 +8,12 @@ import { jobList } from "../../../resources/data/job.js";
 import { compareSame } from "../../../resources/function/compareSameGroup.min.js";
 import { logProcessing } from "../../../resources/function/logProcessing.js";
 import { TTS } from "../../../resources/function/TTS.js";
+function getUrlParam(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]);
+  return null;
+}
 let raidBuffs = {
   118: { name: "战歌", duration: "20", order: -11 },
   2258: { name: "背刺", duration: "15", order: -10 },
@@ -59,7 +65,7 @@ addOverlayListener("onPartyWipe", () => document.querySelectorAll("article").for
 startOverlayEvents();
 function show(party) {
   for (const p of party) {
-    if (!p.inParty) break;
+    if (!p.inParty && getUrlParam("inPartyOnly") !== "false") break;
     for (const key in actions) {
       const action = actions[key];
       if (
@@ -85,7 +91,7 @@ function show(party) {
         art.append(shadow);
         document.querySelector(art.style.order > 0 ? "body > main" : "body > div").append(art);
         art.use = function () {
-          TTS(raidBuffs[key].name);
+          if (getUrlParam("tts") !== "false") TTS(raidBuffs[key].name);
           let recast = aside.getAttribute("data-recast");
           let time = parseInt(recast);
           let duration = aside.getAttribute("data-duration");

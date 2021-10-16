@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-17 00:58:53
+ * @LastEditTime: 2021-10-17 01:18:58
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -11,6 +11,7 @@ let party,
   timer,
   lock = { ID: null, Name: null };
 document.body.style.display = "none";
+document.body.style.backgroundColor = `rgba(5,5,5,${getUrlParam("bodyOpacity") || 0.25})`;
 addOverlayListener("PartyChanged", (e) => (party = e.party || party));
 addOverlayListener("ChangePrimaryPlayer", (e) => (player = e.charID.toString(16).toUpperCase()));
 addOverlayListener("LogLine", (e) => {
