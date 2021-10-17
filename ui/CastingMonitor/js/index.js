@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-17 01:18:58
+ * @LastEditTime: 2021-10-17 12:17:04
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -10,6 +10,12 @@ let party,
   player,
   timer,
   lock = { ID: null, Name: null };
+function getUrlParam(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]);
+  return null;
+}
 document.body.style.display = "none";
 document.body.style.backgroundColor = `rgba(5,5,5,${getUrlParam("bodyOpacity") || 0.25})`;
 addOverlayListener("PartyChanged", (e) => (party = e.party || party));
