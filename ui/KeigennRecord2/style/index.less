@@ -62,7 +62,8 @@ body {
     }
     margin: 0px 0px 20px 0px;
     height: calc(100vh - 20px);
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     background-color: rgba(5, 5, 5, 0.45);
     table {
       width: 100%;
@@ -79,33 +80,16 @@ body {
           }
           height: @lineheight;
           td {
-            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            padding: 0px 2px;
           }
-          td:nth-child(1) {
-            // width: 15vw;
-            width: 2em;
-          }
-          td:nth-child(2) {
-            // width: 25vw;
-            width: 7em;
-          }
-          td:nth-child(3) {
-            // width: 10vw;
-            width: 2.5em;
-          }
-          td:nth-child(4) {
-            // width: 15vw;
-            width: 4.5em;
-          }
-          td:nth-child(5) {
-            // width: 35vw;
-            // width: auto;
+          td:last-child {
             display: flex;
             justify-content: center;
             img {
               height: @lineheight;
+              // width: @lineheight;
             }
           }
           .YOU {
@@ -134,8 +118,8 @@ body {
               0 -1px 1px rgb(173, 197, 81);
           }
           .CNJ {
-            text-shadow: -1px 0 1px rgb(95,95,95), 0 1px 1px rgb(95,95,95), 1px 0 1px rgb(95,95,95),
-              0 -1px 1px rgb(95,95,95);
+            text-shadow: -1px 0 1px rgb(95, 95, 95), 0 1px 1px rgb(95, 95, 95), 1px 0 1px rgb(95, 95, 95),
+              0 -1px 1px rgb(95, 95, 95);
           }
           .THM {
             text-shadow: -1px 0 1px rgb(103, 69, 152), 0 1px 1px rgb(103, 69, 152), 1px 0 1px rgb(103, 69, 152),
@@ -162,8 +146,8 @@ body {
               0 -1px 1px rgb(173, 197, 81);
           }
           .WHM {
-            text-shadow: -1px 0 1px rgb(95, 95, 95), 0 1px 1px rgb(95,95,95), 1px 0 1px rgb(95,95,95),
-              0 -1px 1px rgb(95,95,95);
+            text-shadow: -1px 0 1px rgb(95, 95, 95), 0 1px 1px rgb(95, 95, 95), 1px 0 1px rgb(95, 95, 95),
+              0 -1px 1px rgb(95, 95, 95);
           }
           .BLM {
             text-shadow: -1px 0 1px rgb(103, 69, 152), 0 1px 1px rgb(103, 69, 152), 1px 0 1px rgb(103, 69, 152),

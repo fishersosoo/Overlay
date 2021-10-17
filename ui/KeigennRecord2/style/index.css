@@ -46,7 +46,8 @@ body #hint {
 body main {
   margin: 0px 0px 20px 0px;
   height: calc(100vh - 20px);
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: rgba(5, 5, 5, 0.45);
 }
 body main::-webkit-scrollbar {
@@ -79,27 +80,15 @@ body main table tbody tr:hover {
   background-color: rgba(216, 216, 216, 0.4);
 }
 body main table tbody tr td {
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding: 0px 2px;
 }
-body main table tbody tr td:nth-child(1) {
-  width: 2em;
-}
-body main table tbody tr td:nth-child(2) {
-  width: 7em;
-}
-body main table tbody tr td:nth-child(3) {
-  width: 2.5em;
-}
-body main table tbody tr td:nth-child(4) {
-  width: 4.5em;
-}
-body main table tbody tr td:nth-child(5) {
+body main table tbody tr td:last-child {
   display: flex;
   justify-content: center;
 }
-body main table tbody tr td:nth-child(5) img {
+body main table tbody tr td:last-child img {
   height: 24px;
 }
 body main table tbody tr .YOU {

@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-13 09:37:20
+ * @LastEditTime: 2021-10-17 21:51:25
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -132,7 +132,7 @@ addOverlayListener("LogLine", (e) => {
           tr.style.display = "none";
         }
         tr.insertCell(0).innerHTML = duration; //战斗时间
-        tr.insertCell(1).innerHTML = l["actionName"]; //技能名
+        tr.insertCell(1).innerHTML = l["actionName"].indexOf("Unknown_") === -1 ? l["actionName"] : "(平A?)"; //技能名
         let cell2 = tr.insertCell(2);
         try {
           let j = jobList.find(
