@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-19 06:18:27
+ * @LastEditTime: 2021-10-19 06:40:08
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -62,7 +62,8 @@ addOverlayListener("LogLine", (e) => {
       }
       // d?.use();
     } else if (l["casterID"] === youID) {
-      if (getUrlParam("tts") !== "false") TTS(raidBuffs[key].name);
+      if (getUrlParam("tts") !== "false" && raidBuffs[parseInt(l["actionID"], 16)] !== undefined)
+        TTS(raidBuffs[parseInt(l["actionID"], 16)].name);
     }
   }
 });
