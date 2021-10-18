@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-17 01:25:11
+ * @LastEditTime: 2021-10-19 06:04:47
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -35,6 +35,8 @@ let raidBuffs = {
 };
 let timers = [];
 let party = [];
+let youID = null;
+addOverlayListener("ChangePrimaryPlayer", (e) => (youID = e.charID.toString(16).toUpperCase()));
 addOverlayListener("PartyChanged", (e) => {
   party = e.party || [];
   // party = [
@@ -53,7 +55,7 @@ addOverlayListener("PartyChanged", (e) => {
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "21" || (e.line[0] === "22" && e.line[45] === "0")) {
     let l = logProcessing(e.line, "action");
-    if (party.some((p) => p.inParty && p.id === l["casterID"])) {
+    if (l["targetID"] === youID || party.some((p) => p.inParty && p.id === l["casterID"])) {
       let d = document.querySelector(`article[data-from="${l["casterID"]}-${compareSame(parseInt(l["actionID"], 16))}"]`);
       if (d !== null) d.use();
       // d?.use();
