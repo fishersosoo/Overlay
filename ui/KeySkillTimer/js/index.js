@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-19 06:06:13
+ * @LastEditTime: 2021-10-19 06:18:27
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -55,10 +55,14 @@ addOverlayListener("PartyChanged", (e) => {
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "21" || (e.line[0] === "22" && e.line[45] === "0")) {
     let l = logProcessing(e.line, "action");
-    if (l["casterID"] === youID || party.some((p) => p.inParty && p.id === l["casterID"])) {
+    if (party.some((p) => p.inParty && p.id === l["casterID"])) {
       let d = document.querySelector(`article[data-from="${l["casterID"]}-${compareSame(parseInt(l["actionID"], 16))}"]`);
-      if (d !== null) d.use();
+      if (d !== null) {
+        d.use();
+      }
       // d?.use();
+    } else if (l["casterID"] === youID) {
+      if (getUrlParam("tts") !== "false") TTS(raidBuffs[key].name);
     }
   }
 });
