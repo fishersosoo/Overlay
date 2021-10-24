@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-17 12:17:04
+ * @LastEditTime: 2021-10-25 01:18:16
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -59,6 +59,8 @@ addOverlayListener("LogLine", (e) => {
       setTimeout(() => {
         section.remove();
       }, 15000);
+    } else if (l.casterID === player) {
+      document.body.style.display = "block";
     }
   }
 });
