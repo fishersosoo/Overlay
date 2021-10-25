@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-26 04:31:33
+ * @LastEditTime: 2021-10-26 05:19:10
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -84,7 +84,7 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
   addFooter();
 });
 addOverlayListener("PartyChanged", (e) => {
-  party = e.party.filter((p) => p.inParty);
+  party = e.party.filter((p) => p.inParty || getUrlParam("24Mode") === "true");
   addFooter();
 });
 try {
@@ -97,6 +97,7 @@ function speTr(text) {
   tr.innerHTML = text;
   tr.colSpan = "5";
   tr.classList.add("spe");
+  document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
 }
 addOverlayListener("ChangeZone", (e) => {
   FFXIVObject = {};
@@ -108,7 +109,6 @@ addOverlayListener("ChangeZone", (e) => {
 addOverlayListener("onPartyWipe", () => {
   FFXIVObject = {};
   speTr("团灭");
-  document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
   inCombat = false;
   clearTimeout(combatTimer);
   duration = "00:00";
@@ -123,7 +123,8 @@ addOverlayListener("LogLine", (e) => {
       if (
         damage.type === "damage" &&
         l["casterID"].substring(0, 1) === "4" &&
-        (l["targetID"] === youID || party.some((value) => value.id === l["targetID"] && value.inParty))
+        (l["targetID"] === youID ||
+          party.some((value) => value.id === l["targetID"] && (value.inParty || getUrlParam("24Mode") === "true")))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
         let tbody = document.querySelector("body > main > table > tbody");
@@ -141,7 +142,7 @@ addOverlayListener("LogLine", (e) => {
           tr.style.display = "none";
         }
         tr.insertCell(0).innerHTML = duration; //战斗时间
-        tr.insertCell(1).innerHTML = l["actionName"].indexOf("Unknown_") === -1 ? l["actionName"] : "(平A?)"; //技能名
+        tr.insertCell(1).innerHTML = l["actionName"].indexOf("Unknown_") === -1 ? l["actionName"] : "（平A？）"; //技能名
         let cell2 = tr.insertCell(2);
         try {
           let j = jobList.find(
@@ -196,9 +197,7 @@ addOverlayListener("LogLine", (e) => {
       l = logProcessing(e.line, "status");
       if (
         keigenn[l["statusID"]] !== undefined &&
-        (party.some((value) => value.id === l["targetID"] && value.inParty) ||
-          l["targetID"] === youID ||
-          l["targetID"].substring(0, 1) === "4")
+        (party.some((value) => value.id === l["targetID"]) || l["targetID"] === youID || l["targetID"].substring(0, 1) === "4")
       ) {
         FFXIVObject[l["targetID"]] = FFXIVObject[l["targetID"]] || new FFObject(l["targetID"], l["targetName"]);
         FFXIVObject[l["targetID"]].Status[l["statusID"]] = { name: l["statusName"], caster: l["casterName"] };
@@ -208,9 +207,7 @@ addOverlayListener("LogLine", (e) => {
       l = logProcessing(e.line, "status");
       if (
         keigenn[l["statusID"]] !== undefined &&
-        (party.some((value) => value.id === l["targetID"] && value.inParty) ||
-          l["targetID"] === youID ||
-          l["targetID"].substring(0, 1) === "4")
+        (party.some((value) => value.id === l["targetID"]) || l["targetID"] === youID || l["targetID"].substring(0, 1) === "4")
       )
         try {
           delete FFXIVObject[l["targetID"]].Status[l["statusID"]];
@@ -230,12 +227,12 @@ document.querySelector("header").onclick = function () {
   if (m.style.opacity === "0") {
     m.style.opacity = "1";
     f.style.opacity = "1";
-    this.classList.remove("hide")
+    this.classList.remove("hide");
     // this.style.opacity = "0.75";
   } else {
     m.style.opacity = "0";
     f.style.opacity = "0";
-    this.classList.add("hide")
+    this.classList.add("hide");
     // this.style.opacity = "1";
   }
 };
