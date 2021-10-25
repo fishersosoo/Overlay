@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-17 21:51:25
+ * @LastEditTime: 2021-10-26 04:31:33
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -14,7 +14,8 @@ let party = [],
   FFXIVObject = {},
   scrollMove = true,
   inCombat = false,
-  combatTimer = 0;
+  combatTimer = 0,
+  maxLength = parseInt(getUrlParam("maxLength") || 999);
 class FFObject {
   constructor(id, name) {
     this.ID = id;
@@ -91,16 +92,22 @@ try {
 } catch {
   addOverlayListener("CombatData", (e) => (duration = e.Encounter.duration));
 }
-addOverlayListener("ChangeZone", () => {
+function speTr(text) {
+  let tr = document.querySelector("body > main > table > tbody").insertRow(-1).insertCell(0);
+  tr.innerHTML = text;
+  tr.colSpan = "5";
+  tr.classList.add("spe");
+}
+addOverlayListener("ChangeZone", (e) => {
   FFXIVObject = {};
-  document.querySelector("body > main > table > tbody").innerHTML = "";
+  speTr(e.zoneName);
   inCombat = false;
   clearTimeout(combatTimer);
   duration = "00:00";
 });
 addOverlayListener("onPartyWipe", () => {
   FFXIVObject = {};
-  document.querySelector("body > main > table > tbody").insertRow(-1).insertCell(0).innerHTML = "团灭";
+  speTr("团灭");
   document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
   inCombat = false;
   clearTimeout(combatTimer);
@@ -119,7 +126,9 @@ addOverlayListener("LogLine", (e) => {
         (l["targetID"] === youID || party.some((value) => value.id === l["targetID"] && value.inParty))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
-        let tr = document.querySelector("body > main > table > tbody").insertRow(-1);
+        let tbody = document.querySelector("body > main > table > tbody");
+        if (tbody.childElementCount >= maxLength) tbody.deleteRow(0);
+        let tr = tbody.insertRow(-1);
         tr.setAttribute("data-master-id", l["targetID"]);
         tr.setAttribute("data-master-name", l["targetName"]);
         if (
@@ -139,7 +148,7 @@ addOverlayListener("LogLine", (e) => {
             (job) => job.ID === (party.find((p) => p.id === l["targetID"]) || { job: "unknown" }).job.toString()
           );
           cell2.innerHTML = l["targetID"] === youID ? "YOU" : j.simple2;
-          cell2.classList.add(!party.length ? "YOU" : j.en);
+          cell2.classList.add(l["targetID"] === youID || !party.length ? "YOU" : j.en);
         } catch {
           cell2.innerHTML = l["targetName"];
         }
@@ -217,12 +226,17 @@ document.querySelector("main").onscroll = (e) => {
 };
 document.querySelector("header").onclick = function () {
   let m = document.querySelector("main");
+  let f = document.querySelector("footer");
   if (m.style.opacity === "0") {
     m.style.opacity = "1";
-    this.style.opacity = "0.5";
+    f.style.opacity = "1";
+    this.classList.remove("hide")
+    // this.style.opacity = "0.75";
   } else {
     m.style.opacity = "0";
-    this.style.opacity = "1";
+    f.style.opacity = "0";
+    this.classList.add("hide")
+    // this.style.opacity = "1";
   }
 };
 function startCombat() {

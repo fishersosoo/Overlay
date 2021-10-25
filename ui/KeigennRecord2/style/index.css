@@ -11,9 +11,14 @@ body header {
   cursor: pointer;
   z-index: 30;
   position: fixed;
-  top: 0;
-  right: 15px;
-  opacity: 0.5;
+  top: 0px;
+  left: 0px;
+  opacity: 0.75;
+}
+body header.hide {
+  opacity: 1;
+  transform: scale(1.75);
+  transform-origin: left top;
 }
 body .anim-opacity2 {
   display: block !important;
@@ -72,6 +77,10 @@ body main table {
 body main table thead {
   background-color: rgba(5, 5, 5, 0.45);
 }
+body main table tbody .spe {
+  font-weight: bold;
+  border-top: 1px solid darkgray;
+}
 body main table tbody tr {
   cursor: pointer;
   height: 24px;
@@ -84,11 +93,11 @@ body main table tbody tr td {
   white-space: nowrap;
   padding: 0px 2px;
 }
-body main table tbody tr td:last-child {
+body main table tbody tr td:last-child:not(:first-child) {
   display: flex;
   justify-content: center;
 }
-body main table tbody tr td:last-child img {
+body main table tbody tr td:last-child:not(:first-child) img {
   height: 24px;
 }
 body main table tbody tr .YOU {
