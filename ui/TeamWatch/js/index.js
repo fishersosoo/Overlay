@@ -1,10 +1,10 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-05 06:16:35
+ * @LastEditTime: 2021-10-27 06:05:07
  */
 "use strict";
-import { actions } from "../../../resources/data/actions.js";
-import { jobList } from "../../../resources/data/job.js";
+import { actions } from "../../../resources/data/actions.min.js";
+import { jobList } from "../../../resources/data/job.min.js";
 import { compareSame } from "../../../resources/function/compareSameGroup.min.js";
 import { loadItem, saveItem } from "../../../resources/function/localStorage.min.js";
 import { TTS } from "../../../resources/function/TTS.js";
