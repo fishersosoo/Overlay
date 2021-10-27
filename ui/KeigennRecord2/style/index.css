@@ -100,6 +100,15 @@ body main table tbody tr td:last-child:not(:first-child) {
 body main table tbody tr td:last-child:not(:first-child) img {
   height: 24px;
 }
+body main table tbody tr td > span {
+  display: inline-block;
+  padding: 0px 5px;
+  margin: 0px 5px;
+  background: rgba(216, 216, 216, 0.4);
+}
+body main table tbody tr td > span:hover {
+  color: lightblue;
+}
 body main table tbody tr .YOU {
   font-weight: bold;
   text-shadow: -1px 0 1px #03a9f4, 0 1px 1px #03a9f4, 1px 0 1px #03a9f4, 0 -1px 1px #03a9f4;

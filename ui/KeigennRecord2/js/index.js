@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-26 05:19:10
+ * @LastEditTime: 2021-10-27 12:00:42
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -92,9 +92,31 @@ try {
 } catch {
   addOverlayListener("CombatData", (e) => (duration = e.Encounter.duration));
 }
+let swtichText = ["收起", "展开"];
 function speTr(text) {
   let tr = document.querySelector("body > main > table > tbody").insertRow(-1).insertCell(0);
-  tr.innerHTML = text;
+  tr.innerText = text;
+  let app = document.createElement("span");
+  app.innerText = swtichText[0];
+  app.onclick = function () {
+    let tr = this.parentNode.parentNode;
+    let start = 0;
+    while ((tr = tr.previousSibling) !== null) start++;
+    let tr2 = this.parentNode.parentNode;
+    let end = 0;
+    while (true) {
+      tr2 = tr2.nextSibling;
+      if (tr2 === null || tr2.children[0].classList[0] === "spe") break;
+      end++;
+    }
+    let p = document.querySelector("body > main > table > tbody");
+    for (let i = start + 1; i < start + 1 + end && i < p.children.length; i++) {
+      const tr = p.children[i];
+      tr.style.display = app.innerText === swtichText[0] ? "none" : "table-row";
+    }
+    app.innerText = app.innerText === swtichText[0] ? swtichText[1] : swtichText[0];
+  };
+  tr.appendChild(app);
   tr.colSpan = "5";
   tr.classList.add("spe");
   document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
@@ -129,13 +151,26 @@ addOverlayListener("LogLine", (e) => {
         if (!inCombat && duration === "00:00") startCombat();
         let tbody = document.querySelector("body > main > table > tbody");
         if (tbody.childElementCount >= maxLength) tbody.deleteRow(0);
+        // let isSpe = false;
+        // let lastShow = tbody.children.length;
+        // while (--lastShow > 0 && tbody.children[lastShow].children[0].classList[0] === "spe");
+        // console.log(lastShow);
+        // console.log(tbody.lastChild.children[0].classList[0] === "spe");
+        let c = tbody.children;
+        let index = c.length;
+        for (let i = c.length - 1; i >= 0; i--) {
+          const tr = c[i];
+          index--;
+          if (tr.children[0].classList[0] === "spe" && tr.style.display !== "none") break;
+        }
         let tr = tbody.insertRow(-1);
         tr.setAttribute("data-master-id", l["targetID"]);
         tr.setAttribute("data-master-name", l["targetName"]);
         if (
-          document.querySelector("#all").getAttribute("data-select") === "true" ||
-          document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") ===
-            "true"
+          tbody.children[index].firstChild.lastChild.innerText === swtichText[0] &&
+          (document.querySelector("#all").getAttribute("data-select") === "true" ||
+            document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") ===
+              "true")
         ) {
           tr.style.display = "table-row";
         } else {
