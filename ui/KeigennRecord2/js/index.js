@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-27 12:00:42
+ * @LastEditTime: 2021-10-28 20:48:11
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -150,7 +150,7 @@ addOverlayListener("LogLine", (e) => {
       ) {
         if (!inCombat && duration === "00:00") startCombat();
         let tbody = document.querySelector("body > main > table > tbody");
-        if (tbody.childElementCount >= maxLength) tbody.deleteRow(0);
+        if (maxLength > 0 && tbody.childElementCount >= maxLength) tbody.deleteRow(0);
         // let isSpe = false;
         // let lastShow = tbody.children.length;
         // while (--lastShow > 0 && tbody.children[lastShow].children[0].classList[0] === "spe");
@@ -167,7 +167,8 @@ addOverlayListener("LogLine", (e) => {
         tr.setAttribute("data-master-id", l["targetID"]);
         tr.setAttribute("data-master-name", l["targetName"]);
         if (
-          tbody.children[index].firstChild.lastChild.innerText === swtichText[0] &&
+          tbody.children[index].firstChild !== null &&
+          tbody.children[index].firstChild.lastChild.innerText !== swtichText[1] &&
           (document.querySelector("#all").getAttribute("data-select") === "true" ||
             document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") ===
               "true")
