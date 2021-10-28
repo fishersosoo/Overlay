@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-29 01:00:38
+ * @LastEditTime: 2021-10-29 01:44:05
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -119,7 +119,7 @@ function speTr(text) {
     };
     tr.appendChild(app);
   } else {
-    tr.class.add("ace");
+    tr.classList.add("ace");
   }
   tr.classList.add("spe");
   tr.colSpan = "5";

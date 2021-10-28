@@ -1,10 +1,12 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-13 08:07:26
+ * @LastEditTime: 2021-10-29 01:43:12
  */
 function getDamage(e) {
+  let offset = 0;
+  if (e.line[8] === "3C") offset += 2;
   function getEffect() {
-    switch (e.line[8].substr(e.line[8].length - 3, 1)) {
+    switch (e.line[8 + offset].substr(e.line[8 + offset].length - 3, 1)) {
       case "1":
         return "暴击";
       case "2":
@@ -25,36 +27,39 @@ function getDamage(e) {
     from: e.line[3],
     target: e.line[7],
   };
-  if (/^f/i.test(e.line[8])) {
-    return result;
-  } else if (/1$/.test(e.line[8])) {
+
+  if (/1$/.test(e.line[8 + offset])) {
     result.type = "damage";
     result.damageType = "dodge";
     result.damageEffect = "回避";
-  } else if (/[1-4].{2}(33|.[356])$/.test(e.line[8])) {
+  } else if (/33$/.test(e.line[8 + offset])) {
+    result.type = "damage";
+    result.damageType = "death";
+    result.damageEffect = "即死";
+  } else if (/[1-4].{2}(33|.[356])$/.test(e.line[8 + offset])) {
     result.type = "damage";
     result.damageType = "physics";
     result.damageEffect = getEffect();
-  } else if (/5.{4}$/.test(e.line[8])) {
+  } else if (/5.{4}$/.test(e.line[8 + offset])) {
     result.type = "damage";
     result.damageType = "magic";
     result.damageEffect = getEffect();
-  } else if (/6.{4}$/.test(e.line[8])) {
+  } else if (/6.{4}$/.test(e.line[8 + offset])) {
     result.type = "damage";
     result.damageType = "darkness";
     result.damageEffect = getEffect();
-  } else if (/1.{3}4$/.test(e.line[8])) {
+  } else if (/1.{3}4$/.test(e.line[8 + offset])) {
     result.type = "heal";
     result.damageType = "heal";
     result.damageEffect = "暴疗";
-  } else if (/4$/.test(e.line[8])) {
+  } else if (/4$/.test(e.line[8 + offset])) {
     result.type = "heal";
     result.damageType = "heal";
     result.damageEffect = "　　";
-  } else {
-    return result;
+    // } else {
+    // return result;
   }
-  let damage = e.line[9].padStart(8, "0");
+  let damage = e.line[9 + offset].padStart(8, "0");
   if (damage[4] !== "4") {
     result.value = parseInt(damage.substring(0, 4), 16);
   } else {
