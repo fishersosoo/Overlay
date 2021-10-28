@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-28 20:48:11
+ * @LastEditTime: 2021-10-29 01:00:38
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -96,29 +96,33 @@ let swtichText = ["收起", "展开"];
 function speTr(text) {
   let tr = document.querySelector("body > main > table > tbody").insertRow(-1).insertCell(0);
   tr.innerText = text;
-  let app = document.createElement("span");
-  app.innerText = swtichText[0];
-  app.onclick = function () {
-    let tr = this.parentNode.parentNode;
-    let start = 0;
-    while ((tr = tr.previousSibling) !== null) start++;
-    let tr2 = this.parentNode.parentNode;
-    let end = 0;
-    while (true) {
-      tr2 = tr2.nextSibling;
-      if (tr2 === null || tr2.children[0].classList[0] === "spe") break;
-      end++;
-    }
-    let p = document.querySelector("body > main > table > tbody");
-    for (let i = start + 1; i < start + 1 + end && i < p.children.length; i++) {
-      const tr = p.children[i];
-      tr.style.display = app.innerText === swtichText[0] ? "none" : "table-row";
-    }
-    app.innerText = app.innerText === swtichText[0] ? swtichText[1] : swtichText[0];
-  };
-  tr.appendChild(app);
-  tr.colSpan = "5";
+  if (text !== "团灭") {
+    let app = document.createElement("span");
+    app.innerText = swtichText[0];
+    app.onclick = function () {
+      let tr = this.parentNode.parentNode;
+      let start = 0;
+      while ((tr = tr.previousSibling) !== null) start++;
+      let tr2 = this.parentNode.parentNode;
+      let end = 0;
+      while (true) {
+        tr2 = tr2.nextSibling;
+        if ((tr2 === null || tr2.children[0].classList[0] === "spe") && tr2.innerText !== "团灭") break;
+        end++;
+      }
+      let p = document.querySelector("body > main > table > tbody");
+      for (let i = start + 1; i < start + 1 + end && i < p.children.length; i++) {
+        const tr = p.children[i];
+        tr.style.display = app.innerText === swtichText[0] ? "none" : "table-row";
+      }
+      app.innerText = app.innerText === swtichText[0] ? swtichText[1] : swtichText[0];
+    };
+    tr.appendChild(app);
+  } else {
+    tr.class.add("ace");
+  }
   tr.classList.add("spe");
+  tr.colSpan = "5";
   document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
 }
 addOverlayListener("ChangeZone", (e) => {
@@ -144,31 +148,25 @@ addOverlayListener("LogLine", (e) => {
       let damage = getDamage(e);
       if (
         damage.type === "damage" &&
-        l["casterID"].substring(0, 1) === "4" &&
         (l["targetID"] === youID ||
           party.some((value) => value.id === l["targetID"] && (value.inParty || getUrlParam("24Mode") === "true")))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
         let tbody = document.querySelector("body > main > table > tbody");
         if (maxLength > 0 && tbody.childElementCount >= maxLength) tbody.deleteRow(0);
-        // let isSpe = false;
-        // let lastShow = tbody.children.length;
-        // while (--lastShow > 0 && tbody.children[lastShow].children[0].classList[0] === "spe");
-        // console.log(lastShow);
-        // console.log(tbody.lastChild.children[0].classList[0] === "spe");
-        let c = tbody.children;
-        let index = c.length;
-        for (let i = c.length - 1; i >= 0; i--) {
-          const tr = c[i];
-          index--;
+        let tbodychild = tbody.children;
+        let lastShowSpe = tbodychild.length;
+        for (let i = tbodychild.length - 1; i >= 0; i--) {
+          const tr = tbodychild[i];
+          lastShowSpe--;
           if (tr.children[0].classList[0] === "spe" && tr.style.display !== "none") break;
         }
         let tr = tbody.insertRow(-1);
         tr.setAttribute("data-master-id", l["targetID"]);
         tr.setAttribute("data-master-name", l["targetName"]);
         if (
-          tbody.children[index].firstChild !== null &&
-          tbody.children[index].firstChild.lastChild.innerText !== swtichText[1] &&
+          tbody.children[lastShowSpe].firstChild !== null &&
+          tbody.children[lastShowSpe].firstChild.lastChild.innerText !== swtichText[1] &&
           (document.querySelector("#all").getAttribute("data-select") === "true" ||
             document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") ===
               "true")

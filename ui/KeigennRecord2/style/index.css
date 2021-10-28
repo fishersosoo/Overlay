@@ -81,6 +81,9 @@ body main table tbody .spe {
   background: rgba(55, 0, 0, 0.5);
   font-weight: bold;
 }
+body main table tbody .ace {
+  background: rgba(0, 0, 55, 0.25) !important;
+}
 body main table tbody tr {
   cursor: pointer;
   height: 24px;
