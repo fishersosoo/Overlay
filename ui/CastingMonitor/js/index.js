@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-27 06:04:00
+ * @LastEditTime: 2021-10-28 19:35:23
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.min.js";
@@ -28,7 +28,7 @@ document.addEventListener("onOverlayStateUpdate", (e) => {
 addOverlayListener("PartyChanged", (e) => (party = e.party || party));
 addOverlayListener("ChangePrimaryPlayer", (e) => (player = e.charID.toString(16).toUpperCase()));
 addOverlayListener("LogLine", (e) => {
-  if (e.line[0] === "21" || (e.line[0] === "22" && e.line[45] === "0")) {
+  if (e.line[0] === "20" || e.line[0] === "21" || (e.line[0] === "22" && e.line[45] === "0")) {
     let l = logProcessing(e.line, "action");
     if (l.casterID === lock.ID || (lock.ID === null && l.casterID === player)) {
       let section = document.createElement("section");
@@ -44,9 +44,10 @@ addOverlayListener("LogLine", (e) => {
         img.setAttribute(
           "src",
           `https://cafemaker.wakingsands.com/i/${
-            (l.actionName.indexOf("Item_") === 0
-              ? items[parseInt(e.line[5].substr(5, 5), 16) - (e.line[5].substr(5, 1) === "F" ? 1000000 : 0)]
-              : action
+            (
+              (l.actionName.indexOf("Item_") === 0
+                ? items[parseInt(e.line[5].substr(5, 5), 16) - (e.line[5].substr(5, 1) === "F" ? 1000000 : 0)]
+                : action) || { Url: "000000/000405" }
             ).Url
           }.png`
         );
@@ -54,7 +55,11 @@ addOverlayListener("LogLine", (e) => {
           this.src = this.src.replace(`https://cafemaker.wakingsands.com/`, `https://xivapi.com/`);
         };
         img.setAttribute("alt", l.actionName);
-        section.classList.add((action || { ActionCategory: "能力" }).ActionCategory === "能力" ? "oGCD" : "GCD");
+        if (e.line[0] === "20") {
+          section.classList.add("casting");
+        } else {
+          section.classList.add((action || { ActionCategory: "能力" }).ActionCategory === "能力" ? "oGCD" : "GCD");
+        }
         section.append(img);
       }
       let icon = document.createElement("img");
@@ -64,7 +69,7 @@ addOverlayListener("LogLine", (e) => {
       document.querySelector("main").appendChild(section);
       document.body.style.display = "block";
       clearTimeout(timer);
-      if (getUrlParam("autoHideTime") !== "0") {
+      if (getUrlParam("autoHideTime") !== "0" && !isLock) {
         timer = setTimeout(() => {
           document.body.style.display = "none";
         }, Math.max(parseInt(getUrlParam("autoHideTime")), 10000) || 30000);

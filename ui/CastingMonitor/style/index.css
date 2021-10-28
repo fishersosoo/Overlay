@@ -35,6 +35,18 @@ body main section {
   height: 48px;
   width: 48px;
 }
+body main section.casting {
+  transform: scale(0.5);
+  transform-origin: bottom right;
+  position: absolute;
+  top: -3px;
+}
+body main section.casting img {
+  filter: grayscale(0.5);
+  filter: brightness(0.5);
+  opacity: 0.75;
+  position: relative;
+}
 body main section img:nth-of-type(1) {
   height: 40px;
   width: 40px;
@@ -49,6 +61,7 @@ body main section img:nth-of-type(2) {
 body main .oGCD {
   transform: scale(0.75);
   transform-origin: bottom left;
+  top: -2px;
 }
 body main .AA {
   background-image: url(https://cafemaker.wakingsands.com/i/000000/000101.png);
