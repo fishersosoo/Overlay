@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-28 19:35:23
+ * @LastEditTime: 2021-11-06 17:25:05
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.min.js";
@@ -16,7 +16,7 @@ function getUrlParam(name) {
   if (r != null) return unescape(r[2]);
   return null;
 }
-document.body.style.backgroundColor = `rgba(5,5,5,${getUrlParam("bodyOpacity") || 0.25})`;
+document.body.style.backgroundColor = `rgba(5,5,5,${getUrlParam("bgOpacity") || 0.25})`;
 document.addEventListener("onOverlayStateUpdate", (e) => {
   if (e.detail.isLocked) {
     document.querySelector("#readMe").setAttribute("hidden", true);
@@ -72,11 +72,11 @@ addOverlayListener("LogLine", (e) => {
       if (getUrlParam("autoHideTime") !== "0" && !isLock) {
         timer = setTimeout(() => {
           document.body.style.display = "none";
-        }, Math.max(parseInt(getUrlParam("autoHideTime")), 10000) || 30000);
+        }, Math.max(parseInt(getUrlParam("autoHideTime")), 10000) || 60000);
       }
       setTimeout(() => {
         section.remove();
-      }, 10000);
+      }, 60000);
     } else if (l.casterID === player) {
       document.body.style.display = "block";
     }

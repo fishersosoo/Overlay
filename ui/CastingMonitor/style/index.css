@@ -29,7 +29,7 @@ body header aside {
 }
 body main section {
   margin-top: 20px;
-  animation: fadeInRight 10s linear;
+  animation: fadeInRight 25s linear;
   position: absolute;
   opacity: 0;
   height: 48px;
