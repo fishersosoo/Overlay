@@ -96,9 +96,12 @@ body main table tbody tr td {
   white-space: nowrap;
   padding: 0px 2px;
 }
+body main table tbody tr td:nth-child(2) {
+  overflow: hidden;
+}
 body main table tbody tr td:last-child:not(:first-child) {
   display: flex;
-  justify-content: center;
+  justify-content: start;
 }
 body main table tbody tr td:last-child:not(:first-child) img {
   height: 24px;

@@ -97,9 +97,12 @@ body {
             white-space: nowrap;
             padding: 0px 2px;
           }
+          td:nth-child(2) {
+            overflow: hidden;
+          }
           td:last-child:not(:first-child) {
             display: flex;
-            justify-content: center;
+            justify-content: start;
             img {
               height: @lineheight;
               // width: @lineheight;

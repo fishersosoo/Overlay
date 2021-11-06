@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-05 23:21:48
+ * @LastEditTime: 2021-11-06 18:53:17
  */
 let keigenn = {
   "4a7": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //铁壁
@@ -12,7 +12,7 @@ let keigenn = {
   "2df": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //原初的直觉
   "8b3": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //原初的勇猛
   "57": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //战栗
-  "59": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //复仇
+  // "59": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //复仇
   "199": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //死斗
   "49a": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //至黑之夜
   "2ea": { dodge: 1, physics: 0, magic: 1, darkness: 0 }, //弃明投暗
