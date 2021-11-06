@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-29 01:43:12
+ * @LastEditTime: 2021-11-06 17:16:49
  */
 function getDamage(e) {
   let offset = 0;
@@ -27,8 +27,9 @@ function getDamage(e) {
     from: e.line[3],
     target: e.line[7],
   };
-
-  if (/1$/.test(e.line[8 + offset])) {
+  if (/^F/.test(e.line[8 + offset])) {
+    return result;
+  } else if (/1$/.test(e.line[8 + offset])) {
     result.type = "damage";
     result.damageType = "dodge";
     result.damageEffect = "回避";
