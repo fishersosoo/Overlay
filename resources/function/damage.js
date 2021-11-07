@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-06 17:16:49
+ * @LastEditTime: 2021-11-08 04:03:39
  */
 function getDamage(e) {
   let offset = 0;
@@ -28,6 +28,7 @@ function getDamage(e) {
     target: e.line[7],
   };
   if (/^F/.test(e.line[8 + offset])) {
+    // console.log(e.line);
     return result;
   } else if (/1$/.test(e.line[8 + offset])) {
     result.type = "damage";

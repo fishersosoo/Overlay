@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-29 01:44:05
+ * @LastEditTime: 2021-11-08 04:01:55
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -73,9 +73,7 @@ function addFooter() {
         .forEach(
           (li) =>
             (li.innerText =
-              li.innerText === li.getAttribute("data-reality-name")
-                ? li.getAttribute("data-job-name")
-                : li.getAttribute("data-reality-name"))
+              li.innerText === li.getAttribute("data-reality-name") ? li.getAttribute("data-job-name") : li.getAttribute("data-reality-name"))
         );
   });
 }
@@ -92,35 +90,12 @@ try {
 } catch {
   addOverlayListener("CombatData", (e) => (duration = e.Encounter.duration));
 }
-let swtichText = ["收起", "展开"];
 function speTr(text) {
-  let tr = document.querySelector("body > main > table > tbody").insertRow(-1).insertCell(0);
+  let tbody = document.querySelector("body > main > table > tbody");
+  if (tbody.lastChild !== null && tbody.lastChild.firstChild.classList[0] === "spe") tbody.deleteRow(0);
+  let tr = tbody.insertRow(-1).insertCell(0);
   tr.innerText = text;
-  if (text !== "团灭") {
-    let app = document.createElement("span");
-    app.innerText = swtichText[0];
-    app.onclick = function () {
-      let tr = this.parentNode.parentNode;
-      let start = 0;
-      while ((tr = tr.previousSibling) !== null) start++;
-      let tr2 = this.parentNode.parentNode;
-      let end = 0;
-      while (true) {
-        tr2 = tr2.nextSibling;
-        if ((tr2 === null || tr2.children[0].classList[0] === "spe") && tr2.innerText !== "团灭") break;
-        end++;
-      }
-      let p = document.querySelector("body > main > table > tbody");
-      for (let i = start + 1; i < start + 1 + end && i < p.children.length; i++) {
-        const tr = p.children[i];
-        tr.style.display = app.innerText === swtichText[0] ? "none" : "table-row";
-      }
-      app.innerText = app.innerText === swtichText[0] ? swtichText[1] : swtichText[0];
-    };
-    tr.appendChild(app);
-  } else {
-    tr.classList.add("ace");
-  }
+  if (text === "团灭") tr.classList.add("ace");
   tr.classList.add("spe");
   tr.colSpan = "5";
   document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
@@ -148,40 +123,27 @@ addOverlayListener("LogLine", (e) => {
       let damage = getDamage(e);
       if (
         damage.type === "damage" &&
-        (l["targetID"] === youID ||
-          party.some((value) => value.id === l["targetID"] && (value.inParty || getUrlParam("24Mode") === "true")))
+        (l["targetID"] === youID || party.some((value) => value.id === l["targetID"] && (value.inParty || getUrlParam("24Mode") === "true")))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
         let tbody = document.querySelector("body > main > table > tbody");
         if (maxLength > 0 && tbody.childElementCount >= maxLength) tbody.deleteRow(0);
-        let tbodychild = tbody.children;
-        let lastShowSpe = tbodychild.length;
-        for (let i = tbodychild.length - 1; i >= 0; i--) {
-          const tr = tbodychild[i];
-          lastShowSpe--;
-          if (tr.children[0].classList[0] === "spe" && tr.style.display !== "none") break;
-        }
         let tr = tbody.insertRow(-1);
         tr.setAttribute("data-master-id", l["targetID"]);
         tr.setAttribute("data-master-name", l["targetName"]);
         if (
-          tbody.children[lastShowSpe].firstChild !== null &&
-          tbody.children[lastShowSpe].firstChild.lastChild.innerText !== swtichText[1] &&
-          (document.querySelector("#all").getAttribute("data-select") === "true" ||
-            document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") ===
-              "true")
+          document.querySelector("#all").getAttribute("data-select") === "true" ||
+          document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") === "true"
         ) {
           tr.style.display = "table-row";
         } else {
           tr.style.display = "none";
         }
         tr.insertCell(0).innerHTML = duration; //战斗时间
-        tr.insertCell(1).innerHTML = l["actionName"].indexOf("Unknown_") === -1 ? l["actionName"] : "（平A？）"; //技能名
+        tr.insertCell(1).innerHTML = l["actionName"].indexOf("Unknown_") === -1 ? l["actionName"] : "平A？"; //技能名
         let cell2 = tr.insertCell(2);
         try {
-          let j = jobList.find(
-            (job) => job.ID === (party.find((p) => p.id === l["targetID"]) || { job: "unknown" }).job.toString()
-          );
+          let j = jobList.find((job) => job.ID === (party.find((p) => p.id === l["targetID"]) || { job: "unknown" }).job.toString());
           cell2.innerHTML = l["targetID"] === youID ? "YOU" : j.simple2;
           cell2.classList.add(l["targetID"] === youID || !party.length ? "YOU" : j.en);
         } catch {
@@ -193,20 +155,28 @@ addOverlayListener("LogLine", (e) => {
         cell3.title = damage.from;
         cell3.classList.add(damage.damageType);
         let cell4 = tr.insertCell(4);
-        function createImg(type, key) {
+        function createImg(type, key, stack = 0) {
           let img = document.createElement("img");
-          img.setAttribute("src", `https://cafemaker.wakingsands.com/i/${status[parseInt(key, 16)].url}`);
+          img.setAttribute("src", `https://cafemaker.wakingsands.com/i/${stackUrl(status[parseInt(key, 16)].url)}.png`);
+          function stackUrl(url) {
+            let result = url.split("/");
+            return `${result[0]}/${prefixZero(result[1] * 1 + stack, result[1].length)}`;
+          }
           img.title = FFXIVObject[l[type]].Status[key].name;
           if (keigenn[key] && keigenn[key][damage.damageType] === "0") img.classList.add("useless");
           cell4.appendChild(img);
         }
-        if (FFXIVObject[l["targetID"]]) for (const key in FFXIVObject[l["targetID"]].Status) createImg("targetID", key);
-        if (FFXIVObject[l["casterID"]]) for (const key in FFXIVObject[l["casterID"]].Status) createImg("casterID", key);
+        if (FFXIVObject[l["targetID"]]) forStatus("targetID");
+        if (FFXIVObject[l["casterID"]]) forStatus("casterID");
+        function forStatus(c) {
+          for (const key in FFXIVObject[l[c]].Status) {
+            createImg(c, key, parseInt(FFXIVObject[l[c]].Status[key].stack));
+          }
+        }
         if (
           scrollMove &&
           (document.querySelector("#all").getAttribute("data-select") === "true" ||
-            document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") ===
-              "true")
+            document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") === "true")
         ) {
           document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
         }
@@ -228,24 +198,21 @@ addOverlayListener("LogLine", (e) => {
       }
       break;
     case "26":
-      l = logProcessing(e.line, "status");
-      if (
-        keigenn[l["statusID"]] !== undefined &&
-        (party.some((value) => value.id === l["targetID"]) || l["targetID"] === youID || l["targetID"].substring(0, 1) === "4")
-      ) {
-        FFXIVObject[l["targetID"]] = FFXIVObject[l["targetID"]] || new FFObject(l["targetID"], l["targetName"]);
-        FFXIVObject[l["targetID"]].Status[l["statusID"]] = { name: l["statusName"], caster: l["casterName"] };
-      }
-      break;
     case "30":
       l = logProcessing(e.line, "status");
       if (
         keigenn[l["statusID"]] !== undefined &&
-        (party.some((value) => value.id === l["targetID"]) || l["targetID"] === youID || l["targetID"].substring(0, 1) === "4")
+        ((keigenn[l["statusID"]].condition === "player" && (party.some((value) => value.id === l["targetID"]) || l["targetID"] === youID)) ||
+          (keigenn[l["statusID"]].condition === "enemy" && l["targetID"].substring(0, 1) === "4"))
       )
-        try {
-          delete FFXIVObject[l["targetID"]].Status[l["statusID"]];
-        } catch {}
+        if (e.line[0] === "26") {
+          FFXIVObject[l["targetID"]] = FFXIVObject[l["targetID"]] || new FFObject(l["targetID"], l["targetName"]);
+          FFXIVObject[l["targetID"]].Status[l["statusID"]] = { name: l["statusName"], caster: l["casterName"], stack: e.line[9] };
+        } else {
+          try {
+            delete FFXIVObject[l["targetID"]].Status[l["statusID"]];
+          } catch {}
+        }
       break;
     default:
       break;
@@ -281,4 +248,7 @@ function startCombat() {
       .toString()
       .padStart(2, "0")}`;
   }, 1000);
+}
+function prefixZero(num, n) {
+  return (Array(n).join(0) + num).slice(-n);
 }
