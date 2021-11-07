@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-06 18:53:17
+ * @LastEditTime: 2021-11-07 17:32:06
  */
 let keigenn = {
   "4a7": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //铁壁
@@ -123,5 +123,50 @@ let keigenn = {
   "84b": { dodge: 1, physics: 1, magic: 0, darkness: 0 }, //物理受伤加重
   "8a5": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //受伤加重
   "92b": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //受伤加重
+
+  //耐性降低
+  "1af": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //水属性耐性降低
+  "23c": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //斩击耐性降低
+  "23d": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //打击耐性降低
+  "240": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //雷属性耐性降低
+  "242": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //主首耐性降低
+  "24c": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //天启耐性降低
+  "26d": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //火属性耐性降低
+  "29e": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //火属性耐性降低
+  "2ad": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //风属性耐性降低
+  "333": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //斩击耐性降低
+  "334": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //突刺耐性降低
+  "335": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //打击耐性降低
+  "3a3": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //打击耐性降低
+  "401": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //水属性耐性大幅降低
+  "402": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //雷属性耐性大幅降低
+  "41c": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //风属性耐性大幅降低
+  "41d": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //土属性耐性大幅降低
+  "471": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //火属性耐性大幅降低
+  "485": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //水属性耐性大幅降低
+  "4e7": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //火属性耐性大幅降低
+  "4ec": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //雷属性耐性大幅降低
+  "4f8": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //斩击耐性大幅降低
+  "59b": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //突刺耐性大幅降低
+  "615": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //最大体力大幅降低
+  "69d": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //斩击耐性降低
+  "69e": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //突刺耐性降低
+  "6a6": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //冰属性耐性降低
+  "6f0": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //打击耐性降低
+  "7b5": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //雷属性耐性大幅降低
+  "82e": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //水属性耐性大幅降低
+  "82f": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //雷属性耐性大幅降低
+  "830": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //风属性耐性大幅降低
+  "831": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //土属性耐性大幅降低
+  "832": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //火属性耐性大幅降低
+  "849": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //星极性耐性降低
+  "84a": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //灵极性耐性降低
+  "860": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //水属性耐性大幅降低
+  "861": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //雷属性耐性大幅降低
+  "8c8": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //打击耐性降低
+  "8e6": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //光属性耐性降低
+  "943": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //雷属性耐性降低
+  "9a1": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //冰属性耐性大幅降低
+  "9cc": { dodge: 1, physics: 1, magic: 1, darkness: 1 }, //斩击耐性降低
 };
 export { keigenn };
