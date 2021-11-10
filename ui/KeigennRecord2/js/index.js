@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-08 04:01:55
+ * @LastEditTime: 2021-11-10 22:53:59
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -160,6 +160,11 @@ addOverlayListener("LogLine", (e) => {
           img.setAttribute("src", `https://cafemaker.wakingsands.com/i/${stackUrl(status[parseInt(key, 16)].url)}.png`);
           function stackUrl(url) {
             let result = url.split("/");
+            // console.log(`
+            // url=${url}
+            // result[0]=${result[0]}
+            // result[1]=${result[1]}
+            // stack=${stack}`);
             return `${result[0]}/${prefixZero(result[1] * 1 + stack, result[1].length)}`;
           }
           img.title = FFXIVObject[l[type]].Status[key].name;

@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-10 00:41:04
+ * @LastEditTime: 2021-11-11 00:01:21
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.min.js";
@@ -9,7 +9,8 @@ import { items } from "../../../resources/data/item.min.js";
 let party,
   player,
   timer,
-  lock = { ID: null, Name: null };
+  lock = { ID: null, Name: null },
+  lastStartCasting;
 function getUrlParam(name) {
   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
   var r = window.location.search.substr(1).match(reg);
@@ -57,7 +58,9 @@ addOverlayListener("LogLine", (e) => {
         img.setAttribute("alt", l.actionName);
         if (e.line[0] === "20") {
           section.classList.add("casting");
+          lastStartCasting = section;
         } else {
+          if (lastStartCasting) lastStartCasting.remove();
           section.classList.add((action || { ActionCategory: "能力" }).ActionCategory === "能力" ? "oGCD" : "GCD");
         }
         section.append(img);
