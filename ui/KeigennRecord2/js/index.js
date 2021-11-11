@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-10 22:53:59
+ * @LastEditTime: 2021-11-11 20:49:16
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -159,13 +159,17 @@ addOverlayListener("LogLine", (e) => {
           let img = document.createElement("img");
           img.setAttribute("src", `https://cafemaker.wakingsands.com/i/${stackUrl(status[parseInt(key, 16)].url)}.png`);
           function stackUrl(url) {
-            let result = url.split("/");
-            // console.log(`
-            // url=${url}
-            // result[0]=${result[0]}
-            // result[1]=${result[1]}
-            // stack=${stack}`);
-            return `${result[0]}/${prefixZero(result[1] * 1 + stack, result[1].length)}`;
+            if (stack !== 0) {
+              let result = url.split("/");
+              // console.log(`
+              // url=${url}
+              // result[0]=${result[0]}
+              // result[1]=${result[1]}
+              // stack=${stack}`);
+              return `${result[0]}/${prefixZero(parseInt(result[1]) + parseInt(stack), result[1].length)}`;
+            } else {
+              return url;
+            }
           }
           img.title = FFXIVObject[l[type]].Status[key].name;
           if (keigenn[key] && keigenn[key][damage.damageType] === "0") img.classList.add("useless");
