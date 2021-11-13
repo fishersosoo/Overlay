@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-11 20:49:16
+ * @LastEditTime: 2021-11-13 15:50:15
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -166,7 +166,7 @@ addOverlayListener("LogLine", (e) => {
               // result[0]=${result[0]}
               // result[1]=${result[1]}
               // stack=${stack}`);
-              return `${result[0]}/${prefixZero(parseInt(result[1]) + parseInt(stack), result[1].length)}`;
+              return `${result[0]}/${prefixZero(parseInt(result[1]) + parseInt(stack), result[1].length) - 1}`;
             } else {
               return url;
             }
