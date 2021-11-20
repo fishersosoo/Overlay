@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-19 06:40:08
+ * @LastEditTime: 2021-11-20 18:49:22
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.js";
@@ -57,13 +57,9 @@ addOverlayListener("LogLine", (e) => {
     let l = logProcessing(e.line, "action");
     if (party.some((p) => p.inParty && p.id === l["casterID"])) {
       let d = document.querySelector(`article[data-from="${l["casterID"]}-${compareSame(parseInt(l["actionID"], 16))}"]`);
-      if (d !== null) {
-        d.use();
-      }
-      // d?.use();
+      if (d !== null) d.use();
     } else if (l["casterID"] === youID) {
-      if (getUrlParam("tts") !== "false" && raidBuffs[parseInt(l["actionID"], 16)] !== undefined)
-        TTS(raidBuffs[parseInt(l["actionID"], 16)].name);
+      if (getUrlParam("tts") !== "false" && raidBuffs[parseInt(l["actionID"], 16)] !== undefined) TTS(raidBuffs[parseInt(l["actionID"], 16)].name);
     }
   }
 });
@@ -75,18 +71,12 @@ function show(party) {
     if (!p.inParty && getUrlParam("inPartyOnly") !== "false") break;
     for (const key in actions) {
       const action = actions[key];
-      if (
-        !!raidBuffs[key] &&
-        new RegExp(`(^| )${jobList.find((j) => j.ID.toString() === p.job.toString()).cn}($| )`).test(action.ClassJobCategory)
-      ) {
+      if (!!raidBuffs[key] && new RegExp(`(^| )${jobList.find((j) => j.ID.toString() === p.job.toString()).cn}($| )`).test(action.ClassJobCategory)) {
         let art = document.createElement("article");
         art.style.order = raidBuffs[key].order;
         art.setAttribute("data-from", `${p.id}-${key}`);
         let aside = document.createElement("aside");
-        aside.setAttribute(
-          "data-recast",
-          action.Recast100ms instanceof Function ? action.Recast100ms(80) / 10 : action.Recast100ms / 10
-        );
+        aside.setAttribute("data-recast", action.Recast100ms instanceof Function ? action.Recast100ms(80) / 10 : action.Recast100ms / 10);
         aside.setAttribute("data-duration", raidBuffs[key].duration);
         aside.innerText = "Ready";
         art.append(aside);

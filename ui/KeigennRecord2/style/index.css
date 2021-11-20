@@ -97,7 +97,10 @@ body main table tbody tr td {
   padding: 0px 2px;
 }
 body main table tbody tr td:nth-child(2) {
+  max-width: 6em;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 body main table tbody tr td:last-child:not(:first-child) {
   display: flex;

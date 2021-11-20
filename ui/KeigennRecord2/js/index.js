@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-13 15:55:20
+ * @LastEditTime: 2021-11-20 17:34:49
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -123,6 +123,7 @@ addOverlayListener("LogLine", (e) => {
       let damage = getDamage(e);
       if (
         damage.type === "damage" &&
+        l["casterID"].substring(0, 1) === "4" &&
         (l["targetID"] === youID || party.some((value) => value.id === l["targetID"] && (value.inParty || getUrlParam("24Mode") === "true")))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
@@ -172,7 +173,7 @@ addOverlayListener("LogLine", (e) => {
             }
           }
           img.title = FFXIVObject[l[type]].Status[key].name;
-          if (keigenn[key] && keigenn[key][damage.damageType] === "0") img.classList.add("useless");
+          if (keigenn[key] && keigenn[key][damage.damageType] === 0) img.classList.add("useless");
           cell4.appendChild(img);
         }
         if (FFXIVObject[l["targetID"]]) forStatus("targetID");

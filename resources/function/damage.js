@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-08 04:03:39
+ * @LastEditTime: 2021-11-14 17:42:23
  */
 function getDamage(e) {
   let offset = 0;
@@ -27,13 +27,25 @@ function getDamage(e) {
     from: e.line[3],
     target: e.line[7],
   };
+  let damage = e.line[9 + offset].padStart(8, "0");
+  if (damage[4] !== "4") {
+    result.value = parseInt(damage.substring(0, 4), 16);
+  } else {
+    let B = "0x" + damage.substring(2, 4);
+    let D = "0x" + damage.substring(6, 8);
+    result.value = parseInt(D.substring(2, 4) + damage.substring(0, 2) + (B - D).toString(16).toUpperCase(), 16);
+  }
   if (/^F/.test(e.line[8 + offset])) {
     // console.log(e.line);
     return result;
   } else if (/1$/.test(e.line[8 + offset])) {
-    result.type = "damage";
-    result.damageType = "dodge";
-    result.damageEffect = "回避";
+    if (result.value === 0) {
+      result.type = "damage";
+      result.damageType = "dodge";
+      result.damageEffect = "回避";
+    } else {
+      return result;
+    }
   } else if (/33$/.test(e.line[8 + offset])) {
     result.type = "damage";
     result.damageType = "death";
@@ -60,14 +72,6 @@ function getDamage(e) {
     result.damageEffect = "　　";
     // } else {
     // return result;
-  }
-  let damage = e.line[9 + offset].padStart(8, "0");
-  if (damage[4] !== "4") {
-    result.value = parseInt(damage.substring(0, 4), 16);
-  } else {
-    let B = "0x" + damage.substring(2, 4);
-    let D = "0x" + damage.substring(6, 8);
-    result.value = parseInt(D.substring(2, 4) + damage.substring(0, 2) + (B - D).toString(16).toUpperCase(), 16);
   }
   return result;
 }

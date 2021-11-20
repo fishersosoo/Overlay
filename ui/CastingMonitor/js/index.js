@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-11 00:01:21
+ * @LastEditTime: 2021-11-14 15:11:50
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.min.js";
@@ -26,6 +26,7 @@ document.addEventListener("onOverlayStateUpdate", (e) => {
     document.querySelector("#readMe").removeAttribute("hidden");
   }
 });
+addOverlayListener("ChangeZone", () => (isLock = false));
 addOverlayListener("PartyChanged", (e) => (party = e.party || party));
 addOverlayListener("ChangePrimaryPlayer", (e) => (player = e.charID.toString(16).toUpperCase()));
 addOverlayListener("LogLine", (e) => {
