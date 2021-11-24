@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-20 17:34:49
+ * @LastEditTime: 2021-11-24 09:08:08
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -90,30 +90,30 @@ try {
 } catch {
   addOverlayListener("CombatData", (e) => (duration = e.Encounter.duration));
 }
-function speTr(text) {
-  let tbody = document.querySelector("body > main > table > tbody");
-  if (tbody.lastChild !== null && tbody.lastChild.firstChild.classList[0] === "spe") tbody.deleteRow(0);
+function speTr(text, className = null) {
   let tr = tbody.insertRow(-1).insertCell(0);
   tr.innerText = text;
-  if (text === "团灭") tr.classList.add("ace");
+  if (className) tr.classList.add(className);
   tr.classList.add("spe");
   tr.colSpan = "5";
   document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
 }
 addOverlayListener("ChangeZone", (e) => {
   FFXIVObject = {};
-  speTr(e.zoneName);
+  if (tbody.lastChild !== null && tbody.lastChild.firstChild.classList[0] === "changeZone") tbody.lastChild.remove();
+  speTr(e.zoneName, "changeZone");
   inCombat = false;
   clearTimeout(combatTimer);
   duration = "00:00";
 });
 addOverlayListener("onPartyWipe", () => {
   FFXIVObject = {};
-  speTr("团灭");
+  speTr("团灭", "ace");
   inCombat = false;
   clearTimeout(combatTimer);
   duration = "00:00";
 });
+const tbody = document.querySelector("body > main > table > tbody");
 addOverlayListener("LogLine", (e) => {
   let l;
   switch (e.line[0]) {
@@ -127,8 +127,9 @@ addOverlayListener("LogLine", (e) => {
         (l["targetID"] === youID || party.some((value) => value.id === l["targetID"] && (value.inParty || getUrlParam("24Mode") === "true")))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
-        let tbody = document.querySelector("body > main > table > tbody");
-        if (maxLength > 0 && tbody.childElementCount >= maxLength) tbody.deleteRow(0);
+        if (maxLength > 0 && tbody.childElementCount >= maxLength) {
+          tbody.deleteRow(0);
+        }
         let tr = tbody.insertRow(-1);
         tr.setAttribute("data-master-id", l["targetID"]);
         tr.setAttribute("data-master-name", l["targetName"]);
@@ -224,6 +225,17 @@ addOverlayListener("LogLine", (e) => {
           } catch {}
         }
       break;
+    case "25":
+      if (e.line[2] === youID || party.some((p) => p.id === e.line[2])) {
+        let target;
+        try {
+          let j = jobList.find((job) => job.ID === (party.find((p) => p.id === l["targetID"]) || { job: "unknown" }).job.toString());
+          target = e.line[2] === youID ? "你" : j.simple2;
+        } catch {
+          target = e.line[3];
+        }
+        speTr(`💀${target}被${e.line[5]}做掉了！`, "deathEvent");
+      }
     default:
       break;
   }

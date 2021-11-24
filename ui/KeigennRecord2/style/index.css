@@ -78,11 +78,19 @@ body main table thead {
   background-color: rgba(5, 5, 5, 0.45);
 }
 body main table tbody .spe {
-  background: rgba(55, 0, 0, 0.5);
   font-weight: bold;
 }
+body main table tbody .changeZone {
+  background: rgba(0, 55, 0, 0.5);
+}
 body main table tbody .ace {
-  background: rgba(0, 0, 55, 0.25) !important;
+  background: rgba(0, 0, 55, 0.25);
+}
+body main table tbody .deathEvent {
+  text-align: left;
+  font-weight: normal;
+  padding-left: 1em;
+  letter-spacing: 0.25em;
 }
 body main table tbody tr {
   cursor: pointer;

@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-10-27 06:05:07
+ * @LastEditTime: 2021-11-24 08:33:19
  */
 "use strict";
 import { actions } from "../../../resources/data/actions.min.js";
@@ -91,12 +91,17 @@ function partySort(party) {
   result.push(player);
   let rule = [];
   try {
-    for (const key of settings.partySort[`when${jobList.find((job) => job.ID.toString() === player.job.toString()).Role}`].split(">")) rule.push(...settings.partySort[key]);
+    for (const key of settings.partySort[`when${jobList.find((job) => job.ID.toString() === player.job.toString()).Role}`].split(">"))
+      rule.push(...settings.partySort[key]);
   } catch {
     console.error("排序时出现未知错误。");
     return party;
   }
-  result.push(...party.filter((p) => p.id !== charID && p.inParty).sort((a, b) => rule.indexOf(baseClass[a.job].toString()) - rule.indexOf(baseClass[b.job].toString())));
+  result.push(
+    ...party
+      .filter((p) => p.id !== charID && p.inParty)
+      .sort((a, b) => rule.indexOf(baseClass[a.job].toString()) - rule.indexOf(baseClass[b.job].toString()))
+  );
   return result;
 }
 addOverlayListener("ChangePrimaryPlayer", (e) => (charID = e.charID.toString(16).toUpperCase()));
@@ -113,7 +118,7 @@ addOverlayListener("onLogEvent", (e) => {
       let index = party.findIndex((p) => p.id === NetworkAbility.groups.id && p.inParty === true);
       if (index >= 0) {
         let bom = document.querySelector(`[name="${index}-${compareSame(parseInt(NetworkAbility.groups.ability, 16))}"]`);
-  
+
         if (bom) bom.use();
       }
     }
@@ -143,7 +148,8 @@ function handle() {
         art.style.fontSize = settings.style.fontSize + "px";
         art.style.color = settings.style.fontColor;
         art.setAttribute("name", i + "-" + skill.id);
-        let recast1000ms = action.Recast100ms instanceof Function ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10 : action.Recast100ms / 10;
+        let recast1000ms =
+          action.Recast100ms instanceof Function ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10 : action.Recast100ms / 10;
         art.setAttribute("reset100ms", recast1000ms);
         let maxCharges = action.MaxCharges instanceof Function ? action.MaxCharges(levels[player.id] ? levels[player.id] : 0) : action.MaxCharges;
         art.style.background = `
@@ -203,6 +209,7 @@ function handle() {
                   clearInterval(art.timer);
                   art.timer = undefined;
                   art.innerText = parseInt(art.innerText) + 1;
+                  art.style.color = "white";
                   bgArr[0] = `url(./resources/${settings.style.skin}/charges.png) 0px 0px/ 432px 432px`;
                   bgArr[1] = `url(./resources/${settings.style.skin}/${art.innerText !== "0" ? "icon" : "0charges"}.png)`;
                   art.style.background = bgArr.join(",");
