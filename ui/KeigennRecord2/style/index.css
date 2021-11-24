@@ -89,8 +89,8 @@ body main table tbody .ace {
 body main table tbody .deathEvent {
   text-align: left;
   font-weight: normal;
-  padding-left: 1em;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.2em;
+  display: table-cell !important;
 }
 body main table tbody tr {
   cursor: pointer;

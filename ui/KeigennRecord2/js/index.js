@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-24 09:08:08
+ * @LastEditTime: 2021-11-24 09:25:59
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -90,13 +90,14 @@ try {
 } catch {
   addOverlayListener("CombatData", (e) => (duration = e.Encounter.duration));
 }
-function speTr(text, className = null) {
-  let tr = tbody.insertRow(-1).insertCell(0);
-  tr.innerText = text;
-  if (className) tr.classList.add(className);
-  tr.classList.add("spe");
-  tr.colSpan = "5";
+function speTr(text, className = null, colSpan = 5) {
+  let td = tbody.insertRow(-1).insertCell(0);
+  td.innerText = text;
+  if (className) td.classList.add(className);
+  td.classList.add("spe");
+  td.colSpan = colSpan;
   document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
+  return td.parentNode;
 }
 addOverlayListener("ChangeZone", (e) => {
   FFXIVObject = {};
@@ -229,12 +230,23 @@ addOverlayListener("LogLine", (e) => {
       if (e.line[2] === youID || party.some((p) => p.id === e.line[2])) {
         let target;
         try {
-          let j = jobList.find((job) => job.ID === (party.find((p) => p.id === l["targetID"]) || { job: "unknown" }).job.toString());
+          let j = jobList.find((job) => job.ID === (party.find((p) => p.id === e.line[2]) || { job: "unknown" }).job.toString());
           target = e.line[2] === youID ? "你" : j.simple2;
         } catch {
           target = e.line[3];
         }
-        speTr(`💀${target}被${e.line[5]}做掉了！`, "deathEvent");
+        let deathTr = speTr(`💀${target}被${e.line[5]}做掉了！`, "deathEvent", 4);
+        deathTr.setAttribute("data-master-id", e.line[2]);
+        deathTr.setAttribute("data-master-name", e.line[3]);
+        if (
+          document.querySelector("#all").getAttribute("data-select") === "true" ||
+          document.querySelector(`body > footer > ul > li[data-object-id="${e.line[2]}"]`).getAttribute("data-select") === "true"
+        ) {
+          deathTr.style.display = "table-row";
+        } else {
+          deathTr.style.display = "none";
+        }
+        deathTr.insertCell(0).innerHTML = duration; //战斗时间
       }
     default:
       break;
