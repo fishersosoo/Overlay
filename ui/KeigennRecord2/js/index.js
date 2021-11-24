@@ -1,6 +1,6 @@
 /*
  * @Author: Souma
- * @LastEditTime: 2021-11-24 09:25:59
+ * @LastEditTime: 2021-11-24 09:32:50
  */
 "use strict";
 import { jobList } from "../../../resources/data/job.js";
@@ -227,7 +227,7 @@ addOverlayListener("LogLine", (e) => {
         }
       break;
     case "25":
-      if (e.line[2] === youID || party.some((p) => p.id === e.line[2])) {
+      if (e.line[2] === youID || party.some((p) => p.id === e.line[2] && (p.inParty || getUrlParam("24Mode") === "true"))) {
         let target;
         try {
           let j = jobList.find((job) => job.ID === (party.find((p) => p.id === e.line[2]) || { job: "unknown" }).job.toString());
