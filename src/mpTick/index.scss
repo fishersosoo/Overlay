@@ -1,0 +1,24 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.anime {
+  background-color: rgb(9,123,222);
+  animation: mp 3s infinite linear;
+}
+body {
+  background-color: black;
+  user-select: none;
+  main {
+    height: 100vh;
+  }
+}
+@keyframes mp {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "微软雅黑", "Microsoft Yahei UI", Lato, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  user-select: none;
+}
+html:hover {
+  header {
+    opacity: 1;
+  }
+}
+body {
+  overflow: hidden;
+  #readMe {
+    background-color: rgba(0, 0, 150, 0.2);
+    height: 100vw;
+    width: 100vw;
+    position: fixed;
+    z-index: 10;
+    color: white;
+    text-shadow: -1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000;
+  }
+  header {
+    width: 100vw;
+    // background-color: red;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    color: white;
+    opacity: 0.2;
+    article {
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      padding: 0px 5px;
+      border-radius: 10%;
+    }
+    .selecting {
+      // font-weight: bold;
+      background-color: darkgreen;
+    }
+    article:hover {
+      background-color: darkolivegreen;
+    }
+  }
+  main {
+    margin: 1px;
+    img {
+      position: absolute;
+    }
+    section {
+      right: -99px;
+      margin-top: 16px;
+      animation: fadeInRight 25s linear;
+      position: absolute;
+    }
+    .casting {
+      animation: none;
+      right: 24px;
+      opacity: 0.5;
+    }
+    .oGCD {
+      transform: scale(0.75);
+      top: 12px;
+    }
+    .AA {
+      opacity: 1;
+      border-radius: 50%;
+      background-image: url(https://cafemaker.wakingsands.com/i/000000/000101.png);
+      background-size: cover;
+      transform: scale(0.25);
+      transform-origin: top left;
+      margin-top: 0;
+      height: 40px;
+      width: 40px;
+    }
+  }
+}
+@keyframes fadeInRight {
+  from {
+    right: 24px;
+  }
+  to {
+    right: 100%;
+  }
+}

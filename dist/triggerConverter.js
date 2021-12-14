@@ -1,0 +1,1 @@
+!function(){"use strict";var e=document.querySelector("#i"),r=document.querySelector("#o"),t=/\^\.\{14\} (?=\d)/g,u=/00:0038:(?!:)/g,c=/\^\d+\\\|/;e.addEventListener("keyup",(function(){var n=e.value;n=(n=(n=n.replace(t,"^.{14} (?:\\w+ |)")).replace(u,"00:0038::?")).replace(c,(function(e){return"(?i)"+e})),r.value=n}))}();

@@ -5,12 +5,8 @@
 "use strict";
 
 function partySort(p = [], charID = "", rule) {
-  // for (const i of p) {
-  //    delete i.level; //Always 0
-  // }
   p.sort((a, b) => parseInt(b.id, 16) - parseInt(a.id, 16));
-  //似乎没有必要?本身就已经是倒序排序了
-  let replaceClassId = [
+  let baseClass = [
     [1, 19],
     [2, 20],
     [3, 21],
@@ -27,8 +23,8 @@ function partySort(p = [], charID = "", rule) {
     for (let j = 0; j < p.length; j++) {
       if (p[j].inParty) {
         let orginJobid = p[j].job;
-        for (let k = 0; k < replaceClassId.length; k++) {
-          const r = replaceClassId[k];
+        for (let k = 0; k < baseClass.length; k++) {
+          const r = baseClass[k];
           orginJobid === r[0] ? (orginJobid = r[1]) : "";
         }
         if (orginJobid === sortJobid) {
@@ -71,6 +67,8 @@ function partySort(p = [], charID = "", rule) {
 // BLU 36 青魔法师
 // GNB 37 绝枪战士
 // DNC 38 舞者
+// RPR 39 钐镰
+// SGE 40 贤者
 //#endregion
 
 export { partySort };
