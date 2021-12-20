@@ -6,10 +6,11 @@ import { logProcessing } from "../../resources/function/logProcessing.js";
 
 let target;
 const main = document.querySelector("main");
-const section = document.querySelector("section");
-const aside = document.querySelector("aside");
+const castingType = document.querySelector("#type");
+const castingCountdown = document.querySelector("#countdown");
+const castingName = document.querySelector("section");
+const castingProgress = document.querySelector("aside");
 const params = new URLSearchParams(new URL(window.location).search);
-let going = false;
 let casting = {};
 main.style.opacity = "0";
 
@@ -20,6 +21,8 @@ addOverlayListener("LogLine", (e) => {
       name: castChinese?.[parseInt(log?.actionID, 16)] ?? log.actionName,
       startTime: Date.now(),
       castTime: log.castTime * 1000,
+      overTime: Date.now() + log.castTime * 1000,
+      damageType: null, //留坑
     };
   } else if (e.line[0] === "23") {
     const log = logProcessing(e.line, "action");
@@ -35,24 +38,27 @@ addOverlayListener("EnmityTargetData", (e) => {
 startOverlayEvents();
 
 function show() {
-  going = true;
   main.style.opacity = "1";
-  section.innerText = casting?.[target]?.name ?? " ";
+  castingName.innerText = casting?.[target]?.name ?? "";
+  castingType.innerText = casting?.[target]?.damageType ?? "";
 }
 
 function clear() {
-  going = false;
   main.style.opacity = "0";
 }
 
 function update() {
-  if (going && casting?.[target] !== undefined) {
-    aside.style.width = `${
-      ((Date.now() - casting[target].startTime) / casting[target].castTime) * 100 + parseFloat(params.get("advance") ?? 8)
+  if (casting?.[target] !== undefined) {
+    const now = Date.now();
+    castingProgress.style.width = `${
+      ((now - casting[target].startTime) / casting[target].castTime) * 100 + parseFloat(params.get("advance") ?? 8)
     }%`;
-    if (parseInt(aside.style.width) >= 105) clear();
+    castingCountdown.innerText = ((casting[target].overTime - now) / 1000).toFixed(2);
+    if (castingCountdown.innerText <= 0) {
+      delete casting[target];
+      clear();
+    }
   }
   window.requestAnimationFrame(update);
 }
-
 window.requestAnimationFrame(update);

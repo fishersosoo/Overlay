@@ -15,7 +15,7 @@ export default (function () {
   readMe.style.display = "none";
   readMe.style.fontFamily = "微软雅黑";
   readMe.style.fontWeight = "bold";
-  readMe.style.background = "color: rgba(0, 0, 150, 0.2)";
+  readMe.style.backgroundColor = "rgba(0, 0, 150, 0.2)";
   readMe.style.position = "fixed";
   readMe.style.bottom = "0";
   readMe.style.fontSize = "16px";
