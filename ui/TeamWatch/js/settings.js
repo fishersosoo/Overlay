@@ -9,7 +9,7 @@ import { actions } from "../../resources-old/actions.min.js";
 import { jobList } from "../../resources-old/job.min.js";
 import { compareSameGroup } from "../../resources-old/compareSameGroup.min.js";
 import { loadItem, saveItem } from "../../resources-old/localStorage.min.js";
-import { defaultSettings } from "./defaultSettings.min.js";
+import { defaultSettings } from "./defaultSettings.js";
 
 let namespace = "TeamWatch3";
 function load(t, a = "") {
