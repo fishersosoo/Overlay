@@ -3,10 +3,10 @@
  * @LastEditTime: 2021-11-24 09:32:50
  */
 "use strict";
-import { jobList } from "../../../resources/data/job.js";
-import { status } from "../../../resources/data/status.js";
-import { getDamage } from "../../../resources/function/damage.js";
-import { logProcessing } from "../../../resources/function/logProcessing.js";
+import { jobList } from "../../resources-old/job.min.js";
+import { status } from "../../resources-old/status.min.js";
+import { getDamage } from "../../resources-old/damage.min.js";
+import { logProcessing } from "../../resources-old/logProcessing.min.js";
 import { keigenn } from "../data/keigenn.js";
 let party = [],
   youID = "",
