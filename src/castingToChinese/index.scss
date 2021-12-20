@@ -4,6 +4,7 @@ main {
   text-shadow: -1px 0 3px rgb(179, 137, 21), 0 1px 3px rgb(179, 137, 21), 1px 0 3px rgb(179, 137, 21), 0 -1px 3px rgb(179, 137, 21);
   //伤害类型
   #type {
+    padding: 0px 3px;
     position: absolute;
     top: 0;
     left: 0;
@@ -11,6 +12,7 @@ main {
 
   //倒计时
   #countdown {
+    padding: 0px 3px;
     position: absolute;
     top: 0;
     right: 0;
@@ -28,7 +30,7 @@ main {
     box-shadow: 0 0 3px rgb(179, 137, 21);
     background-color: rgb(56, 38, 11);
     height: 10px;
-    width: 100%;
+    width: calc(100% - 1px);
     aside {
       background-color: #fff;
       height: 100%;
@@ -38,6 +40,7 @@ main {
 
   //技能名
   section {
+    padding: 0px 3px;
     position: absolute;
     top: 30px;
     right: 0;
@@ -50,7 +53,6 @@ main {
 * {
   padding: 0px;
   margin: 0px;
-  // overflow: hidden;
   box-sizing: border-box;
   user-select: none;
 }

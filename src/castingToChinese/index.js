@@ -53,15 +53,14 @@ function show() {
 function clear() {
   main.style.opacity = "0";
 }
-
+const pingMs = parseInt(params.get("ping") ?? 80);
 function update() {
   if (casting?.[target] !== undefined) {
     const now = Date.now();
-    castingProgress.style.width = `${
-      ((now - casting[target].startTime) / casting[target].castTime) * 100 + parseFloat(params.get("advance") ?? 8)
-    }%`;
-    castingCountdown.innerText = ((casting[target].overTime - now) / 1000).toFixed(2);
-    if (castingCountdown.innerText <= 0) {
+    const count = (casting[target].overTime - now - pingMs) / 1000;
+    castingProgress.style.width = `${((now - casting[target].startTime + pingMs) / casting[target].castTime) * 100}%`;
+    castingCountdown.innerText = Math.max(count, 0).toFixed(2);
+    if (count <= -0.1) {
       delete casting[target];
       clear();
     }

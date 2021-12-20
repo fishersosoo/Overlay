@@ -233,7 +233,7 @@ function editWatch(dom) {
       (action.ClassJobCategory.indexOf(dom?.parentNode?.getAttribute("data-job-name")) > -1 &&
         action.ClassJobLevel > 0 &&
         compareSame(id) === id &&
-        (action.Recast100ms >= 500 || params.get("ignoreRecast") === "true")) ||
+        (action.Recast100ms >= 30 || params.get("ignoreRecast") === "true")) ||
       id === "0"
     ) {
       action.Name = action.Name;
