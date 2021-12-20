@@ -3,12 +3,12 @@
  * @LastEditTime: 2021-11-24 08:33:19
  */
 "use strict";
-import { actions } from "../../../resources/data/actions.min.js";
-import { jobList } from "../../../resources/data/job.min.js";
-import { compareSame } from "../../../resources/function/compareSameGroup.min.js";
-import { loadItem, saveItem } from "../../../resources/function/localStorage.min.js";
-import { TTS } from "../../../resources/function/TTS.js";
-import { defaultSettings } from "./defaultSettings.min.js";
+import { actions } from "../../resources-old/actions.min.js";
+import { jobList } from "../../resources-old/job.min.js";
+import { compareSame } from "../../resources-old/compareSameGroup.min.js";
+import { loadItem, saveItem } from "../../resources-old/localStorage.min.js";
+import { TTS } from "../../resources-old/TTS.js";
+import { defaultSettings } from "./defaultSettings.js";
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);

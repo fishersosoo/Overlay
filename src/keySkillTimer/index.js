@@ -2,19 +2,15 @@
 
 import { getAction } from "../../resources/data/actions.js";
 import { compareSame } from "../../resources/function/compareSameGroup.js";
+import "../../resources/function/loadComplete.js";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import { TTS } from "../../resources/function/TTS.js";
-import { raidBuffs } from "./raidbuffs.js";
 import "../../resources/function/xianyu.js";
-import "../../resources/function/loadComplete.js";
 import "./index.scss";
+import { raidBuffs } from "./raidbuffs.js";
+import { levels } from "../../resources/function/getLevels.js";
 
-function getUrlParam(name) {
-  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) return unescape(r[2]);
-  return null;
-}
+let params = new URLSearchParams(new URL(window.location).search);
 let timers = [];
 let party = [];
 let youID = null;
@@ -36,8 +32,14 @@ addOverlayListener("LogLine", (e) => {
         console.warn(d);
       }
       TTS(raidBuffs[actionID]?.tts);
-    } else if (log["casterID"] === youID && getUrlParam("tts") !== "false" && raidBuffs[actionID] !== undefined) {
-      TTS(raidBuffs[actionID]?.tts);
+    } else if (log["casterID"] === youID && raidBuffs[actionID] !== undefined) {
+      console.log(raidBuffs[actionID]?.type);
+      if (
+        (raidBuffs[actionID]?.type === "0" && params.get("dajinengTTS") !== "false") ||
+        (raidBuffs[actionID]?.type === "1" && params.get("tuanfuTTS") !== "false")
+      ) {
+        TTS(raidBuffs[actionID]?.tts);
+      }
     }
   }
 });
@@ -82,13 +84,14 @@ function show(party) {
   main.innerHTML = "";
   main.nextElementSibling.innerHTML = "";
   for (const p of party) {
-    if (!p.inParty && getUrlParam("inPartyOnly") !== "false") break;
+    if (!p.inParty && params.get("inPartyOnly") !== "false") break;
     for (const key in raidBuffs) {
       const element = raidBuffs[key];
       if (element.job.indexOf(p.job) > -1) {
         let art = document.createElement("article");
-        let action = getAction(key);
+        const action = getAction(key, levels[p.id]?.level ?? 999);
         art.style.order = element.order;
+        art.classList.add("useful_" + action.Useful);
         art.setAttribute("data-from", `${p.id}-${key}`);
         let aside = document.createElement("aside");
         aside.setAttribute("data-recast", element.recast1000ms);
@@ -96,23 +99,7 @@ function show(party) {
         aside.innerText = "";
         art.append(aside);
         let section = document.createElement("section");
-        const cafeUrl = `https://cafemaker.wakingsands.com/i/${action?.Url}.png`;
-        const xivapiUrl = `https://xivapi.com/i/${action?.Url}.png`;
-        function checkImgExists(imgurl) {
-          return new Promise(function (resolve, reject) {
-            var ImgObj = new Image();
-            ImgObj.src = imgurl;
-            ImgObj.onload = (res) => resolve(res);
-            ImgObj.onerror = (err) => reject(err);
-          });
-        }
-        checkImgExists(cafeUrl)
-          .then(() => {
-            section.style.backgroundImage = `url(${cafeUrl})`;
-          })
-          .catch(() => {
-            section.style.backgroundImage = `url(${xivapiUrl})`;
-          });
+        section.style.backgroundImage = `url(https://souma.diemoe.net/resources/icon/${action?.Url ?? "000000/000405"}.png)`;
         art.append(section);
         let shadow = document.createElement("div");
         shadow.classList.add("shadow");

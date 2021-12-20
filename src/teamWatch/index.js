@@ -1,20 +1,20 @@
 "use strict";
 
 import { getAction } from "../../resources/data/actions.js";
+import { levels } from "../../resources/function/getLevels.js";
 import { compareSame } from "../../resources/function/compareSameGroup.js";
 import "../../resources/function/loadComplete.js";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import "../../resources/function/xianyu.js";
+import { baseClass, sortRule, watchJobsActionsID } from "./default.js";
 import "./index.scss";
-import { sortRule, watchJobsActionsID, baseClass } from "./default.js";
 
 let playerID = "";
 let party = [];
 let timers = [];
 let inFaker = true;
-let levels = {
-  "1002E5AA": { level: 80, name: "Suzu Komura" },
-};
+let params = new URLSearchParams(new URL(window.location).search);
+document.querySelector("main").style.transform = `scale(${(params.get("scale") ?? 1) * 0.8})`;
 document.querySelector("#settings").addEventListener("click", () => {
   window.open("./teamWatchSettings.html", "_blank", "width=800,height=800");
 });
@@ -32,17 +32,15 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
   playerID = e.charID.toString(16).toUpperCase();
 });
 addOverlayListener("ChangeZone", () => {
-  for (const timer of timers) clearTimeout(timer);
-  timers = [];
-  for (const member of membersDOM) member.innerHTML = "";
+  partyChanged(party);
 });
 addOverlayListener("onPartyWipe", () => {
-  for (const timer of timers) clearTimeout(timer);
-  timers = [];
-  for (const member of membersDOM) member.innerHTML = "";
+  partyChanged(party);
 });
+let timer;
 addOverlayListener("PartyChanged", (e) => {
-  let timer = setInterval(() => {
+  clearInterval(timer);
+  timer = setInterval(() => {
     if (playerID !== "") {
       clearInterval(timer);
       party = e.party.filter((p) => p.inParty);
@@ -62,10 +60,6 @@ addOverlayListener("LogLine", (e) => {
           ?.querySelector(`article[data-action-proto-id="${parseInt(log.actionID, 16)}"]`)
       );
     }
-  } else if (e.line[0] === "03" && e.line[2].substring(0, 1) === "1") {
-    levels[e.line[2]] = { level: parseInt(e.line[5], 16), name: e.line[3] };
-  } else if (e.line[0] === "04" && e.line[2].substring(0, 1) === "1") {
-    delete levels[e.line[2]];
   }
 });
 startOverlayEvents();
@@ -82,6 +76,8 @@ const membersDOM = [
 ];
 function partyChanged(party) {
   for (const member of membersDOM) member.innerHTML = "";
+  for (const timer of timers) clearTimeout(timer);
+  timers = [];
   if (party.length === 0 || party === []) return;
   party = (() => {
     return party.sort((a, b) => {
@@ -101,13 +97,14 @@ function partyChanged(party) {
       for (let i = 0; i < jobActionsID.length; i++) {
         let memberActionDOM = document.createElement("article");
         if (jobActionsID[i] > 0) {
-          const action = getAction(jobActionsID[i], levels[party[m].id]?.level);
+          const action = getAction(jobActionsID[i], levels[party[m].id]?.level ?? 999);
           for (const protos in action) memberActionDOM.setAttribute(`data-action-proto-${protos}`, action[protos]);
           memberActionDOM.classList.add("skill_icon");
+          memberActionDOM.classList.add("useful_" + action.Useful);
           if (action.ID === undefined) {
             memberActionDOM.style.opacity = "0";
           } else {
-            memberActionDOM.style.background = `url(https://xivapi.com/i/${action.Url}.png) no-repeat`;
+            memberActionDOM.style.background = `url(https://souma.diemoe.net/resources/icon/${action.Url}.png) no-repeat`;
             memberActionDOM.style.animationDuration = action?.Recast100ms * 100 + "ms";
             memberActionDOM.setAttribute("data-action-proto-recastNow", "");
             memberActionDOM.setAttribute("data-action-proto-chargesNow", action?.MaxCharges);

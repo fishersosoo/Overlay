@@ -46,14 +46,17 @@ body {
     }
   }
   main {
-    margin: 1px;
+    // overflow: hidden;
+    margin-top: 8px;
+    position: relative;
     img {
       position: absolute;
     }
     section {
       right: -99px;
-      margin-top: 16px;
-      animation: fadeInRight 25s linear;
+      animation-iteration-count: 1;
+      animation-name: fadeInRight;
+      animation-timing-function: linear;
       position: absolute;
     }
     .casting {
@@ -62,20 +65,24 @@ body {
       opacity: 0.5;
     }
     .oGCD {
-      transform: scale(0.75);
-      top: 12px;
+      > img,
+      &::after {
+        transform-origin: center bottom;
+        transform: scale(0.75);
+      }
+      // top: 12px;
     }
-    .AA {
-      opacity: 1;
-      border-radius: 50%;
-      background-image: url(https://cafemaker.wakingsands.com/i/000000/000101.png);
-      background-size: cover;
-      transform: scale(0.25);
-      transform-origin: top left;
-      margin-top: 0;
-      height: 40px;
-      width: 40px;
-    }
+    // .AA {
+    //   opacity: 1;
+    //   border-radius: 50%;
+    //   background-image: url(https://cafemaker.wakingsands.com/i/000000/000101.png);
+    //   background-size: cover;
+    //   transform: scale(0.25);
+    //   transform-origin: right top;
+    //   margin-top: 0;
+    //   height: 40px;
+    //   width: 40px;
+    // }
   }
 }
 @keyframes fadeInRight {
@@ -84,5 +91,46 @@ body {
   }
   to {
     right: 100%;
+  }
+}
+.icon::after {
+  background: url(../../resources/img/action/frame.png) no-repeat;
+  padding-left: 2px;
+  width: 44px;
+  height: 44px;
+  // display: block;
+  position: absolute;
+  top: -3px;
+  left: -4px;
+  z-index: 12;
+  content: "";
+}
+aside {
+  width: 100%;
+  display: inline-block;
+  margin-top: 50px;
+  box-sizing: border-box;
+  border-top: 1px solid gray;
+  div {
+    img {
+      height: 30px;
+      width: 30px;
+    }
+    &.icon::after {
+      height: 32px !important;
+      width: 32px !important;
+      top: -1px;
+      left: -2px;
+      background-size: cover;
+    }
+    &.oGCD {
+      transform: scale(0.75);
+      transform-origin: left bottom;
+      width: 23px;
+    }
+    // margin-left: 1px;
+    // margin-top: 1px;
+    display: inline-block;
+    position: relative;
   }
 }

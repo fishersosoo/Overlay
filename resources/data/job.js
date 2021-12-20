@@ -30,5 +30,9 @@ let jobList = [
   { ID: "36", en: "BLU", cn: "青魔法师", jp: "青魔道士", Role: "Dps", IsBaseCLass: false, simple1: "青", simple2: "青魔" },
   { ID: "37", en: "GNB", cn: "绝枪战士", jp: "ガンブレイカー", Role: "Tank", simple1: "绝", simple2: "绝枪" },
   { ID: "38", en: "DNC", cn: "舞者", jp: "踊り子", Role: "Dps", IsBaseCLass: false, simple1: "舞", simple2: "舞者" },
+  { ID: "39", en: "RPR", cn: "钐镰师", jp: "リーパー", Role: "Dps", IsBaseCLass: false, simple1: "镰", simple2: "钐镰" },
+  { ID: "40", en: "SGE", cn: "贤者", jp: "賢者", Role: "Healer", IsBaseCLass: false, simple1: "贤", simple2: "贤者" },
 ];
-export { jobList };
+export function getJobByID(id) {
+  return jobList.find((job) => job.ID === id.toString());
+}

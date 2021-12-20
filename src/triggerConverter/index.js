@@ -1,13 +1,17 @@
 "use strict";
 const input = document.querySelector("#i");
 const output = document.querySelector("#o");
-const reg = /\^\.\{14\} (?=\d)/g;
-const regEcho = /00:0038:(?!:)/g;
-const regnet = /\^\d+\\\|/;
+const regs = [
+  { from: /\^\.\{14\} (?=\d)/g, to: `^.{14} (?:\\w+ |)` },
+  { from: /\^\.\{15\}(?=\d)/g, to: `^.{15}(?:\\w+ |)` },
+  { from: /(?<=00:[^:]+):(?!:)/g, to: `::?` },
+  { from: /\^\.\{/g, to: `(?i)^.{` },
+];
 input.addEventListener("keyup", () => {
   let text = input.value;
-  text = text.replace(reg, `^.{14} (?:\\w+ |)`);
-  text = text.replace(regEcho, `00:0038::?`);
-  text = text.replace(regnet, (e) => "(?i)" + e);
+  for (const key in regs) {
+    const reg = regs[key];
+    text = text.replace(reg.from, reg.to);
+  }
   output.value = text;
 });

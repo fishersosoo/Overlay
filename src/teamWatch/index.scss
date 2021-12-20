@@ -84,14 +84,16 @@ article.normalActionAnimation::after {
   position: absolute;
   left: 33px;
   top: 25px;
-  font-size: 14px;
-  color: white;
+  font-size: 14px;  color: white;
   text-shadow: -1px 0 3px rgb(202, 81, 0), 0 1px 3px rgb(202, 81, 0), 1px 0 3px rgb(202, 81, 0), 0 -1px 3px rgb(202, 81, 0);
   font-weight: bold;
   z-index: 3;
 }
 #member1 > article.skill_icon.hideText::after {
   content: "" !important;
+}
+.useful_false {
+  opacity: 0;
 }
 .skill_icon::after {
   background: url(../../resources/img/action/frame.png) no-repeat;

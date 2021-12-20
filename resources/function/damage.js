@@ -4,7 +4,7 @@
  */
 function getDamage(e) {
   let offset = 0;
-  if (e.line[8] === "3C") offset += 2;
+  if (e.line[8] === "3C" || e.line[8] === "A10") offset += 2; //2021年5.0=3C, 2021年6.0武士心眼=A10
   function getEffect() {
     switch (e.line[8 + offset].substr(e.line[8 + offset].length - 3, 1)) {
       case "1":
@@ -36,7 +36,6 @@ function getDamage(e) {
     result.value = parseInt(D.substring(2, 4) + damage.substring(0, 2) + (B - D).toString(16).toUpperCase(), 16);
   }
   if (/^F/.test(e.line[8 + offset])) {
-    // console.log(e.line);
     return result;
   } else if (/1$/.test(e.line[8 + offset])) {
     if (result.value === 0) {
@@ -73,6 +72,10 @@ function getDamage(e) {
     // } else {
     // return result;
   }
+  console.log(offset);
+  console.log(e.line);
+  console.log(e.line[8 + offset]);
+  console.log(result);
   return result;
 }
 export { getDamage };

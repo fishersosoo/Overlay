@@ -14,6 +14,7 @@ let logsIndex = {
       actionName: 5,
       targetID: 6,
       targetName: 7,
+      castTime: 8,
     },
     status: {
       statusID: 2,

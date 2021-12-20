@@ -3,13 +3,14 @@
  * @Author: Souma
  * @LastEditTime: 2021-10-05 07:18:17
  */
-import { actions } from "../../../resources/data/actions.js";
-import { jobList } from "../../../resources/data/job.js";
-import "../../../resources/library/drag-arrange.min.js";
-import { compareSameGroup } from "../../../resources/function/compareSameGroup.min.js";
-import { loadItem, saveItem } from "../../../resources/function/localStorage.min.js";
+import "../../resources-old/drag-arrange.min.js";
+import { language } from "./language.js";
+import { actions } from "../../resources-old/actions.min.js";
+import { jobList } from "../../resources-old/job.min.js";
+import { compareSameGroup } from "../../resources-old/compareSameGroup.min.js";
+import { loadItem, saveItem } from "../../resources-old/localStorage.min.js";
 import { defaultSettings } from "./defaultSettings.min.js";
-import { language } from "./language.min.js";
+
 let namespace = "TeamWatch3";
 function load(t, a = "") {
   return loadItem(namespace, t, a);

@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
+  performance: { hints: false },
   entry: {
     castingMonitor: "./src/castingMonitor/index.js",
     fflogsUploaderDownload: "./src/fflogsUploaderDownload/index.js",
@@ -13,49 +14,14 @@ module.exports = {
     triggerConverter: "./src/triggerConverter/index.js",
     mpTick: "./src/mpTick/index.js",
     index: "./src/index/index.js",
+    test: "./src/test/index.js",
+    rotationSimulation: "./src/rotationSimulation/index.js",
+    castingToChinese: "./src/castingToChinese/index.js",
   },
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
     assetModuleFilename: "images/[hash][ext][query]",
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: path.join(__dirname, "node_modules"),
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-          },
-        },
-      },
-      {
-        test: /\.(png|jpg|gif)/,
-        type: "asset/resource",
-      },
-      {
-        test: /\.scss$/,
-        include: path.join(__dirname, "resources"),
-        use: [
-          "style-loader",
-          {
-            loader: "css-loader",
-            options: {
-              modules: true,
-            },
-          },
-          "postcss-loader",
-          "sass-loader",
-        ],
-      },
-      {
-        test: /\.scss$/,
-        include: path.join(__dirname, "src"),
-        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
-      },
-    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -103,6 +69,45 @@ module.exports = {
       filename: "index.html",
       chunks: ["index"],
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/rotationSimulation/index.html",
+      filename: "rotationSimulation.html",
+      chunks: ["rotationSimulation"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/castingToChinese/index.html",
+      filename: "castingToChinese.html",
+      chunks: ["castingToChinese"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/test/index.html",
+      filename: "test.html",
+      chunks: ["test"],
+    }),
     new CleanWebpackPlugin(),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: path.join(__dirname, "node_modules"),
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+            cacheDirectory: true,
+          },
+        },
+      },
+      {
+        test: /\.(png|jpg|gif)/,
+        type: "asset/resource",
+      },
+      {
+        test: /\.scss$/,
+        include: path.join(__dirname, "src"),
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+      },
+    ],
+  },
 };

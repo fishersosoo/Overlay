@@ -8,6 +8,9 @@ import { keigenns } from "./keigenns.js";
 import "../../resources/function/xianyu.js";
 import "../../resources/function/loadComplete.js";
 import "./index.scss";
+let params = new URLSearchParams(new URL(window.location).search);
+const body = document.body;
+const main = document.querySelector("main");
 let party = [],
   youID = "",
   duration = "00:00",
@@ -15,7 +18,8 @@ let party = [],
   scrollMove = true,
   inCombat = false,
   combatTimer = 0,
-  maxLength = parseInt(getUrlParam("maxLength") || 800);
+  maxLength = parseInt(params.get("maxLength") || 800),
+  is24Mode = params.get("24Mode") === "true" || false;
 class FFObject {
   constructor(id, name) {
     this.ID = id;
@@ -23,14 +27,11 @@ class FFObject {
     this.Status = {};
   }
 }
-function getUrlParam(name) {
-  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) return unescape(r[2]);
-  return null;
-}
-document.querySelector("main").style.backgroundColor = `rgba(5,5,5,${getUrlParam("bgOpacity") || 0.45})`;
-document.body.style.opacity = getUrlParam("bodyOpacity") || 1;
+
+main.style.backgroundColor = `rgba(5,5,5,${params.get("bgOpacity") || 0.45})`;
+body.style.opacity = params.get("bodyOpacity") || 1;
+body.style.fontSize = params.get("fontSize") || "12px";
+
 function addFooter() {
   document.querySelector(
     "body > footer > ul"
@@ -81,7 +82,7 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
   addFooter();
 });
 addOverlayListener("PartyChanged", (e) => {
-  party = e.party.filter((p) => p.inParty || getUrlParam("24Mode") === "true");
+  party = e.party.filter((p) => p.inParty || is24Mode);
   addFooter();
 });
 try {
@@ -96,7 +97,7 @@ function speTr(text, className = null, colSpan = 5) {
   td.setAttribute("data-type", className);
   td.classList.add("spe");
   td.colSpan = colSpan;
-  document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
+  main.scrollTop = main.scrollHeight;
   return td.parentNode;
 }
 addOverlayListener("ChangeZone", (e) => {
@@ -116,86 +117,87 @@ addOverlayListener("onPartyWipe", () => {
 });
 const tbody = document.querySelector("body > main > table > tbody");
 addOverlayListener("LogLine", (e) => {
-  let l;
+  let log;
   switch (e.line[0]) {
     case "21":
     case "22":
-      l = logProcessing(e.line, "action");
+      log = logProcessing(e.line, "action");
       let damage = getDamage(e);
       if (
         damage.type === "damage" &&
-        l["casterID"].substring(0, 1) === "4" &&
-        (l["targetID"] === youID ||
-          party.some((value) => value.id === l["targetID"] && (value.inParty || getUrlParam("24Mode") === "true")))
+        log["casterID"].substring(0, 1) === "4" &&
+        (log["targetID"] === youID || party.some((value) => value.id === log["targetID"] && (value.inParty || is24Mode)))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
         if (maxLength > 0 && tbody.childElementCount >= maxLength) {
           tbody.deleteRow(0);
         }
         let tr = tbody.insertRow(-1);
-        tr.setAttribute("data-master-id", l["targetID"]);
-        tr.setAttribute("data-master-name", l["targetName"]);
+        tr.setAttribute("data-master-id", log["targetID"]);
+        tr.setAttribute("data-master-name", log["targetName"]);
         if (
           document.querySelector("#all").getAttribute("data-select") === "true" ||
-          document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") === "true"
+          document.querySelector(`body > footer > ul > li[data-object-id="${log["targetID"]}"]`).getAttribute("data-select") === "true"
         ) {
           tr.style.display = "table-row";
         } else {
           tr.style.display = "none";
         }
-        tr.insertCell(0).innerHTML = duration; //战斗时间
-        tr.insertCell(1).innerHTML = /unknown_/i.test(l["actionName"]) ? "平A？" : l.actionName ?? "未知";
-        let cell2 = tr.insertCell(2);
+        let tr1 = tr.insertCell(0);
+        let tr2 = tr.insertCell(1);
+        let tr3 = tr.insertCell(2);
+        let tr4 = tr.insertCell(3);
+        let tr5 = tr.insertCell(4);
+
+        tr1.innerHTML = duration; //战斗时间
+        tr2.innerHTML = /unknown_/i.test(log["actionName"]) ? "平A？" : log.actionName ?? "未知";
         try {
-          if (l["targetID"] === youID) {
-            cell2.innerText = "YOU";
-            cell2.classList.add("YOU");
+          if (log["targetID"] === youID) {
+            tr3.innerText = "YOU";
+            tr3.classList.add("YOU");
           } else {
-            let job = getJobByID(party.find((p) => p.id === l["targetID"])?.job);
-            cell2.innerText = job?.simple2 ?? "?";
-            cell2.classList.add(job?.en);
+            let job = getJobByID(party.find((p) => p.id === log["targetID"])?.job);
+            tr3.innerText = job?.simple2 ?? "?";
+            tr3.classList.add(job?.en);
           }
         } catch (e) {
           console.warn(e);
-          cell2.innerHTML = l["targetName"];
+          tr3.innerHTML = log["targetName"];
         }
-        let cell3 = tr.insertCell(3);
-        cell3.innerHTML = damage.value.toLocaleString();
-        cell3.setAttribute("data-damage-effect", damage.damageEffect);
-        cell3.title = damage.from;
-        cell3.classList.add(damage.damageType);
-        let cell4 = tr.insertCell(4);
+        tr4.innerHTML = damage.value.toLocaleString();
+        tr4.setAttribute("data-damage-effect", damage.damageEffect);
+        tr4.title = damage.from;
+        tr4.classList.add(damage.damageType);
         function createImg(type, key, stack = 0) {
           let img = new Image();
           let statusNow = status[parseInt(key, 16)] ?? { "CN": "未知", "url": "000000/000405" };
-          img.src = `https://cafemaker.wakingsands.com/i/${stackUrl(statusNow.url)}.png`;
-          img.onerror = () => {
-            img.src = `https://xivapi.com/i/${stackUrl(statusNow.url)}.png`;
-          };
+          img.src = `https://souma.diemoe.net/resources/icon/${stackUrl(statusNow.url)}.png`;
           function stackUrl(url) {
-            return stack > 1 && stack <= 16 ? url.substring(0, 7) + (Array(6).join(0) + (parseInt(url.substring(7)) + stack)).slice(-6) : url;
+            return stack > 1 && stack <= 16
+              ? url.substring(0, 7) + (Array(6).join(0) + (parseInt(url.substring(7)) + stack - 1)).slice(-6)
+              : url;
           }
-          img.title = FFXIVObject[l[type]].Status[key].name;
+          img.title = FFXIVObject[log[type]].Status[key].name;
           if (keigenns?.[key][damage.damageType] === 0) {
             img.classList.add("useless");
           } else if (keigenns?.[key][damage.damageType] === 0.5) {
             img.classList.add("halfUseful");
           }
-          cell4.appendChild(img);
+          tr5.appendChild(img);
         }
-        if (FFXIVObject[l["targetName"]]) forStatus("targetName");
-        if (FFXIVObject[l["casterName"]]) forStatus("casterName");
+        if (FFXIVObject[log["targetName"]]) forStatus("targetName");
+        if (FFXIVObject[log["casterName"]]) forStatus("casterName");
         function forStatus(c) {
-          for (const key in FFXIVObject[l[c]].Status) {
-            createImg(c, key, parseInt(FFXIVObject[l[c]].Status[key].stack));
+          for (const key in FFXIVObject[log[c]].Status) {
+            createImg(c, key, parseInt(FFXIVObject[log[c]].Status[key].stack));
           }
         }
         if (
           scrollMove &&
           (document.querySelector("#all").getAttribute("data-select") === "true" ||
-            document.querySelector(`body > footer > ul > li[data-object-id="${l["targetID"]}"]`).getAttribute("data-select") === "true")
+            document.querySelector(`body > footer > ul > li[data-object-id="${log["targetID"]}"]`).getAttribute("data-select") === "true")
         ) {
-          document.querySelector("body > main").scrollTop = document.querySelector("body > main").scrollHeight;
+          main.scrollTop = main.scrollHeight;
         }
         tr.onclick = () => {
           let result = [];
@@ -216,29 +218,29 @@ addOverlayListener("LogLine", (e) => {
       break;
     case "26":
     case "30":
-      l = logProcessing(e.line, "status");
-      const logStatus = l["statusID"].toLowerCase();
+      log = logProcessing(e.line, "status");
+      const logStatus = log["statusID"].toLowerCase();
       const keigenn = keigenns[logStatus];
       if (
         keigenn !== undefined &&
-        ((keigenn.condition === "player" && (party.some((value) => value.id === l["targetID"]) || l["targetID"] === youID)) ||
-          (keigenn.condition === "enemy" && l["targetID"].substring(0, 1) === "4"))
+        ((keigenn.condition === "player" && (party.some((value) => value.id === log["targetID"]) || log["targetID"] === youID)) ||
+          (keigenn.condition === "enemy" && log["targetID"].substring(0, 1) === "4"))
       )
         if (e.line[0] === "26") {
-          FFXIVObject[l["targetName"]] = FFXIVObject[l["targetName"]] || new FFObject(l["targetID"], l["targetName"]);
-          FFXIVObject[l["targetName"]].Status[logStatus] = {
-            name: statusForCN[parseInt(logStatus, 16)] ?? l["statusName"],
-            caster: l["casterName"],
+          FFXIVObject[log["targetName"]] = FFXIVObject[log["targetName"]] || new FFObject(log["targetID"], log["targetName"]);
+          FFXIVObject[log["targetName"]].Status[logStatus] = {
+            name: statusForCN[parseInt(logStatus, 16)] ?? log["statusName"],
+            caster: log["casterName"],
             stack: e.line[9] > 1 ? e.line[9] : 0,
           };
         } else {
           try {
-            delete FFXIVObject[l["targetName"]].Status[logStatus];
+            delete FFXIVObject[log["targetName"]].Status[logStatus];
           } catch {}
         }
       break;
     case "25":
-      if (e.line[2] === youID || party.some((p) => p.id === e.line[2] && (p.inParty || getUrlParam("24Mode") === "true"))) {
+      if (e.line[2] === youID || party.some((p) => p.id === e.line[2] && (p.inParty || is24Mode))) {
         let target;
         try {
           target = e.line[2] === youID ? "你" : getJobByID(party.find((p) => p.id === e.line[2])?.job)?.simple2 ?? "unknown";
@@ -263,8 +265,8 @@ addOverlayListener("LogLine", (e) => {
   }
 });
 startOverlayEvents();
-document.querySelector("main").onscroll = (e) => {
-  scrollMove = document.querySelector("main").scrollHeight - document.body.offsetHeight - e.target.scrollTop < 80;
+main.onscroll = (e) => {
+  scrollMove = main.scrollHeight - body.offsetHeight - e.target.scrollTop < body.clientHeight;
 };
 document.querySelector("header").onclick = function () {
   let m = document.querySelector("main");
@@ -282,6 +284,7 @@ document.querySelector("header").onclick = function () {
   }
 };
 function startCombat() {
+  main.scrollTop = main.scrollHeight;
   inCombat = true;
   clearTimeout(combatTimer);
   let d = 0;

@@ -4,12 +4,16 @@
   box-sizing: border-box;
 }
 .anime {
-  background-color: rgb(9,123,222);
+  background-color: rgb(17, 114, 226);
   animation: mp 3s infinite linear;
 }
+html {
+  border-right: 3px solid #fff;
+}
 body {
-  background-color: black;
+  overflow: hidden;
   user-select: none;
+  background-color: black;
   main {
     height: 100vh;
   }

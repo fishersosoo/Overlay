@@ -1,13 +1,13 @@
 "use strict";
 
 import { actions, getAction } from "../../resources/data/actions.js";
-import { actionsForCN } from "../../resources/data/actionsForCN.js";
 import { getJobByID } from "../../resources/data/job.js";
 import { compareSame } from "../../resources/function/compareSameGroup.js";
 import { loadItem, saveItem } from "../../resources/function/localStorage";
 import { sortRule, watchJobsActionsID, baseClass } from "./default.js";
 import "./settings.scss";
 
+let params = new URLSearchParams(new URL(window.location).search);
 document.querySelector("#loading").remove();
 let namespace = "TeamWatch4";
 const load = (t, a = undefined) => loadItem(namespace, t, a);
@@ -132,11 +132,12 @@ function newTD(id) {
   let td = document.createElement("td");
   const action = getAction(id);
   let skillName = document.createElement("article");
-  skillName.innerText = actionsForCN[id] ?? action?.Name;
+  skillName.innerText = action?.Name;
   td.appendChild(skillName);
   let icon = document.createElement("aside");
   let img = new Image();
-  cafeOrXiavpiUrl(action?.Url, img);
+  // cafeOrXiavpiUrl(action?.Url, img);
+  img.src = `https://souma.diemoe.net/resources/icon/${action?.Url ?? "000000/000405"}.png`;
   img.classList.add("icon");
   icon.appendChild(img);
   td.appendChild(icon);
@@ -147,18 +148,18 @@ function newTD(id) {
   return td;
 }
 
-function cafeOrXiavpiUrl(url, img) {
-  const cafeUrl = `https://cafemaker.wakingsands.com/i/${url}.png`;
-  const xivapiUrl = `https://xivapi.com/i/${url}.png`;
-  new Promise(function (resolve, reject) {
-    var ImgObj = new Image();
-    ImgObj.src = cafeUrl;
-    ImgObj.onload = (res) => resolve(res);
-    ImgObj.onerror = (err) => reject(err);
-  })
-    .then(() => (img.src = cafeUrl))
-    .catch(() => (img.src = xivapiUrl));
-}
+// function cafeOrXiavpiUrl(url, img) {
+//   const cafeUrl = `https://cafemaker.wakingsands.com/i/${url}.png`;
+//   const xivapiUrl = `https://xivapi.com/i/${url}.png`;
+//   new Promise(function (resolve, reject) {
+//     var ImgObj = new Image();
+//     ImgObj.src = cafeUrl;
+//     ImgObj.onload = (res) => resolve(res);
+//     ImgObj.onerror = (err) => reject(err);
+//   })
+//     .then(() => (img.src = cafeUrl))
+//     .catch(() => (img.src = xivapiUrl));
+// }
 
 function saveSettings() {
   let toSaveSortRuleUser = [];
@@ -210,7 +211,8 @@ function editWatch(dom) {
       closeEditDiv();
     }
   });
-  editID.innerText = "技能ID：" + dom.getAttribute("data-action-id");
+  editID.innerText =
+    "技能ID：" + dom.getAttribute("data-action-id") + " (" + parseInt(dom.getAttribute("data-action-id")).toString(16).toUpperCase() + ")";
   editName.innerText = "技能名称：" + dom.querySelector("article").innerText;
   editIcon.appendChild(dom.querySelector("img").cloneNode(true));
   editDiv.appendChild(ul);
@@ -231,19 +233,19 @@ function editWatch(dom) {
       (action.ClassJobCategory.indexOf(dom?.parentNode?.getAttribute("data-job-name")) > -1 &&
         action.ClassJobLevel > 0 &&
         compareSame(id) === id &&
-        action.Recast100ms >= 500) ||
+        (action.Recast100ms >= 500 || params.get("ignoreRecast") === "true")) ||
       id === "0"
     ) {
-      action.Name = actionsForCN[action.ID] ?? action.Name;
+      action.Name = action.Name;
       let actionDom = document.createElement("div");
       for (const key in action) {
         actionDom.setAttribute(`data-action-${key}`, action[key]);
       }
       let actionNameDom = document.createElement("article");
-      actionNameDom.innerText = `${action.Name}\n(${action.ID})`;
+      actionNameDom.innerText = `${action.Name}\n${action.ID} (${parseInt(action.ID).toString(16).toUpperCase()})`;
       let actionIconDom = document.createElement("aside");
       let actionIconImg = new Image();
-      cafeOrXiavpiUrl(action?.Url, actionIconImg);
+      actionIconImg.src = `https://souma.diemoe.net/resources/icon/${action?.Url ?? "000000/000405"}.png`;
       actionIconDom.appendChild(actionIconImg);
       actionDom.appendChild(actionNameDom);
       actionDom.appendChild(actionIconDom);
