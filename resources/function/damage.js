@@ -72,10 +72,10 @@ function getDamage(e) {
     // } else {
     // return result;
   }
-  console.log(offset);
-  console.log(e.line);
-  console.log(e.line[8 + offset]);
-  console.log(result);
+  // console.log(offset);
+  // console.log(e.line);
+  // console.log(e.line[8 + offset]);
+  // console.log(result);
   return result;
 }
 export { getDamage };
