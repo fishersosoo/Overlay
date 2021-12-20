@@ -93,6 +93,9 @@ body {
     right: 100%;
   }
 }
+.icon {
+  z-index: 1;
+}
 .icon::after {
   background: url(../../resources/img/action/frame.png) no-repeat;
   padding-left: 2px;
@@ -102,7 +105,7 @@ body {
   position: absolute;
   top: -3px;
   left: -4px;
-  z-index: 12;
+  z-index: 2;
   content: "";
 }
 aside {
