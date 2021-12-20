@@ -3456,10 +3456,10 @@ for (const s of [
   { ID: "16194", index: rule.Recast100ms, to: "1200" }, //技巧舞步结束
   { ID: "16195", index: rule.Recast100ms, to: "1200" }, //技巧舞步结束
   { ID: "16196", index: rule.Recast100ms, to: "1200" }, //技巧舞步结束
-  { ID: "16483", index: rule.ActionCategory, to: "战技" },
-  { ID: "16484", index: rule.ActionCategory, to: "战技" },
-  { ID: "16485", index: rule.ActionCategory, to: "战技" },
-  { ID: "16486", index: rule.ActionCategory, to: "战技" },
+  { ID: "16483", index: rule.ActionCategory, to: "战技" }, //燕回返
+  { ID: "16484", index: rule.ActionCategory, to: "战技" }, //回返彼岸花
+  { ID: "16485", index: rule.ActionCategory, to: "战技" }, //回返天下五剑
+  { ID: "16486", index: rule.ActionCategory, to: "战技" }, //回返纷乱雪月花
 ]) {
   actions[s.ID][s.index] = s.to;
 }

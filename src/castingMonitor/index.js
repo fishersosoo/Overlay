@@ -88,7 +88,7 @@ addOverlayListener("LogLine", (e) => {
             aside.appendChild(tetrisDiv);
             tetrisDiv.classList.add("icon");
             if (action.ActionCategory === "能力") tetrisDiv.classList.add("oGCD");
-            if (aside.clientHeight > (1 + tetrisDiv.clientHeight) * 2) aside.firstChild.remove();
+            if (aside.clientHeight > (1 + tetrisDiv.clientHeight) * 2) aside.firstChild?.remove();
           }
         }
         document.querySelector("main").appendChild(section);

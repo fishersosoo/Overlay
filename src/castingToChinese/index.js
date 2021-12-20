@@ -3,6 +3,7 @@ import "./index.scss";
 import "../../resources/function/loadComplete.js";
 import { castChinese } from "./cast100ms.js";
 import { logProcessing } from "../../resources/function/logProcessing.js";
+import { TTS } from "../../resources/function/TTS.js";
 
 let target;
 const main = document.querySelector("main");
@@ -11,6 +12,7 @@ const castingCountdown = document.querySelector("#countdown");
 const castingName = document.querySelector("section");
 const castingProgress = document.querySelector("aside");
 const params = new URLSearchParams(new URL(window.location).search);
+const ttsEnable = params.get("tts") === "true";
 let casting = {};
 main.style.opacity = "0";
 
@@ -23,6 +25,7 @@ addOverlayListener("LogLine", (e) => {
       castTime: log.castTime * 1000,
       overTime: Date.now() + log.castTime * 1000,
       damageType: null, //留坑
+      alreadyTTS: false,
     };
   } else if (e.line[0] === "23") {
     const log = logProcessing(e.line, "action");
@@ -41,6 +44,10 @@ function show() {
   main.style.opacity = "1";
   castingName.innerText = casting?.[target]?.name ?? "";
   castingType.innerText = casting?.[target]?.damageType ?? "";
+  if (ttsEnable && casting?.[target]?.alreadyTTS === false) {
+    TTS(castingName.innerText);
+    casting[target].alreadyTTS = true;
+  }
 }
 
 function clear() {

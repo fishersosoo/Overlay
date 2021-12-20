@@ -493,7 +493,7 @@ const items = {
 };
 export function getItem(id) {
   return {
-    Name: items[id][0] ?? "unknown",
-    Url: items[id][1] ?? "000000/000405",
+    Name: items?.[id]?.[0] ?? "unknown",
+    Url: items?.[id]?.[1] ?? "000000/000405",
   };
 }

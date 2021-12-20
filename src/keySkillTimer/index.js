@@ -25,12 +25,7 @@ addOverlayListener("LogLine", (e) => {
     let log = logProcessing(e.line, "action");
     let actionID = parseInt(log["actionID"], 16);
     if (party.some((p) => p.inParty && p.id === log["casterID"]) && raidBuffs[actionID]) {
-      let d = document.querySelector(`article[data-from="${log["casterID"]}-${compareSame(actionID)}"]`);
-      if (d !== null) {
-        d.use();
-      } else {
-        console.warn(d);
-      }
+      document.querySelector(`article[data-from="${log["casterID"]}-${compareSame(actionID)}"]`)?.use();
       TTS(raidBuffs[actionID]?.tts);
     } else if (log["casterID"] === youID && raidBuffs[actionID] !== undefined) {
       if (

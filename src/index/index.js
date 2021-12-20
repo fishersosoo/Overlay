@@ -38,7 +38,7 @@ const list = {
     describe: "读条汉化",
     img: IMGcastingToChinese,
     useful: "6.0",
-    params: "?focus=false&advance=8",
+    params: "?focus=false&advance=8&tts=false",
   },
 };
 let thead = document.createElement("tr");
