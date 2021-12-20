@@ -11,7 +11,7 @@ export default (function () {
   readMe.style.width = "100vw";
   readMe.style.zIndex = "10";
   readMe.style.color = "white";
-  readMe.style.textShadow = -"1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000";
+  readMe.style.textShadow = "-1px 0 2px #000, 0 1px 2px #000, 1px 0 2px #000, 0 -1px 2px #000";
   readMe.style.display = "none";
   readMe.style.fontFamily = "微软雅黑";
   readMe.style.fontWeight = "bold";
