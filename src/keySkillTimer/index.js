@@ -33,7 +33,6 @@ addOverlayListener("LogLine", (e) => {
       }
       TTS(raidBuffs[actionID]?.tts);
     } else if (log["casterID"] === youID && raidBuffs[actionID] !== undefined) {
-      console.log(raidBuffs[actionID]?.type);
       if (
         (raidBuffs[actionID]?.type === "0" && params.get("dajinengTTS") !== "false") ||
         (raidBuffs[actionID]?.type === "1" && params.get("tuanfuTTS") !== "false")
