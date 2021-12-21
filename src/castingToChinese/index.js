@@ -1,30 +1,39 @@
 "use strict";
-import "./index.scss";
 import "../../resources/function/loadComplete.js";
-import { castChinese } from "./cast100ms.js";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import { TTS } from "../../resources/function/TTS.js";
+import { castChinese } from "./cast100ms.js";
+import "./index.scss";
+import { toRoomaji } from "../../resources/function/roomaji.js";
 
 let target;
+const params = new URLSearchParams(new URL(window.location).search);
 const main = document.querySelector("main");
-const castingType = document.querySelector("#type");
+// const castingType = document.querySelector("#type"); //留坑
 const castingCountdown = document.querySelector("#countdown");
 const castingName = document.querySelector("section");
 const castingProgress = document.querySelector("aside");
-const params = new URLSearchParams(new URL(window.location).search);
 const ttsEnable = params.get("tts") === "true";
+const roomajiEnable = params.get("roomaji") === "true";
 let casting = {};
-main.style.opacity = "0";
 
+if (params.get("hideCountdown") === "true") castingCountdown.style.display = "none";
+if (params.get("hideProg") === "true") castingProgress.style.display = "none";
+castingName.style.fontSize = params.get("fontSize") ?? "20px";
+main.style.opacity = "0";
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "20") {
     const log = logProcessing(e.line, "action");
     casting[log.casterID] = {
-      name: castChinese?.[parseInt(log?.actionID, 16)] ?? log.actionName,
+      name:
+        castChinese?.[parseInt(log?.actionID, 16)] ??
+        (() => {
+          return toRoomaji(log.actionName);
+        })(),
       startTime: Date.now(),
       castTime: log.castTime * 1000,
       overTime: Date.now() + log.castTime * 1000,
-      damageType: null, //留坑
+      // damageType: null, //留坑
       alreadyTTS: false,
     };
   } else if (e.line[0] === "23") {
@@ -42,8 +51,8 @@ startOverlayEvents();
 
 function show() {
   main.style.opacity = "1";
-  castingName.innerText = casting?.[target]?.name ?? "";
-  castingType.innerText = casting?.[target]?.damageType ?? "";
+  castingName.innerText = casting?.[target]?.name;
+  // castingType.innerText = casting?.[target]?.damageType ?? ""; //留坑
   if (ttsEnable && casting?.[target]?.alreadyTTS === false) {
     TTS(castingName.innerText);
     casting[target].alreadyTTS = true;
