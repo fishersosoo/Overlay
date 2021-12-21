@@ -8,18 +8,18 @@ let keigenns = {
   "2d7": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //圣光幕帘（已触发）
   "a72": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //ホーリーシェルトロン 82级新技能
   "a73": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //ナイトの堅守 82级新技能
-  
+
   "2df": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初的直觉
   "8b3": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初的勇猛
   57: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //战栗
-  "59": { dodge: 1, physics: 1, magic: 1, darkness: 1,condition: "player"  }, //复仇 //他不是减伤buff，为了可读性而展示
+  "59": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //复仇 //他不是减伤buff，为了可读性而展示
   390: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //受伤减轻
   "5b1": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //摆脱
   199: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //死斗
   "a76": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初の血気 82级新技能
   "a77": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初の血潮 82级新技能
   "a78": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初の血煙 82级新技能
-  
+
   "49a": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //至黑之夜
   "2ea": { dodge: 0, physics: 0, magic: 1, darkness: 0, condition: "player" }, //弃明投暗
   "2eb": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //暗影墙
@@ -53,6 +53,8 @@ let keigenns = {
   351: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //命运之轮
   761: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //天星交错
   "a9d": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //エクザルテーション 82级新技能
+  //中间学派单盾
+  //中间学派群盾
 
   "a2f": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //エウクラシア・ディアグノシス 贤单盾
   "a30": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //エウクラシア・ディアグノシス[強] 贤单盾暴击
