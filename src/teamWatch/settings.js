@@ -72,61 +72,66 @@ let sortRuleShow = allJob.sort(
 );
 let watchJobsActionsIDShow = load("watchJobsActionsIDUser") ?? watchJobsActionsID;
 
-const sortRuleDiv = document.createElement("table");
-for (const jobID of sortRuleShow) {
-  let tr = document.createElement("tr");
-  const jobInfo = getJobByID(jobID);
-  tr.setAttribute("data-job-name", jobInfo.jp);
-  let name = document.createElement("article");
-  name.classList.add(jobInfo?.en);
-  name.classList.add("job");
-  name.classList.add(role[jobID] ?? "");
-  let nameCN = document.createElement("aside");
-  let nameEN = document.createElement("aside");
-  nameCN.innerText = jobInfo?.cn ?? "?";
-  nameEN.innerText = `${jobID}-${jobInfo?.en ?? "?"}`;
-  name.appendChild(nameCN);
-  name.appendChild(nameEN);
-  tr.appendChild(name);
-  tr.id = `${jobID}`;
-  sortRuleDiv.appendChild(tr);
-  let dragArea = document.createElement("td");
-  let dragUp = document.createElement("div");
-  let dragDown = document.createElement("div");
-  dragUp.classList.add("dragElement");
-  dragDown.classList.add("dragElement");
-  dragUp.innerText = "∧";
-  dragDown.innerText = "∨";
-  dragArea.appendChild(dragUp);
-  dragArea.appendChild(dragDown);
-  dragArea.classList.add("dragArea");
-  tr.appendChild(dragArea);
-  if (!baseClass[jobID]) {
-    dragUp.addEventListener("click", function () {
-      const index = Array.prototype.indexOf.call(sortRuleDiv.childNodes, tr);
-      if (index > 0) sortRuleDiv.insertBefore(tr, tr.previousElementSibling);
-    });
-    dragDown.addEventListener("click", function () {
-      const index = Array.prototype.indexOf.call(sortRuleDiv.childNodes, tr);
-      if (index < sortRuleShow.length - 1) sortRuleDiv.insertBefore(tr, tr.nextElementSibling.nextElementSibling);
-    });
-  } else {
-    dragArea.style.opacity = "0";
-  }
+function loadAction(watchJobsActionsIDShow) {
+  document.querySelector("#sortRuleDiv")?.remove();
+  const sortRuleDiv = document.createElement("table");
+  sortRuleDiv.id = "sortRuleDiv";
+  for (const jobID of sortRuleShow) {
+    let tr = document.createElement("tr");
+    const jobInfo = getJobByID(jobID);
+    tr.setAttribute("data-job-name", jobInfo.jp);
+    let name = document.createElement("article");
+    name.classList.add(jobInfo?.en);
+    name.classList.add("job");
+    name.classList.add(role[jobID] ?? "");
+    let nameCN = document.createElement("aside");
+    let nameEN = document.createElement("aside");
+    nameCN.innerText = jobInfo?.cn ?? "?";
+    nameEN.innerText = `${jobID}-${jobInfo?.en ?? "?"}`;
+    name.appendChild(nameCN);
+    name.appendChild(nameEN);
+    tr.appendChild(name);
+    tr.id = `${jobID}`;
+    sortRuleDiv.appendChild(tr);
+    let dragArea = document.createElement("td");
+    let dragUp = document.createElement("div");
+    let dragDown = document.createElement("div");
+    dragUp.classList.add("dragElement");
+    dragDown.classList.add("dragElement");
+    dragUp.innerText = "∧";
+    dragDown.innerText = "∨";
+    dragArea.appendChild(dragUp);
+    dragArea.appendChild(dragDown);
+    dragArea.classList.add("dragArea");
+    tr.appendChild(dragArea);
+    if (!baseClass[jobID]) {
+      dragUp.addEventListener("click", function () {
+        const index = Array.prototype.indexOf.call(sortRuleDiv.childNodes, tr);
+        if (index > 0) sortRuleDiv.insertBefore(tr, tr.previousElementSibling);
+      });
+      dragDown.addEventListener("click", function () {
+        const index = Array.prototype.indexOf.call(sortRuleDiv.childNodes, tr);
+        if (index < sortRuleShow.length - 1) sortRuleDiv.insertBefore(tr, tr.nextElementSibling.nextElementSibling);
+      });
+    } else {
+      dragArea.style.opacity = "0";
+    }
 
-  for (const watchJobActionsID of watchJobsActionsIDShow?.[jobID] ?? {}) {
-    tr.appendChild(newTD(watchJobActionsID));
+    for (const watchJobActionsID of watchJobsActionsIDShow?.[jobID] ?? {}) {
+      tr.appendChild(newTD(watchJobActionsID));
+    }
+    let addDom = document.createElement("aside");
+    let addButton = document.createElement("button");
+    addButton.innerText = "+";
+    addDom.appendChild(addButton);
+    tr.appendChild(addDom);
+    addButton.addEventListener("click", function () {
+      tr.insertBefore(newTD(0), this.parentNode);
+    });
   }
-  let addDom = document.createElement("aside");
-  let addButton = document.createElement("button");
-  addButton.innerText = "+";
-  addDom.appendChild(addButton);
-  tr.appendChild(addDom);
-  addButton.addEventListener("click", function () {
-    tr.insertBefore(newTD(0), this.parentNode);
-  });
+  main.appendChild(sortRuleDiv);
 }
-main.appendChild(sortRuleDiv);
+loadAction(watchJobsActionsIDShow);
 
 function newTD(id) {
   let td = document.createElement("td");
@@ -147,19 +152,6 @@ function newTD(id) {
   });
   return td;
 }
-
-// function cafeOrXiavpiUrl(url, img) {
-//   const cafeUrl = `https://cafemaker.wakingsands.com/i/${url}.png`;
-//   const xivapiUrl = `https://xivapi.com/i/${url}.png`;
-//   new Promise(function (resolve, reject) {
-//     var ImgObj = new Image();
-//     ImgObj.src = cafeUrl;
-//     ImgObj.onload = (res) => resolve(res);
-//     ImgObj.onerror = (err) => reject(err);
-//   })
-//     .then(() => (img.src = cafeUrl))
-//     .catch(() => (img.src = xivapiUrl));
-// }
 
 function saveSettings() {
   let toSaveSortRuleUser = [];
@@ -186,6 +178,7 @@ function saveSettings() {
     save("sortRuleUser", toSaveSortRuleUser);
     save("watchJobsActionsIDUser", toSaveWatchJobsActionsID);
     alert("已保存!");
+    window.opener?.location.reload();
   } catch (e) {
     alert("保存失败" + e);
   }
@@ -270,3 +263,45 @@ function closeEditDiv() {
 document.body.addEventListener("keyup", (e) => {
   if (e.key === "Escape") closeEditDiv();
 });
+
+const share = document.querySelector("#share");
+let exp = document.createElement("button");
+exp.addEventListener("click", () => {
+  let toSaveSortRuleUser = [];
+  sortRuleDiv.childNodes.forEach((v) => {
+    toSaveSortRuleUser.push(v.id);
+  });
+  let toSaveWatchJobsActionsID = [].reduce.call(
+    sortRuleDiv.childNodes,
+    (pre, value) => {
+      pre[value.id] = [].reduce.call(
+        [].slice.call(value.querySelectorAll("td:not(.dragArea)"), 0),
+        (arr, td) => {
+          arr.push(parseInt(td.getAttribute("data-action-id")));
+          return arr;
+        },
+        []
+      );
+      return pre;
+    },
+    {}
+  );
+  try {
+    share.value = window.btoa(JSON.stringify(toSaveWatchJobsActionsID));
+  } catch (e) {
+    alert(e);
+  }
+});
+exp.innerText = "导出";
+document.body.appendChild(exp);
+let imp = document.createElement("button");
+imp.addEventListener("click", () => {
+  try {
+    loadAction(JSON.parse(window.atob(share.value)));
+    alert("导入成功！记得保存。");
+  } catch (e) {
+    alert(e);
+  }
+});
+imp.innerText = "导入";
+document.body.appendChild(imp);

@@ -3460,6 +3460,7 @@ for (const s of [
   { ID: "16484", index: rule.ActionCategory, to: "战技" }, //回返彼岸花
   { ID: "16485", index: rule.ActionCategory, to: "战技" }, //回返天下五剑
   { ID: "16486", index: rule.ActionCategory, to: "战技" }, //回返纷乱雪月花
+  { ID: "11415", index: rule.Recast100ms, to: "300" },//月之笛
 ]) {
   actions[s.ID][s.index] = s.to;
 }

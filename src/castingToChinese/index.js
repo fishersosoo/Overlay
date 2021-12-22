@@ -2,7 +2,7 @@
 import "../../resources/function/loadComplete.js";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import { TTS } from "../../resources/function/TTS.js";
-import { castChinese } from "./cast100ms.js";
+import { castChinese } from "../../resources/data/cast100ms.js";
 import "./index.scss";
 import { toRoomaji } from "../../resources/function/roomaji.js";
 
@@ -22,7 +22,7 @@ if (params.get("hideCountdown") === "true") castingCountdown.style.display = "no
 if (params.get("hideProg") === "true") castingProgress.style.display = "none";
 castingName.style.fontSize = params.get("fontSize") ?? "20px";
 main.style.opacity = "0";
-document.body.style.fontFamily = params.get("fontfamily") ?? "SmartisanHei";
+document.body.style.fontFamily = params.get("fontFamily") ?? "SmartisanHei";
 const progHeight = params.get("progHeight") ?? "10px";
 castingProgress.style.height = progHeight;
 castingName.style.top = 20 + parseInt(castingProgress.style.height) + "px";

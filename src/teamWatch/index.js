@@ -1,19 +1,25 @@
 "use strict";
 
 import { getAction } from "../../resources/data/actions.js";
-import { levels } from "../../resources/function/getLevels.js";
 import { compareSame } from "../../resources/function/compareSameGroup.js";
+import { levels } from "../../resources/function/getLevels.js";
 import "../../resources/function/loadComplete.js";
+import { loadItem } from "../../resources/function/localStorage";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import "../../resources/function/xianyu.js";
 import { baseClass, sortRule, watchJobsActionsID } from "./default.js";
 import "./index.scss";
+
+const namespace = "TeamWatch4";
+const load = (t, a = undefined) => loadItem(namespace, t, a);
+const sortRuleUsed = load("sortRuleUser", sortRule);
 
 let playerID = "";
 let party = [];
 let timers = [];
 let inFaker = true;
 let params = new URLSearchParams(new URL(window.location).search);
+
 document.querySelector("main").style.transform = `scale(${(params.get("scale") ?? 1) * 0.8})`;
 document.querySelector("#settings").addEventListener("click", () => {
   window.open("./teamWatchSettings.html", "_blank", "width=800,height=800");
@@ -85,15 +91,16 @@ function partyChanged(party) {
       if (b.id === playerID) return 1;
       a.job = baseClass[a.job] ?? a.job;
       b.job = baseClass[b.job] ?? b.job;
-      return sortRule.indexOf(a.job.toString()) - sortRule.indexOf(b.job.toString());
+      return sortRuleUsed.indexOf(a.job.toString()) - sortRuleUsed.indexOf(b.job.toString());
     });
   })();
+  const watchJobsActionsIDUsed = load("watchJobsActionsIDUser") ?? watchJobsActionsID;
   for (let m = 0; m < membersDOM.length; m++) {
     if (party[m]) {
       membersDOM[m].innerHTML = "";
       const partyMember = party[m];
       membersDOM[m].setAttribute("data-party-job", party[m].job);
-      const jobActionsID = watchJobsActionsID?.[partyMember?.job.toString()];
+      const jobActionsID = watchJobsActionsIDUsed?.[partyMember?.job.toString()];
       for (let i = 0; i < jobActionsID.length; i++) {
         let memberActionDOM = document.createElement("article");
         if (jobActionsID[i] > 0) {
