@@ -23,6 +23,9 @@ if (params.get("hideProg") === "true") castingProgress.style.display = "none";
 castingName.style.fontSize = params.get("fontSize") ?? "20px";
 main.style.opacity = "0";
 document.body.style.fontFamily = params.get("fontfamily") ?? "SmartisanHei";
+const progHeight = params.get("progHeight") ?? "10px";
+castingProgress.style.height = progHeight;
+castingName.style.top = 20 + parseInt(castingProgress.style.height) + "px";
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "20") {
     const log = logProcessing(e.line, "action");
