@@ -15,6 +15,7 @@ let timers = [];
 let party = [];
 let youID = null;
 let inFaker = true;
+
 addOverlayListener("ChangePrimaryPlayer", (e) => (youID = e.charID.toString(16).toUpperCase()));
 addOverlayListener("PartyChanged", (e) => {
   party = e.party || [];
@@ -26,14 +27,16 @@ addOverlayListener("LogLine", (e) => {
     let actionID = parseInt(log["actionID"], 16);
     if (party.some((p) => p.inParty && p.id === log["casterID"]) && raidBuffs[actionID]) {
       document.querySelector(`article[data-from="${log["casterID"]}-${compareSame(actionID)}"]`)?.use();
-      TTS(raidBuffs[actionID]?.tts);
+      doTTS(actionID)
     } else if (log["casterID"] === youID && raidBuffs[actionID] !== undefined) {
-      if (
-        (raidBuffs[actionID]?.type === "0" && params.get("dajinengTTS") !== "false") ||
-        (raidBuffs[actionID]?.type === "1" && params.get("tuanfuTTS") !== "false")
-      ) {
-        TTS(raidBuffs[actionID]?.tts);
-      }
+      doTTS(actionID);
+    }
+  }
+
+  function doTTS(actionID) {
+    if ((raidBuffs[actionID]?.type === "0" && params.get("dajinengTTS") !== "false") ||
+      (raidBuffs[actionID]?.type === "1" && params.get("tuanfuTTS") !== "false")) {
+      TTS(raidBuffs[actionID]?.tts);
     }
   }
 });
