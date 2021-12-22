@@ -1,3 +1,7 @@
+@font-face {
+  font-family: SmartisanHei;
+  src: url(https://act.diemoe.net/overlays/common/SmartisanHei.ttf);
+}
 body {
   overflow: hidden;
   main {
@@ -50,6 +54,7 @@ body {
       // font-size: 20px;
       text-align: right;
       overflow: hidden;
+      // font-family: SmartisanHei;
     }
   }
 }

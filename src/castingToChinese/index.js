@@ -12,7 +12,8 @@ const main = document.querySelector("main");
 // const castingType = document.querySelector("#type"); //留坑
 const castingCountdown = document.querySelector("#countdown");
 const castingName = document.querySelector("section");
-const castingProgress = document.querySelector("aside");
+const castingProgress = document.querySelector("article");
+const castingProgressInner = document.querySelector("aside");
 const ttsEnable = params.get("tts") === "true";
 const roomajiEnable = params.get("roomaji") === "true";
 let casting = {};
@@ -21,6 +22,7 @@ if (params.get("hideCountdown") === "true") castingCountdown.style.display = "no
 if (params.get("hideProg") === "true") castingProgress.style.display = "none";
 castingName.style.fontSize = params.get("fontSize") ?? "20px";
 main.style.opacity = "0";
+document.body.style.fontFamily = params.get("fontfamily") ?? "SmartisanHei";
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "20") {
     const log = logProcessing(e.line, "action");
@@ -28,7 +30,7 @@ addOverlayListener("LogLine", (e) => {
       name:
         castChinese?.[parseInt(log?.actionID, 16)] ??
         (() => {
-          return toRoomaji(log.actionName);
+          return roomajiEnable ? toRoomaji(log.actionName) : log.actionName;
         })(),
       startTime: Date.now(),
       castTime: log.castTime * 1000,
@@ -67,7 +69,7 @@ function update() {
   if (casting?.[target] !== undefined) {
     const now = Date.now();
     const count = (casting[target].overTime - now - pingMs) / 1000;
-    castingProgress.style.width = `${((now - casting[target].startTime + pingMs) / casting[target].castTime) * 100}%`;
+    castingProgressInner.style.width = `${((now - casting[target].startTime + pingMs) / casting[target].castTime) * 100}%`;
     castingCountdown.innerText = Math.max(count, 0).toFixed(2);
     if (count <= -0.1) {
       delete casting[target];
