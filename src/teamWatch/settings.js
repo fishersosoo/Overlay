@@ -18,10 +18,13 @@ const editDiv = document.querySelector("#editDiv");
 
 resetButton.innerText = "清除用户数据";
 resetButton.addEventListener("click", function () {
-  if (confirm("你确定要清除全部自定义储存吗？（该操作无法撤回）")) {
-    window.localStorage.removeItem(namespace);
-    location.reload();
+  if (confirm("清除技能设定吗？")) {
+    save("watchJobsActionsIDUser", watchJobsActionsID);
   }
+  if (confirm("清除职业排序吗？")) {
+    save("sortRuleUser", sortRule);
+  }
+  location.reload();
 });
 const p = document.createElement("p");
 p.innerText = "下方顺序需要与游戏内的职能排序保持一致。";
