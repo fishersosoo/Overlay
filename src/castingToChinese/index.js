@@ -17,7 +17,8 @@ const castingProgressInner = document.querySelector("aside");
 const ttsEnable = params.get("tts") === "true";
 const roomajiEnable = params.get("roomaji") === "true";
 let casting = {};
-
+let castDirective;
+if (params.get("directive") === "true") import("./whatShouldIDo.js").then((e) => (castDirective = e.whatShouldIDo));
 if (params.get("hideCountdown") === "true") castingCountdown.style.display = "none";
 if (params.get("hideProg") === "true") castingProgress.style.display = "none";
 castingName.style.fontSize = params.get("fontSize") ?? "20px";
@@ -31,6 +32,7 @@ addOverlayListener("LogLine", (e) => {
     const log = logProcessing(e.line, "action");
     casting[log.casterID] = {
       name:
+        castDirective?.[parseInt(log?.actionID, 16)] ??
         castChinese?.[parseInt(log?.actionID, 16)] ??
         (() => {
           return roomajiEnable ? toRoomaji(log.actionName) : log.actionName;
