@@ -151,7 +151,7 @@ function newTD(id) {
   td.appendChild(icon);
   td.setAttribute("data-action-id", id);
   td.addEventListener("click", function () {
-    if (!/opacity/.test(main.className)) editWatch(this);
+    if (!/opacity/.test(main.className)) editWatch(this, td);
   });
   return td;
 }
@@ -187,7 +187,12 @@ function saveSettings() {
   }
   location.reload();
 }
-function editWatch(dom) {
+function editWatch(dom, td) {
+  const tdList = Array.from(td.parentElement.querySelectorAll("td"))?.reduce((pre, value) => {
+    const id = value?.getAttribute("data-action-id");
+    if (id) pre?.push(id);
+    return pre;
+  }, []);
   main.classList.add("opacity");
   editDiv.classList.remove("hide");
   editDiv.innerHTML = "";
@@ -226,11 +231,12 @@ function editWatch(dom) {
   for (const id in actions) {
     const action = getAction(id);
     if (
-      (action.ClassJobCategory.indexOf(dom?.parentNode?.getAttribute("data-job-name")) > -1 &&
+      ((action.ClassJobCategory.indexOf(dom?.parentNode?.getAttribute("data-job-name")) > -1 &&
         action.ClassJobLevel > 0 &&
         compareSame(id) === id &&
-        (action.Recast100ms >= 30 || params.get("ignoreRecast") === "true")) ||
-      id === "0"
+        (action.Recast100ms >= 100 || params.get("ignoreRecast") === "true")) ||
+        id === "0") &&
+      !tdList?.some((value) => value === id)
     ) {
       action.Name = action.Name;
       let actionDom = document.createElement("div");
@@ -243,8 +249,11 @@ function editWatch(dom) {
       let actionIconImg = new Image();
       actionIconImg.src = `https://souma.diemoe.net/resources/icon/${action?.Url ?? "000000/000405"}.png`;
       actionIconDom.appendChild(actionIconImg);
+      let actionRecast100ms = document.createElement("footer");
+      actionRecast100ms.innerText = action.Recast100ms / 10 + "S";
       actionDom.appendChild(actionNameDom);
       actionDom.appendChild(actionIconDom);
+      actionDom.appendChild(actionRecast100ms);
       candidateDiv.appendChild(actionDom);
       actionDom.addEventListener("click", function () {
         const newID = this.getAttribute("data-action-id");

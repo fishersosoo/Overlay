@@ -176,35 +176,31 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
     align-content: flex-start;
+    border-collapse: collapse;
     > div {
-      border: 1px white solid;
+      position: relative;
       display: flex;
+      margin: 0.5px;
       flex-direction: column;
-      box-sizing: border-box;
-      width: 25%;
+      width: calc(25% - 1px);
       min-height: 62px;
       outline: 1px solid black;
       justify-content: space-between;
-      padding: 2px;
       &:hover {
         background-color: lightgreen;
         cursor: pointer;
       }
       article {
-        justify-content: center;
-        padding-bottom: 2px;
-        margin-bottom: 2px;
+        // justify-content: center;
         text-align: center;
         font-size: 12px;
-        // white-space: nowrap;
-        // overflow: hidden;
-        // text-overflow: ellipsis;
       }
       aside {
+        margin-top: 2px;
         justify-content: center;
         display: inline-flex;
         position: relative;
-        height: 48px;
+        height: 44px;
         img {
           position: absolute;
         }
@@ -216,6 +212,18 @@ body {
           width: 48px;
           height: 48px;
         }
+      }
+      footer {
+        position: absolute;
+        right: 0;
+        // bottom: 1px;
+        // left: 50%;
+        // transform: translateX(-50%);
+        color: white;
+        font-size: 12px;
+        font-family: monospace;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 0px 1px;
       }
     }
   }
