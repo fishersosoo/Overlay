@@ -78,7 +78,7 @@ article.normalActionAnimation::after {
   clip-path: polygon(4% 0, 100% 0, 100% 100%, 4% 100%); //挪来挪去整不明白 不如直接蒙版
 }
 .nocharges {
-  filter: contrast(0.5);
+  filter: contrast(0.8);
 }
 .charges {
   position: absolute;

@@ -149,16 +149,20 @@ function handle() {
         art.style.color = settings.style.fontColor;
         art.setAttribute("name", i + "-" + skill.id);
         let recast1000ms =
-          action.Recast100ms instanceof Function ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10 : action.Recast100ms / 10;
+          action.Recast100ms instanceof Function
+            ? action.Recast100ms(levels[player.id] ? levels[player.id] : 0) / 10
+            : action.Recast100ms / 10;
         art.setAttribute("reset100ms", recast1000ms);
-        let maxCharges = action.MaxCharges instanceof Function ? action.MaxCharges(levels[player.id] ? levels[player.id] : 0) : action.MaxCharges;
+        let maxCharges =
+          action.MaxCharges instanceof Function ? action.MaxCharges(levels[player.id] ? levels[player.id] : 0) : action.MaxCharges;
         art.style.background = `
         url(),
         url(./resources/${settings.style.skin}/icon.png),
         url(https://cafemaker.wakingsands.com/i/${action.Url}.png) center / 40px 40px no-repeat `;
         if (maxCharges > 0) {
           art.innerText = maxCharges;
-          art.style.textShadow = "-1px 0 3px rgb(197, 73, 0), 0 1px 3px rgb(197, 73, 0), 1px 0 3px rgb(197, 73, 0), 0 -1px 3px rgb(197, 73, 0)";
+          art.style.textShadow =
+            "-1px 0 3px rgb(197, 73, 0), 0 1px 3px rgb(197, 73, 0), 1px 0 3px rgb(197, 73, 0), 0 -1px 3px rgb(197, 73, 0)";
           art.style.fontSize = parseInt(art.style.fontSize) * 0.8 + "px";
           art.style.padding = "15px 0px 0px 30px";
         }
@@ -231,11 +235,15 @@ function handle() {
 addOverlayListener("PartyChanged", (e) => {
   party = e.party;
   if (e.party.length) party = partySort(party);
-  handle();
+  setTimeout(() => {
+    handle();
+  }, 1000);
 });
 startOverlayEvents();
 document.addEventListener("onOverlayStateUpdate", (e) =>
-  e.detail.isLocked ? document.querySelector("#readMe").setAttribute("hidden", true) : document.querySelector("#readMe").removeAttribute("hidden")
+  e.detail.isLocked
+    ? document.querySelector("#readMe").setAttribute("hidden", true)
+    : document.querySelector("#readMe").removeAttribute("hidden")
 );
 document.querySelector("#settings").onclick = () => {
   window.open("./settings.html", "_blank", "width=966,height=720");

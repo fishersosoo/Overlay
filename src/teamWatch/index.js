@@ -2,7 +2,7 @@
 
 import { getAction } from "../../resources/data/actions.js";
 import { compareSame } from "../../resources/function/compareSameGroup.js";
-import { levels } from "../../resources/function/getLevels.js";
+import { getLevels } from "../../resources/function/getLevels.js";
 import "../../resources/function/loadComplete.js";
 import { loadItem } from "../../resources/function/localStorage";
 import { logProcessing } from "../../resources/function/logProcessing.js";
@@ -17,7 +17,6 @@ const sortRuleUsed = load("sortRuleUser", sortRule);
 let playerID = "";
 let party = [];
 let timers = [];
-let inFaker = true;
 let params = new URLSearchParams(new URL(window.location).search);
 
 document.querySelector("main").style.transform = `scale(${(params.get("scale") ?? 1) * 0.8})`;
@@ -30,39 +29,36 @@ document.querySelector("#test").addEventListener("click", () => {
   });
 });
 document.addEventListener("onOverlayStateUpdate", (e) => {
-  inFaker = !e.detail.isLocked;
-  partyChanged(inFaker ? fakeParty : party);
+  partyChanged(e.detail.isLocked ? party : fakeParty);
   document.querySelector(".menu").style.display = e.detail.isLocked ? "none" : "block";
 });
 addOverlayListener("ChangePrimaryPlayer", (e) => {
   playerID = e.charID.toString(16).toUpperCase();
 });
 addOverlayListener("ChangeZone", () => {
-  partyChanged(party);
+  // setTimeout(() => {
+  // if (party.length > 0) partyChanged(party);
+  // }, 1000);
 });
 addOverlayListener("onPartyWipe", () => {
   partyChanged(party);
 });
-let timer;
 addOverlayListener("PartyChanged", (e) => {
-  clearInterval(timer);
-  timer = setInterval(() => {
-    if (playerID !== "") {
-      clearInterval(timer);
-      party = e.party.filter((p) => p.inParty);
-      if (!inFaker) partyChanged(party);
-    }
-  }, 100);
+  setTimeout(() => {
+    party = e.party.filter((p) => p.inParty);
+    if (party.length > 0) partyChanged(party);
+  }, 1000);
 });
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "21" || (e.line[0] === "22" && e.line[45] === "0")) {
     let log = logProcessing(e.line, "action");
-    if (inFaker && log?.casterID === playerID) {
+    log.actionID = compareSame(log.actionID);
+    if (log?.casterID === playerID) {
       use(document.querySelector("#member1").querySelector(`article[data-action-proto-id="${parseInt(log?.actionID, 16)}"]`));
     } else {
       use(
         document
-          .querySelector(`#member${party?.findIndex((member) => member.id === compareSame(log?.casterID)) + 1}`)
+          .querySelector(`#member${party?.findIndex((member) => member.id === log?.casterID) + 1}`)
           ?.querySelector(`article[data-action-proto-id="${parseInt(log.actionID, 16)}"]`)
       );
     }
@@ -80,6 +76,7 @@ const membersDOM = [
   body.querySelector("#member7"),
   body.querySelector("#member8"),
 ];
+
 function partyChanged(party) {
   for (const member of membersDOM) member.innerHTML = "";
   for (const timer of timers) clearTimeout(timer);
@@ -96,15 +93,15 @@ function partyChanged(party) {
   })();
   const watchJobsActionsIDUsed = load("watchJobsActionsIDUser") ?? watchJobsActionsID;
   for (let m = 0; m < membersDOM.length; m++) {
-    if (party[m]) {
+    if (party[m] !== undefined) {
       membersDOM[m].innerHTML = "";
       const partyMember = party[m];
       membersDOM[m].setAttribute("data-party-job", party[m].job);
       const jobActionsID = watchJobsActionsIDUsed?.[partyMember?.job.toString()];
-      for (let i = 0; i < jobActionsID.length; i++) {
+      for (let i = 0; i < jobActionsID?.length; i++) {
         let memberActionDOM = document.createElement("article");
         if (jobActionsID[i] > 0) {
-          const action = getAction(jobActionsID[i], levels[party[m].id]?.level ?? 999);
+          const action = getAction(jobActionsID[i], getLevels[party[m].id]?.level ?? 999);
           for (const protos in action) memberActionDOM.setAttribute(`data-action-proto-${protos}`, action[protos]);
           memberActionDOM.classList.add("skill_icon");
           memberActionDOM.classList.add("useful_" + action.Useful);
@@ -135,6 +132,7 @@ function partyChanged(party) {
 function use(dom) {
   if (dom) {
     if (dom.timer) clearInterval(dom.timer);
+    dom.style.opacity = "1";
     const maxCharges = parseInt(dom.getAttribute("data-action-proto-maxcharges"));
     let chargesNow = parseInt(dom.getAttribute("data-action-proto-chargesnow"));
     const chargeable = maxCharges > 0;
@@ -205,3 +203,4 @@ const fakeParty = [
   { id: "10000008", name: "Faker8", job: 28, inParty: true },
   { id: "1002E5AA", name: "Suzu", job: 38, inParty: true },
 ];
+partyChanged(fakeParty);

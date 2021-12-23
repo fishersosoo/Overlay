@@ -178,7 +178,7 @@ function saveSettings() {
     save("sortRuleUser", toSaveSortRuleUser);
     save("watchJobsActionsIDUser", toSaveWatchJobsActionsID);
     alert("已保存!");
-    window.opener?.location.reload();
+    window.opener?.location?.reload();
   } catch (e) {
     alert("保存失败" + e);
   }
