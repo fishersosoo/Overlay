@@ -7,7 +7,7 @@ let keigenns = {
   52: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //神圣领域
   "2d7": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //圣光幕帘（已触发）
   "a72": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //ホーリーシェルトロン 82级新技能
-  "a73": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //ナイトの堅守 82级新技能
+  "a73": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //ナイトの堅守 82级新技能 新盾阵
 
   "2df": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初的直觉
   "8b3": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初的勇猛

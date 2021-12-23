@@ -8,7 +8,7 @@ import { TTS } from "../../resources/function/TTS.js";
 import "../../resources/function/xianyu.js";
 import "./index.scss";
 import { raidBuffs } from "./raidbuffs.js";
-import { levels } from "../../resources/function/getLevels.js";
+import { getLevels } from "../../resources/function/getLevels.js";
 
 let params = new URLSearchParams(new URL(window.location).search);
 let timers = [];
@@ -19,7 +19,11 @@ let inFaker = true;
 addOverlayListener("ChangePrimaryPlayer", (e) => (youID = e.charID.toString(16).toUpperCase()));
 addOverlayListener("PartyChanged", (e) => {
   party = e.party || [];
-  if (!inFaker) show(party);
+  if (!inFaker) {
+    setTimeout(() => {
+      show(party);
+    }, 1000);
+  }
 });
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "21" || (e.line[0] === "22" && e.line[45] === "0")) {
@@ -27,15 +31,21 @@ addOverlayListener("LogLine", (e) => {
     let actionID = parseInt(log["actionID"], 16);
     if (party.some((p) => p.inParty && p.id === log["casterID"]) && raidBuffs[actionID]) {
       document.querySelector(`article[data-from="${log["casterID"]}-${compareSame(actionID)}"]`)?.use();
-      doTTS(actionID)
+      doTTS(actionID);
     } else if (log["casterID"] === youID && raidBuffs[actionID] !== undefined) {
       doTTS(actionID);
     }
   }
 
   function doTTS(actionID) {
-    if ((raidBuffs[actionID]?.type === "0" && params.get("dajinengTTS") !== "false") ||
-      (raidBuffs[actionID]?.type === "1" && params.get("tuanfuTTS") !== "false")) {
+    console.log(actionID);
+    console.log(raidBuffs[actionID]?.type);
+    console.log(params.get("dajinengTTS") !== "false");
+    console.log(params.get("tuanfuTTS") !== "false");
+    if (
+      (raidBuffs[actionID]?.type === 0 && params.get("dajinengTTS") !== "false") ||
+      (raidBuffs[actionID]?.type === 1 && params.get("tuanfuTTS") !== "false")
+    ) {
       TTS(raidBuffs[actionID]?.tts);
     }
   }
@@ -86,7 +96,7 @@ function show(party) {
       const element = raidBuffs[key];
       if (element.job.indexOf(p.job) > -1) {
         let art = document.createElement("article");
-        const action = getAction(key, levels[p.id]?.level ?? 999);
+        const action = getAction(key, getLevels[p.id]?.level ?? 999);
         art.style.order = element.order;
         art.classList.add("useful_" + action.Useful);
         art.setAttribute("data-from", `${p.id}-${key}`);
