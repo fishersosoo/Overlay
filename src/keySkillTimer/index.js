@@ -38,10 +38,6 @@ addOverlayListener("LogLine", (e) => {
   }
 
   function doTTS(actionID) {
-    console.log(actionID);
-    console.log(raidBuffs[actionID]?.type);
-    console.log(params.get("dajinengTTS") !== "false");
-    console.log(params.get("tuanfuTTS") !== "false");
     if (
       (raidBuffs[actionID]?.type === 0 && params.get("dajinengTTS") !== "false") ||
       (raidBuffs[actionID]?.type === 1 && params.get("tuanfuTTS") !== "false")
