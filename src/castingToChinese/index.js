@@ -15,7 +15,7 @@ const castingName = document.querySelector("section");
 const castingProgress = document.querySelector("article");
 const castingProgressInner = document.querySelector("aside");
 const ttsEnable = params.get("tts") === "true";
-const roomajiEnable = params.get("roomaji") === "true";
+const roomajiEnable = params.get("roomaji") !== "false";
 let casting = {};
 let castDirective;
 if (params.get("directive") === "true") import("./whatShouldIDo.js").then((e) => (castDirective = e.whatShouldIDo));
