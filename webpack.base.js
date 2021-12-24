@@ -14,12 +14,12 @@ module.exports = {
     triggerConverter: "./src/triggerConverter/index.js",
     mpTick: "./src/mpTick/index.js",
     index: "./src/index/index.js",
-    test: "./src/test/index.js",
+    // test: "./src/test/index.js",
     rotationSimulation: "./src/rotationSimulation/index.js",
     castingToChinese: "./src/castingToChinese/index.js",
   },
   output: {
-    filename: "js/[name].js",
+    filename: "js/[contenthash][name].js",
     path: path.resolve(__dirname, "dist"),
     assetModuleFilename: "images/[hash][ext][query]",
   },
@@ -79,11 +79,11 @@ module.exports = {
       filename: "castingToChinese.html",
       chunks: ["castingToChinese"],
     }),
-    new HtmlWebpackPlugin({
-      template: "./src/test/index.html",
-      filename: "test.html",
-      chunks: ["test"],
-    }),
+    // new HtmlWebpackPlugin({
+      // template: "./src/test/index.html",
+      // filename: "test.html",
+      // chunks: ["test"],
+    // }),
     new CleanWebpackPlugin(),
   ],
   module: {

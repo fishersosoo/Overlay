@@ -13,7 +13,7 @@ let keigenns = {
   "8b3": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初的勇猛
   57: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //战栗
   "59": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //复仇 //他不是减伤buff，为了可读性而展示
-  390: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //受伤减轻
+  // 390: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //受伤减轻
   "5b1": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //摆脱
   199: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //死斗
   "a76": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初の血気 82级新技能

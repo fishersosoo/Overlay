@@ -12,21 +12,21 @@ const list = {
   "triggerConverter": { type: "HTML网页", describe: "旧触发器正则转换", img: "", useful: "before 6.0", params: "" },
   "castingMonitor": {
     type: "ACT悬浮窗",
-    describe: "6.0施法监控",
+    describe: "施法监控",
     img: IMGcastingMonitor,
     useful: "6.X",
     params: "?duration=15&tetris=false",
   },
   "keigennRecord": {
     type: "ACT悬浮窗",
-    describe: "6.0减伤监控",
+    describe: "减伤监控",
     img: IMGkeigennRecord,
     useful: "6.X",
-    params: "?maxLength=800&24Mode=false&bgOpacity=0.45&bodyOpacity=1&fontSize=12px",
+    params: "?maxLength=800&24Mode=false&bgOpacity=0.45&bodyOpacity=1&fontSize=12px&th1=34px&th2=28px&th3=28px&th4=40px",
   },
   "keySkillTimer": {
     type: "ACT悬浮窗",
-    describe: "6.0团辅监控",
+    describe: "团辅监控",
     img: IMGkeySkillTimer,
     useful: "6.X",
     params: "?dajinengTTS=true&tuanfuTTS=true&inPartyOnly=true",
@@ -62,12 +62,8 @@ for (const key in list) {
   td3A.innerText = project.describe;
   if (project.type === "ACT悬浮窗") {
     td3A.addEventListener("click", () => {
-      alert(
-        `
-如何添加悬浮窗：ACT-插件-OverlayPlugin（NGLD），左下方“新建”，任意起名，类型选择“自订 - 数据统计”。添加完成后，在右侧窗体的路径中，填入跳转后的页面地址。
-
-如何自定义属性：修改url链接中".html?"后方的字符串，若没有则无法自定义或有单独设置页面。
-        `
+      alert(`如何添加悬浮窗：ACT-插件-OverlayPlugin（NGLD），左下方“新建”，任意起名，类型选择“自订 - 数据统计”。添加完成后，在右侧窗体的路径中，填入跳转后的页面地址。
+如何自定义属性：修改url链接中".html?"后方的字符串，若没有则无法自定义或有单独设置页面。`
       );
     });
   }

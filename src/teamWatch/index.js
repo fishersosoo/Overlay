@@ -7,8 +7,10 @@ import "../../resources/function/loadComplete.js";
 import { loadItem } from "../../resources/function/localStorage";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import "../../resources/function/xianyu.js";
-import { baseClass, sortRule, watchJobsActionsID } from "./default.js";
+import { watchJobsActionsID } from "./default.js";
+import { sortRule } from "../../resources/data/sortRule.js";
 import "./index.scss";
+import { sortParty } from "../../resources/function/sortParty.js";
 
 const namespace = "TeamWatch4";
 const load = (t, a = undefined) => loadItem(namespace, t, a);
@@ -36,6 +38,7 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
   playerID = e.charID.toString(16).toUpperCase();
 });
 addOverlayListener("ChangeZone", () => {
+  partyChanged(party);
   // setTimeout(() => {
   // if (party.length > 0) partyChanged(party);
   // }, 1000);
@@ -82,15 +85,7 @@ function partyChanged(party) {
   for (const timer of timers) clearTimeout(timer);
   timers = [];
   if (party.length === 0 || party === []) return;
-  party = (() => {
-    return party.sort((a, b) => {
-      if (a.id === playerID) return -1;
-      if (b.id === playerID) return 1;
-      a.job = baseClass[a.job] ?? a.job;
-      b.job = baseClass[b.job] ?? b.job;
-      return sortRuleUsed.indexOf(a.job.toString()) - sortRuleUsed.indexOf(b.job.toString());
-    });
-  })();
+  party = sortParty(party, playerID, sortRuleUsed);
   const watchJobsActionsIDUsed = load("watchJobsActionsIDUser") ?? watchJobsActionsID;
   for (let m = 0; m < membersDOM.length; m++) {
     if (party[m] !== undefined) {

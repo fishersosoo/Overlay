@@ -11,6 +11,10 @@ import "./index.scss";
 let params = new URLSearchParams(new URL(window.location).search);
 const body = document.body;
 const main = document.querySelector("main");
+document.querySelector("body main table th:nth-child(1)").style.width = params.get("th1") ?? "34px";
+document.querySelector("body main table th:nth-child(2)").style.width = params.get("th2") ?? "36px";
+document.querySelector("body main table th:nth-child(3)").style.width = params.get("th3") ?? "28px";
+document.querySelector("body main table th:nth-child(4)").style.width = params.get("th4") ?? "40px";
 let party = [],
   youID = "",
   duration = "00:00",

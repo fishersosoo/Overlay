@@ -1,27 +1,5 @@
-let sortRule = [
-  "19", //pld //tank
-  "21", //war //tank
-  "32", //drk //tank
-  "37", //gnb //tank
-  "24", //whm //healer
-  "28", //sch //healer
-  "33", //ast //healer
-  "40", //sge //healer new!!
-  "20", //mnk //dps
-  "22", //drg //dps
-  "30", //nin //dps
-  "34", //sam //dps
-  "39", //rpr //dps new!!
-  "23", //brd //dps
-  "31", //mch //dps
-  "38", //dnc //dps
-  "25", //blm //dps
-  "27", //smn //dps
-  "35", //rdm //dps
-  "36", //blu //dps
-];
 const watchJobsActionsID = {
-  "1": [7535, 0, 17, 7531,0], //剑术师
+  "1": [7535, 0, 17, 7531, 0], //剑术师
   "2": [7549, 65, 7541, 7542, 0], //格斗家
   "3": [7535, 0, 44, 7531, 0], //斧术师
   "4": [7549, 0, 7541, 7542, 85], //枪术士
@@ -51,15 +29,4 @@ const watchJobsActionsID = {
   "39": [7549, 24404, 7541, 7542, 24393], //钐镰
   "40": [24318, 24311, 24305, 7561, 24302], //贤者
 };
-const baseClass = {
-  1: 19,
-  2: 20,
-  3: 21,
-  4: 22,
-  5: 23,
-  6: 24,
-  7: 25,
-  26: 27,
-  29: 30,
-};
-export { sortRule, watchJobsActionsID, baseClass };
+export { watchJobsActionsID };

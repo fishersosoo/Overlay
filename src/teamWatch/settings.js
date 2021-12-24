@@ -1,10 +1,12 @@
 "use strict";
 
 import { actions, getAction } from "../../resources/data/actions.js";
+import { baseClass } from "../../resources/data/baseClass.js";
 import { getJobByID } from "../../resources/data/job.js";
 import { compareSame } from "../../resources/function/compareSameGroup.js";
-import { loadItem, saveItem } from "../../resources/function/localStorage";
-import { sortRule, watchJobsActionsID, baseClass } from "./default.js";
+import { loadItem, saveItem } from "../../resources/function/localStorage.js";
+import { watchJobsActionsID } from "./default.js";
+import { sortRule } from "../../resources/data/sortRule.js";
 import "./settings.scss";
 
 let params = new URLSearchParams(new URL(window.location).search);
