@@ -198,4 +198,4 @@ const fakeParty = [
   { id: "10000008", name: "Faker8", job: 28, inParty: true },
   { id: "1002E5AA", name: "Suzu", job: 38, inParty: true },
 ];
-partyChanged(fakeParty);
+if (!!window?.OverlayPluginApi) partyChanged(fakeParty);

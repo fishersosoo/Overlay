@@ -31,7 +31,7 @@ const list = {
     useful: "6.X",
     params: "?dajinengTTS=true&tuanfuTTS=true&inPartyOnly=true",
   },
-  "teamWatch": { type: "ACT悬浮窗", describe: "6.0技能监控", img: IMGteamWatch, useful: "6.X", params: "?scale=1" },
+  "teamWatch": { type: "ACT悬浮窗", describe: "技能监控", img: IMGteamWatch, useful: "6.X", params: "?scale=1" },
   "mpTick": { type: "ACT悬浮窗", describe: "回蓝计时", img: "", useful: "All", params: "" },
   "castingToChinese": {
     type: "ACT悬浮窗",

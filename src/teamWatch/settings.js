@@ -71,7 +71,7 @@ const role = {
   39: "dps", //钐镰
 };
 const allJob = [1, 2, 3, 4, 5, 6, 7, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40];
-const sortRuleUser = load("sortRuleUser", sortRule);
+const sortRuleUser = load("sortRuleUser", undefined) ?? sortRule;
 let sortRuleShow = allJob.sort(
   (a, b) => sortRuleUser.indexOf((baseClass[a] ?? a).toString()) - sortRuleUser.indexOf((baseClass[b] ?? b).toString())
 );
