@@ -2,7 +2,7 @@
 import "../../resources/function/loadComplete.js";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import { TTS } from "../../resources/function/TTS.js";
-import { castChinese } from "../../resources/data/cast100ms.js";
+import { actionChinese } from "../../resources/data/actionChinese";
 import "./index.scss";
 import { toRoomaji } from "../../resources/function/roomaji.js";
 
@@ -33,7 +33,7 @@ addOverlayListener("LogLine", (e) => {
     casting[log.casterID] = {
       name:
         castDirective?.[parseInt(log?.actionID, 16)] ??
-        castChinese?.[parseInt(log?.actionID, 16)] ??
+        actionChinese?.[parseInt(log?.actionID, 16)] ??
         (() => {
           return roomajiEnable ? toRoomaji(log.actionName) : log.actionName;
         })(),

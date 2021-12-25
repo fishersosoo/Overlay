@@ -5,16 +5,17 @@ import { status } from "../../resources/data/status.js";
 import { getDamage } from "../../resources/function/damage.js";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import { keigenns } from "./keigenns.js";
+import { actionChinese } from "../../resources/data/actionChinese.js";
 import "../../resources/function/xianyu.js";
 import "../../resources/function/loadComplete.js";
 import "./index.scss";
 let params = new URLSearchParams(new URL(window.location).search);
 const body = document.body;
 const main = document.querySelector("main");
-document.querySelector("body main table th:nth-child(1)").style.width = params.get("th1") ?? "34px";
-document.querySelector("body main table th:nth-child(2)").style.width = params.get("th2") ?? "36px";
-document.querySelector("body main table th:nth-child(3)").style.width = params.get("th3") ?? "28px";
-document.querySelector("body main table th:nth-child(4)").style.width = params.get("th4") ?? "40px";
+document.querySelector("body main table th:nth-child(1)").style.width = params.get("th1") ?? "3em";
+document.querySelector("body main table th:nth-child(2)").style.width = params.get("th2") ?? "4.5em";
+document.querySelector("body main table th:nth-child(3)").style.width = params.get("th3") ?? "2.5em";
+document.querySelector("body main table th:nth-child(4)").style.width = params.get("th4") ?? "3.75em";
 let party = [],
   youID = "",
   duration = "00:00",
@@ -154,7 +155,9 @@ addOverlayListener("LogLine", (e) => {
         let tr5 = tr.insertCell(4);
 
         tr1.innerHTML = duration; //战斗时间
-        tr2.innerHTML = /unknown_/i.test(log["actionName"]) ? "平A？" : log.actionName ?? "未知";
+        tr2.innerHTML = /unknown_/i.test(log["actionName"])
+          ? "平A？"
+          : actionChinese?.[parseInt(log.actionID, 16)] ?? log.actionName ?? "未知";
         try {
           if (log["targetID"] === youID) {
             tr3.innerText = "YOU";

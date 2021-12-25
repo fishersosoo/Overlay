@@ -19,7 +19,7 @@ module.exports = {
     castingToChinese: "./src/castingToChinese/index.js",
   },
   output: {
-    filename: "js/[contenthash][name].js",
+    filename: "js/[name].js",
     path: path.resolve(__dirname, "dist"),
     assetModuleFilename: "images/[hash][ext][query]",
   },

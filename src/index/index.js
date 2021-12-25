@@ -22,7 +22,7 @@ const list = {
     describe: "减伤监控",
     img: IMGkeigennRecord,
     useful: "6.X",
-    params: "?maxLength=800&24Mode=false&bgOpacity=0.45&bodyOpacity=1&fontSize=12px&th1=34px&th2=28px&th3=28px&th4=40px",
+    params: "?maxLength=800&24Mode=false&bgOpacity=0.45&bodyOpacity=1&fontSize=12px&th1=3em&th2=4.5em&th3=2.5em&th4=3.75em",
   },
   "keySkillTimer": {
     type: "ACT悬浮窗",

@@ -106,6 +106,7 @@ body {
           td {
             padding: 0px 2px;
             overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           td:last-child:not(:first-child) {
