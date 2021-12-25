@@ -137,7 +137,6 @@ function loadAction(watchJobsActionsIDShow) {
   main.appendChild(sortRuleDiv);
 }
 loadAction(watchJobsActionsIDShow);
-
 function newTD(id) {
   let td = document.createElement("td");
   const action = getAction(id);
