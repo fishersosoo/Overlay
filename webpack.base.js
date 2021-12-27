@@ -14,9 +14,11 @@ module.exports = {
     triggerConverter: "./src/triggerConverter/index.js",
     mpTick: "./src/mpTick/index.js",
     index: "./src/index/index.js",
-    // test: "./src/test/index.js",
+    test: "./src/test/index.js",
     rotationSimulation: "./src/rotationSimulation/index.js",
     castingToChinese: "./src/castingToChinese/index.js",
+    textCommandHelper: "./src/textCommandHelper/index.js",
+    textCommandHelperOpen: "./src/textCommandHelper/textCommandHelperOpen.js",
   },
   output: {
     filename: "js/[name].js",
@@ -79,11 +81,21 @@ module.exports = {
       filename: "castingToChinese.html",
       chunks: ["castingToChinese"],
     }),
-    // new HtmlWebpackPlugin({
-      // template: "./src/test/index.html",
-      // filename: "test.html",
-      // chunks: ["test"],
-    // }),
+    new HtmlWebpackPlugin({
+    template: "./src/test/index.html",
+    filename: "test.html",
+    chunks: ["test"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/textCommandHelper/index.html",
+      filename: "textCommandHelper.html",
+      chunks: ["textCommandHelper"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/textCommandHelper/textCommandHelperOpen.html",
+      filename: "textCommandHelperOpen.html",
+      chunks: ["textCommandHelperOpen"],
+    }),
     new CleanWebpackPlugin(),
   ],
   module: {

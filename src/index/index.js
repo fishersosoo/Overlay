@@ -5,7 +5,9 @@ import IMGcastingMonitor from "./images/castingMonitor.png";
 import IMGkeigennRecord from "./images/keigennRecord.png";
 import IMGkeySkillTimer from "./images/keySkillTimer.png";
 import IMGteamWatch from "./images/teamWatch.png";
-import IMGcastingToChinese from "./images/castingToChinese.png";
+import IMGcastingToChinese from "./images/castingToChinese.gif";
+import IMGtextCommandHelper from "./images/textCommandHelper.png";
+
 const table = document.querySelector("table");
 const list = {
   "fflogsUploaderDownload": { type: "HTML网页", describe: "FFLOGS上传器下载", img: "", useful: "永久", params: "" },
@@ -38,8 +40,10 @@ const list = {
     describe: "读条汉化",
     img: IMGcastingToChinese,
     useful: "6.0",
-    params: "?directive=false&focus=false&tts=false&hideProg=false&hideCountdown=false&roomaji=true&progHeight=10px&fontSize=20px&fontFamily=SmartisanHei&ping=80",
+    params:
+      "?directive=false&focus=false&tts=false&hideProg=false&hideCountdown=false&roomaji=true&progHeight=10px&fontSize=20px&fontFamily=SmartisanHei&ping=80",
   },
+  "textCommandHelper": { type: "Any", describe: "文本指令助手", img: IMGtextCommandHelper, useful: "Any", params: "?postNamazuPost=2019" },
 };
 let thead = document.createElement("tr");
 const theadChild = ["类型", "适用版本", "点击跳转", "预览"];
@@ -60,11 +64,17 @@ for (const key in list) {
   let td3A = document.createElement("a");
   td3A.href = `./${key}.html${project.params}`;
   td3A.innerText = project.describe;
+  if (key === "textCommandHelper") {
+    td3A.addEventListener("click", () => {
+      alert(`可以在浏览器里直接打开。
+也可以加悬浮窗：ACT-插件-OverlayPlugin（NGLD），左下方“新建”，任意起名，类型选择“自订 - 标签”。添加完成后，在右侧窗体的路径中，填入跳转后的页面地址。
+如何联动鲶鱼精邮差：修改url链接中的端口号为鲶鱼精邮差监听的端口号且开启监听`);
+    });
+  }
   if (project.type === "ACT悬浮窗") {
     td3A.addEventListener("click", () => {
       alert(`如何添加悬浮窗：ACT-插件-OverlayPlugin（NGLD），左下方“新建”，任意起名，类型选择“自订 - 数据统计”。添加完成后，在右侧窗体的路径中，填入跳转后的页面地址。
-如何自定义属性：修改url链接中".html?"后方的字符串，若没有则无法自定义或有单独设置页面。`
-      );
+如何自定义属性：修改url链接中".html?"后方的字符串，若没有则无法自定义或有单独设置页面。`);
     });
   }
   let td4Img = new Image();
