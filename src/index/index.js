@@ -1,12 +1,12 @@
 "use strict";
 
 import "./index.scss";
-import IMGcastingMonitor from "./images/castingMonitor.png";
-import IMGkeigennRecord from "./images/keigennRecord.png";
-import IMGkeySkillTimer from "./images/keySkillTimer.png";
-import IMGteamWatch from "./images/teamWatch.png";
+import IMGcastingMonitor from "./images/castingMonitor.jpg";
+import IMGkeigennRecord from "./images/keigennRecord.jpg";
+import IMGkeySkillTimer from "./images/keySkillTimer.jpg";
+import IMGteamWatch from "./images/teamWatch.jpg";
 import IMGcastingToChinese from "./images/castingToChinese.gif";
-import IMGtextCommandHelper from "./images/textCommandHelper.png";
+import IMGtextCommandHelper from "./images/textCommandHelper.jpg";
 import IMGlimitBreakTip from "./images/limitBreakTip.gif";
 
 const table = document.querySelector("table");

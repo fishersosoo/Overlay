@@ -3,7 +3,6 @@ import "./index.scss";
 const postNamazuPost = new URLSearchParams(new URL(window.location).search).get("postNamazuPost") ?? "2019";
 localStorage.setItem("textCommandHelperPostNamazuPost", postNamazuPost);
 document.querySelector("button").addEventListener("click", (e) => {
-  console.log("a");
   window.open(
     "./textCommandHelperOpen.html" + "?postNamazuPost=" + postNamazuPost,
     "_blank",
