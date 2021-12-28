@@ -122,27 +122,27 @@ addOverlayListener("onPartyWipe", () => {
 });
 const tbody = document.querySelector("body > main > table > tbody");
 addOverlayListener("LogLine", (e) => {
-  let log;
   switch (e.line[0]) {
     case "21":
     case "22":
-      log = logProcessing(e.line, "action");
-      let damage = getDamage(e);
+      let damageLog = getDamage(e);
+      // console.log(damageLog);
       if (
-        damage.type === "damage" &&
-        log["casterID"].substring(0, 1) === "4" &&
-        (log["targetID"] === youID || party.some((value) => value.id === log["targetID"] && (value.inParty || is24Mode)))
+        damageLog.type === "damage" &&
+        damageLog.fromIsEnemy &&
+        damageLog.targetisFriendly &&
+        (damageLog.targetID === youID || party.some((value) => value.id === damageLog.targetID && (value.inParty || is24Mode)))
       ) {
         if (!inCombat && duration === "00:00") startCombat();
         if (maxLength > 0 && tbody.childElementCount >= maxLength) {
           tbody.deleteRow(0);
         }
         let tr = tbody.insertRow(-1);
-        tr.setAttribute("data-master-id", log["targetID"]);
-        tr.setAttribute("data-master-name", log["targetName"]);
+        tr.setAttribute("data-master-id", damageLog.targetID);
+        tr.setAttribute("data-master-name", damageLog.targetName);
         if (
           document.querySelector("#all").getAttribute("data-select") === "true" ||
-          document.querySelector(`body > footer > ul > li[data-object-id="${log["targetID"]}"]`).getAttribute("data-select") === "true"
+          document.querySelector(`body > footer > ul > li[data-object-id="${damageLog.targetID}"]`).getAttribute("data-select") === "true"
         ) {
           tr.style.display = "table-row";
         } else {
@@ -155,26 +155,26 @@ addOverlayListener("LogLine", (e) => {
         let tr5 = tr.insertCell(4);
 
         tr1.innerHTML = duration; //战斗时间
-        tr2.innerHTML = /unknown_/i.test(log["actionName"])
+        tr2.innerHTML = /unknown_/i.test(damageLog.skillName)
           ? "平A？"
-          : actionChinese?.[parseInt(log.actionID, 16)] ?? log.actionName ?? "未知";
+          : actionChinese?.[parseInt(damageLog.skillID, 16)] ?? damageLog.skillName ?? "未知";
         try {
-          if (log["targetID"] === youID) {
+          if (damageLog.targetID === youID) {
             tr3.innerText = "YOU";
             tr3.classList.add("YOU");
           } else {
-            let job = getJobByID(party.find((p) => p.id === log["targetID"])?.job);
+            let job = getJobByID(party.find((p) => p.id === damageLog.targetID)?.job);
             tr3.innerText = job?.simple2 ?? "?";
             tr3.classList.add(job?.en);
           }
         } catch (e) {
           console.warn(e);
-          tr3.innerHTML = log["targetName"];
+          tr3.innerHTML = damageLog.targetName;
         }
-        tr4.innerHTML = damage.value.toLocaleString();
-        tr4.setAttribute("data-damage-effect", damage.damageEffect);
-        tr4.title = damage.from;
-        tr4.classList.add(damage.damageType);
+        tr4.innerHTML = damageLog.value.toLocaleString();
+        tr4.setAttribute("data-damage-effect", damageLog.damageEffect);
+        tr4.title = damageLog.fromName;
+        tr4.classList.add(damageLog.damageType);
         function createImg(type, key, stack = 0) {
           let img = new Image();
           let statusNow = status[parseInt(key, 16)] ?? { "CN": "未知", "url": "000000/000405" };
@@ -184,25 +184,25 @@ addOverlayListener("LogLine", (e) => {
               ? url.substring(0, 7) + (Array(6).join(0) + (parseInt(url.substring(7)) + stack - 1)).slice(-6)
               : url;
           }
-          img.title = FFXIVObject[log[type]].Status[key].name;
-          if (keigenns?.[key][damage.damageType] === 0) {
+          img.title = FFXIVObject[damageLog[type]].Status[key].name;
+          if (keigenns?.[key][damageLog.damageType] === 0) {
             img.classList.add("useless");
-          } else if (keigenns?.[key][damage.damageType] === 0.5) {
+          } else if (keigenns?.[key][damageLog.damageType] === 0.5) {
             img.classList.add("halfUseful");
           }
           tr5.appendChild(img);
         }
-        if (FFXIVObject[log["targetName"]]) forStatus("targetName");
-        if (FFXIVObject[log["casterName"]]) forStatus("casterName");
+        if (FFXIVObject[damageLog["targetName"]]) forStatus("targetName");
+        if (FFXIVObject[damageLog["casterName"]]) forStatus("casterName");
         function forStatus(c) {
-          for (const key in FFXIVObject[log[c]].Status) {
-            createImg(c, key, parseInt(FFXIVObject[log[c]].Status[key].stack));
+          for (const key in FFXIVObject[damageLog[c]].Status) {
+            createImg(c, key, parseInt(FFXIVObject[damageLog[c]].Status[key].stack));
           }
         }
         if (
           scrollMove &&
           (document.querySelector("#all").getAttribute("data-select") === "true" ||
-            document.querySelector(`body > footer > ul > li[data-object-id="${log["targetID"]}"]`).getAttribute("data-select") === "true")
+            document.querySelector(`body > footer > ul > li[data-object-id="${damageLog.targetID}"]`).getAttribute("data-select") === "true")
         ) {
           main.scrollTop = main.scrollHeight;
         }
@@ -225,24 +225,24 @@ addOverlayListener("LogLine", (e) => {
       break;
     case "26":
     case "30":
-      log = logProcessing(e.line, "status");
-      const logStatus = log["statusID"].toLowerCase();
+      let statusLog = logProcessing(e.line, "status");
+      const logStatus = statusLog["statusID"].toLowerCase();
       const keigenn = keigenns[logStatus];
       if (
         keigenn !== undefined &&
-        ((keigenn.condition === "player" && (party.some((value) => value.id === log["targetID"]) || log["targetID"] === youID)) ||
-          (keigenn.condition === "enemy" && log["targetID"].substring(0, 1) === "4"))
+        ((keigenn.condition === "player" && (party.some((value) => value.id === statusLog["targetID"]) || statusLog["targetID"] === youID)) ||
+          (keigenn.condition === "enemy" && statusLog["targetID"].substring(0, 1) === "4"))
       )
         if (e.line[0] === "26") {
-          FFXIVObject[log["targetName"]] = FFXIVObject[log["targetName"]] || new FFObject(log["targetID"], log["targetName"]);
-          FFXIVObject[log["targetName"]].Status[logStatus] = {
-            name: statusForCN[parseInt(logStatus, 16)] ?? log["statusName"],
-            caster: log["casterName"],
+          FFXIVObject[statusLog["targetName"]] = FFXIVObject[statusLog["targetName"]] || new FFObject(statusLog["targetID"], statusLog["targetName"]);
+          FFXIVObject[statusLog["targetName"]].Status[logStatus] = {
+            name: statusForCN[parseInt(logStatus, 16)] ?? statusLog["statusName"],
+            caster: statusLog["casterName"],
             stack: e.line[9] > 1 ? e.line[9] : 0,
           };
         } else {
           try {
-            delete FFXIVObject[log["targetName"]].Status[logStatus];
+            delete FFXIVObject[statusLog["targetName"]].Status[logStatus];
           } catch {}
         }
       break;

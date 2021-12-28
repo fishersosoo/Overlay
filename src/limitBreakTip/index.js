@@ -18,7 +18,7 @@ addOverlayListener("onPartyWipe", () => handleClear());
 addOverlayListener("LogLine", (e) => handleLogLine(e));
 startOverlayEvents();
 
-testLogLine(2);
+if (params.get("test") === "true") testLogLine(2);
 
 function handleClear() {
   LBextraAll = 0;

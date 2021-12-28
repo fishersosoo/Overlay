@@ -4,7 +4,9 @@
  */
 function getDamage(e) {
   let offset = 0;
-  if (e.line[8] === "3C" || e.line[8] === "A10") offset += 2; //2021年5.0=3C, 2021年6.0武士心眼=A10
+  if (e.line[8] === "3C" || e.line[8] === "A10") offset += 2;
+  //5.0 特殊偏移=3C
+  //6.0 武士心眼=A10 小仙女的技能=3C 特殊偏移未知 暂时通过来源排除小仙女
   function getEffect() {
     switch (e.line[8 + offset].substr(e.line[8 + offset].length - 3, 1)) {
       case "1":
@@ -24,8 +26,14 @@ function getDamage(e) {
     skillName: e.line[5],
     skillID: e.line[4],
     value: 0,
-    from: e.line[3],
-    target: e.line[7],
+    fromID:e.line[2],
+    fromIsFriendly: e.line[2].substring(0, 1) === "1",
+    fromIsEnemy: e.line[2].substring(0, 1) === "4",
+    fromName: e.line[3],
+    targetID:e.line[6],
+    targetisFriendly: e.line[6].substring(0, 1) === "1",
+    targetisEnemy: e.line[6].substring(0, 1) === "4",
+    targetName: e.line[7],
   };
   let damage = e.line[9 + offset].padStart(8, "0");
   if (damage[4] !== "4") {
@@ -68,7 +76,7 @@ function getDamage(e) {
   } else if (/4$/.test(e.line[8 + offset])) {
     result.type = "heal";
     result.damageType = "heal";
-    result.damageEffect = "　　";
+    result.damageEffect = "  ";
     // } else {
     // return result;
   }

@@ -15,7 +15,8 @@ let timers = [];
 let party = [];
 let youID = null;
 let inFaker = true;
-const raidBuffs = params.get("dataVersion") !== "6" ? raidBuffs50 : raidBuffs60;  
+// let TTSLast1S = new Set();
+const raidBuffs = params.get("dataVersion") === "5" ? raidBuffs50 : raidBuffs60;
 
 addOverlayListener("ChangePrimaryPlayer", (e) => (youID = e.charID.toString(16).toUpperCase()));
 addOverlayListener("PartyChanged", (e) => {
@@ -43,7 +44,17 @@ addOverlayListener("LogLine", (e) => {
       (raidBuffs[actionID]?.type === 0 && params.get("dajinengTTS") !== "false") ||
       (raidBuffs[actionID]?.type === 1 && params.get("tuanfuTTS") !== "false")
     ) {
+      // if (TTSLast3S.findIndex(actionID === -1)) {
+      // if (!TTSLast1S.has(actionID)) {
       TTS(raidBuffs[actionID]?.tts);
+      // TTSLast1S.add(actionID);
+      // setTimeout(() => {
+      // TTSLast1S.delete(actionID);
+      // }, 1000);
+      // }
+      // console.log(raidBuffs[actionID]?.tts);
+      // TTSLast3S.push(actionID);
+      // }
     }
   }
 });
