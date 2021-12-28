@@ -20,6 +20,16 @@ body {
   text-shadow: -1px 0 2px rgb(169, 26, 22), 0 1.5px 2px rgb(169, 26, 22), 1px 0 2px rgb(169, 26, 22), 0 -1.5px 2px rgb(169, 26, 22);
   font-weight: bold;
 }
+#extraAll {
+  &::before {
+    content: "奖励:";
+  }
+  position: absolute;
+  top: 21px;
+  right: 0;
+  font-size: 14px;
+  text-shadow: -1px 0 2px rgb(169, 26, 22), 0 1.5px 2px rgb(169, 26, 22), 1px 0 2px rgb(169, 26, 22), 0 -1.5px 2px rgb(169, 26, 22);
+}
 .anime {
   animation: anime 5s;
   animation-fill-mode: forwards;

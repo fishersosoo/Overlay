@@ -32,7 +32,7 @@ const list = {
     describe: "团辅监控",
     img: IMGkeySkillTimer,
     useful: "6.X",
-    params: "?dajinengTTS=true&tuanfuTTS=true&inPartyOnly=true",
+    params: "?dajinengTTS=true&tuanfuTTS=true&inPartyOnly=true&dataVersion=6",
   },
   "teamWatch": { type: "ACT悬浮窗", describe: "技能监控", img: IMGteamWatch, useful: "6.X", params: "?scale=1" },
   "mpTick": { type: "ACT悬浮窗", describe: "回蓝计时", img: "", useful: "All", params: "" },

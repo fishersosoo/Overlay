@@ -7,7 +7,7 @@ import { logProcessing } from "../../resources/function/logProcessing.js";
 import { TTS } from "../../resources/function/TTS.js";
 import "../../resources/function/xianyu.js";
 import "./index.scss";
-import { raidBuffs } from "./raidbuffs.js";
+import { raidBuffs60, raidBuffs50 } from "./raidbuffs.js";
 import { getLevels } from "../../resources/function/getLevels.js";
 
 let params = new URLSearchParams(new URL(window.location).search);
@@ -15,6 +15,7 @@ let timers = [];
 let party = [];
 let youID = null;
 let inFaker = true;
+const raidBuffs = params.get("dataVersion") !== "6" ? raidBuffs50 : raidBuffs60;  
 
 addOverlayListener("ChangePrimaryPlayer", (e) => (youID = e.charID.toString(16).toUpperCase()));
 addOverlayListener("PartyChanged", (e) => {

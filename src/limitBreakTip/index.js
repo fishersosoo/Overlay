@@ -9,19 +9,22 @@ const LBAutomaticBaseline = Math.ceil((parseInt(params.get("automatic") ?? 220) 
 let LBBefore = 0;
 let LBNow = 0;
 let LBAddUp = 0;
+let LBextraAll = 0;
 const show = document.querySelector("#show");
 const extra = document.querySelector("#extra");
-
+const extraAll = document.querySelector("#extraAll");
 addOverlayListener("ChangeZone", () => handleClear());
 addOverlayListener("onPartyWipe", () => handleClear());
 addOverlayListener("LogLine", (e) => handleLogLine(e));
 startOverlayEvents();
 
-// testLogLine(2);
+testLogLine(2);
 
 function handleClear() {
+  LBextraAll = 0;
   show.innerHTML = "0%";
   extra.innerHTML = "";
+  extraAll.innerText = "0%";
 }
 
 function handleLogLine(e) {
@@ -31,9 +34,11 @@ function handleLogLine(e) {
     show.innerHTML = `${(LBNow * 100).toFixed(2)}%`;
     if (LBAdd > LBAutomaticBaseline) {
       LBAddUp += LBAdd;
-      let value = (LBAddUp * 100).toFixed(2);
-      let upFlag = parseInt(extra.lastChild?.innerText) === value - 1;
-      if (upFlag) {
+      LBextraAll += LBAdd;
+      extraAll.innerText = `${(LBextraAll * 100).toFixed(0)}%`;
+      let value = (LBAddUp * 100).toFixed(0);
+      let continuousIncrease = parseInt(extra.lastChild?.innerText) === value - 1;
+      if (continuousIncrease) {
         extra.lastChild.innerText = `+${value}%`;
       } else {
         let addValue = document.createElement("p");
