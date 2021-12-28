@@ -18,12 +18,12 @@ export default (function () {
   readMe.style.backgroundColor = "rgba(0, 0, 150, 0.2)";
   readMe.style.position = "fixed";
   readMe.style.bottom = "0";
-  readMe.style.fontSize = "16px";
+  readMe.style.fontSize = "12px";
   readMe.style.alignItems = "flex-end";
   readMe.style.justifyContent = "center";
   readMe.id = "readMe";
   let text = document.createElement("span");
-  text.innerText = `🔒这是供用户调整悬浮窗大小的调试用文本，当你在ACT的OverlayPlugin(ngld)悬浮窗插件中锁定此悬浮窗，该段文本与半透明蓝色背景即会消失。`;
+  text.innerText = `🔒这是供用户调整悬浮窗尺寸的蓝色背景，在ACT的Overlay(ngld)插件中锁定此悬浮窗便即会消失。`;
   text.style.width = "90vw";
   text.style.paddingBottom = "8px";
   readMe.appendChild(text);

@@ -7,6 +7,7 @@ import IMGkeySkillTimer from "./images/keySkillTimer.png";
 import IMGteamWatch from "./images/teamWatch.png";
 import IMGcastingToChinese from "./images/castingToChinese.gif";
 import IMGtextCommandHelper from "./images/textCommandHelper.png";
+import IMGlimitBreakTip from "./images/limitBreakTip.gif";
 
 const table = document.querySelector("table");
 const list = {
@@ -44,6 +45,8 @@ const list = {
       "?directive=false&focus=false&tts=false&hideProg=false&hideCountdown=false&roomaji=true&progHeight=10px&fontSize=20px&fontFamily=SmartisanHei&ping=80",
   },
   "textCommandHelper": { type: "Any", describe: "文本指令助手", img: IMGtextCommandHelper, useful: "Any", params: "?postNamazuPost=2019" },
+  "generalSkillTimer": { type: "ACT悬浮窗", describe: "通用技能冷却TTS", img: "", useful: "6.X", params: "" },
+  "limitBreakTip": { type: "ACT悬浮窗", describe: "LB额外增长监控", img: IMGlimitBreakTip, useful: "Any", params: "?LBMax=30000&automatic=220" },
 };
 let thead = document.createElement("tr");
 const theadChild = ["类型", "适用版本", "点击跳转", "预览"];

@@ -19,6 +19,8 @@ module.exports = {
     castingToChinese: "./src/castingToChinese/index.js",
     textCommandHelper: "./src/textCommandHelper/index.js",
     textCommandHelperOpen: "./src/textCommandHelper/textCommandHelperOpen.js",
+    generalSkillTimer: "./src/generalSkillTimer/index.js",
+    limitBreakTip: "./src/limitBreakTip/index.js",
   },
   output: {
     filename: "js/[name].js",
@@ -82,9 +84,9 @@ module.exports = {
       chunks: ["castingToChinese"],
     }),
     new HtmlWebpackPlugin({
-    template: "./src/test/index.html",
-    filename: "test.html",
-    chunks: ["test"],
+      template: "./src/test/index.html",
+      filename: "test.html",
+      chunks: ["test"],
     }),
     new HtmlWebpackPlugin({
       template: "./src/textCommandHelper/index.html",
@@ -95,6 +97,16 @@ module.exports = {
       template: "./src/textCommandHelper/textCommandHelperOpen.html",
       filename: "textCommandHelperOpen.html",
       chunks: ["textCommandHelperOpen"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/generalSkillTimer/index.html",
+      filename: "generalSkillTimer.html",
+      chunks: ["generalSkillTimer"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/limitBreakTip/index.html",
+      filename: "limitBreakTip.html",
+      chunks: ["limitBreakTip"],
     }),
     new CleanWebpackPlugin(),
   ],
