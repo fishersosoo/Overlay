@@ -11,45 +11,48 @@ import IMGlimitBreakTip from "./images/limitBreakTip.gif";
 
 const table = document.querySelector("table");
 const list = {
-  "fflogsUploaderDownload": { type: "HTML网页", describe: "FFLOGS上传器下载", img: "", useful: "永久", params: "" },
-  "triggerConverter": { type: "HTML网页", describe: "旧触发器正则转换", img: "", useful: "before 6.0", params: "" },
+  "fflogsUploaderDownload": { type: "HTML网页", describe: "FFLOGS上传器下载", img: "", params: "" },
+  "triggerConverter": { type: "HTML网页", describe: "旧触发器正则转换", img: "", params: "" },
   "castingMonitor": {
     type: "ACT悬浮窗",
     describe: "施法监控",
     img: IMGcastingMonitor,
-    useful: "6.X",
     params: "?duration=15&tetris=false",
   },
   "keigennRecord": {
     type: "ACT悬浮窗",
     describe: "减伤监控",
     img: IMGkeigennRecord,
-    useful: "6.X",
     params: "?maxLength=800&24Mode=false&bgOpacity=0.45&bodyOpacity=1&fontSize=12px&th1=3em&th2=4.5em&th3=2.5em&th4=3.75em",
   },
   "keySkillTimer": {
     type: "ACT悬浮窗",
     describe: "团辅监控",
     img: IMGkeySkillTimer,
-    useful: "6.X",
     params: "?dajinengTTS=true&tuanfuTTS=true&inPartyOnly=true&dataVersion=6",
   },
-  "teamWatch": { type: "ACT悬浮窗", describe: "技能监控", img: IMGteamWatch, useful: "6.X", params: "?scale=1" },
-  "mpTick": { type: "ACT悬浮窗", describe: "回蓝计时", img: "", useful: "All", params: "" },
+  "teamWatch": { type: "ACT悬浮窗", describe: "技能监控", img: IMGteamWatch, params: "?scale=1" },
+  "mpTick": { type: "ACT悬浮窗", describe: "回蓝计时", img: "", params: "" },
   "castingToChinese": {
     type: "ACT悬浮窗",
     describe: "读条汉化",
     img: IMGcastingToChinese,
-    useful: "6.0",
     params:
       "?directive=false&focus=false&tts=false&hideProg=false&hideCountdown=false&roomaji=true&progHeight=10px&fontSize=20px&fontFamily=SmartisanHei&ping=80",
   },
-  "textCommandHelper": { type: "Any", describe: "文本指令助手", img: IMGtextCommandHelper, useful: "Any", params: "?postNamazuPost=2019" },
-  "generalSkillTimer": { type: "ACT悬浮窗", describe: "通用技能冷却TTS", img: "", useful: "6.X", params: "" },
-  "limitBreakTip": { type: "ACT悬浮窗", describe: "LB额外增长监控", img: IMGlimitBreakTip, useful: "Any", params: "?LBMax=30000&automatic=220" },
+  "textCommandHelper": { type: "Any", describe: "文本指令助手", img: IMGtextCommandHelper, params: "?postNamazuPort=2019" },
+  "generalSkillTimer": { type: "ACT悬浮窗", describe: "通用技能冷却TTS", img: "", params: "" },
+  "limitBreakTip": { type: "ACT悬浮窗", describe: "LB额外增长监控", img: IMGlimitBreakTip, params: "?LBMax=30000&automatic=220" },
+  "markerTripleBarrel": {
+    type: "ACT悬浮窗",
+    describe: "绝神兵三连桶标记",
+    img: "",
+    params:
+      "?jobSortRule=19,21,32,37,24,28,33,40,20,22,30,34,39,23,31,38,25,27,35,36&markingSortRule=20,22,30,34,39,23,31,38,25,27,35,36,37,32,21,19,40,33,28,24&postNamazuPort=2019",
+  },
 };
 let thead = document.createElement("tr");
-const theadChild = ["类型", "适用版本", "点击跳转", "预览"];
+const theadChild = ["链接", "预览"];
 theadChild.forEach((value) => {
   let theadChildNode = document.createElement("th");
   theadChildNode.innerText = value;
@@ -60,8 +63,7 @@ table.appendChild(thead);
 for (const key in list) {
   const project = list[key];
   let tr = document.createElement("tr");
-  let tdType = document.createElement("td");
-  let tdUseful = document.createElement("td");
+  // let tdType = document.createElement("td");
   let tdText = document.createElement("td");
   let tdImg = document.createElement("td");
   let td3A = document.createElement("a");
@@ -83,10 +85,8 @@ for (const key in list) {
   let td4Img = new Image();
   td4Img.src = project.img;
   tdImg.appendChild(td4Img);
-  tdType.innerText = project.type;
-  tdUseful.innerText = project.useful;
-  tr.appendChild(tdType);
-  tr.appendChild(tdUseful);
+  // tdType.innerText = project.type;
+  // tr.appendChild(tdType);
   tr.appendChild(tdText);
   tdText.appendChild(td3A);
   tr.appendChild(tdImg);

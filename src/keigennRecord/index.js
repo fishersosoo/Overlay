@@ -126,7 +126,6 @@ addOverlayListener("LogLine", (e) => {
     case "21":
     case "22":
       let damageLog = getDamage(e);
-      // console.log(damageLog);
       if (
         damageLog.type === "damage" &&
         damageLog.fromIsEnemy &&
@@ -193,7 +192,7 @@ addOverlayListener("LogLine", (e) => {
           tr5.appendChild(img);
         }
         if (FFXIVObject[damageLog["targetName"]]) forStatus("targetName");
-        if (FFXIVObject[damageLog["casterName"]]) forStatus("casterName");
+        if (FFXIVObject[damageLog["fromName"]]) forStatus("fromName");
         function forStatus(c) {
           for (const key in FFXIVObject[damageLog[c]].Status) {
             createImg(c, key, parseInt(FFXIVObject[damageLog[c]].Status[key].stack));
@@ -202,7 +201,8 @@ addOverlayListener("LogLine", (e) => {
         if (
           scrollMove &&
           (document.querySelector("#all").getAttribute("data-select") === "true" ||
-            document.querySelector(`body > footer > ul > li[data-object-id="${damageLog.targetID}"]`).getAttribute("data-select") === "true")
+            document.querySelector(`body > footer > ul > li[data-object-id="${damageLog.targetID}"]`).getAttribute("data-select") ===
+              "true")
         ) {
           main.scrollTop = main.scrollHeight;
         }
@@ -230,11 +230,13 @@ addOverlayListener("LogLine", (e) => {
       const keigenn = keigenns[logStatus];
       if (
         keigenn !== undefined &&
-        ((keigenn.condition === "player" && (party.some((value) => value.id === statusLog["targetID"]) || statusLog["targetID"] === youID)) ||
+        ((keigenn.condition === "player" &&
+          (party.some((value) => value.id === statusLog["targetID"]) || statusLog["targetID"] === youID)) ||
           (keigenn.condition === "enemy" && statusLog["targetID"].substring(0, 1) === "4"))
       )
         if (e.line[0] === "26") {
-          FFXIVObject[statusLog["targetName"]] = FFXIVObject[statusLog["targetName"]] || new FFObject(statusLog["targetID"], statusLog["targetName"]);
+          FFXIVObject[statusLog["targetName"]] =
+            FFXIVObject[statusLog["targetName"]] || new FFObject(statusLog["targetID"], statusLog["targetName"]);
           FFXIVObject[statusLog["targetName"]].Status[logStatus] = {
             name: statusForCN[parseInt(logStatus, 16)] ?? statusLog["statusName"],
             caster: statusLog["casterName"],

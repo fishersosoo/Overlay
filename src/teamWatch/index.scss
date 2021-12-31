@@ -39,7 +39,7 @@ article.oGCDActionAnimation::before {
   animation-iteration-count: infinite;
   animation-name: move;
   animation-duration: inherit;
-  background-image: url(../../resources/img/action/oGCD.png);
+  background-image: url(https://souma.diemoe.net/resources/img/oGCD.png);
   background-size: 3564px 48px !important;
 
   padding-left: 2px;
@@ -56,7 +56,7 @@ article.GCDActionAnimation::before {
   animation-iteration-count: infinite;
   animation-name: move;
   animation-duration: inherit;
-  background-image: url(../../resources/img/action/GCD.png);
+  background-image: url(https://souma.diemoe.net/resources/img/GCD.png);
   background-size: 3564px 48px !important;
 
   padding-left: 2px;
@@ -73,9 +73,9 @@ article.normalActionAnimation::after {
   animation-iteration-count: 1;
   animation-name: move;
   animation-duration: inherit;
-  background-image: url(../../resources/img/action/recast.png);
+  background-image: url(https://souma.diemoe.net/resources/img/recast.png);
   background-size: 3564px 48px !important;
-  clip-path: polygon(4% 0, 100% 0, 100% 100%, 4% 100%); //挪来挪去整不明白 不如直接蒙版
+  clip-path: polygon(4% 0, 100% 0, 100% 100%, 4% 100%);
 }
 .nocharges {
   filter: contrast(0.8);
@@ -84,7 +84,8 @@ article.normalActionAnimation::after {
   position: absolute;
   left: 33px;
   top: 25px;
-  font-size: 14px;  color: white;
+  font-size: 14px;
+  color: white;
   text-shadow: -1px 0 3px rgb(202, 81, 0), 0 1px 3px rgb(202, 81, 0), 1px 0 3px rgb(202, 81, 0), 0 -1px 3px rgb(202, 81, 0);
   font-weight: bold;
   z-index: 3;
@@ -96,7 +97,7 @@ article.normalActionAnimation::after {
   opacity: 0;
 }
 .skill_icon::after {
-  background: url(../../resources/img/action/frame.png) no-repeat;
+  background: url(https://souma.diemoe.net/resources/img/frame.png) no-repeat;
   padding-left: 2px;
   width: 44px;
   height: 48px;

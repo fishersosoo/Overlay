@@ -6,8 +6,9 @@ import "./textCommandHelperOpen.scss";
   const input = document.querySelector("#input");
   const list = document.querySelector("#list");
   const toCopy = document.querySelector("#toCopy");
-  const postNamazuPost = localStorage.getItem("textCommandHelperPostNamazuPost") ?? "2019";
-  const postNamazuHttpUrl = `http://127.0.0.1:${postNamazuPost}/command`;
+  let params = new URLSearchParams(new URL(window.location).search);
+  const postNamazuPort = params.get("postNamazuPort") ?? "2019";
+  const postNamazuHttpUrl = `http://127.0.0.1:${postNamazuPort}/command`;
 
   input.addEventListener("keyup", handleInputKeyup, false);
   list.addEventListener("click", handleListClick, true);
@@ -20,7 +21,7 @@ import "./textCommandHelperOpen.scss";
   function handleListClick(e) {
     const str = e.path.find((node) => node.nodeName === "LI")?.title;
     if (!str) return;
-    if (postNamazuPost !== "false") {
+    if (postNamazuPort !== "false") {
       fetch(postNamazuHttpUrl, {
         method: "POST",
         body: str,

@@ -15,12 +15,12 @@ module.exports = {
     mpTick: "./src/mpTick/index.js",
     index: "./src/index/index.js",
     test: "./src/test/index.js",
-    rotationSimulation: "./src/rotationSimulation/index.js",
     castingToChinese: "./src/castingToChinese/index.js",
     textCommandHelper: "./src/textCommandHelper/index.js",
     textCommandHelperOpen: "./src/textCommandHelper/textCommandHelperOpen.js",
     generalSkillTimer: "./src/generalSkillTimer/index.js",
     limitBreakTip: "./src/limitBreakTip/index.js",
+    markerTripleBarrel: "./src/markerTripleBarrel/index.js",
   },
   output: {
     filename: "js/[name].js",
@@ -74,11 +74,6 @@ module.exports = {
       chunks: ["index"],
     }),
     new HtmlWebpackPlugin({
-      template: "./src/rotationSimulation/index.html",
-      filename: "rotationSimulation.html",
-      chunks: ["rotationSimulation"],
-    }),
-    new HtmlWebpackPlugin({
       template: "./src/castingToChinese/index.html",
       filename: "castingToChinese.html",
       chunks: ["castingToChinese"],
@@ -107,6 +102,11 @@ module.exports = {
       template: "./src/limitBreakTip/index.html",
       filename: "limitBreakTip.html",
       chunks: ["limitBreakTip"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/markerTripleBarrel/index.html",
+      filename: "markerTripleBarrel.html",
+      chunks: ["markerTripleBarrel"],
     }),
     new CleanWebpackPlugin(),
   ],

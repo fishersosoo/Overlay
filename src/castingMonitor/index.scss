@@ -70,19 +70,7 @@ body {
         transform-origin: center bottom;
         transform: scale(0.75);
       }
-      // top: 12px;
     }
-    // .AA {
-    //   opacity: 1;
-    //   border-radius: 50%;
-    //   background-image: url(https://cafemaker.wakingsands.com/i/000000/000101.png);
-    //   background-size: cover;
-    //   transform: scale(0.25);
-    //   transform-origin: right top;
-    //   margin-top: 0;
-    //   height: 40px;
-    //   width: 40px;
-    // }
   }
 }
 @keyframes fadeInRight {
@@ -97,7 +85,7 @@ body {
   z-index: 1;
 }
 .icon::after {
-  background: url(../../resources/img/action/frame.png) no-repeat;
+  background: url(https://souma.diemoe.net/resources/img/frame.png) no-repeat;
   padding-left: 2px;
   width: 44px;
   height: 44px;
