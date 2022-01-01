@@ -176,6 +176,7 @@ addOverlayListener("LogLine", (e) => {
         tr4.classList.add(damageLog.damageType);
         function createImg(type, key, stack = 0) {
           let img = new Image();
+          img.style.height = parseInt(params.get("imgHeight") ?? 22) + "px";
           let statusNow = status[parseInt(key, 16)] ?? { "CN": "未知", "url": "000000/000405" };
           img.src = `https://souma.diemoe.net/resources/icon/${stackUrl(statusNow.url)}.png`;
           function stackUrl(url) {
