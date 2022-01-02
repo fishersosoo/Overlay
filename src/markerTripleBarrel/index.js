@@ -41,6 +41,7 @@ let playerID = "";
 let party = [];
 let params = new URLSearchParams(new URL(window.location).search);
 let markingList = [];
+let timer = 0;
 const jobSortRuleUsed = params.get("jobSortRule")?.split(",") ?? jobSortRule;
 const markingSortRuleUsed = params.get("markingSortRule")?.split(",") ?? markingSortRule;
 const postNamazuPort = params.get("postNamazuPort") ?? "2019";
@@ -204,6 +205,7 @@ function handleLogLine(e) {
 function markingAttack(index) {
   markingList.push(index);
   if (markingList.length === 3) {
+    log("三连桶！", LogEnum.MESSAGE);
     log("开始排序：" + markingList.map((v) => getJobByID(v.job).simple2), LogEnum.MESSAGE);
     markingList.sort((a, b) => {
       let ai = markingSortRuleUsed.findIndex((k) => k === a.job.toString());
@@ -216,8 +218,14 @@ function markingAttack(index) {
       const member = markingList[i];
       postNamazuCommand(`/marking attack${i + 1} <${member.partyIndex + 1}>`);
     }
-    markingList = [];
     log("标记结束", LogEnum.MESSAGE);
+    markingList = [];
+  } else {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      markingList = [];
+      log("清理", LogEnum.MESSAGE);
+    }, 3000);
   }
 }
 
