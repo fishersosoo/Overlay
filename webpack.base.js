@@ -21,6 +21,7 @@ module.exports = {
     generalSkillTimer: "./src/generalSkillTimer/index.js",
     limitBreakTip: "./src/limitBreakTip/index.js",
     markerTripleBarrel: "./src/markerTripleBarrel/index.js",
+    majiang: "./src/majiang/index.js",
   },
   output: {
     filename: "js/[name].js",
@@ -102,6 +103,11 @@ module.exports = {
       template: "./src/limitBreakTip/index.html",
       filename: "limitBreakTip.html",
       chunks: ["limitBreakTip"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/majiang/index.html",
+      filename: "majiang.html",
+      chunks: ["majiang"],
     }),
     new HtmlWebpackPlugin({
       template: "./src/markerTripleBarrel/index.html",

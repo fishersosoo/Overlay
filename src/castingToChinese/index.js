@@ -30,12 +30,17 @@ castingName.style.top = 20 + parseInt(castingProgress.style.height) + "px";
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "20") {
     const log = logProcessing(e.line, "action");
+    // console.log(castDirective?.[parseInt(log?.actionID, 16)]);
     casting[log.casterID] = {
       name:
         castDirective?.[parseInt(log?.actionID, 16)] ??
         actionChinese?.[parseInt(log?.actionID, 16)] ??
         (() => {
-          return roomajiEnable ? toRoomaji(log.actionName) : log.actionName;
+          let res = roomajiEnable ? toRoomaji(log.actionName) : log.actionName;
+          // if (res === log.actionName) {
+            // console.log(log.actionID, parseInt(log.actionID, 16));
+          // }
+          return res;
         })(),
       startTime: Date.now(),
       castTime: log.castTime * 1000,

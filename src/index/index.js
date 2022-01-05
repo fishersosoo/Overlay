@@ -50,6 +50,12 @@ const list = {
     params:
       "?jobSortRule=19,21,32,37,24,28,33,40,20,22,30,34,39,23,31,38,25,27,35,36&markingSortRule=20,22,30,34,39,23,31,38,25,27,35,36,37,32,21,19,40,33,28,24&postNamazuPort=2019",
   },
+  "majiang": {
+    type: "ACT悬浮窗",
+    describe: "通用点名报数",
+    img: "",
+    params: "",
+  },
 };
 let thead = document.createElement("tr");
 const theadChild = ["链接", "预览"];
@@ -63,7 +69,6 @@ table.appendChild(thead);
 for (const key in list) {
   const project = list[key];
   let tr = document.createElement("tr");
-  // let tdType = document.createElement("td");
   let tdText = document.createElement("td");
   let tdImg = document.createElement("td");
   let td3A = document.createElement("a");
@@ -85,8 +90,6 @@ for (const key in list) {
   let td4Img = new Image();
   td4Img.src = project.img;
   tdImg.appendChild(td4Img);
-  // tdType.innerText = project.type;
-  // tr.appendChild(tdType);
   tr.appendChild(tdText);
   tdText.appendChild(td3A);
   tr.appendChild(tdImg);
