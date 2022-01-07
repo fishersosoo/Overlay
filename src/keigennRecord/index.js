@@ -155,7 +155,7 @@ addOverlayListener("LogLine", (e) => {
 
         tr1.innerHTML = duration; //战斗时间
         tr2.innerHTML = /unknown_/i.test(damageLog.skillName)
-          ? "平A？"
+          ? "未知"
           : actionChinese?.[parseInt(damageLog.skillID, 16)] ?? damageLog.skillName ?? "未知";
         try {
           if (damageLog.targetID === youID) {

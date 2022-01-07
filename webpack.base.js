@@ -22,6 +22,7 @@ module.exports = {
     limitBreakTip: "./src/limitBreakTip/index.js",
     markerTripleBarrel: "./src/markerTripleBarrel/index.js",
     majiang: "./src/majiang/index.js",
+    fastTimeline: "./src/fastTimeline/index.js",
   },
   output: {
     filename: "js/[name].js",
@@ -113,6 +114,11 @@ module.exports = {
       template: "./src/markerTripleBarrel/index.html",
       filename: "markerTripleBarrel.html",
       chunks: ["markerTripleBarrel"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/fastTimeline/index.html",
+      filename: "fastTimeline.html",
+      chunks: ["fastTimeline"],
     }),
     new CleanWebpackPlugin(),
   ],

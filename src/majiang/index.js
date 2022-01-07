@@ -1,6 +1,7 @@
 import { TTS } from "../../resources/function/TTS";
 import "./index.scss";
 import "../../resources/function/loadComplete.js";
+import "../../resources/function/isOverlayPlugin";
 
 let playerID = "";
 let party = [];
@@ -13,9 +14,6 @@ addOverlayListener("LogLine", (e) => handleLogLine(e));
 addOverlayListener("PartyChanged", (e) => handlePartyChanged(e.party));
 startOverlayEvents();
 
-(function init() {
-  if (!window.OverlayPluginApi) document.body.innerHTML = "请在ACT悬浮窗中添加此页面，而不是浏览器直接访问。";
-})();
 function handleChangePrimaryPlayer(e) {
   playerID = e.charID.toString(16).toUpperCase();
 }
@@ -36,13 +34,18 @@ function markingAttack(str) {
   markingList.add(str);
   if (markingList.size === party.length) {
     let markingListArr = Array.from(markingList);
+    let check = markingListArr.reduce((pre, cur) => {
+      pre.add(cur.icon);
+      return pre;
+    }, new Set());
+    if (check.size <= markingList.size / 2) return;
     markingListArr.sort((a, b) => parseInt(a.icon, 16) - parseInt(b.icon, 16));
     main.innerHTML = markingListArr
       .map((element, index) => {
         if (element.id === playerID) {
           let i = index + 1;
           TTS(`${i}号${i}号`);
-          return `${i}号${i > 4 ? `（${i % 4}）` : ""}}`;
+          return `${i}号${i > 4 ? `（${i - 4}）` : ""}`;
         }
       })
       .join("");

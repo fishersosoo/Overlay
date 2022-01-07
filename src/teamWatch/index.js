@@ -127,6 +127,8 @@ function partyChanged(party) {
 function use(dom) {
   if (dom) {
     if (dom.timer) clearInterval(dom.timer);
+    if (dom.timerCharges) clearInterval(dom.timerCharges);
+    if (dom.timerFinal) clearTimeout(dom.timerFinal);
     dom.style.opacity = "1";
     const maxCharges = parseInt(dom.getAttribute("data-action-proto-maxcharges"));
     let chargesNow = parseInt(dom.getAttribute("data-action-proto-chargesnow"));
@@ -172,7 +174,7 @@ function use(dom) {
           dom.timer = setInterval(() => {
             dom.setAttribute("data-action-proto-recastNow", dom.getAttribute("data-action-proto-recastNow") - 1);
             if (dom.getAttribute("data-action-proto-recastNow") < 1) {
-              setTimeout(() => {
+              dom.timerFinal = setTimeout(() => {
                 dom.setAttribute("data-action-proto-recastNow", "");
                 dom.classList.remove("normalActionAnimation");
                 dom.classList.remove("GCDActionAnimation");
@@ -182,7 +184,6 @@ function use(dom) {
             }
           }, 1000);
         }
-
         timers.push(parseInt(dom.timer));
       });
     });

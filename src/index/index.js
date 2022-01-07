@@ -56,6 +56,12 @@ const list = {
     img: "",
     params: "",
   },
+  "fastTimeline": {
+    type: "ACT悬浮窗",
+    describe: "快速生成时间轴",
+    img: "",
+    params: "",
+  },
 };
 let thead = document.createElement("tr");
 const theadChild = ["链接", "预览"];
