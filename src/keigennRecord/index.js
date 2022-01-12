@@ -4,7 +4,7 @@ import { getJobByID } from "../../resources/data/job.js";
 import { status } from "../../resources/data/status.js";
 import { getDamage } from "../../resources/function/damage.js";
 import { logProcessing } from "../../resources/function/logProcessing.js";
-import { keigenns } from "./keigenns.js";
+import { keigenns as playerKeigenns } from "./keigenns.js";
 import { actionChinese } from "../../resources/data/actionChinese.js";
 import "../../resources/function/xianyu.js";
 import "../../resources/function/loadComplete.js";
@@ -185,9 +185,9 @@ addOverlayListener("LogLine", (e) => {
               : url;
           }
           img.title = FFXIVObject[damageLog[type]].Status[key].name;
-          if (keigenns?.[key][damageLog.damageType] === 0) {
+          if (playerKeigenns?.[key]?.[damageLog.damageType] === 0) {
             img.classList.add("useless");
-          } else if (keigenns?.[key][damageLog.damageType] === 0.5) {
+          } else if (playerKeigenns?.[key]?.[damageLog.damageType] === 0.5) {
             img.classList.add("halfUseful");
           }
           tr5.appendChild(img);
@@ -228,18 +228,21 @@ addOverlayListener("LogLine", (e) => {
     case "30":
       let statusLog = logProcessing(e.line, "status");
       const logStatus = statusLog["statusID"].toLowerCase();
-      const keigenn = keigenns[logStatus];
+      const statusCN = statusForCN[parseInt(logStatus, 16)];
+      let playerKeigenn = /(受伤|耐性|防御力)(提升|(大幅)?降低|低下|加重|减轻)|最大体力/.test(statusCN)
+        ? { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }
+        : playerKeigenns?.[logStatus];
       if (
-        keigenn !== undefined &&
-        ((keigenn.condition === "player" &&
+        playerKeigenn !== undefined &&
+        ((playerKeigenn?.condition === "player" &&
           (party.some((value) => value.id === statusLog["targetID"]) || statusLog["targetID"] === youID)) ||
-          (keigenn.condition === "enemy" && statusLog["targetID"].substring(0, 1) === "4"))
-      )
+          (playerKeigenn?.condition === "enemy" && statusLog["targetID"].substring(0, 1) === "4"))
+      ) {
         if (e.line[0] === "26") {
           FFXIVObject[statusLog["targetName"]] =
             FFXIVObject[statusLog["targetName"]] || new FFObject(statusLog["targetID"], statusLog["targetName"]);
           FFXIVObject[statusLog["targetName"]].Status[logStatus] = {
-            name: statusForCN[parseInt(logStatus, 16)] ?? statusLog["statusName"],
+            name: statusCN ?? statusLog["statusName"],
             caster: statusLog["casterName"],
             stack: e.line[9] > 1 ? e.line[9] : 0,
           };
@@ -248,6 +251,7 @@ addOverlayListener("LogLine", (e) => {
             delete FFXIVObject[statusLog["targetName"]].Status[logStatus];
           } catch {}
         }
+      }
       break;
     case "25":
       if (e.line[2] === youID || party.some((p) => p.id === e.line[2] && (p.inParty || is24Mode))) {

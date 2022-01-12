@@ -49,13 +49,15 @@ function markingAttack(str) {
         }
       })
       .join("");
+    clearTimeout(timer);
     markingList.clear();
+    main.innerHTML = "";
   }
   clearTimeout(timer);
   timer = setTimeout(() => {
     markingList.clear();
     main.innerHTML = "";
-  }, 10000);
+  }, 15000);
 }
 
 function test() {

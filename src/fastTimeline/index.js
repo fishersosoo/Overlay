@@ -63,8 +63,7 @@ function handleLogLine(e) {
       case "Engage!":
         battleStart(new Date(e.line[1]));
     }
-  }
-  if (e.line[0] === "20" && e.line[2] === focusTargetID && battleStartTime > 0) {
+  } else if (e.line[0] === "20" && e.line[2] === focusTargetID && battleStartTime > 0) {
     let time = dateFormat("MM:SS", new Date(new Date(e.line[1]) - battleStartTime));
     let li = document.createElement("li");
     show.appendChild(li);
