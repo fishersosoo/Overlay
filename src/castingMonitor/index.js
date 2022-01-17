@@ -77,7 +77,7 @@ addOverlayListener("LogLine", (e) => {
           }
         }
         section.appendChild(img);
-        section.style.animationDuration = (params.get("duration") ?? "25") + "s";
+        section.style.animationDuration = (params.get("duration") ?? "35") + "s";
         section.classList.add("icon");
         {
           //俄罗斯方块部分
@@ -98,7 +98,7 @@ addOverlayListener("LogLine", (e) => {
         if (params.get("autoHideTime") !== "0") autoHide();
         setTimeout(() => {
           section.remove();
-        }, (params.get("duration") ?? "25") * 1250);
+        }, (params.get("duration") ?? "35") * 1250);
       }
     }
   } else if (e.line[0] === "23" && e.line[2] === targetID) {
