@@ -56,14 +56,14 @@ addOverlayListener("PartyChanged", (e) => {
 addOverlayListener("LogLine", (e) => {
   if (e.line[0] === "21" || (e.line[0] === "22" && e.line[45] === "0")) {
     let log = logProcessing(e.line, "action");
-    log.actionID = compareSame(parseInt(log.actionID, 16));
+    let actionID = compareSame(parseInt(log.actionID, 16));
     if (log?.casterID === playerID) {
-      use(document.querySelector("#member1").querySelector(`article[data-action-proto-id="${parseInt(log?.actionID, 16)}"]`));
+      use(document.querySelector("#member1").querySelector(`article[data-action-proto-id="${actionID}"]`));
     } else {
       use(
         document
           .querySelector(`#member${party?.findIndex((member) => member.id === log?.casterID) + 1}`)
-          ?.querySelector(`article[data-action-proto-id="${parseInt(log.actionID, 16)}"]`)
+          ?.querySelector(`article[data-action-proto-id="${actionID}"]`)
       );
     }
   }
