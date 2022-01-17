@@ -3,6 +3,7 @@ import { sortRule as jobSortRule } from "../../resources/data/sortRule";
 import { getJobByID } from "../../resources/data/job";
 import "./index.scss";
 import { testLogLine } from "../../resources/function/testLogLine";
+import "../../resources/function/isOverlayPlugin";
 
 const markingSortRule = [
   "20",

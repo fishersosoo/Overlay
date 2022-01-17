@@ -5,6 +5,7 @@ import { loadItem, saveItem } from "../../resources/function/localStorage";
 import { logProcessing } from "../../resources/function/logProcessing.js";
 import { TTS } from "../../resources/function/TTS.js";
 import "./index.scss";
+import "../../resources/function/isOverlayPlugin";
 
 let playerID;
 const namespace = "GeneralSkillTimer";

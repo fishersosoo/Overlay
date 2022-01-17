@@ -23,7 +23,7 @@ const list = {
     type: "ACT悬浮窗",
     describe: "减伤监控",
     img: IMGkeigennRecord,
-    params: "?maxLength=800&24Mode=false&bgOpacity=0.45&bodyOpacity=1&fontSize=12px&th1=3em&th2=6.5em&th3=2.5em&th4=3.75em&imgHeight=22",
+    params: "?maxLength=800&24Mode=false&bgOpacity=0.45&bodyOpacity=1&fontSize=12px&th1=36px&th2=75px&th3=34px&th4=46px&imgHeight=22",
   },
   "keySkillTimer": {
     type: "ACT悬浮窗",
@@ -80,19 +80,19 @@ for (const key in list) {
   let td3A = document.createElement("a");
   td3A.href = `./${key}.html${project.params}`;
   td3A.innerText = project.describe;
-  if (key === "textCommandHelper") {
-    td3A.addEventListener("click", () => {
-      alert(`可以在浏览器里直接打开。
-也可以加悬浮窗：ACT-插件-OverlayPlugin（NGLD），左下方“新建”，任意起名，类型选择“自订 - 标签”。添加完成后，在右侧窗体的路径中，填入跳转后的页面地址。
-如何联动鲶鱼精邮差：修改url链接中的端口号为鲶鱼精邮差监听的端口号且开启监听`);
-    });
-  }
-  if (project.type === "ACT悬浮窗") {
-    td3A.addEventListener("click", () => {
-      alert(`如何添加悬浮窗：ACT-插件-OverlayPlugin（NGLD），左下方“新建”，任意起名，类型选择“自订 - 数据统计”。添加完成后，在右侧窗体的路径中，填入跳转后的页面地址。
-如何自定义属性：修改url链接中".html?"后方的字符串，若没有则无法自定义或有单独设置页面。`);
-    });
-  }
+  // if (key === "textCommandHelper") {
+  // td3A.addEventListener("click", () => {
+  // alert(`可以在浏览器里直接打开。
+  // 也可以加悬浮窗：ACT-插件-OverlayPlugin（NGLD），左下方“新建”，任意起名，类型选择“自订 - 标签”。添加完成后，在右侧窗体的路径中，填入跳转后的页面地址。
+  // 如何联动鲶鱼精邮差：修改url链接中的端口号为鲶鱼精邮差监听的端口号且开启监听`);
+  // });
+  // }
+  // if (project.type === "ACT悬浮窗") {
+  // td3A.addEventListener("click", () => {
+  //       alert(`如何添加悬浮窗：ACT-插件-OverlayPlugin（NGLD），左下方“新建”，任意起名，类型选择“自订 - 数据统计”。添加完成后，在右侧窗体的路径中，填入跳转后的页面地址。
+  // 如何自定义属性：修改url链接中".html?"后方的字符串，若没有则无法自定义或有单独设置页面。`);
+  // });
+  // }
   let td4Img = new Image();
   td4Img.src = project.img;
   tdImg.appendChild(td4Img);

@@ -13,7 +13,7 @@ function getDamage(e) {
   let offset = 0;
   if (e.line[8] === "3C" || e.line[8] === "A10") offset += 2;
   //5.0 特殊偏移=3C
-  //6.0 武士心眼=A10 小仙女的技能=3C 特殊偏移未知 暂时通过来源排除小仙女
+  //6.0 武士心眼=A10
   function getEffect() {
     if (e.line[8 + offset].length < 3) return "";
     switch (e.line[8 + offset].substr(e.line[8 + offset].length - 3, 1)) {
@@ -79,11 +79,11 @@ function getDamage(e) {
     result.type = "damage";
     result.damageType = "physics";
     result.damageEffect = getEffect();
-  } else if (/5.{4}$/.test(e.line[8 + offset])) {
+  } else if (/5.{3}[356]$/.test(e.line[8 + offset])) {
     result.type = "damage";
     result.damageType = "magic";
     result.damageEffect = getEffect();
-  } else if (/6.{4}$/.test(e.line[8 + offset])) {
+  } else if (/6.{3}[356]$/.test(e.line[8 + offset])) {
     result.type = "damage";
     result.damageType = "darkness";
     result.damageEffect = getEffect();

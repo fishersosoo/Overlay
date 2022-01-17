@@ -1,21 +1,23 @@
 "use strict";
-import { statusForCN } from "../../resources/data/statusForCN.js";
-import { getJobByID } from "../../resources/data/job.js";
-import { status } from "../../resources/data/status.js";
-import { getDamage } from "../../resources/function/damage.js";
-import { logProcessing } from "../../resources/function/logProcessing.js";
-import { keigenns as playerKeigenns } from "./keigenns.js";
-import { actionChinese } from "../../resources/data/actionChinese.js";
-import "../../resources/function/xianyu.js";
-import "../../resources/function/loadComplete.js";
+import { statusForCN } from "../../resources/data/statusForCN";
+import { getJobByID } from "../../resources/data/job";
+import { status } from "../../resources/data/status";
+import { getDamage } from "../../resources/function/damage";
+import { logProcessing } from "../../resources/function/logProcessing";
+import { keigenns as playerKeigenns } from "./keigenns";
+import { actionChinese } from "../../resources/data/actionChinese";
+import "../../resources/function/xianyu";
+import "../../resources/function/loadComplete";
 import "./index.scss";
+import "../../resources/function/isOverlayPlugin";
+
 let params = new URLSearchParams(new URL(window.location).search);
 const body = document.body;
 const main = document.querySelector("main");
-document.querySelector("body main table th:nth-child(1)").style.width = params.get("th1") ?? "3em";
-document.querySelector("body main table th:nth-child(2)").style.width = params.get("th2") ?? "4.5em";
-document.querySelector("body main table th:nth-child(3)").style.width = params.get("th3") ?? "2.5em";
-document.querySelector("body main table th:nth-child(4)").style.width = params.get("th4") ?? "3.75em";
+document.querySelector("body main table th:nth-child(1)").style.width = params.get("th1") ?? "36px";
+document.querySelector("body main table th:nth-child(2)").style.width = params.get("th2") ?? "75px";
+document.querySelector("body main table th:nth-child(3)").style.width = params.get("th3") ?? "34px";
+document.querySelector("body main table th:nth-child(4)").style.width = params.get("th4") ?? "46px";
 let party = [],
   youID = "",
   duration = "00:00",

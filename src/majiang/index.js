@@ -1,6 +1,6 @@
 import { TTS } from "../../resources/function/TTS";
 import "./index.scss";
-import "../../resources/function/loadComplete.js";
+import "../../resources/function/loadComplete";
 import "../../resources/function/isOverlayPlugin";
 
 let playerID = "";
@@ -49,15 +49,15 @@ function markingAttack(str) {
         }
       })
       .join("");
+
     clearTimeout(timer);
     markingList.clear();
-    main.innerHTML = "";
   }
   clearTimeout(timer);
   timer = setTimeout(() => {
     markingList.clear();
     main.innerHTML = "";
-  }, 15000);
+  }, 10000);
 }
 
 function test() {

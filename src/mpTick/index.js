@@ -1,7 +1,8 @@
 "use strict";
 
 import "./index.scss";
-import "../../resources/function/loadComplete.js";
+import "../../resources/function/loadComplete";
+import "../../resources/function/isOverlayPlugin";
 
 const tick = document.querySelector("main");
 let playerID;

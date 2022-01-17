@@ -1,8 +1,9 @@
 "use strict";
 
 import "./index.scss";
-import "../../resources/function/loadComplete.js";
+import "../../resources/function/loadComplete";
 import { testLogLine } from "../../resources/function/testLogLine";
+import "../../resources/function/isOverlayPlugin";
 
 let params = new URLSearchParams(new URL(window.location).search);
 const LBMax = parseInt(params.get("LBMax") ?? 30000);

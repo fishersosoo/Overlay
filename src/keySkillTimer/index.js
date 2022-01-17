@@ -1,14 +1,15 @@
 "use strict";
 
-import { getAction } from "../../resources/data/actions.js";
-import { compareSame } from "../../resources/function/compareSameGroup.js";
-import "../../resources/function/loadComplete.js";
-import { logProcessing } from "../../resources/function/logProcessing.js";
-import { TTS } from "../../resources/function/TTS.js";
-import "../../resources/function/xianyu.js";
+import { getAction } from "../../resources/data/actions";
+import { compareSame } from "../../resources/function/compareSameGroup";
+import "../../resources/function/loadComplete";
+import { logProcessing } from "../../resources/function/logProcessing";
+import { TTS } from "../../resources/function/TTS";
+import "../../resources/function/xianyu";
 import "./index.scss";
-import { raidBuffs60, raidBuffs50 } from "./raidbuffs.js";
-import { getLevels } from "../../resources/function/getLevels.js";
+import { raidBuffs60, raidBuffs50 } from "./raidbuffs";
+import { getLevels } from "../../resources/function/getLevels";
+import "../../resources/function/isOverlayPlugin";
 
 let params = new URLSearchParams(new URL(window.location).search);
 let timers = [];

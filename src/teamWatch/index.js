@@ -1,16 +1,17 @@
 "use strict";
 
-import { getAction } from "../../resources/data/actions.js";
-import { compareSame } from "../../resources/function/compareSameGroup.js";
-import { getLevels } from "../../resources/function/getLevels.js";
-import "../../resources/function/loadComplete.js";
+import { getAction } from "../../resources/data/actions";
+import { compareSame } from "../../resources/function/compareSameGroup";
+import { getLevels } from "../../resources/function/getLevels";
+import "../../resources/function/loadComplete";
 import { loadItem } from "../../resources/function/localStorage";
-import { logProcessing } from "../../resources/function/logProcessing.js";
-import "../../resources/function/xianyu.js";
-import { watchJobsActionsID } from "./default.js";
-import { sortRule } from "../../resources/data/sortRule.js";
+import { logProcessing } from "../../resources/function/logProcessing";
+import "../../resources/function/xianyu";
+import { watchJobsActionsID } from "./default";
+import { sortRule } from "../../resources/data/sortRule";
 import "./index.scss";
-import { sortParty } from "../../resources/function/sortParty.js";
+import { sortParty } from "../../resources/function/sortParty";
+import "../../resources/function/isOverlayPlugin";
 
 const namespace = "TeamWatch4";
 const load = (t, a = undefined) => loadItem(namespace, t, a);

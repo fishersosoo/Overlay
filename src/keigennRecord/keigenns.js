@@ -12,8 +12,7 @@ let keigenns = {
   "2df": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初的直觉
   "8b3": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初的勇猛
   57: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //战栗
-  "59": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //复仇 //
-  // 390: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //受伤减轻
+  // "59": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //复仇
   "5b1": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //摆脱
   199: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //死斗
   "a76": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //原初の血気 82级新技能
@@ -58,7 +57,7 @@ let keigenns = {
   758: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //国服天星冲日（夜）
   817: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //国服天星冲日（夜）
   345: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //国服黑夜领域
-  
+
   "a2f": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //エウクラシア・ディアグノシス 贤单盾
   "a30": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //エウクラシア・ディアグノシス[強] 贤单盾暴击
   "a31": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //エウクラシア・プログノシス 贤群盾
@@ -67,20 +66,20 @@ let keigenns = {
   "bbb": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //ホーリズム 整体论
   "a52": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //海马
   "a53": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //胖海马
-  
+
   "4d0": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //心眼
   "49b": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //金刚极意
   "78e": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //行吟
   "79f": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //策动
   722: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //防守之桑巴
-  
+
   "1e8": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //残影
   a8: { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //魔罩
   "a8e": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //守りの光
   "a25": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //守護のクレスト 钐镰魔罩
   "a93": { dodge: 0, physics: 0, magic: 1, darkness: 0, condition: "player" }, //バマジク 赤魔新86级群减
   "2ab": { dodge: 1, physics: 1, magic: 1, darkness: 1, condition: "player" }, //土之加护
-  
+
   //ClassJob
   "4b9": { dodge: 1, physics: 1, magic: 0, darkness: 0, condition: "player" }, //亲疏自行
   // "09": { dodge: 1, physics: 1, magic: 0, darkness: 0, condition: "enemy" }, //减速

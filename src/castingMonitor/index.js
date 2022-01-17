@@ -6,6 +6,7 @@ import { getItem } from "../../resources/data/item.js";
 import "../../resources/function/xianyu.js";
 import "../../resources/function/loadComplete.js";
 import "./index.scss";
+import "../../resources/function/isOverlayPlugin.js";
 
 const aside = document.querySelector("aside");
 const header = document.querySelector("header");

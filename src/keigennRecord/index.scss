@@ -73,10 +73,14 @@ body {
       width: 100%;
       border-collapse: collapse;
       color: white;
-      white-space: nowrap;
+      // white-space: nowrap;
       table-layout: fixed;
       thead {
         background-color: rgba(5, 5, 5, 0.45);
+      }
+      tr > th:nth-child(2) {
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       tbody {
         .spe {
@@ -105,8 +109,6 @@ body {
           height: 20px;
           td {
             padding: 0px 2px;
-            overflow: hidden;
-            text-overflow: ellipsis;
           }
 
           td:last-child:not(:first-child) {

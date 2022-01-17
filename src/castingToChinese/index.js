@@ -1,10 +1,11 @@
 "use strict";
-import "../../resources/function/loadComplete.js";
-import { logProcessing } from "../../resources/function/logProcessing.js";
-import { TTS } from "../../resources/function/TTS.js";
+import "../../resources/function/loadComplete";
+import { logProcessing } from "../../resources/function/logProcessing";
+import { TTS } from "../../resources/function/TTS";
 import { actionChinese } from "../../resources/data/actionChinese";
 import "./index.scss";
-import { toRoomaji } from "../../resources/function/roomaji.js";
+import { toRoomaji } from "../../resources/function/roomaji";
+import "../../resources/function/isOverlayPlugin";
 
 let target;
 const params = new URLSearchParams(new URL(window.location).search);
