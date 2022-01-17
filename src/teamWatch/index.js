@@ -39,13 +39,14 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
   playerID = e.charID.toString(16).toUpperCase();
 });
 addOverlayListener("ChangeZone", () => {
-  partyChanged(party);
-  // setTimeout(() => {
-  // if (party.length > 0) partyChanged(party);
-  // }, 1000);
+  setTimeout(() => {
+    partyChanged(party);
+  }, 1000);
 });
 addOverlayListener("onPartyWipe", () => {
-  partyChanged(party);
+  setTimeout(() => {
+    partyChanged(party);
+  }, 1000);
 });
 addOverlayListener("PartyChanged", (e) => {
   setTimeout(() => {
