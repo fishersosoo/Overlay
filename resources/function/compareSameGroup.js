@@ -66,6 +66,8 @@ let compareSameGroup = {
   24402: 24401, //镰刀位移
   24403: 0, //镰刀的位移派生技
   17206: 0, //滚轮冲
+  24288: 24302, //自愈→自然愈合
+  24289: 24313, //白黏液→黑黏液
 };
 export function compareSame(id) {
   return compareSameGroup[id] ?? id;

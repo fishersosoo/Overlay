@@ -40,7 +40,7 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
 });
 addOverlayListener("ChangeZone", () => {
   setTimeout(() => {
-    partyChanged(party);
+    if (party.length > 0) partyChanged(party);
   }, 1000);
 });
 addOverlayListener("onPartyWipe", () => {
@@ -98,7 +98,7 @@ function partyChanged(party) {
       for (let i = 0; i < jobActionsID?.length; i++) {
         let memberActionDOM = document.createElement("article");
         if (jobActionsID[i] > 0) {
-          const action = getAction(jobActionsID[i], getLevels[party[m].id]?.level ?? 999);
+          let action = getAction(jobActionsID[i], getLevels[party[m].id]?.level ?? 999);
           for (const protos in action) memberActionDOM.setAttribute(`data-action-proto-${protos}`, action[protos]);
           memberActionDOM.classList.add("skill_icon");
           memberActionDOM.classList.add("useful_" + action.Useful);
@@ -129,7 +129,6 @@ function partyChanged(party) {
 function use(dom) {
   if (dom) {
     if (dom.timer) clearInterval(dom.timer);
-    if (dom.timerCharges) clearInterval(dom.timerCharges);
     if (dom.timerFinal) clearTimeout(dom.timerFinal);
     dom.style.opacity = "1";
     const maxCharges = parseInt(dom.getAttribute("data-action-proto-maxcharges"));
@@ -160,10 +159,10 @@ function use(dom) {
           if (dom.timerCharges === null) {
             dom.timerCharges = setInterval(() => {
               dom.classList.remove("nocharges");
-              let chargesFinfishTimer = Math.min(parseInt(dom.getAttribute("data-action-proto-chargesnow")) + 1, maxCharges);
+              let chargesFinfishTimer = parseInt(dom.getAttribute("data-action-proto-chargesnow")) + 1;
               dom.setAttribute("data-action-proto-chargesnow", chargesFinfishTimer);
               dom.querySelector(".charges").innerText = chargesFinfishTimer;
-              if (chargesFinfishTimer === maxCharges) {
+              if (chargesFinfishTimer >= maxCharges) {
                 clearInterval(dom.timerCharges);
                 dom.timerCharges = null;
                 dom.classList.remove("GCDActionAnimation");
@@ -199,6 +198,6 @@ const fakeParty = [
   { id: "10000006", name: "Faker6", job: 39, inParty: true },
   { id: "10000007", name: "Faker7", job: 40, inParty: true },
   { id: "10000008", name: "Faker8", job: 28, inParty: true },
-  { id: "1002E5AA", name: "Suzu", job: 38, inParty: true },
+  { id: "1002E5AA", name: "Suzu", job: 33, inParty: true },
 ];
-if (!!window?.OverlayPluginApi) partyChanged(fakeParty);
+// if (!!window?.OverlayPluginApi) partyChanged(fakeParty);
