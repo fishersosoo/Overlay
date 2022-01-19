@@ -31,8 +31,14 @@ document.querySelector("#test").addEventListener("click", () => {
     use(element);
   });
 });
+document.querySelector("#fake").addEventListener("click", () => {
+  partyChanged(fakeParty);
+});
+document.querySelector("#real").addEventListener("click", () => {
+  partyChanged(party);
+});
 document.addEventListener("onOverlayStateUpdate", (e) => {
-  partyChanged(e.detail.isLocked ? party : fakeParty);
+  // partyChanged(e.detail.isLocked ? party : fakeParty);
   document.querySelector(".menu").style.display = e.detail.isLocked ? "none" : "block";
 });
 addOverlayListener("ChangePrimaryPlayer", (e) => {
@@ -40,13 +46,13 @@ addOverlayListener("ChangePrimaryPlayer", (e) => {
 });
 addOverlayListener("ChangeZone", () => {
   setTimeout(() => {
-    if (party.length > 0) partyChanged(party);
+    partyChanged(party);
   }, 1000);
 });
 addOverlayListener("onPartyWipe", () => {
-  setTimeout(() => {
-    partyChanged(party);
-  }, 1000);
+  // setTimeout(() => {
+  partyChanged(party);
+  // }, 1000);
 });
 addOverlayListener("PartyChanged", (e) => {
   setTimeout(() => {

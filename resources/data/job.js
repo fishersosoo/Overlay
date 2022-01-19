@@ -28,7 +28,7 @@ let jobList = [
   { ID: "34", en: "SAM", cn: "武士", jp: "侍", Role: "Dps", IsBaseCLass: false, simple1: "侍", simple2: "武士" },
   { ID: "35", en: "RDM", cn: "赤魔法师", jp: "赤魔道士", Role: "Dps", IsBaseCLass: false, simple1: "赤", simple2: "赤魔" },
   { ID: "36", en: "BLU", cn: "青魔法师", jp: "青魔道士", Role: "Dps", IsBaseCLass: false, simple1: "青", simple2: "青魔" },
-  { ID: "37", en: "GNB", cn: "绝枪战士", jp: "ガンブレイカー", Role: "Tank", simple1: "绝", simple2: "绝枪" },
+  { ID: "37", en: "GNB", cn: "绝枪战士", jp: "ガンブレイカー", Role: "Tank", IsBaseCLass: false, simple1: "绝", simple2: "绝枪" },
   { ID: "38", en: "DNC", cn: "舞者", jp: "踊り子", Role: "Dps", IsBaseCLass: false, simple1: "舞", simple2: "舞者" },
   { ID: "39", en: "RPR", cn: "钐镰师", jp: "リーパー", Role: "Dps", IsBaseCLass: false, simple1: "镰", simple2: "钐镰" },
   { ID: "40", en: "SGE", cn: "贤者", jp: "賢者", Role: "Healer", IsBaseCLass: false, simple1: "贤", simple2: "贤者" },
