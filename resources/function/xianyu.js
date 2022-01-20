@@ -5,6 +5,8 @@
 "use strict";
 (function () {
   if (!!window?.OverlayPluginApi && window.localStorage.getItem(`${document.title}-Xianyu`) !== "true" && document.title !== "") {
+    if (params.get("OVERLAY_WS") !== null || params.get("HOST_PORT") !== null) return;
+    if (window.localStorage.getItem(`Souma-Xianyu`) === "true") return;
     let show = document.createElement("div");
     show.innerText = "本悬浮窗永久免费公开使用，若您是通过闲鱼购买，说明受骗！\n作者：猫小胖 海猫茶屋 Souma";
     let button = document.createElement("button");
@@ -12,6 +14,7 @@
     button.onclick = () => {
       show.remove();
       window.localStorage.setItem(`${document.title}-Xianyu`, "true");
+      window.localStorage.setItem(`Souma-Xianyu`, "true");
     };
     show.appendChild(button);
     show.style.fontFamily = "'微软雅黑', 'Microsoft Yahei UI', Lato, Arial, Helvetica, sans-serif";
