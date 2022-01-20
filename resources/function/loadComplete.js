@@ -24,8 +24,6 @@ export default (function () {
   readMe.id = "readMe";
   let text = document.createElement("span");
   text.innerText = `🔒这是供用户调整悬浮窗尺寸的蓝色背景，在ACT的Overlay(ngld)插件中锁定此悬浮窗便即会消失。`;
-  text.style.width = "90vw";
-  text.style.paddingBottom = "8px";
   readMe.appendChild(text);
   document.body.appendChild(readMe);
   document.addEventListener(
