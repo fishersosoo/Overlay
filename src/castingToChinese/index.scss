@@ -1,6 +1,9 @@
-@font-face {
-  font-family: SmartisanHei;
-  src: url(https://act.diemoe.net/overlays/common/SmartisanHei.ttf);
+@font-face{
+  font-family:'SmartisanHei';
+  src: url("https://act.diemoe.net/overlays/common/SmartisanHei.woff2") format("woff2"),
+       url("https://act.diemoe.net/overlays/common/SmartisanHei.ttf");
+  font-weight: normal;
+  font-style: normal;
 }
 body {
   overflow: hidden;
@@ -50,11 +53,9 @@ body {
       position: absolute;
       // top: 30px;
       right: 0;
-      font-weight: bold;
-      // font-size: 20px;
+      // font-weight: bold;
       text-align: right;
       overflow: hidden;
-      // font-family: SmartisanHei;
     }
   }
 }
