@@ -124,6 +124,9 @@ addOverlayListener("onLogEvent", (e) => {
     }
   }
 });
+addOverlayListener("onPartyWipe", () => {
+  window.location.reload();
+});
 function handle() {
   document.querySelector("main").innerHTML = "";
   document.querySelector("main").style.opacity = settings.style.opacity || 1;

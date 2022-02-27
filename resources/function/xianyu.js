@@ -3,6 +3,7 @@
  * @LastEditTime: 2021-11-30 18:19:27
  */
 "use strict";
+const params = new URLSearchParams(new URL(window.location).search);
 (function () {
   if (!!window?.OverlayPluginApi && window.localStorage.getItem(`${document.title}-Xianyu`) !== "true" && document.title !== "") {
     if (params.get("OVERLAY_WS") !== null || params.get("HOST_PORT") !== null) return;

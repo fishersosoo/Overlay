@@ -11,13 +11,13 @@ import "../../resources/function/loadComplete";
 import "./index.scss";
 import "../../resources/function/isOverlayPlugin";
 
-let params = new URLSearchParams(new URL(window.location).search);
+const params = new URLSearchParams(new URL(window.location).search);
 const body = document.body;
 const main = document.querySelector("main");
-document.querySelector("body main table th:nth-child(1)").style.width = params.get("th1") ?? "36px";
-document.querySelector("body main table th:nth-child(2)").style.width = params.get("th2") ?? "75px";
-document.querySelector("body main table th:nth-child(3)").style.width = params.get("th3") ?? "34px";
-document.querySelector("body main table th:nth-child(4)").style.width = params.get("th4") ?? "46px";
+document.querySelector("body main table th:nth-child(1)").style.width = params?.get("th1") ?? "36px";
+document.querySelector("body main table th:nth-child(2)").style.width = params?.get("th2") ?? "75px";
+document.querySelector("body main table th:nth-child(3)").style.width = params?.get("th3") ?? "34px";
+document.querySelector("body main table th:nth-child(4)").style.width = params?.get("th4") ?? "46px";
 let party = [],
   youID = "",
   duration = "00:00",
@@ -25,8 +25,8 @@ let party = [],
   scrollMove = true,
   inCombat = false,
   combatTimer = 0,
-  maxLength = parseInt(params.get("maxLength") || 800),
-  is24Mode = params.get("24Mode") === "true" || false;
+  maxLength = parseInt(params?.get("maxLength") || 800),
+  is24Mode = params?.get("24Mode") === "true" || false;
 class FFObject {
   constructor(id, name) {
     this.ID = id;
@@ -35,9 +35,9 @@ class FFObject {
   }
 }
 
-main.style.backgroundColor = `rgba(5,5,5,${params.get("bgOpacity") || 0.45})`;
-body.style.opacity = params.get("bodyOpacity") || 1;
-body.style.fontSize = params.get("fontSize") || "12px";
+main.style.backgroundColor = `rgba(5,5,5,${params?.get("bgOpacity") || 0.45})`;
+body.style.opacity = params?.get("bodyOpacity") || 1;
+body.style.fontSize = params?.get("fontSize") || "12px";
 
 function addFooter() {
   document.querySelector(
@@ -178,7 +178,7 @@ addOverlayListener("LogLine", (e) => {
         tr4.classList.add(damageLog.damageType);
         function createImg(type, key, stack = 0) {
           let img = new Image();
-          img.style.height = parseInt(params.get("imgHeight") ?? 22) + "px";
+          img.style.height = parseInt(params?.get("imgHeight") ?? 22) + "px";
           let statusNow = status[parseInt(key, 16)] ?? { "CN": "未知", "url": "000000/000405" };
           img.src = `https://souma.diemoe.net/resources/icon/${stackUrl(statusNow.url)}.png`;
           function stackUrl(url) {
